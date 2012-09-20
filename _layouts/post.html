@@ -1,0 +1,29 @@
+---
+layout: layout
+---
+<div class="container">
+    <div class="row">
+        <div class="span9">
+<h1>{{page.title}}</h1>
+
+{{content}}
+
+        </div>
+        <div class="span3 blog-sidebar">
+            <div class="affix">
+                <h3>Related Posts</h3>
+                <ul class="nav nav-list">
+                    {% for post in site.related_posts %}
+                    <li><a href="#{{post.id}}">{{post.title}}</a></li>
+                    {% endfor %}
+                </ul>
+                <h3>Tags</h3>
+                <ul>
+                    {% for tag in page.tags %}
+                    <li>{{tag}}</li>
+                    {% endfor %}
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>

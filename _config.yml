@@ -1,0 +1,10 @@
+# Configure of jekyll
+
+# github default configurations
+safe: true
+lsi: false
+pygments: true
+
+# My configurations
+title: 桂糊涂博客
+ga: UA-22960361-1 
