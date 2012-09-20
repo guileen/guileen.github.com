@@ -49,6 +49,27 @@ jekyll --server --auto
 
 ## Step 3. index.html
 
+## Step 4. _config.yml
+
+```
+# Configure of jekyll
+
+# github default configurations
+safe: true
+lsi: false
+pygments: true
+
+# override jekyll configurations
+
+# use rdiscount more like github
+markdown: rdiscount
+
+# My configurations
+title: 桂糊涂博客
+ga: UA-22960361-1 
+
+```
+
 ## Step 4. \_post
 
 ## Step 5. layout
