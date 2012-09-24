@@ -67,9 +67,9 @@ Github初期是使用ruby开发的，现在ruby依然是github主要使用的编
 
 Mac
 
-> gem update --system
-> gem install jekyll
-> jekyll --server --auto
+    gem update --system
+    gem install jekyll
+    jekyll --server --auto
 
 ## Step 4. _config.yml
 
