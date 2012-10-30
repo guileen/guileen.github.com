@@ -22,7 +22,7 @@ http://www.yaml.org/spec/1.2/spec.html#Preview
 
 5. JSON现在非常流行，但JSON的缺点也很明显的，如下面的语句是非法的
 
-```js
+```
 {key: 'value',} //注释
 ```
 
@@ -32,7 +32,7 @@ key 必须是 "key", value 必须是双引号，} 前多了个逗号，不支持
 
 如下面的配置是合法
 
-```js
+```
 {key: 'value',} //注释
 ```
 
