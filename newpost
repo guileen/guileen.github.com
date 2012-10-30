@@ -1,0 +1,4 @@
+#!/bin/sh
+# ./newpost How to do something
+# 2012-10-30-how-to-do-something.md
+cp _posts/post_tmplate.md _posts/`date +%Y-%m-%d`-$1.md
