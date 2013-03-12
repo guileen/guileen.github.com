@@ -98,16 +98,21 @@ Mac
 
 ## Step 7. comment
 
+使用 [Disqus](https://disqus.com) 服务
+
 ## Step 8. highlight
 
 ## Step 9. share
 
 ## Step 10. RSS
 
+[atom.xml](https://github.com/guileen/guileen.github.com/blob/master/atom.xml)
+
 ## Step 11. github info
 
 ## 參考
-http://jekyllrb.com/
-https://github.com/mojombo/jekyll
-https://help.github.com/categories/20/articles
-http://erjjones.github.com/blog/How-I-built-my-blog-in-one-day/
+
+* http://jekyllrb.com/
+* https://github.com/mojombo/jekyll
+* https://help.github.com/categories/20/articles
+* http://erjjones.github.com/blog/How-I-built-my-blog-in-one-day/
