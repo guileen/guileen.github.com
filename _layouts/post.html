@@ -25,7 +25,7 @@ layout: layout
 <!-- end Disqus -->
         </div>
         <div class="span3 blog-sidebar">
-            <div class="affix">
+            <div class="affix-">
                 <h3>Related Posts</h3>
                 <ul class="nav nav-list">
                     {% for post in site.related_posts %}
@@ -35,9 +35,10 @@ layout: layout
                 <h3>Tags</h3>
                 <ul>
                     {% for tag in page.tags %}
-                    <li><a href="/tags/{{ tag }}" rel="tooltip" title="Posts about {{tag}}">{{tag}}</a></li>
+                    <li><a href="#{{ tag }}" rel="tooltip" title="Posts about {{tag}}">{{tag}}</a></li>
                     {% endfor %}
                 </ul>
+                {% include tagcloud.html %}
             </div>
         </div>
     </div>

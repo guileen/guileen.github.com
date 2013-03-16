@@ -30,10 +30,11 @@ title: My blog
 
         </div><!--span9-->
         <div class="span3 blog-sidebar">
-            <ul class="nav nav-list affix">
+            <ul class="nav nav-list affix-">
 {% for post in site.posts offset: 0 limit: 50 %}
 <li><a href="{{post.url}}">{{post.title}}</a></li>
 {% endfor %}
+            {% include tagcloud.html %}
             </ul>
         </div>
     </div><!--row-->
