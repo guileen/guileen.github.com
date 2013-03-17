@@ -1,16 +1,16 @@
 ---
-title: 网络游戏延迟检测技术
+title: 肖维勒准则
 layout: post
 published: true
 categories: 
-tags: 算法
+tags: algorithm
 ---
 
-如何检测网络延迟, 检测网络延迟很简单。但我们必须进行多次检测，计算一个平均值。
+数据中并不总是合法数据，为了更好的完成统计，我们必须剔除异常的数据。
 
-计算平均值也非常简单，但我们必须剔除那些异常值。如何剔除异常值，鄙人通过google找到了几种算法，
+如何剔除异常的实验数据(Outlier rejection)，有许多的方法。
 
-只有这一种我能看得懂，貌似也是最容易实现的，叫做 [肖维勒准则(Chauvenet's criterion)](http://en.wikipedia.org/wiki/Chauvenet's_criterion)
+介绍一种易于实现的方法，叫做[肖维勒准则(Chauvenet's criterion)](http://en.wikipedia.org/wiki/Chauvenet's_criterion)
 
 平均值
 
