@@ -6,7 +6,8 @@ lsi: false
 pygments: true
 
 # override jekyll configurations
-markdown: rdiscount
+# markdown: rdiscount
+markdown: redcarpet
 
 # My configurations
 title: 桂糊涂的流水账

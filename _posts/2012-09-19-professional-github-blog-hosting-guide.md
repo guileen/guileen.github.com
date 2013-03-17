@@ -1,7 +1,7 @@
 ---
 title: github博客專業教程
 layout: post
-tags: github jekyll
+tags: github
 ---
 
 ## 準備知識
@@ -82,12 +82,12 @@ Mac
 
     # override jekyll configurations
 
-    # use rdiscount more like github
-    markdown: rdiscount
+    # use redcarpet more like github
+    markdown: redcarpet
 
     # My configurations
-    title: 桂糊涂博客
-    ga: UA-22960361-1 
+    title: 桂糊涂的流水账
+    ga: UA-00000000-0 
 
 
 ## Step 4. \_post
