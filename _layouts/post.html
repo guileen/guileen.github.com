@@ -30,18 +30,23 @@ layout: layout
         </div>
         <div class="span3 blog-sidebar">
             <div class="affix-">
-                <h3>Related Posts</h3>
+              {% include aboutme.html %}
+                <h3>Related</h3>
                 <ul class="nav nav-list">
                     {% for post in site.related_posts limit: 5%}
                     <li><a href="{{post.url}}">{{post.title}}</a></li>
                     {% endfor %}
                 </ul>
+                {% if page.tags.length %}
+                <!--
                 <h3>Tags</h3>
                 <ul>
                     {% for tag in page.tags %}
                     <li><a href="#{{ tag }}" rel="tooltip" title="Posts about {{tag}}">{{tag}}</a></li>
                     {% endfor %}
                 </ul>
+                -->
+                {% endif %}
                 {% include tagcloud.html %}
             </div>
         </div>
