@@ -2,7 +2,7 @@
 
 # github default configurations
 safe: true
-lsi: false
+lsi: true
 pygments: true
 
 # override jekyll configurations
