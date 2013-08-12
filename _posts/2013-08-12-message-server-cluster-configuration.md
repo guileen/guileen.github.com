@@ -25,8 +25,16 @@ host, port = all_server_ids[id]
 
 ## 用KeyValue数据库注册， 
 
-在进程启动后， id = db.incr('server-id'); db.set('sid:'+id, 'host:port');
-在发送消息时，host, port = db.get('sid' + id)
+在进程启动后， 
+```
+id = db.incr('server-id');
+db.set('sid:'+id, 'host:port');
+```
+
+在发送消息时，
+```
+host, port = db.get('sid' + id)
+```
 缺点：获取host,port的操作会很频繁，无法根据消息接收人id做hash来得知目标服务器id。
 
 ## 中央服务器
