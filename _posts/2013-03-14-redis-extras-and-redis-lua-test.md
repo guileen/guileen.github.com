@@ -1,7 +1,7 @@
 ---
 title: Redis-extras and script test
 layout: post
-published: false
+published: true
 categories: 
 tags: 
 ---

@@ -1,7 +1,7 @@
 ---
 title:
 layout: post
-published: false
+published: true
 categories: 
 tags: 
 ---

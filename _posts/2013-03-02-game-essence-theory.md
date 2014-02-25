@@ -1,7 +1,7 @@
 ---
 title: 网络游戏本质论
 layout: post
-published: false
+published: true
 categories: 
 tags: 
 ---
