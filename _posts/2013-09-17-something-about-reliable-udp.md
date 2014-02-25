@@ -2,8 +2,8 @@
 title: 关于UDP的一些事
 layout: post
 published: true
-categories: 
-tags: 
+categories: network
+tags: udp, network
 ---
 
 UDP协议速度更快，但不可靠，是一种无连接的协议。TCP是基于连接的协议。但是TCP并不适合不稳定的网络环境，如移动网络。 所以我们需要UDP可靠传输。
