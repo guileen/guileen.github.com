@@ -1,7 +1,7 @@
 ---
 title: GameObject properties adapter ———— 游戏数值开发要点
 layout: post
-published: false
+published: true
 categories: game
 tags: game
 ---

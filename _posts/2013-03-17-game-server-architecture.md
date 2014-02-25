@@ -1,7 +1,7 @@
 ---
 title: Game server architecture
 layout: post
-published: false
+published: true
 categories: 
 tags: game
 ---

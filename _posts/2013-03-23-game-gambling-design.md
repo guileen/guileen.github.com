@@ -1,7 +1,7 @@
 ---
 title: 游戏赌博设计
 layout: post
-published: false
+published: true
 categories: 
 tags: game
 ---
