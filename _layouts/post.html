@@ -9,8 +9,8 @@ layout: layout
 {{content}}
 
 {% assign filename = page.url | replace_first: '/', '' | replace: '/', '-'  | replace: '.html', '.md' %}
-<a href="https://github.com/guileen/guileen.github.com/tree/master/_posts/{{filename}}">View on github</a>
-<a href="https://github.com/guileen/guileen.github.com/commits/master/_posts/{{filename}}">History</a>
+<a href="https://github.com/guileen/guileen.github.com/edit/master/_posts/{{filename}}">编辑</a>
+<a href="https://github.com/guileen/guileen.github.com/commits/master/_posts/{{filename}}">修改历史</a>
 <!-- Disqus -->
     <div id="disqus_thread"></div>
     <script type="text/javascript">
