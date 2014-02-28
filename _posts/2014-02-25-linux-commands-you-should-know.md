@@ -14,6 +14,7 @@ tags: linux
 * tar
 * vi
 * shell and shell scripts
+* top
 * account and group management commands
   * /etc/passwd
   * /etc/shadow
