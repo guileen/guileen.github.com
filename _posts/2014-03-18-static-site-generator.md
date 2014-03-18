@@ -35,17 +35,17 @@ tags: web
 現在比較常見的靜態網站生成器：
 * jekyll Ruby 實現，github支持，插件豐富，支持諸如tag，分類，本博客使用的就是jekyll。
 
-* [harp](http://harpjs.com)
+* harp http://harpjs.com
 
-* [hexo](http://zespia.tw/hexo)
+* hexo http://zespia.tw/hexo
 
-* [docpad](docpad.org) 基於coffeescript
+* docpad docpad.org 基於coffeescript
 
-* [assemble](assemble.io)
+* assemble assemble.io
 
-* [cabin](cabinjs.com)
+* cabin] cabinjs.com
 
-* [Yeoman](yeoman.io) nodejs環境。yeoman不能算是一個靜態網站生成器，你可以叫它項目生成器。它可以生成諸如。
+* Yeoman yeoman.io nodejs環境。yeoman不能算是一個靜態網站生成器，你可以叫它項目生成器。它可以生成諸如。
 
 我的選擇 Yeoman + x，Yeoman 的設計是面向開發者的。
 
