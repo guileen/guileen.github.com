@@ -49,6 +49,6 @@ tags: web
 
 我的選擇 Yeoman + x，Yeoman 的設計是面向開發者的。
 
-對於x的選擇，必須是nodejs的，從github關注量來看，docpad最多。
+對於x的選擇，必須是nodejs的，從github關注量來看，docpad最多。但hexo和assemble产生较新，hexo关注人相对更多，看上去不错。
 
-計劃用這種方式來實現項目主頁，Landing Page。
+yeoman + hexo 計劃用這種方式來實現項目主頁，Landing Page。
