@@ -45,7 +45,7 @@ tags: web
 
 * cabin] cabinjs.com
 
-* Yeoman yeoman.io nodejs環境。yeoman不能算是一個靜態網站生成器，你可以叫它項目生成器。它可以生成諸如。
+* Yeoman yeoman.io nodejs環境。yeoman不能算是一個靜態網站生成器，你可以叫它項目生成器。它可以生成諸如webapp，argularjs，assemble的东西。
 
 我的選擇 Yeoman + x，Yeoman 的設計是面向開發者的。
 
