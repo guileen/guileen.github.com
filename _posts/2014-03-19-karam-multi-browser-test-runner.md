@@ -29,10 +29,12 @@ ArgularJS團隊在開發過程中希望有一種更好的測試方案，他們�
 
 ## 安裝Karma
 
-> npm install karma-cli -g
-> cd projecthome
-> npm install karma
-> karma init
+```
+npm install karma-cli -g
+cd projecthome
+npm install karma
+karma init
+```
 
 blabla, 讓我們跳過這一部分吧，直接給大家介紹最佳實踐。
 
@@ -40,24 +42,32 @@ blabla, 讓我們跳過這一部分吧，直接給大家介紹最佳實踐。
 
 ### 安裝yeoman, grunt, karma
 
-> sudo npm install yo -g
-> sudo npm install generator-argular -g
-> sudo npm install grunt-cli -g
-> sudo npm install karma-cli -g
+```
+sudo npm install yo -g
+sudo npm install generator-argular -g
+sudo npm install grunt-cli -g
+sudo npm install karma-cli -g
+```
 
 ### 創建項目
 
-> mkdir /path/to/project
-> cd /path/to/project
-> yo argular
+```
+mkdir /path/to/project
+cd /path/to/project
+yo argular
+```
 
 ### 安裝一些測試模塊
 
-> npm install karma-jasmin --save-dev
-> npm install karma-chrome-launcher --save-dev
+```
+npm install karma-jasmin --save-dev
+npm install karma-chrome-launcher --save-dev
+```
 
 ### 執行測試
-> grunt test
+```
+grunt test
+```
 
 ### 增加其他瀏覽器
 
@@ -66,9 +76,15 @@ blabla, 讓我們跳過這一部分吧，直接給大家介紹最佳實踐。
 browsers:['Chrome', 'Firefox', 'Safari']
 ```
 
-> npm install karma-firefox-launcher --save-dev
-> npm install karma-safari-launcher --save-dev
+安裝其他的launcher
+
+```
+npm install karma-firefox-launcher --save-dev
+npm install karma-safari-launcher --save-dev
+```
 
 ### 再次執行測試
 
-> grunt test
+```
+grunt test
+```
