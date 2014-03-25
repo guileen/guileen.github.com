@@ -15,3 +15,9 @@ Atom的View系统很不错。
 接下来的目标是可以打开多终端。
 
 ![](http://guileen.github.io/img/terminal-status/screenshot-0.2.0.gif)
+
+## UPDATE： 2014-03-22
+
+多终端已实现，apm操作不慎，版本号bump到了1.1.0
+
+![](http://guileen.github.io/img/terminal-status/screenshot-1.1.0.gif)
