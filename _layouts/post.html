@@ -3,7 +3,7 @@ layout: layout
 ---
 <div class="container">
     <div class="row">
-        <div class="span9">
+        <div class="col-md-9">
 <h1>{{page.title}}</h1>
 
 {{content}}
@@ -28,7 +28,7 @@ layout: layout
     <a href="http://disqus.com" class="dsq-brlink">comments powered by <span class="logo-disqus">Disqus</span></a>
 <!-- end Disqus -->
         </div>
-        <div class="span3 blog-sidebar">
+        <div class="col-md-3 blog-sidebar">
             <div class="affix-">
               {% include aboutme.html %}
                 <h3>Related</h3>
@@ -38,14 +38,11 @@ layout: layout
                     {% endfor %}
                 </ul>
                 {% if page.tags.length %}
-                <!--
-                <h3>Tags</h3>
-                <ul>
+                <div>
                     {% for tag in page.tags %}
-                    <li><a href="#{{ tag }}" rel="tooltip" title="Posts about {{tag}}">{{tag}}</a></li>
+                    <span class="label label-default"><a href="/tags/{{ tag }}" rel="tooltip" title="Posts about {{tag}}">{{tag}}</a></span>
                     {% endfor %}
-                </ul>
-                -->
+                </div>
                 {% endif %}
                 {% include tagcloud.html %}
             </div>

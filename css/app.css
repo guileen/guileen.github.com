@@ -9,10 +9,18 @@
 
 /* Body and structure
 -------------------------------------------------- */
+// 粗宋體 STZhongsong STSong SimHei
+// 細宋體 STFangsong 
+// 細黑體 Youyuan STXihei
 
 body {
   /* position: relative; */
   /* padding-top: 40px; */
+  font-family: "Arial", "Youyuan", "STXihei", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: "Arial", "STZhongsong", "STSong", "SimHei", sans-serif;
 }
 
 /* Code in headings */

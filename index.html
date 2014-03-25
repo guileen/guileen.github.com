@@ -5,7 +5,7 @@ title: My blog
 
 <div class="container">
     <div class="row">
-        <div class="span9">
+        <div class="col-md-9">
 
 {% for post in site.posts offset: 0 limit: 50 %}
 <section id="{{post.id}}">
@@ -18,18 +18,18 @@ title: My blog
     <i>{{ post.summary }}</i>
     {{ post.content }}
     <p><small>
-        {{ post.category }} . 
+        <!-- <span class="label label-primary">{{ post.category }}</span> -->
         {% for tag in post.tags %} 
-            <a href="/tags/{{ tag }}" rel="tooltip" title="View posts tagged with &quot;{{ tag }}&quot;">{{ tag }}</a>
+            <span class="label label-default"><a href="/tags/{{ tag }}" rel="tooltip" title="View posts tagged with &quot;{{ tag }}&quot;">{{ tag }}</a></span>
             {% if forloop.last != true %} {% endif %} 
-        {% endfor %} . 
+        {% endfor %}
         <a href="http://erjjones.github.com{{ post.url }}#disqus_thread" data-disqus-identifier="{{ post.url }}"></a>
     </small></p>
 </section>
 {% endfor %}
 
         </div><!--span9-->
-        <div class="span3 blog-sidebar">
+        <div class="col-md-3 blog-sidebar">
 
             {% include aboutme.html %}
 
