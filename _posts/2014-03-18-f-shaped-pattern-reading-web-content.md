@@ -11,3 +11,6 @@ tags:
 對這種模式的理解在提高網站轉化率方面非常有意義。
 
 ![](http://media.nngroup.com/media/editor/alertbox/f_reading_pattern_eyetracking.jpg)
+
+[F-Shaped Pattern For Reading Web Content](http://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/)
+ by JAKOB NIELSEN on April 17, 2006
