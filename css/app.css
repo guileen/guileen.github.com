@@ -9,18 +9,48 @@
 
 /* Body and structure
 -------------------------------------------------- */
-// 粗宋體 STZhongsong STSong SimHei
-// 細宋體 STFangsong 
-// 細黑體 Youyuan STXihei
+/*
+ cuti: STZhongsong STSong SimHei
+ xiti: STFangsong 
+ xihei: Youyuan STXihei
+ */
 
 body {
   /* position: relative; */
-  /* padding-top: 40px; */
-  font-family: "Arial", "Youyuan", "STXihei", sans-serif;
+  padding-top: 70px;
+  /* font-family: "Arial", "STFangsong", "Fangsong", "STXihei", sans-serif; */
+  font-family: 'Droid Serif', serif;
+  color: #3a4145;
+}
+
+section {
+  font-size: 2.0rem;
+  line-height: 1.6em;
+}
+
+section p {
+  margin: 1.2em 0;
+}
+
+.post-meta {
+  color: #888;
+  font-size: 1.5rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
+  /*
   font-family: "Arial", "STZhongsong", "STSong", "SimHei", sans-serif;
+  */
+  text-rendering: optimizeLegibility;
+  font-family: 'Open Sans', sans-serif;
+}
+
+h1 {
+  font-size: 5rem;
+  line-height: 1.2em;
+  letter-spacing: -2px;
+  text-indent: -3px;
+  font-weight: bold;
 }
 
 /* Code in headings */

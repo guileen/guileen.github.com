@@ -4,13 +4,26 @@ layout: layout
 <div class="container">
     <div class="row">
         <div class="col-md-9">
+<section>
+
+<div class="post-meta">{{ page.date | date: "%B %e, %Y" }}</div>
+
 <h1>{{page.title}}</h1>
 
 {{content}}
 
+    <div>
+        {% for tag in page.tags %} 
+            <a href="/tags/{{ tag }}" class="label label-default" rel="tooltip" title="View posts tagged with &quot;{{ tag }}&quot;">{{ tag }}</a>
+            {% if forloop.last != true %} {% endif %} 
+        {% endfor %}
+    </div>
+
 {% assign filename = page.url | replace_first: '/', '' | replace: '/', '-'  | replace: '.html', '.md' %}
 <a href="https://github.com/guileen/guileen.github.com/edit/master/_posts/{{filename}}">编辑</a>
 <a href="https://github.com/guileen/guileen.github.com/commits/master/_posts/{{filename}}">修改历史</a>
+
+</section>
 <!-- Disqus -->
     <div id="disqus_thread"></div>
     <script type="text/javascript">
@@ -40,7 +53,7 @@ layout: layout
                 {% if page.tags.length %}
                 <div>
                     {% for tag in page.tags %}
-                    <span class="label label-default"><a href="/tags/{{ tag }}" rel="tooltip" title="Posts about {{tag}}">{{tag}}</a></span>
+                    <a href="/tags/{{ tag }}" class="label label-default" rel="tooltip" title="Posts about {{tag}}">{{tag}}</a>
                     {% endfor %}
                 </div>
                 {% endif %}
