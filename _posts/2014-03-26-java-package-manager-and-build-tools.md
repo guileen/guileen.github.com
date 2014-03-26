@@ -20,6 +20,7 @@ Ivy安裝前需要安裝Ant，Ivy本身是Ant的一個子項目。與Maven既做
 Gradle的職責是自動化構建，它同時支持Maven和Ivy包管理，甚至Ant的任務，比如這樣
 
 build.gradle
+
 ```
 task hello << {
     String greeting = 'hello from Ant'
