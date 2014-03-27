@@ -36,7 +36,7 @@ tags: VPS
 
 請按照如下順序操作
 
-第一步 [點擊這裏](https://www.digitalocean.com/?refcode=6c7bd4a13044)進入digitalocean註冊帳號
-第二步 使用你的信用卡或Paypal完成至少10美元的支付。
-第三步 搜素 `digital ocean promo code 2014` 找到一個推廣碼
-第四步 在Billing中的最下方輸入推廣碼，可以額外獲得10美元。
+* 第一步 [點擊這裏](https://www.digitalocean.com/?refcode=6c7bd4a13044)進入digitalocean註冊帳號
+* 第二步 使用你的信用卡或Paypal完成至少10美元的支付。
+* 第三步 搜素 `digital ocean promo code 2014` 找到一個推廣碼
+* 第四步 在Billing中的最下方輸入推廣碼，可以額外獲得10美元。
