@@ -18,11 +18,10 @@
 body {
   /* position: relative; */
   padding-top: 70px;
-  /* font-family: "Arial", "STFangsong", "Fangsong", "STXihei", sans-serif; */
-  font-family: 'Droid Serif', serif;
+  font-family: "Georgia", "STFangsong", "Fangsong", "STXihei", serif;
   color: #3a4145;
-  text-shadow: 0 0 1px rgba(0,0,0,0.4);
-  background-color: #f0f0f0;
+  /* text-shadow: 0 0 1px rgba(0,0,0,0.4); */
+  background-color: #f8f8f8;
 }
 
 section {
@@ -34,17 +33,19 @@ section p {
   margin: 1.2em 0;
 }
 
+section li {
+  font-family: 'Youyuan', 'SimHei', sans-serif;
+  font-size: 0.9em;
+}
+
 .post-meta {
   color: #888;
   font-size: 1.5rem;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  /*
-  font-family: "Arial", "STZhongsong", "STSong", "SimHei", sans-serif;
-  */
+  font-family: "Georgia", "STZhongsong", "STSong", "SimHei", serif;
   text-rendering: optimizeLegibility;
-  font-family: 'Open Sans', sans-serif;
   font-weight: bold;
   color: #666;
   line-height: 1.2em;
