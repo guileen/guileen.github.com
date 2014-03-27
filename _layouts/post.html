@@ -12,16 +12,16 @@ layout: layout
 
 {{content}}
 
-    <div>
+    <div class="post-meta">
         {% for tag in page.tags %} 
             <a href="/tags/{{ tag }}" class="label label-default" rel="tooltip" title="View posts tagged with &quot;{{ tag }}&quot;">{{ tag }}</a>
             {% if forloop.last != true %} {% endif %} 
         {% endfor %}
+        {% assign filename = page.url | replace_first: '/', '' | replace: '/', '-'  | replace: '.html', '.md' %}
+        <a href="https://github.com/guileen/guileen.github.com/edit/master/_posts/{{filename}}">编辑</a>
+        <a href="https://github.com/guileen/guileen.github.com/commits/master/_posts/{{filename}}">修改历史</a>
     </div>
 
-{% assign filename = page.url | replace_first: '/', '' | replace: '/', '-'  | replace: '.html', '.md' %}
-<a href="https://github.com/guileen/guileen.github.com/edit/master/_posts/{{filename}}">编辑</a>
-<a href="https://github.com/guileen/guileen.github.com/commits/master/_posts/{{filename}}">修改历史</a>
 
 </section>
 {% comment %}
