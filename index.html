@@ -32,6 +32,7 @@ layout: layout
 
             {% include aboutme.html %}
 
+            <hr/>
             <h3>Recent</h3>
             <ul class="nav nav-list affix-">
 {% for post in site.posts offset: 0 limit: 10 %}
@@ -39,6 +40,7 @@ layout: layout
 {% endfor %}
             </ul>
 
+            <hr/>
             {% include tagcloud.html %}
         </div>
     </div><!--row-->
