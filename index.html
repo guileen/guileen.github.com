@@ -24,6 +24,7 @@ layout: layout
         <a href="http://erjjones.github.com{{ post.url }}#disqus_thread" data-disqus-identifier="{{ post.url }}"></a>
     </small></p>
 </section>
+<hr/>
 {% endfor %}
 
         </div><!--span9-->
@@ -31,6 +32,7 @@ layout: layout
 
             {% include aboutme.html %}
 
+            <hr/>
             <h3>Recent</h3>
             <ul class="nav nav-list affix-">
 {% for post in site.posts offset: 0 limit: 10 %}
@@ -38,6 +40,7 @@ layout: layout
 {% endfor %}
             </ul>
 
+            <hr/>
             {% include tagcloud.html %}
         </div>
     </div><!--row-->

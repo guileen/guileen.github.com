@@ -64,6 +64,7 @@ h6 { font-size: 1.5rem; }
 a {color: #887788;}
 a:hover {color: #776677;}
 
+hr { border-color: #ccc; }
 
 /* Code in headings */
 h3 code {
