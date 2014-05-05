@@ -21,7 +21,8 @@ hybrid模式，项目整体上使用原生UI开发，提供极强的可配置性
 
 ## 功能组件
 
-BootLoader 项目启动器，加载最初的资源URL，配置各UI的配置，以及项目整体属性，检查更新。
+### BootLoader
+项目启动器，加载最初的资源URL，配置各UI的配置，以及项目整体属性，检查更新。
 
 ```
 {
@@ -36,15 +37,15 @@ BootLoader 项目启动器，加载最初的资源URL，配置各UI的配置，�
 }
 ```
 
-JSBridge
+### JSBridge
     注入JS，可以通过JS跳转到某个UI。
     可以读写取指定文件夹内的文件
 
-HTTPBridge
+### HTTPBridge
     每个Http请求发出的统一入口
     发请求的时候需要带上参数，如session或token之类的。
 
-Splash 
+### Splash 
 
 ```
 {
@@ -56,7 +57,7 @@ Splash
 }
 ```
 
-Login
+### Login
 
 ```
 {
@@ -69,7 +70,7 @@ Login
 }
 ```
 
-Navigation
+### Navigation
 
 ```
 {
@@ -91,7 +92,7 @@ Navigation
 }
 ```
 
-ActionBar
+### ActionBar
 
 ```
 {
@@ -121,7 +122,8 @@ ActionBar
 }
 ```
 
-MainContent 一个webview
+### MainContent
+一个webview
 
 ```
 {
@@ -130,7 +132,7 @@ MainContent 一个webview
 }
 ```
 
-Search
+### Search
 
 ```
 {
