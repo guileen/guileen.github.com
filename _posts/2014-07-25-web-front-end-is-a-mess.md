@@ -33,9 +33,16 @@ Argular取得了一定的成功，但依然有不少web工程师对Argular比较
 * 统一社区风格, 利用社区的力量。
 * 不应该让整个社区依赖某一个框架，我们只需要制定行业标准。
 
-Bower 是包管理工具，grunt是构建工具，component则是既包含包管理，也包含构建的过程，同时component还具备requirejs的构建功能。
+目前有些工具在解决这些问题：
 
-所以我认为目前最好的解决方案是component。有人可能会问，component的存在是否也会造成前端社区的割裂？component要做的不是框架，而是社区标准，所以component的存在不会造成社区的割裂，只会让社区更加繁荣。
+* [Bower](http://bower.io/) 是包管理工具
+* [grunt](http://gruntjs.com/)是构建工具
+* CMD, AMD的一堆工具
+* [component](https://github.com/component/component)则是既包含包管理，也包含简单的构建，同时component还是一个CMD工具。
+
+简言之 component 包含了 bower + grunt + requirejs 的主要功能。我个人认为component是目前最好的解决方案。
+
+有人可能会问，component的存在是否也会造成前端社区的割裂？component要做的不是框架，而是社区标准，所以component的存在不会造成社区的割裂，只会让社区更加繁荣。
 
 component 社区虽然也可以兼容jquery这样的框架，但这不是component所推荐的做法。component的风格是大量的小型的库，比如superagent, eacape-html, dom，每个库只做一件明确的事情。
 
