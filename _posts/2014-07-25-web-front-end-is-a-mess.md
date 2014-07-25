@@ -7,7 +7,7 @@ tags: web, 前端, 软件工程
 ---
 
 
-先吐槽一下，遇到许多所谓“软件工程师”，根本没有“软件工程”的概念，make，ant，gradle，持续集成，自动化测试，一概无视，这样的人只能称码农，不能叫软件工程师。
+先吐槽一下，遇到许多所谓“软件工程师”，根本没有“软件工程”的概念，make，ant，持续集成，自动化测试，一概无视，这样的人只能称码农，不能叫软件工程师。
 很多牛逼的软件工程师喜欢自称程序员，导致很多菜鸟认为会写程序就足够了，殊不知“programmer”、“coder”是牛人们的谦称————不懂软件工程之人不足与之论代码。
 
 ## Web前端就是一坨屎
@@ -40,7 +40,7 @@ Argular取得了一定的成功，但依然有不少web工程师对Argular比较
 * CMD, AMD的一堆工具
 * [component](https://github.com/component/component)则是既包含包管理，也包含简单的构建，同时component还是一个CMD工具。
 
-简言之 component 包含了 bower + grunt + requirejs 的主要功能。我个人认为component是目前最好的解决方案。
+我个人认为component是目前最好的解决方案。因为 component 包含了 bower + grunt + requirejs 的主要功能，而我们没空去学那么多乱七八糟的工具。
 
 有人可能会问，component的存在是否也会造成前端社区的割裂？component要做的不是框架，而是社区标准，所以component的存在不会造成社区的割裂，只会让社区更加繁荣。
 
