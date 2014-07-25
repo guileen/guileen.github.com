@@ -15,11 +15,14 @@ tags: android, ios, agile
 ## 整体设计
 
 hybrid模式，项目整体上使用原生UI开发，提供极强的可配置性，配置通过URI来实现，这个URL可以是应用内的Resource URL，
-也可以是服务端的URL。对于内容难以通过配置来完成的，使用webview实现。
+也可以是服务端的URL。
+
+大部分的界面修改可以通过服务器端推送来完成，对于内容难以通过配置来完成的，使用webview实现。
 
 ## 功能组件
 
-BootLoader 项目启动器，加载最初的资源URL，配置各UI的配置，以及项目整体属性，检查更新。
+### BootLoader
+项目启动器，加载最初的资源URL，配置各UI的配置，以及项目整体属性，检查更新。
 
 ```
 {
@@ -34,15 +37,15 @@ BootLoader 项目启动器，加载最初的资源URL，配置各UI的配置，�
 }
 ```
 
-JSBridge
+### JSBridge
     注入JS，可以通过JS跳转到某个UI。
     可以读写取指定文件夹内的文件
 
-HTTPBridge
+### HTTPBridge
     每个Http请求发出的统一入口
     发请求的时候需要带上参数，如session或token之类的。
 
-Splash 
+### Splash 
 
 ```
 {
@@ -54,7 +57,7 @@ Splash
 }
 ```
 
-Login
+### Login
 
 ```
 {
@@ -67,7 +70,7 @@ Login
 }
 ```
 
-Navigation
+### Navigation
 
 ```
 {
@@ -89,7 +92,7 @@ Navigation
 }
 ```
 
-ActionBar
+### ActionBar
 
 ```
 {
@@ -119,7 +122,8 @@ ActionBar
 }
 ```
 
-MainContent 一个webview
+### MainContent
+一个webview
 
 ```
 {
@@ -128,7 +132,7 @@ MainContent 一个webview
 }
 ```
 
-Search
+### Search
 
 ```
 {
