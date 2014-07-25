@@ -37,6 +37,8 @@ Argular取得了一定的成功，但依然有不少web工程师对Argular比较
 * 统一社区风格, 利用社区的力量。
 * 不应该让整个社区依赖某一个框架，我们只需要制定行业标准。
 
+有人可能会问，component的存在是否也会造成前端社区的割裂？component要做的不是框架，而是社区标准，所以component的存在不会造成社区的割裂，只会让社区更加繁荣。
+
 component 社区不使用jquery这样的框架，只有一些小型的库，比如superagent, eacape-html, dom这样小型的库，每个库只做一件明确的事情。
 
 感谢TJ holowaychuk，给我们带来了太多美好的东西。
