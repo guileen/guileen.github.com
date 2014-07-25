@@ -1,5 +1,5 @@
 ---
-title: Component 与 Bower 和 Grunt 的对比
+title: web前端就是一坨屎
 layout: post
 published: true
 categories: 
@@ -10,16 +10,12 @@ tags: web, 前端, 软件工程
 先吐槽一下，遇到许多所谓“软件工程师”，根本没有“软件工程”的概念，make，ant，gradle，持续集成，自动化测试，一概无视，这样的人只能称码农，不能叫软件工程师。
 很多牛逼的软件工程师喜欢自称程序员，导致很多菜鸟认为会写程序就足够了，殊不知“programmer”、“coder”是牛人们的谦称————不懂软件工程之人不足与之论代码。
 
-## Web前端脏乱差
+## Web前端就是一坨屎
 
 Web前端长期以来很混乱，虽然不断的有人用各种框架，工具来改善前端开发过程，web前端依然让人感觉脏乱差。究其原因有三：
 * javascript语言层面缺乏包机制。这是requirejs之类所试图解决的问题
 * web前端包管理机制问题复杂，不仅需要考虑js，还要考虑css和html。这是bower试图解决的问题
 * 有合并、压缩的需求，虽然有很多工具很好的完成了压缩的工作，但合并一直缺乏优雅的方案。
-
-Bower 是包管理工具，grunt是构建工具，component则是既包含包管理，也包含构建的过程，同时component还具备requirejs的Common JS构建功能。
-
-简言之 component 包含了 bower + grunt + requirejs 的主要功能。
 
 ## 前端社区割裂
 
@@ -37,8 +33,17 @@ Argular取得了一定的成功，但依然有不少web工程师对Argular比较
 * 统一社区风格, 利用社区的力量。
 * 不应该让整个社区依赖某一个框架，我们只需要制定行业标准。
 
-有人可能会问，component的存在是否也会造成前端社区的割裂？component要做的不是框架，而是社区标准，所以component的存在不会造成社区的割裂，只会让社区更加繁荣。
+Bower 是包管理工具，grunt是构建工具，component则是既包含包管理，也包含构建的过程，同时component还具备requirejs的构建功能。
 
-component 社区不使用jquery这样的框架，只有一些小型的库，比如superagent, eacape-html, dom这样小型的库，每个库只做一件明确的事情。
+所以我认为目前最好的解决方案是component。有人可能会问，component的存在是否也会造成前端社区的割裂？component要做的不是框架，而是社区标准，所以component的存在不会造成社区的割裂，只会让社区更加繁荣。
 
-感谢TJ holowaychuk，给我们带来了太多美好的东西。
+component 社区虽然也可以兼容jquery这样的框架，但这不是component所推荐的做法。component的风格是大量的小型的库，比如superagent, eacape-html, dom，每个库只做一件明确的事情。
+
+
+## 后记
+
+感谢TJ holowaychuk，给我们带来了太多美好的东西。不过自从TJ转投Go语言社区后，似乎是被Go社区"从语言层面解决软件工程问题"的哲学所感染，给component的发展带来了一些不确定性。目前component的官方网站[component.io](http://component.io)已经无法访问。TJ 在component的[一条issue](https://github.com/component/component/issues/587)中表达了自己的一些观点：“遗留的npm/browserify是最坏的东西，说实在的Go的方法好多了，只要ES6的module loaders可以玩了。Browserify最终会玩完，所有的都会哈哈，长期来看，他们都不管用，构建一点都不好玩”
+
+原文
+
+> The rest of npm/browserify is mostly bad stuff, a Go approach would be much better IMO, once ES6 module loaders are in play. Browserify will eventually die out too, they all will haha, long-term none of them make sense, builds are no fun
