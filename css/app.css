@@ -99,9 +99,10 @@ body > .navbar .brand:hover {
 .post-list section h1 {
     font-size: 17px;
 }
-.post-list section,
+.post-list section a.content,
 .post-list section .content *
 {
+    color: #717171;
     font-size: 14px;
     font-weight: 100px;
 }
