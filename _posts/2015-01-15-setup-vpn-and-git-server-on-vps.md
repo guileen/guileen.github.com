@@ -27,14 +27,17 @@ VPN主要有L2TP，PPTP，以及IPsec三种。本文不打算详细讲解VPN的�
 
 不过别怕，懒人们有福了！我知道iptables，ppp，pptpd的设置你都不想关心，你只关心把服务run起来然后设置用户名密码。
 一键脚本：[github.com/nowall/setup-simple-pptp-vpn](https://github.com/nowall/setup-simple-pptp-vpn/blob/master/setup.sh)
+
 ```
 wget https://raw.githubusercontent.com/nowall/setup-simple-pptp-vpn/master/setup.sh
 sh setup.sh
 ```
+
 执行完后，控制台会提示你用户名密码（随机生成）。
 
 ## 如何修改用户名密码？
 编辑/etc/ppp/chap-secrets
+
 ```
 用户名 pptpd 密码 *
 ```
@@ -51,12 +54,10 @@ unzip gogs-xxx.zip
 cd gogs-xxx
 nohup scripts/start.sh&
 ```
+
 浏览器访问 http://你的ip:3000 。第一步要进行设置，建议选择，sqlite数据库。
 
 ## VPS选择哪个机房？
 
-[DigitalOcean](https://www.digitalocean.com/?refcode=6c7bd4a13044)
-
 建议选择[DigitalOcean SFO数据中心](https://www.digitalocean.com/?refcode=6c7bd4a13044)，虽然在某些网络中SGP（新加坡）速度很快，但是本人在电信网络中实测，SGP机房非常不稳定。SFO（旧金山）机房综合比较是个不错的选择。
 
-[digitalocean速度测试](http://speedtest-sfo1.digitalocean.com/)
