@@ -1,16 +1,14 @@
 ---
-title: 自己动手搭建科学上网服务器和Git私有仓库
+title: 自己动手搭建VPN和Git仓库
 layout: post
 published: true
 categories: 
 tags: 
 ---
 
-是否想过自己动手搭建科学上网服务？如果你是码农，是否想过顺便搭建个git私有仓库？
+工作中是否想过自己动手搭建VPN服务？如果你是码农，是否想过顺便搭建个git私有仓库？
 
-## 为什么自己搭建？麻烦吗？贵吗？
-一点不麻烦，一点不贵。
-你知道github个人版私有仓库服务多少钱一个月？7美元一个月，5个私有仓库。绝对没有黑github的意思，看我把博客放在github就知道我是github的粉丝。这7美元一个月绝对值得的。不过，读完本文，你将以5美元/月的成本，收获一个VPN，一个SSH Tunnel，以及一个不限数量的git私有仓库。
+自己搭建VPN和Git仓库，贵不贵？github个人版私有仓库7美元一个月，5个私有仓库。不过，读完本文，你将以5美元/月的成本，收获一个VPN，一个SSH Tunnel，以及一个不限数量的git私有仓库。
 
 
 ## 需要准备什么？
@@ -33,10 +31,7 @@ wget https://raw.githubusercontent.com/nowall/setup-simple-pptp-vpn/master/setup
 sh setup.sh
 ```
 
-执行完后，控制台会提示你用户名密码（随机生成）。
-
-## 如何修改用户名密码？
-编辑/etc/ppp/chap-secrets
+执行完后，控制台会提示你用户名密码（随机生成）。编辑/etc/ppp/chap-secrets 可以修改用户名密码
 
 ```
 用户名 pptpd 密码 *
@@ -55,10 +50,11 @@ cd gogs-xxx
 nohup scripts/start.sh&
 ```
 
-浏览器访问 http://你的ip:3000 。第一步要进行设置，建议选择，sqlite数据库。
+浏览器访问 http://你的ip:3000 。第一步要进行设置，建议选择，sqlite数据库，因为省事。
 
 ## VPS选择哪个机房？
 
-建议选择[DigitalOcean SFO数据中心](https://www.digitalocean.com/?refcode=6c7bd4a13044)，虽然在某些网络中SGP（新加坡）速度很快，但是本人在电信网络中实测，SGP机房非常不稳定。SFO（旧金山）机房综合比较是个不错的选择。
+如果选择[Linode](https://www.linode.com/?r=94d2619aa76f5ffbd8d0869d575829f311322f69)，建议选用Tokoy（东京）机房，速度很快。
 
-如果选择[Linode](https://www.linode.com/?r=94d2619aa76f5ffbd8d0869d575829f311322f69)，建议选用Tokoy（东京）机房。
+DigitalOcean的价格更便宜，并且支持按小时付费，而且他的快照服务是免费的。机房建议选择[DigitalOcean SFO数据中心](https://www.digitalocean.com/?refcode=6c7bd4a13044)，虽然在某些网络中SGP（新加坡）速度很快，但是本人在电信网络中实测，SGP机房非常不稳定。SFO（旧金山）机房综合比较是个不错的选择。
+
