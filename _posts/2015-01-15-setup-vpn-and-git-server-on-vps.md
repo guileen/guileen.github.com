@@ -61,3 +61,4 @@ nohup scripts/start.sh&
 
 建议选择[DigitalOcean SFO数据中心](https://www.digitalocean.com/?refcode=6c7bd4a13044)，虽然在某些网络中SGP（新加坡）速度很快，但是本人在电信网络中实测，SGP机房非常不稳定。SFO（旧金山）机房综合比较是个不错的选择。
 
+如果选择[Linode](https://www.linode.com/?r=94d2619aa76f5ffbd8d0869d575829f311322f69)，建议选用Tokoy（东京）机房。
