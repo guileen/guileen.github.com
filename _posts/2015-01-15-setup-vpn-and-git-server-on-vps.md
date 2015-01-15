@@ -58,3 +58,11 @@ nohup scripts/start.sh&
 
 DigitalOcean的价格更便宜，并且支持按小时付费，而且他的快照服务是免费的。机房建议选择[DigitalOcean SFO数据中心](https://www.digitalocean.com/?refcode=6c7bd4a13044)，虽然在某些网络中SGP（新加坡）速度很快，但是本人在电信网络中实测，SGP机房非常不稳定。SFO（旧金山）机房综合比较是个不错的选择。
 
+## 如何给你的VPS提供商汇报问题？
+
+网络不通，速度慢的时候，你需要把你的问题反馈给你的VPS提供商，最好提供一些数据。
+ping ip 日志
+traceroute ip 日志
+mtr日志
+mtr -rwc 100 112.64.205.210
+最好还有从远程主机的控制台 mtr -rwc 100 本地外网ip（通过很多网站可以查到自己的外网ip）
