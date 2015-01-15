@@ -95,6 +95,21 @@ body > .navbar .brand:hover {
   text-shadow: 0 1px 0 rgba(255,255,255,.1), 0 0 30px rgba(255,255,255,.4);
 }
 
+/* List page */
+.post-list section h1 {
+    font-size: 17px;
+}
+.post-list section h2,
+.post-list section h3,
+.post-list section h4,
+.post-list section h5
+{
+    font-weight: 100px;
+}
+.post-list .content {
+    font-size: 14px;
+    color: #717171;
+}
 
 /* Sections
 -------------------------------------------------- */
@@ -146,16 +161,6 @@ hr.soften {
 .footer-links li {
   display: inline;
   margin-right: 10px;
-}
-
-
-
-  /* Unfloat the back to top link in footer */
-  .footer {
-  }
-  .footer p {
-    margin-bottom: 9px;
-  }
 }
 
 /* Landscape phones
