@@ -19,7 +19,7 @@ body {
   /* position: relative; */
   padding-top: 70px;
   font-family: "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
-  color: #3a4145;
+  color: #2f2f2f;
   /* text-shadow: 0 0 1px rgba(0,0,0,0.4); */
   background-color: #f8f8f8;
 }
@@ -30,7 +30,7 @@ section {
 }
 
 section p {
-  margin: 1.2em 0;
+  margin: 0 0 25px 0;
 }
 
 section li {
@@ -51,15 +51,15 @@ h1, h2, h3, h4, h5, h6 {
   text-indent: -3px;
 }
 
-h1 { font-size: 5rem; }
-h2 { font-size: 2rem; }
+h1 { font-size: 50px; }
+h2 { font-size: 24px; }
 h3 { font-size: 1.5rem; }
 h4 { font-size: 1.2rem; }
 h5 { font-size: 1rem; }
 h6 { font-size: 0.8rem; }
 
-a {color: #887788;}
-a:hover {color: #776677;}
+a {color:#4183c4;text-decoration:none;}
+a:hover {color: #4183c4;text-decoration:underline;}
 
 hr { border-color: #ccc; }
 
