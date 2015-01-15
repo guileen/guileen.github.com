@@ -99,16 +99,11 @@ body > .navbar .brand:hover {
 .post-list section h1 {
     font-size: 17px;
 }
-.post-list section h2,
-.post-list section h3,
-.post-list section h4,
-.post-list section h5
+.post-list section,
+.post-list section .content *
 {
-    font-weight: 100px;
-}
-.post-list .content {
     font-size: 14px;
-    color: #717171;
+    font-weight: 100px;
 }
 
 /* Sections
