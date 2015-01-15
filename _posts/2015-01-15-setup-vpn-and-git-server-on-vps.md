@@ -56,5 +56,7 @@ nohup scripts/start.sh&
 ## VPS选择哪个机房？
 
 [DigitalOcean](https://www.digitalocean.com/?refcode=6c7bd4a13044)
-[速度测试](http://speedtest-sfo1.digitalocean.com/)
+
 建议选择[DigitalOcean SFO数据中心](https://www.digitalocean.com/?refcode=6c7bd4a13044)，虽然在某些网络中SGP（新加坡）速度很快，但是本人在电信网络中实测，SGP机房非常不稳定。SFO（旧金山）机房综合比较是个不错的选择。
+
+[digitalocean速度测试](http://speedtest-sfo1.digitalocean.com/)
