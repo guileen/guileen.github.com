@@ -18,7 +18,7 @@
 body {
   /* position: relative; */
   padding-top: 70px;
-  font-family: "Georgia", "STFangsong", "Fangsong", "STXihei", serif;
+  font-family: "lucida grande", "lucida sans unicode", lucida, helvetica, "Hiragino Sans GB", "Microsoft YaHei", "WenQuanYi Micro Hei", sans-serif;
   color: #3a4145;
   /* text-shadow: 0 0 1px rgba(0,0,0,0.4); */
   background-color: #f8f8f8;
@@ -31,7 +31,6 @@ section {
 
 section p {
   margin: 1.2em 0;
-  text-indent: 2em;
 }
 
 section li {
@@ -45,16 +44,15 @@ section li {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family: "Georgia", "STZhongsong", "STSong", "SimHei", serif;
   text-rendering: optimizeLegibility;
   font-weight: bold;
-  color: #666;
+  color: #333;
   line-height: 1.2em;
   letter-spacing: -2px;
   text-indent: -3px;
 }
 
-h1 { font-size: 3rem; }
+h1 { font-size: 5rem; }
 h2 { font-size: 2rem; }
 h3 { font-size: 1.5rem; }
 h4 { font-size: 1.2rem; }
