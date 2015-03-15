@@ -42,7 +42,7 @@ sh setup.sh
 [下载gogs](http://gogs.io/docs/installation/install_from_binary.html)
 
 ```
-sudo adduser git
+sudo useradd -m git
 sudo su git
 wget http://gogs.dn.qbox.me/gogs-xxx.zip
 unzip gogs-xxx.zip
