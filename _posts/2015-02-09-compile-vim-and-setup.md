@@ -9,7 +9,7 @@ tags:
 lua, python, ruby, perl 都必须支持
 
 ```
-git clone git@github.com:b4winckler/vim.git --depth=1
+git clone git@github.com:vim/vim.git --depth=1
 ./configure --with-features=huge --with-luajit --enable-rubyinterp=yes --enable-pythoninterp=yes --enable-python3interp=yes --enable-cscope --enable-luainterp=yes --enable-luainterp=yes --with-lua-prefix=/usr/local --enable-perlinterp=yes
 make
 make install
