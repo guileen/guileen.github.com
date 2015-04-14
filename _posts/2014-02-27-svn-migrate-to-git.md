@@ -10,6 +10,7 @@ tags: git, svn
 在此過程中你通常需要刪除一些垃圾文件，修改你的committer名字。
 
 克隆svn代碼：
+
 ```
 git svn clone svn_url
 ```
@@ -21,11 +22,13 @@ git filter-branch --tree-filter 'rm -rf node_modules'
 ```
 
 刪除空的提交
+
 ```
 git filter-branch --commit-filter 'git_commit_non_empty_tree "$@"' HEAD
 ```
 
 gc
+
 ```
 git gc
 ```
@@ -61,12 +64,14 @@ export GIT_COMMITTER_EMAIL="$cm"
 ```
 
 添加git remote庫並push
+
 ```
 git remote add origin git_url
 git push -u origin master
 ```
 
 重新克隆一個乾淨的git庫
+
 ```
 git clone git_url
 ```
