@@ -21,6 +21,10 @@ tags:
 \`sum_(i=1)^n i^3=((n(n+1))/2)^2\`
 
 
-条件概率公式 `P(A|B) = P(A nn B) / P(B)`
+条件概率公式 `P(A|B) = (P(A nn B)) / (P(B))`
 
-<p> `(bb "P"(A|B)) = (bb "P"(A nn B)) / (bb "P"(B))` </p>
+<p> `P(A|B) = (P(A nn B)) / (P(B))` </p>
+
+全概率公式
+
+<p> `P(A) = sum_(i) P(A|B_i)*P(B_i)` </p>
