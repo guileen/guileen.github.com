@@ -8,7 +8,7 @@ layout: layout
 
 {% for post in site.posts offset: 0 limit: 50 %}
 <section id="{{post.id}}">
-    <div class="post-meta">{{ post.date | date: "%B %e, %Y" }}</div>
+    <span class="post-meta">{{ post.date | date: "%B %e, %Y" }}</span>
     {% if post.image %}
     <a href="{{ post.url }}"><img border="0" width="250" height="150" src="/img/posts/{{ post.image }}" /></a>
     {% endif %}
@@ -24,7 +24,6 @@ layout: layout
         <a href="http://erjjones.github.com{{ post.url }}#disqus_thread" data-disqus-identifier="{{ post.url }}"></a>
     </small></p>
 </section>
-<hr/>
 {% endfor %}
 
         </div><!--span9-->
