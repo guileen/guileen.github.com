@@ -12,7 +12,7 @@ tags:
 <script src="http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML"></script>
 ```
 
-将公式用用\`\`包含起来
+将公式用用\`包含起来
 
 ```
 `sum_(i=1)^n i^3=((n(n+1))/2)^2`
@@ -25,6 +25,6 @@ tags:
 
 <p> `P(A|B) = (P(A nn B)) / (P(B))` </p>
 
-全概率公式
+全概率公式 `P(A) = sum_(i) P(A|B_i)*P(B_i)`
 
 <p> `P(A) = sum_(i) P(A|B_i)*P(B_i)` </p>
