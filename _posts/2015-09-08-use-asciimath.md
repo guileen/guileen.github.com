@@ -23,4 +23,4 @@ tags:
 
 条件概率公式 `P(A|B) = P(A nn B) / P(B)`
 
-\`("bb P"(A|B)) = ("bb P"(A nn B)) / ("bb P"(B))\`
+\`(bb "P"(A|B)) = (bb "P"(A nn B)) / (bb "P"(B))\`
