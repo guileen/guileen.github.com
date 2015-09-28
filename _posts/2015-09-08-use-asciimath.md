@@ -6,6 +6,26 @@ categories:
 tags: 
 ---
 
+
+\` a * b = c   => a = c / b => b = c / a\`
+
+
+\` a / b = c  => a = b * c\`
+
+\` 1 / 2 = 0.5 =>  1/0.5 = 2 \`
+
+\` 12 / 3 = 4 => 12 / 4 = 3 \`
+
+\` 18 / 3 = 6 => 18 / 6 = 3 \`
+
+\` 面积 = 长度 *  宽度 \`
+
+\` 长度 = (面积) / (宽度) \`
+
+
+
+
+
 [asciimath](http://asciimath.org) 在页面中加入下面这段代码
 
 ```html
@@ -28,3 +48,13 @@ tags:
 全概率公式 `P(A) = sum_(i) P(A|B_i)*P(B_i)`
 
 <p> `P(A) = sum_(i) P(A|B_i)*P(B_i)` </p>
+
+微积分:
+
+\`f(x)=x^2\`
+
+\`d/dx(x^3)=((x+dx)^2 - x^2)/dx = (x^2 + 2xdx+dx^2 - x^2)/dx = 2x +dx = 2x\`
+
+\`u'+v' = (du)/dx + (dv)/dx = (du+dv)/dx = (d(u+v)) / dx = (u+v)'\`
+
+\`(cu)' = (dcu)/dx = c(du)/dx = cu'\`
