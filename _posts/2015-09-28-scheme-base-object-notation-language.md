@@ -46,9 +46,10 @@ So, I design a scheme language like below. It define the scheme first, and use i
 ```
 
 The first line `!book(...);` define a scheme of book. Syntax is `!name(field:type, ...);`. 
-The string after `;` is out data body. `book(...)` use described scheme to create a book object.
 
-For a mobile app, you can seperate it to two part in communication.
+The string after `;` is data body. `book(...)` use scheme to create a book object.
+
+You can also seperate it to two part in communication.
 
 The head:
 
@@ -69,4 +70,4 @@ The body:
 }
 ```
 
-For a mobile app, first you can download scheme head only once, and then you only need receive the body part.
+On the client, you can download head once, and body multiple time.
