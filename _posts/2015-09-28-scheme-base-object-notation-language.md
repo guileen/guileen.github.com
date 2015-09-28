@@ -10,7 +10,7 @@ We use XML, JSON, BSON, MsgPack, Protobuf to transfer structured data. They have
 
 We have primitive types: String, Number, Boolean, Date, Null. And combind types: Array, Object.
 
-In real world, a class of object always have same fields, it's kind of waste.
+In real world, a class of object always have same fields, JSON is kind of waste.
 
 For example, we have JSON of books
 
@@ -48,6 +48,32 @@ So, I design a scheme language like below. It define the scheme first, and use i
 The first line `!book(...);` define a scheme of book. Syntax is `!name(field:type, ...);`. 
 
 The string after `;` is data body. `book(...)` use scheme to create a book object.
+
+
+```
+!book(title:s,pages:n,author:s,published:b);
+{
+    books:![book][
+        ('hello world',100,'Jack',1),
+        ('how to programming 1',50,'Tom',1),
+        ('how to programming 2',50,'Tom',1),
+        ('how to programming 3',50,'Tom',0)
+    ]
+}
+```
+
+Also,
+
+```
+{
+    books:![(title,pages,author,published)][
+        ('hello world',100,'Jack',1),
+        ('how to programming 1',50,'Tom',1),
+        ('how to programming 2',50,'Tom',1),
+        ('how to programming 3',50,'Tom',0)
+    ]
+}
+```
 
 You can also seperate it to two part in communication.
 
