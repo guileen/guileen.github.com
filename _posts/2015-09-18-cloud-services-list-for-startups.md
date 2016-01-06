@@ -62,6 +62,10 @@ cloudflare
 * bomb.cn     (特色)无需第三方，快速申请支付渠道（5%费率）
 * LeanCloud   无后端模式，存储，常用结构，短信，邮件
 
+## 测试
+* testin  众测
+* pgyer   蒲公英
+
 [SEE]
     http://next.36kr.com/posts/collections/506?utm_source=wechat
     http://next.36kr.com/posts/collections/507?utm_source=wechat
