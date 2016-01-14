@@ -12,8 +12,8 @@ tags:
 ```
 brew install highlight 
 
-pbpaste | highlight -o rtf -s js | pbcopy
-cat xxx.js | highlight -o rtf -s js | pbcopy
+pbpaste | highlight -O rtf -s js | pbcopy
+cat xxx.js | highlight -O rtf -s js | pbcopy
 ```
 
 方法二：vim plugin CopyRTF
