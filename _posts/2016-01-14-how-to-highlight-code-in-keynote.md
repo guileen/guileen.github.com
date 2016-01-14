@@ -13,8 +13,8 @@ tags:
 ```shell
 brew install highlight 
 
-pbpaste | highlight -O rtf -s js | pbcopy
-cat xxx.js | highlight -O rtf -s js | pbcopy
+pbpaste | highlight -O rtf -S js | pbcopy
+cat xxx.js | highlight -O rtf -S js | pbcopy
 ```
 
 ##方法二：vim plugin CopyRTF
