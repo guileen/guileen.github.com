@@ -8,15 +8,16 @@ tags:
 
 要想在keynote中粘贴高亮的代码，你必须粘贴一个RTF的文本。Mac上有两种办法来复制一个高亮的RTF文本。
 
-方法一：highlight
+## 方法一：highlight
+
 ```
 brew install highlight 
 
-pbpaste | highlight -O rtf -s js | pbcopy
-cat xxx.js | highlight -O rtf -s js | pbcopy
+pbpaste | highlight -O rtf -S js | pbcopy
+cat xxx.js | highlight -O rtf -S js | pbcopy
 ```
 
-方法二：vim plugin CopyRTF
+##方法二：vim plugin CopyRTF
 
 但是有些时候highlight不一定支持你的语言。这时你可以使用vim插件来完成，如果你使用vim编写代码的话，你一定已经支持了相应语言的高亮。
 
