@@ -10,7 +10,7 @@ tags:
 
 ## 方法一：highlight
 
-```shell
+```
 brew install highlight 
 
 pbpaste | highlight -O rtf -S js | pbcopy
@@ -25,7 +25,7 @@ cat xxx.js | highlight -O rtf -S js | pbcopy
 
 另外推荐一个样式，[PaperColor](https://github.com/NLKNguyen/papercolor-theme)，你可以自定义背景色。
 
-```vimL
+```
 let g:PaperColor_Dark_Override = { 'background' : '#000000'}
 let g:PaperColor_Light_Override = { 'background' : '#ffffff'}
 ```
