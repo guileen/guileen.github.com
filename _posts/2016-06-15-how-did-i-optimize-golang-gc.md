@@ -31,13 +31,13 @@ go func() {
 
 默认会搜集30s的profile，这里会等待30s。然后就可以查看profile的结果了。
 
-> > png > profile.png
+> \> png > profile.png
 
 我们发现最耗时的几个点 `runtime.scanobject`, `runtime.pcvalue`, `runtime.memclr`
 
-> runtime.scanobject 7.82s(18.16%) of 10.64s(24.74%)
-> runtime.pcvalue 4.43s(10.29%) of 9.50s(22.07%)
-> runtime.memclr 3.18s(7.39%)
+> runtime.scanobject 7.82s(18.16%) of 10.64s(24.74%)<br>
+> runtime.pcvalue 4.43s(10.29%) of 9.50s(22.07%)<br>
+> runtime.memclr 3.18s(7.39%)<br>
 
 而它们大部分都来自于 `runtime.gcDrain`
 > runtime.gcDrain 0.02s of 23.66s(54.96%)
@@ -48,7 +48,7 @@ go func() {
 
 既然是GC问题，那么我们看一下heap吧
 > go tool pprof http://localhost:6060/debug/pprof/heap
-> > png > heap.png
+> \> png > heap.png
 
 通过Heap我们可以发现内存占用最大的是Connection，每一个IM用户的连接都会有一个独立的Connection，而这个Connection上还会保存一些用户ID、昵称等基本信息。同时我们要把每个Connection放入一个map中，map的key是用户ID，这样我们才能定位用户对应的Connection。
 
@@ -65,6 +65,7 @@ go func() {
 我们决定使用[对象池模式](https://zh.wikipedia.org/wiki/%E5%AF%B9%E8%B1%A1%E6%B1%A0%E6%A8%A1%E5%BC%8F)，而Golang已经提供了一个`sync.Pool`实现。当你不再使用某个对象时，将它Put到`Pool`，而不是丢给GC，当你需要一个对象时，不是`new`一个，而是从`Pool`中来Get。`Pool`可能在任何时候回收`Pool`中的对象，所以你不用关心`Pool`的GC问题。
 
 优化的调整也很简单：
+
 ```
 var cPool = sync.Pool{New:func() interface{}{return new(Connection)}}
 
@@ -116,6 +117,7 @@ func (l *Logger) Log(str string) {
 受此启发，我们每次读取网络数据包的位置，也做了类似的优化，但这里无法使用append，只能直接make。
 
 优化前的代码类似这样：
+
 ```
 func (c *Connection) ReadBuffer(length) []byte{
     buff := make([]byte, length)
@@ -123,9 +125,10 @@ func (c *Connection) ReadBuffer(length) []byte{
     return buff
 }
 ```
-   
+
 我在Connection中增加了一个可重用的buf缓冲区，优化后的代码类似这样：
-``` 
+
+```
 func (c *Connection) ReadBuffer(length int) []byte{
     if length > len(c.buf) {
         c.buf = make([]byte, length)
