@@ -8,7 +8,7 @@ layout: layout
 
 {% for post in site.posts offset: 0 limit: 50 %}
 <section id="{{post.id}}">
-    <span class="post-meta">{{ post.date | date: "%B %e, %Y" }}</span>
+    <span class="post-meta">{{ post.date | date: "%Y-%m-%d" }}</span>
     {% if post.image %}
     <a href="{{ post.url }}"><img border="0" width="250" height="150" src="/img/posts/{{ post.image }}" /></a>
     {% endif %}
