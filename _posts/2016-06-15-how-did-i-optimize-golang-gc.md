@@ -68,6 +68,7 @@ Golang已经提供了一个`sync.Pool`实现。｀sync.Pool`是线程安全的�
 优化的调整也很简单：
 
 优化前代码：
+
 ```
 func NewConnection(conn net.Conn) *Connection{
     c := &Connection{conn: conn}
@@ -80,6 +81,7 @@ func (c *Connection) Close() error{
 ```
 
 优化后代码
+
 ```
 // 对象池：全局对象池
 var cPool = sync.Pool{
