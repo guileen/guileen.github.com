@@ -1,7 +1,7 @@
 ---
 title:使用iterm监控错误
 layout: post
-published: true
+published: false
 categories: 
 tags: 
 ---

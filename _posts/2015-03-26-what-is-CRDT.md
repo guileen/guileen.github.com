@@ -1,7 +1,7 @@
 ---
 title: [转]什么是CRDT
 layout: post
-published: true
+published: false
 categories: 
 tags: 
 ---
