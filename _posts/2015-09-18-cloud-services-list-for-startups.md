@@ -30,6 +30,7 @@ dnspod.cn    119.29.29.29 HTTPDNS
 * 又拍云
 
 ## 发送
+* www.yunpian.com 国内，国际，API规范，好
 * mob.com    10000 免费, 全球
 * sendcloud.sohu.com 发邮件
 * luosimao.com 短信/邮件
