@@ -18,6 +18,7 @@ dnspod.cn    119.29.29.29 HTTPDNS
 * Linode  日本节点是神器
 * 阿里云  大厂。
 * 百度云
+* Daocloud
 
 ## CDN
 * 星域        便宜，大文件，尚不完善
@@ -81,6 +82,18 @@ cloudflare
 
 ## 客服软件
 * 美洽
+
+## 直播云
+* 七牛
+* 乐视
+* 腾讯
+* 百度
+* UCloud
+* 网宿
+* 金山 & JSYLive_iOS
+
+## 短视频拍摄
+* 趣拍
 
 ## 工具
 * 直播流测试工具 http://www.cutv.com/demo/live_test.swf
