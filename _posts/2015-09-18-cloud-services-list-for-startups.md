@@ -98,6 +98,10 @@ cloudflare
 ## 工具
 * 直播流测试工具 http://www.cutv.com/demo/live_test.swf
 
+## 管理
+* 钉钉
+* 闪电报销
+
 ## slack 开源替代
 * https://rocket.chat 工具丰富，社区活跃
 * https://github.com/zulip/zulip
