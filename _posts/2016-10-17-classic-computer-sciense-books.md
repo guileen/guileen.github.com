@@ -18,19 +18,19 @@ tags: books
 
 在列表中，也会包含部分非“计算机科学”方面的书籍，比如游戏开发，互联网相关的书籍。这些书籍入选的条件时，他是适合程序员阅读的，并且同样符合经典、权威的要求的。
 
-# 科普
+## 科普
 * 1985 计算机科学概论 Computer Science: An Overview
 * 1999 编码 Code
 
-# 计算历史
+## 计算历史
 * The Computer from Pascal to von Neumann
 * A History of Computing in the Twentieth Century
 
-# Mathematics 数学
+## Mathematics 数学
 * Concrete Mathematics 具体数学
 * Discrete Mathematics and its Applications 离散数学及其应用
 
-# Computability 可计算性
+## Computability 可计算性
 * Alan Turing (1937) “On computable numbers, with an application to the Entscheidungsproblem”
 * (1979) 自动机理论、语言和计算导论  Introduction to Automata Theory, Languages, and Computation
 
@@ -38,35 +38,35 @@ tags: books
 
 * 1996 计算理论导论 Introduction to the Theory of Computation 
 
-# Information theory 信息论
+## Information theory 信息论
 * Shannon, C.E. (1948)  "A mathematical theory of communication"
 * 1991 Elements of Information Theory
 
-# Computer Architecture 计算机架构
+## Computer Architecture 计算机架构
 * 1990 Computer Architecture: A Quantitative Approach
 
-# Operating System 操作系统
+## Operating System 操作系统
 * 1974 操作系统设计与实现 Operating Systems Design and Implementation
 * 1992 现代操作系统 Modern Operating Systems
 * 2002 深入理解计算机系统 Computer Systems:A Programmer's Perspective
 * 1992 UNIX环境高级编程 Advanced Programming in the UNIX Environment
 
-# Compilers 编译原理
+## Compilers 编译原理
 * 1986 Compilers: Principles, Techniques and Tools
 
 在封面变成一条龙后，被称为 dragon book. 
 
 ![img](http://images.gr-assets.com/books/1387666736l/703102.jpg)
 
-# Programming Languages
+## Programming Languages
 * 1978 C程序设计语言 The C programming Language
 
-# Programming ?? (not science)
+## Programming ?? (not science)
 * 1984 计算机程序的构造和解释 Structure and Interpretation of Computer Programs
 * 1986 编程珠玑 Programming pearls
 * 1993 代码大全 Code Complete
 
-# Algorithms
+## Algorithms
 * 1968 The Art of Computer Programming
 * 1974 The Design and Analysis of Computer Algorithms
 * 1983 Data Structures and Algorithms
@@ -74,22 +74,22 @@ tags: books
 * 1990 Introduction to Algorithms
 * 1996 Data Structures and Algorithm Analysis in C
 
-# Computational complexity theory 计算复杂度理论
+## Computational complexity theory 计算复杂度理论
 * 1979 Computers and Intractability: A Guide to the Theory of NP-Completeness
 * 1994 Computational Complexity
 
-# Networking 网络
+## Networking 网络
 * TCP/IP详解 卷1：协议
 
-# Artificial Intelligence
+## Artificial Intelligence
 * 1994 人工智能：一种现代方法 Artificial Intelligence: A modern approach
 
-# Database 数据库
+## Database 数据库
 * 1980 Principles of Database & Knowledge-Base Systems, Vol. 1: Classical Database Systems
 * 1987 Database System Concepts
 * 2001 数据库系统全书 Database Systems: The Complete Book
 
-# Software engineering 软件工程
+## Software engineering 软件工程
 * 1975 人月神话 The Mythical Man-Month: Essays on Software Engineering 
 * 1994 设计模式 Design Patterns: Elements of Reusable Object-Oriented Software
 * 1999 程序员修炼之道 The Pragmatic Programmer: From Journeyman to Master
@@ -98,7 +98,7 @@ tags: books
 * 2004 软件随想录 Joe on software
 * 重构：既有代码的改善 Refactoring: Improving the Design of Existing Code 
 
-# 膜计算 Membrane Computing ???
+## 膜计算 Membrane Computing ???
 * 2002 膜计算导论 Membrane Computing - An Introduction
 
 
