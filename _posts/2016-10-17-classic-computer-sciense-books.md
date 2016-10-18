@@ -30,7 +30,7 @@ tags: books
 * Concrete Mathematics 具体数学
 * Discrete Mathematics and its Applications 离散数学及其应用
 
-## Computability 可计算性
+## Computability 计算理论
 * Alan Turing (1937) “On computable numbers, with an application to the Entscheidungsproblem”
 * (1979) 自动机理论、语言和计算导论  Introduction to Automata Theory, Languages, and Computation
 
@@ -40,6 +40,9 @@ tags: books
 
 ## Information theory 信息论
 * Shannon, C.E. (1948)  "A mathematical theory of communication"
+* Hamming, Richard (1950) "Error detecting and error correcting codes"
+* Huffman, D. (1952). "A Method for the Construction of Minimum-Redundancy Codes"
+* Ziv, J.; Lempel, A. (1977). "A universal algorithm for sequential data compression"
 * 1991 Elements of Information Theory
 
 ## Computer Architecture 计算机架构
@@ -47,9 +50,9 @@ tags: books
 
 ## Operating System 操作系统
 * 1974 操作系统设计与实现 Operating Systems Design and Implementation
+* 1992 UNIX环境高级编程 Advanced Programming in the UNIX Environment
 * 1992 现代操作系统 Modern Operating Systems
 * 2002 深入理解计算机系统 Computer Systems:A Programmer's Perspective
-* 1992 UNIX环境高级编程 Advanced Programming in the UNIX Environment
 
 ## Compilers 编译原理
 * 1986 Compilers: Principles, Techniques and Tools
@@ -81,9 +84,6 @@ tags: books
 ## Networking 网络
 * TCP/IP详解 卷1：协议
 
-## Artificial Intelligence
-* 1994 人工智能：一种现代方法 Artificial Intelligence: A modern approach
-
 ## Database 数据库
 * 1980 Principles of Database & Knowledge-Base Systems, Vol. 1: Classical Database Systems
 * 1987 Database System Concepts
@@ -94,15 +94,21 @@ tags: books
 * 1994 设计模式 Design Patterns: Elements of Reusable Object-Oriented Software
 * 1999 程序员修炼之道 The Pragmatic Programmer: From Journeyman to Master
 
-面向对象程序设计的经典。当你使用动态语言时，则并不必要
+面向对象程序设计的经典。但当你使用动态语言时，会发现部分模式是不必要的
+
 * 2004 软件随想录 Joe on software
 * 重构：既有代码的改善 Refactoring: Improving the Design of Existing Code 
+
+## Artificial Intelligence
+* 1994 人工智能：一种现代方法 Artificial Intelligence: A modern approach
 
 ## 膜计算 Membrane Computing ???
 * 2002 膜计算导论 Membrane Computing - An Introduction
 
 
 参考:
-https://en.wikipedia.org/wiki/List_of_important_publications_in_computer_science#Artificial_intelligence
-http://www.goodreads.com/list/show/2205.Essential_Books_of_Computer_Science
-https://www.goodreads.com/shelf/show/game-development
+[ACM: 经典出版物](http://dl.acm.org/classics.cfm)
+[维基百科：计算机科学重要出版物](https://en.wikipedia.org/wiki/List_of_important_publications_in_computer_science)
+[维基百科：理论计算机科学重要出版物](https://en.wikipedia.org/wiki/List_of_important_publications_in_theoretical_computer_science)
+[Goodreads: 必备计算机科学书籍列表](http://www.goodreads.com/list/show/2205.Essential_Books_of_Computer_Science)
+[Goodreads: 游戏开发](https://www.goodreads.com/shelf/show/game-development)
