@@ -27,8 +27,14 @@ tags: books
 * A History of Computing in the Twentieth Century
 
 ## Mathematics 数学
-* Concrete Mathematics 具体数学
-* Discrete Mathematics and its Applications 离散数学及其应用
+* 300 BC 几何原本 Elements
+* 1687 自然哲学的数学原理 Philosophiae Naturalis Principia Mathematica
+* 1965 微积分和数学分析引论 Introduction to Calculus and Analysis (Richard Courant / Fritz John)
+* 1976 线性代数及其应用（侯自新 译）Linear Algebra and Its Applications (Gilbert Strang)
+* 1988 具体数学 Concrete Mathematics
+* 1995 线性代数应该这样学 Linear Algebra Done Right
+* (当下流行) 托马斯微积分 Thomas calculus
+* (当下流行) 初等概率论 
 
 ## Computability 计算理论
 * Alan Turing (1937) “On computable numbers, with an application to the Entscheidungsproblem”
@@ -69,7 +75,7 @@ tags: books
 * 1986 编程珠玑 Programming pearls
 * 1993 代码大全 Code Complete
 
-## Algorithms
+## Algorithms 算法
 * 1968 The Art of Computer Programming
 * 1974 The Design and Analysis of Computer Algorithms
 * 1983 Data Structures and Algorithms
@@ -112,3 +118,4 @@ tags: books
 [维基百科：理论计算机科学重要出版物](https://en.wikipedia.org/wiki/List_of_important_publications_in_theoretical_computer_science)
 [Goodreads: 必备计算机科学书籍列表](http://www.goodreads.com/list/show/2205.Essential_Books_of_Computer_Science)
 [Goodreads: 游戏开发](https://www.goodreads.com/shelf/show/game-development)
+[维基百科：数学著作列表](https://zh.wikipedia.org/wiki/数学著作列表)
