@@ -68,7 +68,10 @@ theme: yilia
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type:
+  type: git
+  repo: git@github.com:guileen/guileen.github.com.git
+  branch: master
+  #message: Site updated: {{ now('YYYY-MM-DD HH:mm:ss')  }}
 
 theme_config:
 # Header
