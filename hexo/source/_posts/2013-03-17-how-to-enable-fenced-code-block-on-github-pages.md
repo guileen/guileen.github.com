@@ -35,11 +35,13 @@ end
 ```
 to:
 
+{% raw %}
 {% highlight ruby linenos=table %}
 def foo
   puts 'foo'
 end
 {% endhighlight %}
+{% endraw %}
 
 如你所见，鄙人想增加行号，但是失败了。
 

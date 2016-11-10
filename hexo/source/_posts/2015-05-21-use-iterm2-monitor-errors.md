@@ -1,5 +1,5 @@
 ---
-title:使用iterm监控错误
+title: 使用iterm监控错误
 layout: post
 published: true
 categories: 
