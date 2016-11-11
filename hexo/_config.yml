@@ -63,7 +63,7 @@ pagination_dir: page
 # Extensions
 ## Plugins: https://hexo.io/plugins/
 ## Themes: https://hexo.io/themes/
-theme: yilia
+theme: my-yilia
 
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
@@ -120,6 +120,9 @@ theme_config:
 #是否开启分享
   share_jia: true
   share_addthis: false
+
+  wb_comment: true
+
   smart_menu:
     innerArchive: '所有文章'
     tagcloud: '标签'
