@@ -2,8 +2,8 @@
 title: Android UI 动画
 layout: post
 published: true
-categories: 
-tags: Android animation UI
+categories:
+tags: Android, UI
 ---
 
 UI动画不同于游戏动画。我们不能把全部精力放在动画上，因此必须要让开发动画的成本降到最低。作为一个懒人，必须要搜索一些现成的库了。
