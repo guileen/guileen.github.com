@@ -68,9 +68,16 @@ theme: my-yilia
 # Deployment
 ## Docs: https://hexo.io/docs/deployment.html
 deploy:
-  type: git
+- type: git
   repo: git@github.com:guileen/guileen.github.com.git
   branch: master
+  #message: Site updated: {{ now('YYYY-MM-DD HH:mm:ss')  }}
+- type: rsync
+  host: leengui.com
+  user: root
+  root: /var/www/leengui.com
+  delete: true
+  verbose: true
   #message: Site updated: {{ now('YYYY-MM-DD HH:mm:ss')  }}
 
 theme_config:
