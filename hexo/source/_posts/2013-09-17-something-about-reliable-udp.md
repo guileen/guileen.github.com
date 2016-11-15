@@ -2,7 +2,7 @@
 title: 关于UDP的一些事
 layout: post
 published: true
-categories: network
+categories:
 tags: [udp, network]
 ---
 

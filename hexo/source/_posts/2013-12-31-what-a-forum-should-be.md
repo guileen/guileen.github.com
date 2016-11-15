@@ -2,7 +2,7 @@
 title: 论坛应该是一个什么东西？
 layout: post
 published: false
-categories: design
+categories:
 tags: [design]
 ---
 

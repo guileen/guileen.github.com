@@ -2,7 +2,7 @@
 title: Etag与Last-Modified以及浏览器永久缓存的比较
 layout: post
 published: true
-categories: web
+categories:
 tags: HTTP
 ---
 

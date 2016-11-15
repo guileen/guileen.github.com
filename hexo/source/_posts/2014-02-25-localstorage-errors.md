@@ -2,7 +2,7 @@
 title: LocalStorage的异常处理
 layout: post
 published: true
-categories: web
+categories:
 tags: [web]
 ---
 
