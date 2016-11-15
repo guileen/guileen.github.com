@@ -3,7 +3,7 @@ title: MurmurHash 算法
 layout: post
 published: true
 categories: 
-tags: algorithm
+tags: [algorithm, hash]
 ---
 
 发现一个不错的hash算法，可以用于我们的实际工作中，如sharding。

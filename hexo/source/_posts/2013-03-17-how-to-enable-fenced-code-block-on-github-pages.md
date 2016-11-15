@@ -3,7 +3,7 @@ title: How to enable fenced code block in github pages
 layout: post
 published: true
 categories: 
-tags: github
+tags: [blog]
 ---
 
 [Github pages最近升级了jekyll 0.12.0](https://github.com/blog/1366-github-pages-updated-to-jekyll-0-12-0), 这一版本支持fenced code block.

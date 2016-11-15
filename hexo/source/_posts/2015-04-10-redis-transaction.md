@@ -3,7 +3,7 @@ title: Redis事务
 layout: post
 published: true
 categories: 
-tags: 
+tags: [architecture]
 ---
 
 Redis不支持Rollback，但是redis有更轻量的方法满足常见的我们对事务需求。

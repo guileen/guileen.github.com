@@ -3,7 +3,7 @@ title: Nginx解决跨域问题
 layout: post
 published: true
 categories: 
-tags: 
+tags: [nginx]
 ---
 
 Nginx 根据条件设置跨域访问权限

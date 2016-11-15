@@ -3,7 +3,7 @@ title: 配置文件格式比较
 layout: post
 published: true
 categories: 
-tags: 
+tags: data-format
 ---
 
 1. java项目用的比较多的是 XML、properties，容错性很差，配置起来相当痛苦。

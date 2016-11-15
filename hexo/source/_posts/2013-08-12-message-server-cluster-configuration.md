@@ -3,7 +3,7 @@ title: 消息服务器集群的管理
 layout: post
 published: true
 categories: 
-tags: 
+tags: [IM, cluster, architecture]
 ---
 
 N台服务器，N > 10，相互之间会有通信，每台服务器都会开启数个进程监听数个端口用于接收来自其他服务器的消息。每个进程都必须设置一个id，其他服务器发送消息时需要根据目标服务器的id获取该id对应的进程ip和port。

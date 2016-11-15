@@ -3,7 +3,7 @@ title: Etag与Last-Modified以及浏览器永久缓存的比较
 layout: post
 published: true
 categories: web
-tags: web
+tags: HTTP
 ---
 
 Etag 和 Last-Modified 的功效类似，但是Etag出现较晚。

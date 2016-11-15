@@ -1,9 +1,9 @@
 ---
-title:
+title: ffmpeg 视频转码
 layout: post
 published: true
 categories: 
-tags: 
+tags: [tools, ffmpeg, video]
 ---
 
 see https://www.virag.si/2012/01/web-video-encoding-tutorial-with-ffmpeg-0-9/

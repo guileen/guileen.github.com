@@ -3,7 +3,7 @@ title: 幂等性和非幂等性操作
 layout: post
 published: true
 categories: 
-tags: 
+tags: [architecture]
 ---
 感谢hprose 作者 @andot 给我科普了幂等性和非幂等性的概念。这是由以下问题的讨论开始的。
 

@@ -3,7 +3,7 @@ title: 我最喜欢的编程字体
 layout: post
 published: true
 categories: 
-tags: 
+tags: [editor, font]
 ---
 Monospace:
 

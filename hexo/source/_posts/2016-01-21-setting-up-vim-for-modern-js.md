@@ -3,7 +3,7 @@ title: vim现代js设置
 layout: post
 published: true
 categories: 
-tags: 
+tags: [vim, editor]
 ---
 
 Install vim plugin: yajs editorconfig-vim

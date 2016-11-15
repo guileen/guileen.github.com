@@ -2,8 +2,8 @@
 title: GameObject properties adapter ———— 游戏数值开发要点
 layout: post
 published: true
-categories: game
-tags: game
+categories:
+tags: [game-dev]
 ---
 
 游戏数值是动态的，可叠加的，物品，天赋，被动技能，Buff，光环，都会改变一个GameObject的属性。

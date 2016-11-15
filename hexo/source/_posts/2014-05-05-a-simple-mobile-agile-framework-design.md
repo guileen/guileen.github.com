@@ -3,7 +3,7 @@ title: 一个移动端快速原型开发框架
 layout: post
 published: false
 categories: 
-tags: android, ios, agile
+tags: [android, ios, agile]
 ---
 
 有许多想法，但是不能快速实现美观的原型，感觉很郁闷。构思了一个基于webview的原型开发框架。以期提高原型的开发效率。

@@ -3,7 +3,7 @@ title: ddz AI notes
 layout: post
 published: true
 categories: 
-tags: 
+tags: [棋牌, AI]
 ---
 \`C\` is all cards.
 

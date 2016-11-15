@@ -3,7 +3,7 @@ title: Simple node mongodb driver design principle
 layout: post
 published: false
 categories: 
-tags: 
+tags: [node.js, mongodb]
 ---
 
     A db driver is used to maintain connections to db server, translate command and response from protocol, export usable API to make high level service. 

@@ -3,7 +3,7 @@ title: 频率限制算法
 layout: post
 published: true
 categories: 
-tags: 
+tags: [algorithms, architecture]
 ---
 
 实现接口访问频率限制并不难，只要一些计数器，计时器就可以了。但接口频率限制的目的是减少IO，所以，如果能够在不增加IO的情况下做到频率限制才是完美的，但在集群环境下，这一算法并不精确，但我认为这种损失是值得的。

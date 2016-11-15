@@ -3,7 +3,7 @@ title: 一种声形输入法设计
 layout: post
 published: true
 categories: 
-tags: 
+tags: [input-methods]
 ---
 
 ## 总体规则

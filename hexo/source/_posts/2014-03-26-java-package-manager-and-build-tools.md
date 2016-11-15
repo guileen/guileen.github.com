@@ -3,7 +3,7 @@ title: Java包管理和構建工具
 layout: post
 published: true
 categories: 
-tags: java build tools
+tags: [java, CI]
 ---
 
 雖然不喜歡JAVA，但是想學Android，還是要重新撿起來它。但是已經習慣了npm如此方便的包管理工具的人已經無法適應沒有npm的生活了。

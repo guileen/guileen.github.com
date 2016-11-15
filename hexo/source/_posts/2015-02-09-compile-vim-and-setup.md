@@ -3,7 +3,7 @@ title: 编译vim
 layout: post
 published: true
 categories: 
-tags: 
+tags: [vim, editor]
 ---
 
 lua, python, ruby, perl 都必须支持

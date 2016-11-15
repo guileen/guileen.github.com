@@ -3,7 +3,7 @@ title: Unix signals
 layout: post
 published: true
 categories: 
-tags: 
+tags: [linux]
 ---
 转载: http://blog.csdn.net/ljx0305/article/details/2904056
 

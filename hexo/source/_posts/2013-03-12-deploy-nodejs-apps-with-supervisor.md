@@ -3,7 +3,7 @@ title: Deploy node.js apps with supervisor
 layout: post
 published: true
 categories: 
-tags: SA
+tags: [linux, CD]
 ---
 
 许多的文章介绍Node应用部署都是使用upstart 或是手动编写 init script, 我个人是很不习惯为每个应用去配置启动脚本。

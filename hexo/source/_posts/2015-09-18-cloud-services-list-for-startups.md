@@ -3,7 +3,7 @@ title: 第三方服务列表
 layout: post
 published: true
 categories: 
-tags: 云计算
+tags: [cloud-services]
 ---
 
 ## DNS
@@ -40,11 +40,11 @@ dnspod.cn    119.29.29.29 HTTPDNS
 * nexmo.com   全球, 便宜
 * http://www.chanzor.com/ 畅卓
 * http://emailcar.net/  EDM 邮件营销
+* 大汉三通
 
-## API
-* 环信        即时通讯
-* 友盟        统计
-* fabric      错误统计
+## 即时通讯
+* 环信
+
 
 ## 云加速
 cloudflare
@@ -58,12 +58,13 @@ cloudflare
 * 友盟
 * LeakCanary  java内存泄露监测
 
-## 统计
+## 统计 & 崩溃收集
 * Talkingdata
 * GrowingIO
 * Sensors Analytics
 * 诸葛io
 * 友盟
+* fabric      错误统计
 
 ## 云后端
 * bmob.cn     (特色)无需第三方，快速申请支付渠道（5%费率）
@@ -86,12 +87,18 @@ cloudflare
 
 ## 直播云
 * 七牛
+* [声网](www.agora.io)
 * 乐视
 * 腾讯
 * 百度
 * UCloud
 * 网宿
 * 金山 & JSYLive_iOS
+
+## 机器学习
+* 图普
+* 同盾
+
 
 ## 短视频拍摄
 * 趣拍

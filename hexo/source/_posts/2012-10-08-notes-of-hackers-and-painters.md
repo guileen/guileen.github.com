@@ -3,7 +3,7 @@ title: 《黑客与画家》读后感
 layout: post
 published: true
 categories: 
-tags: 
+tags: books
 ---
 
 《黑客与画家——硅谷创业之父Paul Graham文集》英文原名是 《Hackers and Painters —— Big ideas from the computer age》，中文版由[阮一峰](http://www.ruanyifeng.com/blog/)翻译。

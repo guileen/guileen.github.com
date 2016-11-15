@@ -3,7 +3,7 @@ title: node.js events scope
 layout: post
 published: true
 categories: 
-tags: 
+tags: node.js
 ---
 
 Below code display `world`, it means that the scope of node.js event listener is just the event emmitter itself.

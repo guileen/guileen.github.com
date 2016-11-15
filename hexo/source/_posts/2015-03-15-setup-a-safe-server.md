@@ -3,7 +3,7 @@ title: 入侵检测
 layout: post
 published: true
 categories: 
-tags: 
+tags: [security]
 ---
 
 fail2ban

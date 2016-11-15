@@ -3,7 +3,7 @@ title: RTMP学习
 layout: post
 published: true
 categories: 
-tags: 
+tags: [live-dev]
 ---
 
 [iOS rtmp lib](https://github.com/slavavdovichenko/MediaLibDemos3x)

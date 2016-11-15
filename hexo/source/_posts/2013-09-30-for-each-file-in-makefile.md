@@ -3,7 +3,7 @@ title: For each files in the Makefile
 layout: post
 published: true
 categories: 
-tags: make, build
+tags: [makefile, CI]
 ---
 
 在构建项目时，时常需要遍历某个文件夹下的文件，按特定的方式将其预处理，变为一个新文件。

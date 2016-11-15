@@ -3,7 +3,7 @@ title: 为测试而架构
 layout: post
 published: true
 categories: 
-tags: 
+tags: [architecture]
 ---
 
 软件架构的目标是什么？为了解耦？解耦的目标是为了什么？为了测试！

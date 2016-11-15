@@ -3,7 +3,7 @@ title: Game server architecture
 layout: post
 published: true
 categories: 
-tags: game
+tags: [game-dev]
 ---
 
 * ✓ Router

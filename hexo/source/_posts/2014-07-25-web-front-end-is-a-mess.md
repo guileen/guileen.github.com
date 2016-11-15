@@ -3,7 +3,7 @@ title: web前端脏乱差及其解决之道
 layout: post
 published: true
 categories: 
-tags: web, 前端, 软件工程
+tags: [web, software-engineering]
 ---
 
 ## 这是一个软件工程问题

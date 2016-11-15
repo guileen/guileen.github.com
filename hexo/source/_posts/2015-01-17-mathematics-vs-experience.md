@@ -3,7 +3,7 @@ title: 数学与直觉
 layout: post
 published: true
 categories: 
-tags: 
+tags: [哲学, mathematics]
 ---
 
 数学与直觉到底哪个更可靠？

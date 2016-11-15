@@ -3,7 +3,7 @@ title: 全栈工程师工具链
 layout: post
 published: true
 categories: 
-tags: js
+tags: [js]
 ---
 
 ## js语言

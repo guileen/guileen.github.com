@@ -3,7 +3,7 @@ title: Go语言的日期格式化问题
 layout: post
 published: true
 categories: 
-tags: Golang
+tags: [go]
 ---
 
 Go语言的日期格式化是非常特别的（奇葩），不过也是很聪明的。

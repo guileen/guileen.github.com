@@ -3,7 +3,7 @@ title: compile ledis
 layout: post
 published: true
 categories: 
-tags: 
+tags: [SA]
 ---
 
 ledis 很简单，安装leveldb比较麻烦

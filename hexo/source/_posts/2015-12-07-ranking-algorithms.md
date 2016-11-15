@@ -1,9 +1,9 @@
 ---
-title:
+title: 排名算法
 layout: post
 published: true
 categories: 
-tags: 
+tags: [algorithms]
 ---
 
 机器学习来做排名运营机器人，做内容排名推荐。时间衰减 t, t^2、用户评价、VIP用户推荐、专家用户推荐(用户加权评价，每个用户权重不同）、分词,话题,信息熵机器学习估算、编辑推荐。

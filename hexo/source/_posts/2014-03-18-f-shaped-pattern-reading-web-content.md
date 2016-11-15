@@ -3,7 +3,7 @@ title: 尼爾森F模型
 layout: post
 published: true
 categories: 
-tags: 
+tags: [marketing]
 ---
 
 尼爾森F模型，是根據眼球追蹤技術的實驗數據得出的結論，即人類在瀏覽網頁時通常遵循先橫向再縱向再橫向的模式。

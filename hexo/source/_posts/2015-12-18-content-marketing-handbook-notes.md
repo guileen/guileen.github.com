@@ -3,7 +3,7 @@ title: 《内容营销手册》笔记
 layout: post
 published: true
 categories: 
-tags: 
+tags: [marketing]
 ---
 
 # The Content Marketing Handbook Summary Notes

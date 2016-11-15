@@ -3,7 +3,7 @@ title: Kingshard阅读笔记
 layout: post
 published: true
 categories: mysql
-tags: mysql
+tags: [go, mysql]
 ---
 
 KingShard 是 mysql 代理，可实现分库分表等功能。但因业务复杂，无法使用，故阅读其源码，以便修改。

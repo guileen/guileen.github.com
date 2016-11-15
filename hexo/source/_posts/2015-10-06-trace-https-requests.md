@@ -3,7 +3,7 @@ title: How to trace http request
 layout: post
 published: true
 categories: 
-tags: 
+tags: [network, hack]
 ---
 
 使用 mitmproxy https://mitmproxy.org/

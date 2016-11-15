@@ -3,7 +3,7 @@ title: 小游戏1024的AI数学模型
 layout: post
 published: true
 categories: 
-tags: algorithm, mathematics
+tags: [algorithm, mathematics]
 ---
 
 ## 游戏规则

@@ -3,7 +3,7 @@ title: 集群运维工具
 layout: post
 published: true
 categories: 
-tags: 
+tags: [SA]
 ---
 
 [17ce](www.17ce.com)

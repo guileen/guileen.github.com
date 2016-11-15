@@ -3,7 +3,7 @@ title: redis leveldb
 layout: post
 published: true
 categories: 
-tags: NoSQL
+tags: nosql
 ---
 
 redis protocol + leveldb storage = perfect key/value database

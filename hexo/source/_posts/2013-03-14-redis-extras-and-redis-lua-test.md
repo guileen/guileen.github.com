@@ -3,7 +3,7 @@ title: Redis-extras and script test
 layout: post
 published: true
 categories: 
-tags: 
+tags: [node.js, redis]
 ---
 
 redis-mock

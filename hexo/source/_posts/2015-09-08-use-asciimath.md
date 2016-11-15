@@ -3,7 +3,7 @@ title:  使用Asciimath来编辑数学公式
 layout: post
 published: true
 categories: 
-tags: 
+tags: [mathematics]
 ---
 
 

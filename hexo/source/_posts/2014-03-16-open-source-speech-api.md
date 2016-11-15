@@ -3,7 +3,7 @@ title: 开源语音识别引擎
 layout: post
 published: true
 categories: 
-tags: 
+tags: [machine-learning, editor]
 ---
 
 大部分的语音识别引擎是收费的，或者是闭源的。google speech API不适合做语音控制系统，只适合识别日常语言。julius是一个日本人开发的语音识别引擎，GPL协议，看起来不错，决定研究一下。

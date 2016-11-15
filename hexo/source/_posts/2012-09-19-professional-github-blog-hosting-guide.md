@@ -1,7 +1,7 @@
 ---
 title: github博客專業教程
 layout: post
-tags: github
+tags: [blog]
 ---
 
 ## 準備知識

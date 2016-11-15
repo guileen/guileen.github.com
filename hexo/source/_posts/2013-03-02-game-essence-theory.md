@@ -3,7 +3,7 @@ title: 网络游戏本质论
 layout: post
 published: true
 categories: 
-tags: 
+tags: [game-design]
 ---
 
 网络游戏的本质是什么？

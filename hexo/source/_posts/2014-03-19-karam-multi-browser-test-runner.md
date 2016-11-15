@@ -3,7 +3,7 @@ title: Karam：多瀏覽器平臺的測試工具
 layout: post
 published: true
 categories: 
-tags: web, 前端
+tags: [web]
 ---
 
 nodejs讓js脫離了瀏覽器，它的包管理工具npm讓js代碼能夠更好的分享，此後前端開發因此產生了巨大的變革。

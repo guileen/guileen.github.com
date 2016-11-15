@@ -2,8 +2,8 @@
 title: Android反向工程
 layout: post
 published: true
-categories: 
-tags: 
+categories:
+tags: android
 ---
 
 https://ibotpeaches.github.io/Apktool/

@@ -3,7 +3,7 @@ title: 如何在Keynote中高亮代码
 layout: post
 published: true
 categories: 
-tags: 
+tags: [tools, slide]
 ---
 
 要想在keynote中粘贴高亮的代码，你必须粘贴一个RTF的文本。Mac上有两种办法来复制一个高亮的RTF文本。

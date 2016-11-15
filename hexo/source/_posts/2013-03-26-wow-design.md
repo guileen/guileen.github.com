@@ -3,7 +3,7 @@ title: 再探魔兽世界
 layout: post
 published: true
 categories: 
-tags: 
+tags: [game, game-design]
 ---
 
 日常任务

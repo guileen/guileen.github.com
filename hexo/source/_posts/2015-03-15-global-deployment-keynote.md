@@ -3,7 +3,7 @@ title: 全球部署要点
 layout: post
 published: true
 categories: 
-tags: 
+tags: [architecture]
 ---
 
 NSServer domain : 就近请求DNS

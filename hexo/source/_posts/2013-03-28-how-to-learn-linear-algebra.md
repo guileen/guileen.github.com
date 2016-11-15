@@ -3,7 +3,7 @@ title: 如何学习线性代数
 layout: post
 published: true
 categories: 
-tags: 
+tags: [mathematics]
 ---
 
 曾经看了几本线性代数的书和视频，但是越看越迷惑，大多是直接上来说定义和公式，不了解线性代数的几何意义和应用。

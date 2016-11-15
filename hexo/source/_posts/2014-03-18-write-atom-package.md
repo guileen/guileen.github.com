@@ -3,7 +3,7 @@ title: 编写atom插件
 layout: post
 published: true
 categories: 
-tags: 
+tags: [editor, atom]
 ---
 
 Atom 是github开发的编辑器，号称21世纪hackable编辑器。近日对其hack了一下，增加了一个命令行。

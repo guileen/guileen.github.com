@@ -3,7 +3,7 @@ title: MySQL cluster proxy
 layout: post
 published: true
 categories: 
-tags: mysql
+tags: [mysql, architecture]
 ---
 
 MySQL 的中间件

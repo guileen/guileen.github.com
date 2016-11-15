@@ -3,7 +3,7 @@ title: 希腊字母在QWERTY键盘上的布局
 layout: post
 published: true
 categories: 
-tags: 
+tags: [greek, mathematics]
 ---
 
 在做数学学习时，有时需要输入希腊字母，熟练掌握希腊字母的输入法有利于提高效率。Mac内置了希腊输入法，以下是在qwerty键盘上的布局。

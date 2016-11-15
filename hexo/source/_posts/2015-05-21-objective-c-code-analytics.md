@@ -3,7 +3,7 @@ title: Objective-C 代码质量分析
 layout: post
 published: true
 categories: 
-tags: 
+tags: [CI, Objective-C, iOS]
 ---
 
 install [oclint](http://oclint.org/)

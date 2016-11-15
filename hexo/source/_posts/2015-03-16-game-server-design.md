@@ -3,7 +3,7 @@ title: 游戏服务器设计
 layout: post
 published: true
 categories: 
-tags: 
+tags: [game, game-dev]
 ---
 
 近日看到一文章说起游戏数据库怎么设计，mysql？mongodb？这篇文章说，做游戏根本不需要数据库, 直接写一个文件save、load。回想我曾经做过的两个游戏服务器，基本上数据库承担的角色就是Save/Load。

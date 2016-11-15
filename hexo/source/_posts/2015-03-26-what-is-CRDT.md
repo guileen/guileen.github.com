@@ -3,7 +3,7 @@ title: 【转】什么是CRDT
 layout: post
 published: true
 categories: 
-tags: 
+tags: [architecture]
 ---
 
 [原文](http://liyu1981.github.io/what-is-CRDT/)

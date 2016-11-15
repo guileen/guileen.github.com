@@ -3,7 +3,7 @@ title: 数据抽象层设计
 layout: post
 published: true
 categories: 
-tags: 
+tags: [architecture]
 ---
 
 数据层的封装

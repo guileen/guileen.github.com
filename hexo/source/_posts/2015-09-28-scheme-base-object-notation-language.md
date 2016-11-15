@@ -3,7 +3,7 @@ title: Scheme base notation language
 layout: post
 published: true
 categories: 
-tags: 
+tags: [data-format]
 ---
 
 We use XML, JSON, BSON, MsgPack, Protobuf to transfer structured data. They have issues with effeciant or readability. I always think about that are there any better way to describe structured data clearly and effeciant.

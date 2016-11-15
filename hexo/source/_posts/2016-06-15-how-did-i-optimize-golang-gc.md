@@ -3,7 +3,7 @@ title: Go语言的GC优化技巧
 layout: post
 published: true
 categories: 
-tags: golang
+tags: [go]
 ---
 
 GC只要不出问题，就不会有人关心GC的问题，但如果GC出了问题，想要优化它却不是一件容易的事情。我最近就遇到了Golang GC问题，经过一系列的尝试终于将应用性能优化了300%的。你一定会觉得性能优化300%，那之前的代码得写的多烂啊。坦白的说，之前的代码虽然未做优化，但并没有大的问题。

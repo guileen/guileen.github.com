@@ -3,7 +3,7 @@ title: Cursor 与 Page
 layout: post
 published: true
 categories: 
-tags: 
+tags: [architecture]
 ---
 
 分页是一个非常普通的业务需求。对于一个有大量数据的列表，我们必须分段查看数据。在API层面的设计上，一般会使用 page, limit 两个参数来控制分页。

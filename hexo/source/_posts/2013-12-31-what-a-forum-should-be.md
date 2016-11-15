@@ -3,7 +3,7 @@ title: 论坛应该是一个什么东西？
 layout: post
 published: false
 categories: design
-tags: 产品
+tags: [design]
 ---
 
     论坛应该是一个什么东西？是一个私人花园，还是一个广场，是一个化妆舞会，还是一个主题公园。

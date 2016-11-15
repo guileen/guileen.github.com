@@ -3,7 +3,7 @@ title: 游戏赌博设计
 layout: post
 published: true
 categories: 
-tags: game
+tags: [game-design]
 ---
 
 暗黑创造了赌博系统。这个概念被暗黑刻意弱化了，赌博概率过低，页游将他发扬光大。

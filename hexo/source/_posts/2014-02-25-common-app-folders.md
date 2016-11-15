@@ -2,8 +2,8 @@
 title: 通用的項目文件結構
 layout: post
 published: true
-categories: programming
-tags: programming, node.js
+categories: 
+tags: [architecture, node.js]
 ---
 
 在項目開發過程中經常會因爲“應該將某個文件放在哪個文件夾下”，以及文件夾應該叫什麼名字這種問題而糾結。在經歷一次次痛苦糾結後，決定整理一個通用的項目文件結構。

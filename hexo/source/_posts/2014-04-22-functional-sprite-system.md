@@ -3,7 +3,7 @@ title: functional programming and sprite system
 layout: post
 published: true
 categories: 
-tags: game,html5,
+tags: [game, web]
 ---
 
 How to make a sprite system with functional programming.

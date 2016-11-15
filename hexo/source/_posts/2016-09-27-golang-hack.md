@@ -3,7 +3,7 @@ title: Golang 黑科技
 layout: post
 published: true
 categories: 
-tags: 
+tags: [go]
 ---
 
 * https://github.com/mitchellh/gox gox 跨平台交叉编译

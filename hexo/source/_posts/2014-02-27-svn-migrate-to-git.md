@@ -3,7 +3,7 @@ title: 遷移svn代碼到git
 layout: post
 published: true
 categories: 
-tags: git, svn
+tags: [git, svn]
 ---
 
 很多時候我們需要將svn代碼遷移到git。比如從[visualsvn](http://www.visualsvn.com/server/)遷移到[gitlab](http://gitlab.org)，

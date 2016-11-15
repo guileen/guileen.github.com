@@ -3,7 +3,7 @@ title: FlyRPC 协议设计
 layout: post
 published: true
 categories: 
-tags: 
+tags: [network, tcp]
 ---
 
 FlyRPC是适合高频率的通信框架。

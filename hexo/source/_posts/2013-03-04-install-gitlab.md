@@ -2,8 +2,8 @@
 title: 安装gitlab
 layout: post
 published: true
-categories: tools
-tags: tools
+categories: 
+tags: [git, gitlab, CI]
 ---
 
 跟着安装文档一步步的安装，但是遇到了几个坑。

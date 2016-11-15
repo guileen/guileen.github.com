@@ -3,7 +3,7 @@ title: DDoS 防御笔记
 layout: post
 published: true
 categories: 
-tags: 
+tags: [SA, security, DDoS]
 ---
 
 DDoS 意为分布式拒绝服务攻击

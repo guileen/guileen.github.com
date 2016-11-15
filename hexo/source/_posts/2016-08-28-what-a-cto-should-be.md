@@ -2,8 +2,8 @@
 title: CTO应该是一个什么样的角色
 layout: post
 published: false
-categories: 管理
-tags: 
+categories: 
+tags: [management]
 ---
 
 

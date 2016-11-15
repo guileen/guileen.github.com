@@ -3,7 +3,7 @@ title: javascript 日期处理
 layout: post
 published: true
 categories: 
-tags: 
+tags: [js]
 ---
 
 计算两日期间的天数之差

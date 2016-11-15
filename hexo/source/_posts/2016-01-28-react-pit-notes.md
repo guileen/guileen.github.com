@@ -3,7 +3,7 @@ title: React相关坑记录
 layout: post
 published: true
 categories: 
-tags: 
+tags: [React]
 ---
 
 ## 空组件
