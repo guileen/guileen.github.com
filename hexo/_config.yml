@@ -84,6 +84,7 @@ theme_config:
 # Header
   menu:
     主页: /
+    课程: /course/
     #随笔: /tags/随笔
 
 # SubNav
