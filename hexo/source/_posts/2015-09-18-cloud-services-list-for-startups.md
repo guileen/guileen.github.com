@@ -2,7 +2,7 @@
 title: 第三方服务列表
 layout: post
 published: true
-categories: 
+categories:
 tags: [cloud-services]
 ---
 
@@ -77,7 +77,7 @@ cloudflare
 ## 电商云
 * wemart 微猫
 * 微猫： http://www.wemart.cn，饿了么，暴走漫画在使用 ，适合app开店
-* 淘宝客：http://ad.alimama.com/index.htm 陌陌早期过度 
+* 淘宝客：http://ad.alimama.com/index.htm 陌陌早期过度
 * 有赞：https://open.youzan.com/sdk/home  玲珑在用，适合
 * 欧电云: http://odianyun.com/ 1号店团队出来搞的一个云电商
 
@@ -109,6 +109,14 @@ cloudflare
 ## 管理
 * 钉钉
 * 闪电报销
+
+## Dropbox 替代
+* [pydio](https://pydio.com)
+* [seafile](https://seafile.com)
+* [syncthing](syncthing.net) 开源, 部署略复杂
+
+## trello 开源替代
+* [wekan](https://github.com/wekan/wekan)
 
 ## slack 开源替代
 * https://rocket.chat 工具丰富，社区活跃
