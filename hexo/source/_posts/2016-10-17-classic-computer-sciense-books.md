@@ -2,7 +2,7 @@
 title: 计算机科学经典书籍
 layout: post
 published: true
-categories: 
+categories:
 tags: books
 ---
 
@@ -34,7 +34,7 @@ tags: books
 * 1988 具体数学 Concrete Mathematics
 * 1995 线性代数应该这样学 Linear Algebra Done Right
 * (当下流行) 托马斯微积分 Thomas calculus
-* (当下流行) 初等概率论 
+* (当下流行) 初等概率论
 
 ## Computability 计算理论
 * Alan Turing (1937) “On computable numbers, with an application to the Entscheidungsproblem”
@@ -42,7 +42,7 @@ tags: books
 
 本书建议看原版
 
-* 1996 计算理论导论 Introduction to the Theory of Computation 
+* 1996 计算理论导论 Introduction to the Theory of Computation
 
 ## Information theory 信息论
 * Shannon, C.E. (1948)  "A mathematical theory of communication"
@@ -63,7 +63,7 @@ tags: books
 ## Compilers 编译原理
 * 1986 Compilers: Principles, Techniques and Tools
 
-在封面变成一条龙后，被称为 dragon book. 
+在封面变成一条龙后，被称为 dragon book.
 
 ![img](http://images.gr-assets.com/books/1387666736l/703102.jpg)
 
@@ -89,6 +89,7 @@ tags: books
 
 ## Networking 网络
 * TCP/IP详解 卷1：协议
+* UNIX网络编程
 
 ## Database 数据库
 * 1980 Principles of Database & Knowledge-Base Systems, Vol. 1: Classical Database Systems
@@ -96,14 +97,14 @@ tags: books
 * 2001 数据库系统全书 Database Systems: The Complete Book
 
 ## Software engineering 软件工程
-* 1975 人月神话 The Mythical Man-Month: Essays on Software Engineering 
+* 1975 人月神话 The Mythical Man-Month: Essays on Software Engineering
 * 1994 设计模式 Design Patterns: Elements of Reusable Object-Oriented Software
 * 1999 程序员修炼之道 The Pragmatic Programmer: From Journeyman to Master
 
 面向对象程序设计的经典。但当你使用动态语言时，会发现部分模式是不必要的
 
 * 2004 软件随想录 Joe on software
-* 重构：既有代码的改善 Refactoring: Improving the Design of Existing Code 
+* 重构：既有代码的改善 Refactoring: Improving the Design of Existing Code
 
 ## Artificial Intelligence
 * 1994 人工智能：一种现代方法 Artificial Intelligence: A modern approach

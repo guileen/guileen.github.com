@@ -98,7 +98,10 @@ cloudflare
 ## 机器学习
 * 图普
 * 同盾
+* 达观数据
 
+## 直播审核
+* 金山金睛
 
 ## 短视频拍摄
 * 趣拍
@@ -128,6 +131,12 @@ cloudflare
 ## github 开源替代
 * gitlab
 * gogs
+
+## 桌面软件&效率
+* Pomotodo
+* RescueTime
+* Teamviewer
+* Bittorrent sync
 
 [SEE]
     http://next.36kr.com/posts/collections/506?utm_source=wechat
