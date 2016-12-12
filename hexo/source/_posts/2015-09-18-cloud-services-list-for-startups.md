@@ -136,7 +136,7 @@ cloudflare
 * Pomotodo
 * RescueTime
 * Teamviewer
-* Bittorrent sync
+* Bittorrent sync https://www.resilio.com/
 
 [SEE]
     http://next.36kr.com/posts/collections/506?utm_source=wechat

@@ -105,11 +105,31 @@ tags: books
 
 * 2004 软件随想录 Joe on software
 * 重构：既有代码的改善 Refactoring: Improving the Design of Existing Code
+* 人件
+* Rework
 
 ## Artificial Intelligence
 * 1994 人工智能：一种现代方法 Artificial Intelligence: A modern approach
 
-## 膜计算 Membrane Computing ???
+### 机器学习
+* Probability Theory: The Logic of Science
+* The Elements of Statistical Learning: Data Mining, Inference, and Prediction
+* Information Theory, Inference and Learning Algorithms
+* Learning From Data: A Short Course
+* Pattern Recognition and Machine Learning
+* Probabilistic Graphical Models: Principles and Techniques
+* Mining of Massive Datasets
+* 经典 [An Introduction to Statistical Learning with Applications in R](http://www-bcf.usc.edu/~gareth/ISL/)
+* [Machine Learning: a Probabilistic Perspective](http://www.cs.ubc.ca/~murphyk/MLbook/index.html) 学习曲线平滑
+* 2016 [Deep Learning(Free HTML)](http://www.deeplearningbook.org/) [pdf](https://github.com/HFTrader/DeepLearningBook) Ian Goodfellow and Yoshua Bengio and Aaron Courville
+* http://www.youtube.com/view_play_list?p=A89DCFA6ADACE599
+* [深度学习论文]https://github.com/HFTrader/DeepLearningBook/blob/master/DeepLearningPapers.md
+
+* [Awesome machine learning books list](https://github.com/josephmisiti/awesome-machine-learning/blob/master/books.md)
+
+* [learning tensorflow](http://learningtensorflow.com/index.html)
+
+## 膜计算 Membrane Computing ??? 这是什么？
 * 2002 膜计算导论 Membrane Computing - An Introduction
 
 
