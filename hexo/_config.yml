@@ -110,7 +110,7 @@ theme_config:
 # Content
   excerpt_link: more
   fancybox: true
-  mathjax: false
+  mathjax: true # false
 
 # 是否开启动画效果
   animate: true
