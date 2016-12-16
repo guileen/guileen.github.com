@@ -2,13 +2,27 @@
 title:  使用Asciimath来编辑数学公式
 layout: post
 published: true
-categories: 
+categories:
 tags: [mathematics]
 ---
 
+## MathJax
+
+```
+When $a \ne 0$, there are two solutions to \(ax^2 + bx + c = 0\) and they are
+$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+```
+
+When $a \ne 0$, there are two solutions to \(ax^2 + bx + c = 0\) and they are
+$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$
+
+## AsciiMath
+
+```
+`a * b = c   => a = c / b => b = c / a`
+```
 
 \` a * b = c   => a = c / b => b = c / a\`
-
 
 \` a / b = c  => a = b * c\`
 
