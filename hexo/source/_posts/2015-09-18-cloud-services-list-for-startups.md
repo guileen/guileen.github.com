@@ -138,6 +138,9 @@ cloudflare
 * Teamviewer
 * Bittorrent sync https://www.resilio.com/
 
+##
+* lottie Android iOS AE动画
+
 [SEE]
     http://next.36kr.com/posts/collections/506?utm_source=wechat
     http://next.36kr.com/posts/collections/507?utm_source=wechat
