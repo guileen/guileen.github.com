@@ -10,6 +10,9 @@ tags: [cloud-services]
 cloudxns.net 优势，免费
 dnspod.cn    119.29.29.29 HTTPDNS
 
+## 红包
+云账户  可绑银行卡，收发红包
+
 ## 云计算
 * AWS     全面、专业、贵。
 * UCloud  香港亮点。支持大陆、香港、北美。专线
@@ -84,6 +87,7 @@ cloudflare
 ## 客服软件
 * 美洽
 * 网易七鱼 http://qiyukf.com/
+* UDesk
 
 ## 直播云
 * 七牛
@@ -101,7 +105,7 @@ cloudflare
 * 达观数据
 
 ## 直播审核
-* 金山金睛
+* 金山金睛 (弃)
 
 ## 短视频拍摄
 * 趣拍
@@ -140,6 +144,8 @@ cloudflare
 
 ##
 * lottie Android iOS AE动画
+* 反向定位，reverse geocode https://github.com/kno10/reversegeocode  java, openstreetmap data
+* 反向定位，reverse geocode https://github.com/thampiman/reverse-geocoder python
 
 [SEE]
     http://next.36kr.com/posts/collections/506?utm_source=wechat
