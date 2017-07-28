@@ -11,7 +11,8 @@ cloudxns.net 优势，免费
 dnspod.cn    119.29.29.29 HTTPDNS
 
 ## 红包
-云账户  可绑银行卡，收发红包
+* 云账户  可绑银行卡，收发红包
+* 爱贝收银台
 
 ## 云计算
 * AWS     全面、专业、贵。
@@ -109,6 +110,8 @@ cloudflare
 
 ## 短视频拍摄
 * 趣拍
+* 七牛
+* 百度
 
 ## 工具
 * 直播流测试工具 http://www.cutv.com/demo/live_test.swf
@@ -141,6 +144,13 @@ cloudflare
 * RescueTime
 * Teamviewer
 * Bittorrent sync https://www.resilio.com/
+
+## 运维部署
+* jekins
+* www.ansible.com
+* grafna
+* influxdb
+* ELK Elastic Search, Logstash, Kibana
 
 ##
 * lottie Android iOS AE动画
