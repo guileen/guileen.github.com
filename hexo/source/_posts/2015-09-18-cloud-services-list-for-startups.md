@@ -29,10 +29,16 @@ dnspod.cn    119.29.29.29 HTTPDNS
 * 百度云加速  免费
 * 蓝讯
 * 网宿
+* Akamai
+* PacketZoom
+* 白山云
 
 ## 云存储
 * 七牛      云存储，图片预处理API
 * 又拍云
+* 百度
+* S3 Upload Free
+* DigetalOcean
 
 ## 发送
 * www.yunpian.com 国内，国际，API规范，好
@@ -48,6 +54,7 @@ dnspod.cn    119.29.29.29 HTTPDNS
 
 ## 即时通讯
 * 环信
+* 融云
 
 
 ## 云加速
@@ -119,6 +126,10 @@ cloudflare
 ## 管理
 * 钉钉
 * 闪电报销
+
+## 项目管理
+* 禅道 zentao
+* OpenProject https://www.openproject.org/  https://github.com/opf/openproject
 
 ## Dropbox 替代
 * [pydio](https://pydio.com)
