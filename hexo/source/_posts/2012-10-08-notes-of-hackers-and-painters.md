@@ -2,7 +2,7 @@
 title: 《黑客与画家》读后感
 layout: post
 published: true
-categories: 
+categories:
 tags: books
 ---
 

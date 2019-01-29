@@ -2,7 +2,7 @@
 title: 如何学习编程
 s: how-to-learn-programming
 date: 2016-11-21 14:35:31
-tags:
+tags: [education]
 ---
 
 ## 编程入门

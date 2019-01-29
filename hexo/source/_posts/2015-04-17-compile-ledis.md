@@ -2,8 +2,8 @@
 title: compile ledis
 layout: post
 published: true
-categories: 
-tags: [SA]
+categories:
+tags: [ops]
 ---
 
 ledis 很简单，安装leveldb比较麻烦

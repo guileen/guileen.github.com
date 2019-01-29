@@ -2,7 +2,7 @@
 title: 公共画像
 s: public-avatar
 date: 2016-12-19 12:15:00
-tags:
+tags: [gossip]
 ---
 
 什么是SNS的本质？当我们看待一个SNS的时候，我们看到的是什么？

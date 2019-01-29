@@ -2,8 +2,8 @@
 title: 开源静态网站生成工具
 layout: post
 published: true
-categories: 
-tags: [blog]
+categories:
+tags: [generator]
 ---
 
 有博客订阅者反馈我的博客ATOM输出有问题，总有两篇已unpublish的博客出来诈尸。这个是个老问题，当时也是因为总是有这两篇博客捣乱所以unpublish了，但完全无效。

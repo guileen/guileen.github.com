@@ -2,7 +2,7 @@
 title: 问题汇总
 s: architect-problems
 date: 2016-11-24 14:55:49
-tags:
+tags: [ops]
 ---
 
 负责某公司技术以来，遇到了一些问题，汇总一下：

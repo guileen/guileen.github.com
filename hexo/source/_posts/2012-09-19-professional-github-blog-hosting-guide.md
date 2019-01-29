@@ -1,7 +1,7 @@
 ---
 title: github博客專業教程
 layout: post
-tags: [blog]
+tags: [generator]
 ---
 
 ## 準備知識
@@ -87,7 +87,7 @@ Mac
 
     # My configurations
     title: 桂糊涂的流水账
-    ga: UA-00000000-0 
+    ga: UA-00000000-0
 
 
 ## Step 4. \_post

@@ -2,7 +2,7 @@
 title: 配置文件格式比较
 layout: post
 published: true
-categories: 
+categories:
 tags: data-format
 ---
 

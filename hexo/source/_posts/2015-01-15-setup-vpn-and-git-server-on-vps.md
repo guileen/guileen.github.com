@@ -2,8 +2,8 @@
 title: 自己动手搭建VPN和Git仓库
 layout: post
 published: true
-categories: 
-tags: [SA, VPS]
+categories:
+tags: [ops]
 ---
 
 工作中是否想过自己动手搭建VPN服务？如果你是码农，是否想过顺便搭建个git私有仓库？

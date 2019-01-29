@@ -2,8 +2,8 @@
 title: 德州扑克策略心得
 layout: post
 published: true
-categories: 
-tags: [棋牌]
+categories:
+tags: [game]
 ---
 
 德州扑克是个概率的游戏，更是心理的游戏。

@@ -3,7 +3,7 @@ title: 你需要知道的Linux命令
 layout: post
 published: true
 categories:
-tags: linux
+tags: ops
 ---
 
 * grep

@@ -2,7 +2,7 @@
 title: Too many open files 的解决办法
 s: fix-too-many-open-files
 date: 2016-11-14 22:26:31
-tags: [linux, network, tcp]
+tags: [ops, network, tcp]
 ---
 
 在开发TCP网络应用的过程中，我们经常会遇到“Too many open files”这个问题。这说明你的程序以达到Linux所允许的打开文件数上限。你需要按照以下方式来提升：

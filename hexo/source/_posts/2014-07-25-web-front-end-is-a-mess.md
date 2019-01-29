@@ -2,8 +2,8 @@
 title: web前端脏乱差及其解决之道
 layout: post
 published: true
-categories: 
-tags: [web, software-engineering]
+categories:
+tags: [web, engineering]
 ---
 
 ## 这是一个软件工程问题

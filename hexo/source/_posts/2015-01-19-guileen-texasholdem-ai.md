@@ -2,8 +2,8 @@
 title: 桂糊涂的德州扑克AI
 layout: post
 published: true
-categories: 
-tags: [棋牌, AI]
+categories:
+tags: [game, AI]
 ---
 
 如何编写德州扑克的AI。

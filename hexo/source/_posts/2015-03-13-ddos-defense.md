@@ -2,8 +2,8 @@
 title: DDoS 防御笔记
 layout: post
 published: true
-categories: 
-tags: [SA, security, DDoS]
+categories:
+tags: [ops, security]
 ---
 
 DDoS 意为分布式拒绝服务攻击
@@ -11,7 +11,7 @@ DDoS 意为分布式拒绝服务攻击
 ## DDoS 分类：
 
 * IP欺骗攻击 利用RST位欺骗服务器大量合法用户连接错误，用户将会掉线。
-* ICMP-Flood 
+* ICMP-Flood
 * SYN-Flood
 * UDP-Flood  网络带宽耗尽攻击。
 * HTTP-Flood 又名 CC 攻击

@@ -2,8 +2,8 @@
 title: 集群运维工具
 layout: post
 published: true
-categories: 
-tags: [SA]
+categories:
+tags: [ops]
 ---
 
 [17ce](www.17ce.com)
@@ -82,7 +82,7 @@ Graylog 2：Graylog2是一个用来将系统日志syslog保存到MongoDB中的�
 Bouncy：可以作为HTTP路由主机；
 Supervisor：是一个客户端服务器系统，允许用户监控和控制类Unix操作系统上的进程数；
 God：由Ruby实现的进程监控框架。
-服务发现 
+服务发现
 Consul：简化了分布式环境中的服务的注册和发现流程，通过HTTP或者DNS接口发现。支持外部SaaS 提供者等；
 etcd：是一个高可用的Key/Value存储系统，主要用于分享配置和服务发现；
 Apache ZooKeeper：是Apache Hadoop的一个子项目，它主要是用来解决分布式应用中经常遇到的一些数据管理问题；

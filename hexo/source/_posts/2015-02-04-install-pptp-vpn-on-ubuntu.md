@@ -2,8 +2,8 @@
 title: Ubuntu安装pptp vpn 防火墙
 layout: post
 published: true
-categories: 
-tags: [SA]
+categories:
+tags: [ops]
 ---
 
 打开ufw后，pptp无法连接。转载一篇文章。[原文](http://www.darrenfang.com/2014/01/install-pptp-vpn-on-ubuntu/)

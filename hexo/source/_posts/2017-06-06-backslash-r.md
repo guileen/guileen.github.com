@@ -1,7 +1,7 @@
 ---
 title: backslash r
 date: 2017-06-06 17:28:04
-tags:
+tags: [cli]
 ---
 
 一直都知道Windows底下的换行符是 `\r\n`，Linux系统下是`\n`。

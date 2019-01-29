@@ -2,8 +2,8 @@
 title: MySQL 优化
 layout: post
 published: true
-categories: 
-tags: mysql
+categories:
+tags: ops
 ---
 
 近期mysql 主从同步延迟过高，依次进行了如下优化。

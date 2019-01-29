@@ -2,8 +2,8 @@
 title:
 layout: post
 published: true
-categories: 
-tags: [protobuf, data-format]
+categories:
+tags: [data-format]
 ---
 
 在Mac下编译protobuf-net遇到了很多问题，最终还是选择了下载预编译好的版本。

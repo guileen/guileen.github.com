@@ -2,7 +2,7 @@
 title: ffmpeg 视频转码
 layout: post
 published: true
-categories: 
+categories:
 tags: [tools, ffmpeg, video]
 ---
 

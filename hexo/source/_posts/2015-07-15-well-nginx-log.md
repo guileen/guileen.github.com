@@ -2,8 +2,8 @@
 title: Nginx log 模版
 layout: post
 published: true
-categories: 
-tags: nginx
+categories:
+tags: [ops, nginx]
 ---
 
 记录 `$upstream_addr` `$upstream_response_time` 有助于定位请求，定位延迟，定位问题。
