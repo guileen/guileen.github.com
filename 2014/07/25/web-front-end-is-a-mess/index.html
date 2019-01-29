@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="dns-prefetch" href="http://guileen.github.io">
+  <title>web前端脏乱差及其解决之道 | 桂糊涂的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="这是一个软件工程问题先吐槽一下，遇到许多所谓“软件工程师”，根本没有“软件工程”的概念，make，ant，持续集成，自动化测试，一概无视，这样的人只能称码农，不能叫软件工程师。很多牛逼的软件工程师喜欢自称程序员，导致很多菜鸟认为会写程序就足够了，殊不知“programmer”、“coder”是牛人们的谦称————不懂软件工程之人不足与之论代码。 Web前端脏乱差Web前端长期以来很混乱，虽然不断的">
+<meta name="keywords" content="web,engineering">
+<meta property="og:type" content="article">
+<meta property="og:title" content="web前端脏乱差及其解决之道">
+<meta property="og:url" content="http://guileen.github.io/2014/07/25/web-front-end-is-a-mess/index.html">
+<meta property="og:site_name" content="桂糊涂的博客">
+<meta property="og:description" content="这是一个软件工程问题先吐槽一下，遇到许多所谓“软件工程师”，根本没有“软件工程”的概念，make，ant，持续集成，自动化测试，一概无视，这样的人只能称码农，不能叫软件工程师。很多牛逼的软件工程师喜欢自称程序员，导致很多菜鸟认为会写程序就足够了，殊不知“programmer”、“coder”是牛人们的谦称————不懂软件工程之人不足与之论代码。 Web前端脏乱差Web前端长期以来很混乱，虽然不断的">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-01-29T14:51:50.020Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="web前端脏乱差及其解决之道">
+<meta name="twitter:description" content="这是一个软件工程问题先吐槽一下，遇到许多所谓“软件工程师”，根本没有“软件工程”的概念，make，ant，持续集成，自动化测试，一概无视，这样的人只能称码农，不能叫软件工程师。很多牛逼的软件工程师喜欢自称程序员，导致很多菜鸟认为会写程序就足够了，殊不知“programmer”、“coder”是牛人们的谦称————不懂软件工程之人不足与之论代码。 Web前端脏乱差Web前端长期以来很混乱，虽然不断的">
+  
+    <link rel="alternative" href="/atom.xml" title="桂糊涂的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/avatar.jpg">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">桂糊涂</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">代码杂记</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/course/">课程</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/guileen" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="https://weibo.com/guileen" title="weibo">weibo</a>
+		        
+					<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">桂糊涂</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">桂糊涂</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">代码杂记</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/course/">课程</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/guileen" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="https://weibo.com/guileen" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-web-front-end-is-a-mess" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      web前端脏乱差及其解决之道
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="这是一个软件工程问题"><a href="#这是一个软件工程问题" class="headerlink" title="这是一个软件工程问题"></a>这是一个软件工程问题</h2><p>先吐槽一下，遇到许多所谓“软件工程师”，根本没有“软件工程”的概念，make，ant，持续集成，自动化测试，一概无视，这样的人只能称码农，不能叫软件工程师。<br>很多牛逼的软件工程师喜欢自称程序员，导致很多菜鸟认为会写程序就足够了，殊不知“programmer”、“coder”是牛人们的谦称————不懂软件工程之人不足与之论代码。</p>
+<h2 id="Web前端脏乱差"><a href="#Web前端脏乱差" class="headerlink" title="Web前端脏乱差"></a>Web前端脏乱差</h2><p>Web前端长期以来很混乱，虽然不断的有人用各种框架，工具来改善前端开发过程，web前端依然让人感觉脏乱差。究其原因有三：</p>
+<ul>
+<li>javascript语言层面缺乏包机制。这是requirejs之类所试图解决的问题</li>
+<li>web前端包管理机制问题复杂，不仅需要考虑js，还要考虑css和html。这是bower试图解决的问题</li>
+<li>有合并、压缩的需求，虽然有很多工具很好的完成了压缩的工作，但合并一直缺乏优雅的方案。</li>
+</ul>
+<h2 id="前端社区割裂"><a href="#前端社区割裂" class="headerlink" title="前端社区割裂"></a>前端社区割裂</h2><p>基于前面说到的一些问题，导致社区产生了大量风格迥异的js代码。这些代码也许可以一起很好的工作，但将错就错的行为让社区更加混乱。</p>
+<p>这过程中产生了一些子社区，比如jquery，这导致了javascript社区的分裂。<br>Argular试图重新定义前端开发的整个流程，google一直在尝试让web前端的开发过程变得像传统软件开发一样清晰，比如GWT和Dart。<br>Argular取得了一定的成功，但依然有不少web工程师对Argular比较抵触。<br>所有试图以框架来解决web开发问题的，最终的结局要么是消亡，要么是割裂。</p>
+<h2 id="解决之道"><a href="#解决之道" class="headerlink" title="解决之道"></a>解决之道</h2><p>正确的选择只有一条，就像其他编程语言一样：</p>
+<ul>
+<li>统一社区风格, 利用社区的力量。</li>
+<li>不应该让整个社区依赖某一个框架，我们只需要制定行业标准。</li>
+</ul>
+<p>目前有些工具在解决这些问题：</p>
+<ul>
+<li><a href="http://bower.io/" target="_blank" rel="noopener">Bower</a> 是包管理工具</li>
+<li><a href="http://gruntjs.com/" target="_blank" rel="noopener">grunt</a>是构建工具</li>
+<li>CMD, AMD的一堆工具</li>
+<li><a href="https://github.com/component/component" target="_blank" rel="noopener">component</a>则是既包含包管理，也包含简单的构建，同时component还是一个CMD工具。</li>
+</ul>
+<p>我个人认为component是目前最好的解决方案。因为 component 包含了 bower + grunt + requirejs 的主要功能，而我们没空去学那么多乱七八糟的工具。</p>
+<p>有人可能会问，component的存在是否也会造成前端社区的割裂？component要做的不是框架，而是社区标准，所以component的存在不会造成社区的割裂，只会让社区更加繁荣。</p>
+<p>component 社区虽然也可以兼容jquery这样的框架，但这不是component所推荐的做法。component的风格是大量的小型的库，比如superagent, eacape-html, dom，每个库只做一件明确的事情。</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>感谢TJ holowaychuk，给我们带来了太多美好的东西。不过自从TJ转投Go语言社区后，似乎是被Go社区”从语言层面解决软件工程问题”的哲学所感染，给component的发展带来了一些不确定性。目前component的官方网站<a href="http://component.io" target="_blank" rel="noopener">component.io</a>已经无法访问。TJ 在component的<a href="https://github.com/component/component/issues/587" target="_blank" rel="noopener">一条issue</a>中表达了自己的一些观点：“遗留的npm/browserify是最坏的东西，说实在的Go的方法好多了，只要ES6的module loaders可以玩了。Browserify最终会玩完，所有的都会哈哈，长期来看，他们都不管用，构建一点都不好玩”</p>
+<p>原文</p>
+<blockquote>
+<p>The rest of npm/browserify is mostly bad stuff, a Go approach would be much better IMO, once ES6 module loaders are in play. Browserify will eventually die out too, they all will haha, long-term none of them make sense, builds are no fun</p>
+</blockquote>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/07/25/web-front-end-is-a-mess/" class="archive-article-date">
+  	<time datetime="2014-07-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-07-25</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/engineering/">engineering</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2014/08/05/everything-is-fate/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          尽人事 听天命
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2014/06/07/redis-list-for-random-distribution/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">redis的list类型控制随机性分布</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+
+<script type="text/javascript">
+(function(){
+var url = "http://widget.weibo.com/distribution/comments.php?width=0&url=auto&brandline=y&fontsize=12&skin=9&ralateuid=1751113432&appkey=3729652156&iframskin=9&dpc=1";
+url = url.replace("url=auto", "url=" + encodeURIComponent(document.URL));
+document.write('<iframe id="WBCommentFrame" src="' + url + '" scrolling="no" frameborder="0" style="width:100%"></iframe>');
+})();
+</script>
+<script src="http://tjs.sjs.sinajs.cn/open/widget/js/widget/comment.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.WBComment.init({
+    "id": "WBCommentFrame"
+});
+</script>
+
+</div>
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2019 桂糊涂
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.43px;">AI</a> <a href="/tags/CI/" style="font-size: 12.86px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.86px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.43px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.86px;">android</a> <a href="/tags/architecture/" style="font-size: 18.57px;">architecture</a> <a href="/tags/books/" style="font-size: 11.43px;">books</a> <a href="/tags/cli/" style="font-size: 10px;">cli</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.86px;">data-format</a> <a href="/tags/editor/" style="font-size: 14.29px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 14.29px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.14px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.86px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 14.29px;">go</a> <a href="/tags/gossip/" style="font-size: 12.86px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.43px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 11.43px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.86px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/management/" style="font-size: 11.43px;">management</a> <a href="/tags/marketing/" style="font-size: 11.43px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 14.29px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.86px;">mysql</a> <a href="/tags/network/" style="font-size: 15.71px;">network</a> <a href="/tags/nginx/" style="font-size: 11.43px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.86px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/philosophy/" style="font-size: 11.43px;">philosophy</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.43px;">redis</a> <a href="/tags/resources/" style="font-size: 10px;">resources</a> <a href="/tags/security/" style="font-size: 11.43px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.86px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.86px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.43px;">vim</a> <a href="/tags/web/" style="font-size: 15.71px;">web</a>
+    			</div>
+    	</section>
+    
+
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">一&lt;br&gt;个&lt;br&gt;码&lt;br&gt;农</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

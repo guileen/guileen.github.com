@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="dns-prefetch" href="http://guileen.github.io">
+  <title>桂糊涂的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="桂糊涂的博客">
+<meta property="og:url" content="http://guileen.github.io/page/5/index.html">
+<meta property="og:site_name" content="桂糊涂的博客">
+<meta property="og:description" content="Description">
+<meta property="og:locale" content="default">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="桂糊涂的博客">
+<meta name="twitter:description" content="Description">
+  
+    <link rel="alternative" href="/atom.xml" title="桂糊涂的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/avatar.jpg">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">桂糊涂</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">代码杂记</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/course/">课程</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/guileen" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="https://weibo.com/guileen" title="weibo">weibo</a>
+		        
+					<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">桂糊涂</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">桂糊涂</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">代码杂记</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/course/">课程</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/guileen" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="https://weibo.com/guileen" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-rate-limiting-algorithm" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/08/18/rate-limiting-algorithm/">频率限制算法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>实现接口访问频率限制并不难，只要一些计数器，计时器就可以了。但接口频率限制的目的是减少IO，所以，如果能够在不增加IO的情况下做到频率限制才是完美的，但在集群环境下，这一算法并不精确，但我认为这种损失是值得的。</p>
+<p><a href="http://stackoverflow.com/questions/667508/whats-a-good-rate-limiting-algorithm/668327#668327" target="_blank" rel="noopener">一个来自Stackoverflow的答案</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">rate = 5.0; // unit: messages</span><br><span class="line">per  = 8.0; // unit: seconds</span><br><span class="line">allowance = rate; // unit: messages</span><br><span class="line">last_check = now(); // floating-point, e.g. usec accuracy. Unit: seconds</span><br><span class="line"></span><br><span class="line">when (message_received):</span><br><span class="line">  current = now();</span><br><span class="line">  time_passed = current - last_check;</span><br><span class="line">  last_check = current;</span><br><span class="line">  allowance += time_passed * (rate / per);</span><br><span class="line">  if (allowance &gt; rate):</span><br><span class="line">    allowance = rate; // throttle</span><br><span class="line">  if (allowance &lt; 1.0):</span><br><span class="line">    discard_message();</span><br><span class="line">  else:</span><br><span class="line">    forward_message();</span><br><span class="line">    allowance -= 1.0;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/08/18/rate-limiting-algorithm/" class="archive-article-date">
+  	<time datetime="2015-08-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-08-18</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithms/">algorithms</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/">architecture</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-well-nginx-log" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/07/15/well-nginx-log/">Nginx log 模版</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>记录 <code>$upstream_addr</code> <code>$upstream_response_time</code> 有助于定位请求，定位延迟，定位问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">log_format  main  &apos;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &apos;</span><br><span class="line">                  &apos;$status $body_bytes_sent $request_time $upstream_addr $upstream_response_time &quot;$http_referer&quot; &apos;</span><br><span class="line">                  &apos;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot; &quot;$gzip_ratio&quot;&apos;;</span><br><span class="line">access_log  /var/logs/nginx/access.log main;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/07/15/well-nginx-log/" class="archive-article-date">
+  	<time datetime="2015-07-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-07-15</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/">ops</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-mysql-optimization" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/17/mysql-optimization/">MySQL 优化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>近期mysql 主从同步延迟过高，依次进行了如下优化。</p>
+<ol>
+<li><p>增加从库，将应用负载分散到多个从库，以降低从库同步延迟。</p>
+</li>
+<li><p>查看slow query，优化慢查询，必要位置添加索引。</p>
+</li>
+<li><p>打印所有sql日志，搜集一段时间日志后，去掉条件，按语句合并，汇总执行次数并排序。定位执行次数最高的语句，然后进行代码层面的优化，降低IO。</p>
+</li>
+<li><p>READ IO已经被降低，但CPU使用量却居高不下。SHOW PROCESSLIST; 定位到一些慢查询（执行时间小于long_query_time 但执行次数很多的语句），对这类语句再进行优化。</p>
+</li>
+</ol>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/06/17/mysql-optimization/" class="archive-article-date">
+  	<time datetime="2015-06-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-06-17</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/">ops</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-use-iterm2-monitor-errors" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/05/21/use-iterm2-monitor-errors/">使用iterm监控错误</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Install terminal-notifier</p>
+<p><code>brew install terminal-notifier</code></p>
+<p><code>Cmd+,</code> -&gt; Prefrences -&gt; Advanced -&gt; Triggers</p>
+<p>Add new trigger</p>
+<p>Regular Expression: <code>.*ERRO.*</code><br>Action: <code>Run Command</code><br>Parameters: <code>/usr/local/bin/terminal-notifier -message &quot;\0&quot; -title Error</code></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/05/21/use-iterm2-monitor-errors/" class="archive-article-date">
+  	<time datetime="2015-05-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-05-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/terminal/">terminal</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tools/">tools</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-objective-c-code-analytics" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/05/21/objective-c-code-analytics/">Objective-C 代码质量分析</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>install <a href="http://oclint.org/" target="_blank" rel="noopener">oclint</a></p>
+<p><code>brew install xctool</code></p>
+<p>install <a href="https://github.com/gcovr/gcovr" target="_blank" rel="noopener">gcovr</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://raw.githubusercontent.com/oclint/oclint-xcodebuild/master/oclint-xcodebuild</span><br><span class="line">sudo mv oclint-xcodebuild /usr/local/bin/</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/05/21/objective-c-code-analytics/" class="archive-article-date">
+  	<time datetime="2015-05-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-05-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CI/">CI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C/">Objective-C</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-mysql-cluster" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/05/18/mysql-cluster/">MySQL cluster proxy</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>MySQL 的中间件</p>
+<ul>
+<li>vitess Go语言实现, youtube 出品。考虑使用</li>
+<li>mysql-proxy MySQL 官方, 评价不佳</li>
+<li>Cobar 阿里出品，java</li>
+<li>Atlas 360 出品，基于mysql-proxy</li>
+<li>mixer 基于Go语言，简单的mysql中间件。<a href="https://github.com/siddontang/mixer" target="_blank" rel="noopener">https://github.com/siddontang/mixer</a></li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/05/18/mysql-cluster/" class="archive-article-date">
+  	<time datetime="2015-05-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-05-18</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/">architecture</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/">mysql</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-abstract-data-layer-design" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/30/abstract-data-layer-design/">数据抽象层设计</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>数据层的封装</p>
+<p>Data Layer must be split by <code>User Space</code>, each <code>User Space</code> should be monitored.<br>Space is vertical split to <code>Data Type</code>. Each <code>Data Type</code> has it’s own <code>Operations</code>.<br>Most <code>Operation</code> take <code>Id</code> as parameter or no parameter.<br>Some <code>Operation</code> take effect to <code>Rows</code> match some condition.</p>
+<h2 id="DataTypes"><a href="#DataTypes" class="headerlink" title="DataTypes"></a>DataTypes</h2><ul>
+<li>Object</li>
+<li>File</li>
+<li>User</li>
+<li>Message</li>
+<li>MQ</li>
+<li>Third-Service</li>
+</ul>
+<h2 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h2><h3 id="Goals"><a href="#Goals" class="headerlink" title="Goals"></a>Goals</h3><ul>
+<li>Auto caching and persistent.</li>
+<li>Fast and advance query.</li>
+<li>Schemeless.</li>
+<li>Full-text search.</li>
+<li>Geo-Search.</li>
+<li>Safe lock-column?</li>
+<li>Programable configuration.</li>
+<li>Lazy ensure index.</li>
+<li>Multi IDC distributed.</li>
+</ul>
+<p>Get/Set<br>Redis zset<br>Ardb<br>Mongodb<br>Hadoop MapReduce<br>Object {…}</p>
+<h2 id="SQL-Abstract-Layer"><a href="#SQL-Abstract-Layer" class="headerlink" title="SQL Abstract Layer"></a>SQL Abstract Layer</h2><p>Redis As SQL</p>
+<h2 id="MapReduce-Abstract-Layer"><a href="#MapReduce-Abstract-Layer" class="headerlink" title="MapReduce Abstract Layer"></a>MapReduce Abstract Layer</h2><p>Redis Lua As MapReduce</p>
+<h2 id="Redis-Abstract-Layer"><a href="#Redis-Abstract-Layer" class="headerlink" title="Redis Abstract Layer"></a>Redis Abstract Layer</h2><p>Massive Redis Storage and Cache</p>
+<h2 id="Mongodb-As-Storage-Layer"><a href="#Mongodb-As-Storage-Layer" class="headerlink" title="Mongodb As Storage Layer"></a>Mongodb As Storage Layer</h2><p>It’s OK, mongodb it self is an Abstract Layer.</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/04/30/abstract-data-layer-design/" class="archive-article-date">
+  	<time datetime="2015-04-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-04-30</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/">architecture</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-flyrpc-spec" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/19/flyrpc-spec/">FlyRPC 协议设计</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>FlyRPC是适合高频率的通信框架。</p>
+<h1 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h1><h2 id="消息协议"><a href="#消息协议" class="headerlink" title="消息协议"></a>消息协议</h2><table>
+<thead>
+<tr>
+<th>Flag</th>
+<th style="text-align:center">Command</th>
+<th style="text-align:right">Sequence</th>
+<th style="text-align:center">Buffer Length</th>
+<th>Buffer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 byte</td>
+<td style="text-align:center">2 byte</td>
+<td style="text-align:right">2 byte</td>
+<td style="text-align:center">2 byte</td>
+<td>n byte</td>
+</tr>
+<tr>
+<td>标志位</td>
+<td style="text-align:center">命令ID</td>
+<td style="text-align:right">序列ID</td>
+<td style="text-align:center">消息长度</td>
+<td>消息体</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Flag说明"><a href="#Flag说明" class="headerlink" title="Flag说明"></a>Flag说明</h3><table>
+<thead>
+<tr>
+<th style="text-align:right">子协议</th>
+<th>控制位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">2 bit</td>
+<td>6 bit</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>子协议</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RPC</td>
+<td>1</td>
+<td>1</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>Buffer</td>
+<td>Error</td>
+<td>Resp</td>
+</tr>
+<tr>
+<td>Ping</td>
+<td>1</td>
+<td>0</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>Pong</td>
+<td>Ping</td>
+</tr>
+<tr>
+<td>Helo</td>
+<td>0</td>
+<td>1</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>MQ</td>
+<td>0</td>
+<td>0</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+<h2 id="服务器内部多路复用协议"><a href="#服务器内部多路复用协议" class="headerlink" title="服务器内部多路复用协议"></a>服务器内部多路复用协议</h2><table>
+<thead>
+<tr>
+<th>Client count</th>
+<th style="text-align:center">Client Id 1</th>
+<th style="text-align:right">…</th>
+<th style="text-align:center">Client Id n</th>
+<th>Buffer Length</th>
+<th>Buffer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 byte</td>
+<td style="text-align:center">2 byte</td>
+<td style="text-align:right">…</td>
+<td style="text-align:center">2 byte</td>
+<td>2byte</td>
+<td>n byte</td>
+</tr>
+</tbody>
+</table>
+<h2 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h2><ul>
+<li>[OK]Send/Recv</li>
+<li>[OK]Req/Res</li>
+<li>Pub/Sub</li>
+</ul>
+<h2 id="网络协议"><a href="#网络协议" class="headerlink" title="网络协议"></a>网络协议</h2><ul>
+<li>[OK]TCP</li>
+<li>UDP</li>
+<li>Websocket</li>
+<li>P2P</li>
+</ul>
+<h2 id="序列化接口"><a href="#序列化接口" class="headerlink" title="序列化接口"></a>序列化接口</h2><ul>
+<li>数据压缩</li>
+<li>[OK]自定义</li>
+<li>[OK]json</li>
+<li>[OK]protobuf (proto3)</li>
+<li>[OK]msgpack</li>
+</ul>
+<h2 id="多路复用"><a href="#多路复用" class="headerlink" title="多路复用"></a>多路复用</h2><ul>
+<li>Gateway Node</li>
+<li>Backend Node</li>
+</ul>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><h4 id="type-MessageHandler"><a href="#type-MessageHandler" class="headerlink" title="type MessageHandler"></a>type MessageHandler</h4><p>MessageHandler 可以有以下几种形式</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 有返回值，用于处理Call</span></span><br><span class="line"><span class="function"><span class="keyword">func</span><span class="params">(*Context, in Message)</span> <span class="params">(out Message, err error)</span></span></span><br><span class="line"><span class="function"><span class="title">func</span><span class="params">(*Context, in Message)</span> <span class="title">out</span> <span class="title">Message</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">// 无返回值，用于处理<span class="title">SendMessage</span></span></span><br><span class="line"><span class="function"><span class="title">func</span><span class="params">(*Context, in Message)</span> <span class="title">err</span> <span class="title">error</span></span></span><br><span class="line"><span class="function"><span class="title">func</span><span class="params">(*Context, in Message)</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="Server-Listen-addr"><a href="#Server-Listen-addr" class="headerlink" title="Server.Listen(addr)"></a>Server.Listen(addr)</h4><h4 id="Server-OnMessage-cmd-MessageHandler"><a href="#Server-OnMessage-cmd-MessageHandler" class="headerlink" title="Server.OnMessage(cmd, MessageHandler)"></a>Server.OnMessage(cmd, MessageHandler)</h4><h4 id="Context-SendMessage-cmd-Message"><a href="#Context-SendMessage-cmd-Message" class="headerlink" title="Context.SendMessage(cmd, Message)"></a>Context.SendMessage(cmd, Message)</h4><h4 id="Context-Call-cmd-Message-Message-error"><a href="#Context-Call-cmd-Message-Message-error" class="headerlink" title="Context.Call(cmd, Message) (Message, error)"></a>Context.Call(cmd, Message) (Message, error)</h4><h4 id="Client-Connect-addr"><a href="#Client-Connect-addr" class="headerlink" title="Client.Connect(addr)"></a>Client.Connect(addr)</h4><h4 id="Client-OnMessage-cmd-MessageHandler"><a href="#Client-OnMessage-cmd-MessageHandler" class="headerlink" title="Client.OnMessage(cmd, MessageHandler)"></a>Client.OnMessage(cmd, MessageHandler)</h4><h4 id="Client-SendMessage-cmd-Message"><a href="#Client-SendMessage-cmd-Message" class="headerlink" title="Client.SendMessage(cmd, Message)"></a>Client.SendMessage(cmd, Message)</h4><h4 id="Client-Call-cmd-Message-Message-error"><a href="#Client-Call-cmd-Message-Message-error" class="headerlink" title="Client.Call(cmd, Message) (Message, error)"></a>Client.Call(cmd, Message) (Message, error)</h4><h4 id="Client-Ping-cmd-size"><a href="#Client-Ping-cmd-size" class="headerlink" title="Client.Ping(cmd, size)"></a>Client.Ping(cmd, size)</h4><h4 id="Client-OnPong-cmd-pongSize"><a href="#Client-OnPong-cmd-pongSize" class="headerlink" title="Client.OnPong(cmd, pongSize)"></a>Client.OnPong(cmd, pongSize)</h4><h2 id="待定"><a href="#待定" class="headerlink" title="待定"></a>待定</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">type ClientStub struct &#123;</span><br><span class="line">    foo func(a) b `flyid:1`</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">rpc := &amp;ClientStub&#123;&#125;</span><br><span class="line">client.InjectService(rpc)</span><br><span class="line">b := rpc.foo(a)</span><br></pre></td></tr></table></figure>
+<h1 id="类关联结构"><a href="#类关联结构" class="headerlink" title="类关联结构"></a>类关联结构</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">TCP/UDP/WS        Packet    json/protobuf/msgpack</span><br><span class="line"> |                + + +                   |</span><br><span class="line"> |                | | |                   |</span><br><span class="line"> --&gt;Protocol ------ | |      Serializer &lt;--</span><br><span class="line">      +       ------- |          +</span><br><span class="line">      |       | ----Route --------</span><br><span class="line">      |       | |     *+</span><br><span class="line">      |       | |     |</span><br><span class="line">      |       | |   Router</span><br><span class="line">      |       | |    + +</span><br><span class="line">      ------- | | ---- |</span><br><span class="line">          1*| | + |    |</span><br><span class="line">       ---&gt;Context     |</span><br><span class="line">       |transport+*    |</span><br><span class="line">       |        ------ |</span><br><span class="line">       |             | |</span><br><span class="line"> --&gt;Client          Server&lt;--   MultiplexedServer&lt;--</span><br><span class="line"> |                          |                      |</span><br><span class="line"> |                          |                      |</span><br><span class="line">TCP/UDP/WS            TCP/UDP/WS               TCP/UDP/WS</span><br></pre></td></tr></table></figure>
+<ul>
+<li>_*_ 多实例</li>
+<li><em>–&gt;</em> 继承或实现</li>
+<li>_+_  被引用</li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/04/19/flyrpc-spec/" class="archive-article-date">
+  	<time datetime="2015-04-18T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-04-19</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/network/">network</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tcp/">tcp</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-compile-ledis" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/17/compile-ledis/">compile ledis</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>ledis 很简单，安装leveldb比较麻烦</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source dev.sh</span><br><span class="line">sudo sh tools/build_leveldb.sh</span><br></pre></td></tr></table></figure>
+<p>autoreconf 找不到，PKG_MODULE_CONF, LIBTOOL, AM_PROG_AR 等等问题</p>
+<p>解决办法, 安装新版本打 automake, pkg-config, libtool</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">brew install automake</span><br><span class="line">brew install pkg-config</span><br><span class="line">brew install libtool</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/04/17/compile-ledis/" class="archive-article-date">
+  	<time datetime="2015-04-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-04-17</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/">ops</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-redis-transaction" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/10/redis-transaction/">Redis事务</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Redis不支持Rollback，但是redis有更轻量的方法满足常见的我们对事务需求。</p>
+<p>我们有时需要对数据同时进行一批修改，这些操作应该同时被修改成功。Redis提供了Multi和Exec来实现批量操作。</p>
+<p>比如，点赞这个操作，需要在文章点赞用户列表中增加一个用户，同时要给文章点赞数加1，可以用如下命令来完成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MULTI</span><br><span class="line">SADD user:tom:vote:posts 123    // TOM 赞了123</span><br><span class="line">SADD post:123:voters tom   // 123 被 TOM赞了</span><br><span class="line">INCR post:123:votecount  // 123 点赞数＋1</span><br><span class="line">EXEC</span><br></pre></td></tr></table></figure>
+<p>如果我们要求一人只能对一篇文章赞一次，那我们必须在客户端增加一个判断。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if SISMEMBER user:tom:vote:posts 123 </span><br><span class="line">MULTI</span><br><span class="line">SADD user:tom:vote:posts 123 </span><br><span class="line">SADD post:123:voters tom</span><br><span class="line">INCR post:123:votecount</span><br><span class="line">EXEC</span><br><span class="line">endif</span><br></pre></td></tr></table></figure>
+<p>但上面但代码存在着一个bug，假设tom非常快连续两次对同一文章点赞，两次 SISMEMBER 都判断为false，则这篇文章会被tom赞两次。redis提供了WATCH命令来实现这个功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">WATCH user:tom:vote:posts</span><br><span class="line">if SISMEMBER user:tom:vote:posts 123 </span><br><span class="line">MULTI</span><br><span class="line">SADD user:tom:vote:posts 123 </span><br><span class="line">SADD post:123:voters tom</span><br><span class="line">INCR post:123:votecount</span><br><span class="line">EXEC</span><br><span class="line">endif</span><br></pre></td></tr></table></figure>
+<p>在 WATCH和EXEC之间，被WATCH的key如果发生了修改，那么EXEC将会自动放弃。WATCH user:tom:vote:posts 表示，tom如果同一时刻又赞了一篇文章，那么本次操作将失败。</p>
+<p>除此之外，Redis的lua script也是事务性的。更详细的资料可以参考<a href="http://redis.io/topics/transactions" target="_blank" rel="noopener">这里</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/04/10/redis-transaction/" class="archive-article-date">
+  	<time datetime="2015-04-09T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-04-10</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/">architecture</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/4/">&laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/6/">Next &raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2019 桂糊涂
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.43px;">AI</a> <a href="/tags/CI/" style="font-size: 12.86px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.86px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.43px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.86px;">android</a> <a href="/tags/architecture/" style="font-size: 18.57px;">architecture</a> <a href="/tags/books/" style="font-size: 11.43px;">books</a> <a href="/tags/cli/" style="font-size: 10px;">cli</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.86px;">data-format</a> <a href="/tags/editor/" style="font-size: 14.29px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 14.29px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.14px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.86px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 14.29px;">go</a> <a href="/tags/gossip/" style="font-size: 12.86px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.43px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 11.43px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.86px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/management/" style="font-size: 11.43px;">management</a> <a href="/tags/marketing/" style="font-size: 11.43px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 14.29px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.86px;">mysql</a> <a href="/tags/network/" style="font-size: 15.71px;">network</a> <a href="/tags/nginx/" style="font-size: 11.43px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.86px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/philosophy/" style="font-size: 11.43px;">philosophy</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.43px;">redis</a> <a href="/tags/resources/" style="font-size: 10px;">resources</a> <a href="/tags/security/" style="font-size: 11.43px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.86px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.86px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.43px;">vim</a> <a href="/tags/web/" style="font-size: 15.71px;">web</a>
+    			</div>
+    	</section>
+    
+
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">一&lt;br&gt;个&lt;br&gt;码&lt;br&gt;农</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

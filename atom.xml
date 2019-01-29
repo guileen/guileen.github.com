@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="utf-8"?>
+<feed xmlns="http://www.w3.org/2005/Atom">
+  <title>桂糊涂的博客</title>
+  
+  <subtitle>代码杂记</subtitle>
+  <link href="/atom.xml" rel="self"/>
+  
+  <link href="http://guileen.github.io/"/>
+  <updated>2019-01-29T17:24:46.927Z</updated>
+  <id>http://guileen.github.io/</id>
+  
+  <author>
+    <name>桂糊涂</name>
+    
+  </author>
+  
+  <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>设置邮箱服务器</title>
+    <link href="http://guileen.github.io/2019/01/29/set-up-a-mail-server/"/>
+    <id>http://guileen.github.io/2019/01/29/set-up-a-mail-server/</id>
+    <published>2019-01-29T14:40:54.000Z</published>
+    <updated>2019-01-29T17:24:46.927Z</updated>
+    
+    <content type="html"><![CDATA[<p>发现自己已经有足足一年多没有更新任何博客了。过去的一年中，自己越来越多的在做管理型的工作，远离了一线开发，开发笔记类的东西也就少了。</p><p>最近这段时间一直在整理自己的思路，希望能够做些能够触达用户的事情，比如搞一个公众号之类的。而各种自媒体号都需要邮箱，申请免费邮箱又是很麻烦的事，搞不好密码忘了，也很麻烦。既然自己有域名，为什么不自己搞一个企业邮箱呢。常用的是腾讯的免费企业邮箱，但是只能绑定一个域名，而我的账号下已经绑定了一个域名。于是想着自己动手搭建一个邮箱服务器。</p><p>这个邮箱服务器的主要目标是接收各种注册邮件、验证码，并不要求完善的账号管理系统。备选方案有：</p><ol><li><a href="https://postal.atech.media/" target="_blank" rel="noopener">Postal</a>, write with ruby, MySQL</li><li><a href="https://modoboa.org/en/" target="_blank" rel="noopener">Modoboa</a>, write with python.</li><li>postfix</li><li>dovecot</li><li><a href="https://github.com/mailhog/MailHog" target="_blank" rel="noopener">MailHog</a></li><li><a href="https://github.com/toorop/tmail" target="_blank" rel="noopener">tmail</a></li><li><a href="https://mailinabox.email/" target="_blank" rel="noopener">Mail in a box</a></li><li><a href="https://github.com/djfarrelly/MailDev" target="_blank" rel="noopener">MailDev</a></li><li><a href="https://www.inbucket.org/" target="_blank" rel="noopener">Inbucket</a></li></ol><p>最终选择了maildev，安装简单方便<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i -g maildev</span><br><span class="line">maildev --web-user xx --web-pass xx</span><br></pre></td></tr></table></figure></p><p>使用supervisor，后台运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># supervisor/conf.d/maildev.conf</span><br><span class="line">[program:maildev]</span><br><span class="line">command=/opt/nodejs/bin/maildev --web-user=xx --web-pass=xx -s 25 -w 1080</span><br><span class="line">redirect_stderr=true</span><br><span class="line">stdout_logfile=/var/log/maildev.log</span><br><span class="line">stdout_logfile_maxbytes=10MB</span><br><span class="line">stdout_logfile_backups=10</span><br><span class="line">stdout_capture_maxbytes=100MB</span><br></pre></td></tr></table></figure></p><p>修改DNS，添加MX记录为服务器IP。发邮件到<a href="mailto:test@example.com" target="_blank" rel="noopener">test@example.com</a> 测试，打开 <a href="http://example.com:1080/，可以看到自己刚发的邮件。说明已经可以有任意多的邮箱了。" target="_blank" rel="noopener">http://example.com:1080/，可以看到自己刚发的邮件。说明已经可以有任意多的邮箱了。</a></p><p>把他和brook科学上网服务放在同一台服务器上，充分利用资源。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;发现自己已经有足足一年多没有更新任何博客了。过去的一年中，自己越来越多的在做管理型的工作，远离了一线开发，开发笔记类的东西也就少了。&lt;/p&gt;
+&lt;p&gt;最近这段时间一直在整理自己的思路，希望能够做些能够触达用户的事情，比如搞一个公众号之类的。而各种自媒体号都需要邮箱，申请免费邮
+      
+    
+    </summary>
+    
+    
+      <category term="ops" scheme="http://guileen.github.io/tags/ops/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>backslash r</title>
+    <link href="http://guileen.github.io/2017/06/06/backslash-r/"/>
+    <id>http://guileen.github.io/2017/06/06/backslash-r/</id>
+    <published>2017-06-06T09:28:04.000Z</published>
+    <updated>2019-01-29T15:09:21.929Z</updated>
+    
+    <content type="html"><![CDATA[<p>一直都知道Windows底下的换行符是 <code>\r\n</code>，Linux系统下是<code>\n</code>。<br>但并没有关心过 <code>\r</code>和<code>\n</code> 到底是什么意思。其实 <code>\r</code> 是将光标移至行首，而 <code>\n</code> 是将光标移至下一行。这么一看也理解了为什么Windows会将换行符设置为<code>\r\n</code>了。</p><p>下面这段代码，可以看出<code>\r</code>的作用。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var i = 0</span><br><span class="line">function update() &#123;</span><br><span class="line">  i++</span><br><span class="line">  process.stdout.write(&quot;\r&quot; + i)</span><br><span class="line">  if ((i % 10) == 0) &#123;</span><br><span class="line">    console.log(&quot;&quot;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">setInterval(update, 100)</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;一直都知道Windows底下的换行符是 &lt;code&gt;\r\n&lt;/code&gt;，Linux系统下是&lt;code&gt;\n&lt;/code&gt;。&lt;br&gt;但并没有关心过 &lt;code&gt;\r&lt;/code&gt;和&lt;code&gt;\n&lt;/code&gt; 到底是什么意思。其实 &lt;code&gt;\r&lt;/code&gt; 是将光
+      
+    
+    </summary>
+    
+    
+      <category term="cli" scheme="http://guileen.github.io/tags/cli/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我在热拉工作的体验</title>
+    <link href="http://guileen.github.io/2017/04/13/introduce-rela-tech-team/"/>
+    <id>http://guileen.github.io/2017/04/13/introduce-rela-tech-team/</id>
+    <published>2017-04-13T02:04:35.000Z</published>
+    <updated>2019-01-29T14:27:28.133Z</updated>
+    
+    <content type="html"><![CDATA[<p>两年前我以CTO身份加入了一家专注于拉拉社交的互联网公司——热拉。有次和一个身在国外的朋友提起我正在做LGBT，他的第一反应是，wow！so cool！要知道，在硅谷，库克等一帮大佬都是弯的，数据显示硅谷有三分之一公司的中高层都是同性恋。所以在他人眼中，从事LGBT是一件很fasion的事业。配合我不羁的长发和稀虚的胡渣，很多人认为我也是弯的。很遗憾，我是一个直男癌晚期！</p><p>在很多人的看来，一个小众社交软件应该是很简单的，做好它应该不难。起初我也认为自己可以驾轻就熟的做好这件事，并且不需要多少的人手，但我很快意识到没那么简单。在我加入之时，热拉已经是上线了一年多，拥有完整的产品形态，几十万体量的用户。所有后端由java开发，每天到了晚高峰时间，服务器都会崩溃。而与此同时，我们的市场推广依然不能停下，产品迭代仍要进行，这对于技术架构改进来说，无疑是雪上加霜。</p><p>我提出了招聘更多的人员，拆分为两个后端团队的想法，一个团队进行产品架构的重构，而另一团队则对现有系统进行维护和改进，在重构完成后切换到新系统上。这个方案很快被否定了，相反，我们需要对团队进行压缩，因为我们当时正面临着财务的压力。原本人员就严重不足的后端团队，减少了一位java工程师，和运维工程师。<br>我们当时无暇去做架构上的调整，并不是我们不明白它的重要性，而是情势使然。我们只能从运维的角度来进行优化，将现有系统看作一个黑盒的系统，从各项指标来分析整个系统的瓶颈所在，按影响程度从高到低进行优化。至少，在晚高峰的时候服务器不再频繁的崩溃了。</p><p>为了在进行现有系统优化的同时，依然能满足产品迭代的需求，我尽可能的不增加现有后台的负担，使用node.js 提供完全独立于现有系统的一部分新API接口。选择node.js是因为他的开发效率高，也可以保证与现有系统完全解耦。</p><p>在这样的团队结构下，服务逐步得到了稳定，产品也在不断迭代中。虽然过程中我们依然遇到了各种各样的问题，但我们也度过了最困难的时期，成功融资，并且拥有了变现能力，现在的财务状况非常之好。</p><h3 id="热拉何时开始引入Go语言的？"><a href="#热拉何时开始引入Go语言的？" class="headerlink" title="热拉何时开始引入Go语言的？"></a>热拉何时开始引入Go语言的？</h3><p>在技术选型上编程语言的选型是基础，每种编程语言都有不同的特性，开源社区或是某家大公司支持都会影响它的生态。Java整个生态并不符合我们的“审美”。而且既有的java服务很不稳定，所以我们一直有计划替换掉java。</p><p>我们原本考虑使用node.js作为后端主要开发语言，但是我们在人才招聘上遇到了障碍，原因在于node.js工程师的后端能力可以说是良莠不齐。在意识到这一点后，我们决定使用Golang作为后端主要开发语言，而node.js主要应用于web相关的项目中。golang程序员相对而言，编程基础更加扎实，对后端的sense更好。</p><p>我们首次尝试Golang，是在聊天系统（IM）中。热拉的IM系统此前是使用的是XMPP协议的开源框架，当时已经达到了性能的瓶颈，难以维护和优化。因为IM系统是相对独立的，重写它对于整个系统架构没有太大影响，所以我决定自己使用Golang做一套IM系统。准确的说我们所开发的是一套网络通信框架，它包含Go服务端框架、Go客户端库、iOS客户端库、Android客户端库。我们的IM系统就是在这套网络通信框架之上开发的，目前已经在线上稳定运行一年多了。</p><p>另一个Golang的使用是重写整个后端API。当时我们的用户相比之前已经翻了几番，除了IM之外的功能主要还是在老后台上，在经历了几次严重的故障之后，我们终于决定使用Golang重写。我们的目标是灰度的、无缝的迁移，一切的重写对用户来说都是无感知的。所以Golang在热拉技术架构中的比重也越来越大了</p><h3 id="介绍一下技术团队"><a href="#介绍一下技术团队" class="headerlink" title="介绍一下技术团队"></a>介绍一下技术团队</h3><p>热拉这个产品除了在用户量级上比其他社交软件小以外，在产品功能上一点也不比其他社交软件少，甚至还要更多，更复杂。对比我们的团队规模，还是非常有挑战的，我们的原则是“小而美”。对于一名程序员来说，还有什么比做一件充满挑战的事情更有趣的呢？</p><p>我们下一步的计划是按照微服务架构对服务进行重构，这次是重构而不是重写。你可能会好奇，为什么不直接使用Golang重构，而是先重写，再重构？这一点说来话长，简言之是权衡风险与成本的结果。</p><p>我们认为每个微服务模块都应该有唯一的负责人，这可以让每一个团队成员都有自主发挥的空间。一部分的微服务也成为了我们实验新技术的环境，consul，NSQ等技术都有在应用。我们也会在接下来组建数据团队，在大数据架构中依然会选择Golang作为主要的语言，这与很多公司以java为主的做法是不一样的，但我们相信Golang是可以胜任大数据基础架构的工作的，并且可以让我们使用更少的人力资源和硬件资源来完成这件事。当然，这也是一个新的挑战。</p><p>所以我们也在 <strong>招聘更多优秀的Golang程序员</strong></p><ul><li>我们希望你首先对于Golang 语言特性的理解上是扎实的，同时也有3年以上的任意编程语言的后端开发经验</li><li>如果你完全没有Golang的经验，但是后端经验非常丰富，并乐于转型到Golang，我们也非常欢迎</li><li>如果你在github上有开源项目，在stackoverflow上有贡献答案，有坚持写博客的习惯，请把链接甩给我们</li><li>如果你有大数据相关经验那就更合适了</li><li>我们鼓励交流和分享，但不鼓励加班，我们认为加班与工作效率不存在正相关性</li><li>MBP是标配，也可以配备外置显示器</li></ul><p>如果你对我们有兴趣，请将你的简历直接发送至我的邮箱： <a href="mailto:leen@thel.co" target="_blank" rel="noopener">leen@thel.co</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;两年前我以CTO身份加入了一家专注于拉拉社交的互联网公司——热拉。有次和一个身在国外的朋友提起我正在做LGBT，他的第一反应是，wow！so cool！要知道，在硅谷，库克等一帮大佬都是弯的，数据显示硅谷有三分之一公司的中高层都是同性恋。所以在他人眼中，从事LGBT是一件很
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>创作共用协议</title>
+    <link href="http://guileen.github.io/2017/03/27/creative-commons-license/"/>
+    <id>http://guileen.github.io/2017/03/27/creative-commons-license/</id>
+    <published>2017-03-27T09:00:23.000Z</published>
+    <updated>2019-01-29T15:04:48.950Z</updated>
+    
+    <content type="html"><![CDATA[<p>作为缺乏审美的工程师，当想要独立设计一些页面时，有时会感到力不从心。所幸的是如今是一个知识共享的时代，在码农的圈子里有开放源代码协议，在设计的圈子里也有创作共用协议即Creative Commons协议。</p><p>比如我们所熟知的bootstrap，其代码是使用MIT协议发布的，而其官网则是以Creative Commons协议发布的，意味着我们可以在CC协议之下使用其官网的设计。</p><p>有许多的设计开始通过Creative Commons协议发布，包括网页设计、字体、图标集等。</p><ul><li><a href="http://glyphicons.com/" target="_blank" rel="noopener">http://glyphicons.com/</a></li><li><a href="http://html5up.net" target="_blank" rel="noopener">http://html5up.net</a></li><li><a href="http://www.styleshout.com/" target="_blank" rel="noopener">http://www.styleshout.com/</a></li></ul><p>其他一些非CC协议的免费设计资源</p><ul><li>mononoki 字体</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;作为缺乏审美的工程师，当想要独立设计一些页面时，有时会感到力不从心。所幸的是如今是一个知识共享的时代，在码农的圈子里有开放源代码协议，在设计的圈子里也有创作共用协议即Creative Commons协议。&lt;/p&gt;
+&lt;p&gt;比如我们所熟知的bootstrap，其代码是使用MIT
+      
+    
+    </summary>
+    
+    
+      <category term="resources" scheme="http://guileen.github.io/tags/resources/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>我今天都干了啥？</title>
+    <link href="http://guileen.github.io/2017/03/08/one-day-of-my-life/"/>
+    <id>http://guileen.github.io/2017/03/08/one-day-of-my-life/</id>
+    <published>2017-03-08T10:09:02.000Z</published>
+    <updated>2019-01-29T15:04:13.273Z</updated>
+    
+    <content type="html"><![CDATA[<p>我今天都干了啥</p><p>今天起了个大早，送娃上学，回来还早，玩了局王者，吃早饭，上班</p><p>打开电脑看了下TODO，邮箱、微信、QQ上的很多未读消息。</p><p>11点面试了一位产品经理，聊了她的工作经历，以及她对产品的理解，抛出了一些问题，没有什么问题，但也没有什么亮点打动我，还是淘汰了。</p><p>年后对接了很多三方服务，合同流程要走。两家文本识别服务，我们需要评估其质量，安排小伙伴将差异数据整理，并安排人工复审，统计各家质量，督促改进。</p><p>抽烟的时候，使用我们的app发了一个话题。</p><p>安排团建小分队的同学，确定技术分享会的最终流程，奖品，准备全员邮件，确认邮件内容。</p><p>准备新的JD，招人，也要看一下新的人才招聘渠道，与HR沟通。</p><p>叫外卖，吃午饭，今天没玩王者。休息一下，听公开课午睡。</p><p>某CDN的合作协议，来回多次，无法接受，对方的售前沟通能力实在够呛，也说明他们的服务的确一般，无奈国内网络环境就这样，而他们价格尚可接受，只得继续纠缠。</p><p>某些提现操作失败，需要退回金额，这个操作比较敏感，我一直是手动操作。决定安排小伙伴优化这段代码，完全自动化。</p><p>另一个必须手动操作的金额相关的调整。</p><p>某SEO合同寄到，签字盖章安排寄回，通知对方。</p><p>某直播服务合同确认，一些技术和计费细节还是要沟通清楚。我真的很努力的在为公司省钱啊。</p><p>某直播账单发票寄到，向财务请款，提醒相关人员审批。</p><p>某发邮件服务余额不足，前去支付并申请发票，以便以后报销。</p><p>还有一堆简历没有筛选，质量太差，懒得筛选。</p><p>开始写这个记录，回忆一下一天都干了什么。</p><p>开了一个10分钟的小会。</p><p>大部分的沟通都是需要往复的，所以以上很多事情都没有真正结束。我需要重新看一下TODO，整理一下思路。</p><p>已经周三了，本周计划还没提交，前去整理提交。</p><p>今天中途抽了几根烟，继续看那本关于人性的书。</p><p>产生了一个产品灵感，记录一下，年纪越大灵感越少，要珍惜。</p><p>已经17:30了，还有时间，要把简历都筛选掉。</p><p>感谢我的小伙伴们，没有什么事来打扰我，所以说团队搭建是CTO的首要工作。我也是心大，对他们的工作很放心，其实我最应该做的就是review一下他们的工作。说实话，我挺怀念不闻窗外事，只管写代码的日子，心静！那种不断的思考、设计、实现的过程，很爽。而现在不得不处理各种事情，没什么难度，但也不能假手于人。</p><p>可能是年初吧，各种外部的、产品的、团队的事情都挤在了一起，希望可以尽快了解掉一些事情，让自己可以更专注在某一方面。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;我今天都干了啥&lt;/p&gt;
+&lt;p&gt;今天起了个大早，送娃上学，回来还早，玩了局王者，吃早饭，上班&lt;/p&gt;
+&lt;p&gt;打开电脑看了下TODO，邮箱、微信、QQ上的很多未读消息。&lt;/p&gt;
+&lt;p&gt;11点面试了一位产品经理，聊了她的工作经历，以及她对产品的理解，抛出了一些问题，没有什么问题，
+      
+    
+    </summary>
+    
+    
+      <category term="gossip" scheme="http://guileen.github.io/tags/gossip/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>公共画像</title>
+    <link href="http://guileen.github.io/2016/12/19/public-avatar/"/>
+    <id>http://guileen.github.io/2016/12/19/public-avatar/</id>
+    <published>2016-12-19T04:15:00.000Z</published>
+    <updated>2019-01-29T15:04:05.805Z</updated>
+    
+    <content type="html"><![CDATA[<p>什么是SNS的本质？当我们看待一个SNS的时候，我们看到的是什么？</p><p>信息、状态、转发、私信、粉丝、评论，我们看到的是这些产品功能吗？还是这些数据？他的价值在哪里？</p><p>一个SNS，我们看到的是，我们自己的公共形象，或者是某些人的公共形象。SNS为这些红人提供了舞台。</p><p>而且，每个SNS所提供的舞台是不一样的，往来的红人也是不一样的。</p><p>SNS就像一个主题酒吧，来往形形色色的人，但他们身上或多或少会有一些共同点。在同一个SNS上，他们有同样的期许。</p><p>粉丝是一个两难的设计。没有粉丝，红人们没有动力在SNS上奋斗，而有了粉丝之后，任何的SNS最终会走向固化，红人霸占了主要的SNS资源。</p><p>这也是各种SNS会不断推陈出新的原因，因为有一批有潜质的红人，无论他／她是什么类别的红人，他需要一个舞台。但是有些场子，已经被人霸占，于是他们不得不寻找新的舞台。而总有一些SNS平台会抓住一些机会，提供某个类别的小舞台，这就是垂直SNS。</p><p>是否有可能干翻霸主级的社交网络？Facebook，twitter，国内的腾讯、微博。答案是能！本质上腾讯就被自己干翻了，微信取代QQ，本质上就是对霸主的挑战，虽然这一切发生在腾讯内部。但是微信取代QQ，这样的现象是难以复制的，为什么呢？因为微信取代QQ是发生在移动互联网与传统互联网更替的阶段的，是大事因缘，没有微信取代QQ，也会有其他应用取代QQ，但机会只有一次。</p><p>陌陌，用陌生人社交的方式占领了一定的市场，但是陌陌本身的名称定位已经把自己钉死了，就是陌生人社交。微信早期用摇一摇也达到了同样的爆发式增长，但用户规模上去之后，微信就可以弱化了这一个功能。</p><p>SNS下一个风口在哪里？SNS不是风口，但机会永远存在。挑战霸主级的社交网络，需要的是天时地利人和。产品与用户，双方共同成就了一个霸主级社交产品。得红人者得天下，微博的发展正是这样的模式。</p><p>但红人是本身就存在的，还是通过平台而红的，这个问题很关键。一个优秀的SNS平台应该有制造红人的能力，或者是让红人可以成长起来的能力。当你知道的红人越来越多的来自微信公众号，而不是来自微博的时候，那么说明微博的影响力降低了。</p><p>因此霸主级的似乎不可撼动的庞然大物其实是可以被打败的。</p><p>如何再造一个现象级的社交网络，我们不应该从产品模式上来思考这个问题，而是需要从人性的角度上来思考这个问题。人性是社交网络之所以成立的本质。更具体的说，人的社会性，情绪化，是社交网络的根本驱动力。人渴望被关注，渴望交流，渴望存在感，或只是渴望来自他人的声音。找到人在精神上的未被充分满足的需求点，强化这种概念，就有机会在社交产品中找到一席之地。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;什么是SNS的本质？当我们看待一个SNS的时候，我们看到的是什么？&lt;/p&gt;
+&lt;p&gt;信息、状态、转发、私信、粉丝、评论，我们看到的是这些产品功能吗？还是这些数据？他的价值在哪里？&lt;/p&gt;
+&lt;p&gt;一个SNS，我们看到的是，我们自己的公共形象，或者是某些人的公共形象。SNS为这些
+      
+    
+    </summary>
+    
+    
+      <category term="gossip" scheme="http://guileen.github.io/tags/gossip/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Python数据分析笔记</title>
+    <link href="http://guileen.github.io/2016/12/15/python-data-analysis-note/"/>
+    <id>http://guileen.github.io/2016/12/15/python-data-analysis-note/</id>
+    <published>2016-12-15T13:51:36.000Z</published>
+    <updated>2019-01-29T14:27:28.128Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="可选"><a href="#可选" class="headerlink" title="[可选]"></a>[可选]</h1><p>install python</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pip install -U pip</span><br><span class="line"></span><br><span class="line">pip install &lt;something&gt;</span><br><span class="line">pip uninstall &lt;something&gt;</span><br></pre></td></tr></table></figure><p>pip support virtualenv</p><h1 id="Anaconda"><a href="#Anaconda" class="headerlink" title="[Anaconda]"></a>[Anaconda]</h1><p><a href="https://www.continuum.io/downloads" target="_blank" rel="noopener">Install anaconda</a></p><p>国内可从清华镜像下载，并设置镜像</p><p><a href="https://mirror.tuna.tsinghua.edu.cn/help/anaconda/" target="_blank" rel="noopener">清华镜像源</a></p><p>MacOS:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https://mirrors.tuna.tsinghua.edu.cn/anaconda/archive/Anaconda2-x.x.x-MacOSX-x86_64.sh`</span><br><span class="line">bash Anaconda2-x.x.x-MacOS-x86_64.sh</span><br></pre></td></tr></table></figure><p>会安装到~/anaconda2下，默认会将PATH设置在 bash_profile中，根据你自己的shell设置，加入<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH=&quot;/home/xx/anaconda2/bin:$PATH&quot;</span><br></pre></td></tr></table></figure></p><p>重新打开你的shell，执行<code>conda</code>命令测试。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda config --add channels https://mirrors.tuna.tsinghua.edu.cn/anaconda/pkgs/free/</span><br><span class="line">conda config --set show_channel_urls yes</span><br></pre></td></tr></table></figure><p>Python环境管理:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda create --name py27 python=2.7</span><br><span class="line">activate py27</span><br></pre></td></tr></table></figure><p>包管理:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda list</span><br><span class="line">conda install numpy</span><br></pre></td></tr></table></figure><p>(conda install 会安装或更新依赖库，pip install则不会)</p><h1 id="安装工具包"><a href="#安装工具包" class="headerlink" title="[安装工具包]"></a>[安装工具包]</h1><p>conda install numpy scipy pandas matplotlib</p><h1 id="IDE"><a href="#IDE" class="headerlink" title="[IDE]"></a>[IDE]</h1><p>spyder, pycharm, sublime text, vim</p><h1 id="Jupyter"><a href="#Jupyter" class="headerlink" title="[Jupyter]"></a>[Jupyter]</h1><p><code>ipython</code> 一个更好的python交互命令</p><p><code>jupyter notebook</code> Web记事本，可以将交互过程记录并分享。</p><p>后续使用 jupyter 记录。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;可选&quot;&gt;&lt;a href=&quot;#可选&quot; class=&quot;headerlink&quot; title=&quot;[可选]&quot;&gt;&lt;/a&gt;[可选]&lt;/h1&gt;&lt;p&gt;install python&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td 
+      
+    
+    </summary>
+    
+    
+      <category term="machine-learning" scheme="http://guileen.github.io/tags/machine-learning/"/>
+    
+      <category term="python" scheme="http://guileen.github.io/tags/python/"/>
+    
+      <category term="data" scheme="http://guileen.github.io/tags/data/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>问题汇总</title>
+    <link href="http://guileen.github.io/2016/11/24/architect-problems/"/>
+    <id>http://guileen.github.io/2016/11/24/architect-problems/</id>
+    <published>2016-11-24T06:55:49.000Z</published>
+    <updated>2019-01-29T15:03:11.189Z</updated>
+    
+    <content type="html"><![CDATA[<p>负责某公司技术以来，遇到了一些问题，汇总一下：</p><ol><li>接口设计问题，错误的接口设计将导致难以避免的问题</li><li>DNS劫持问题，用户网络问题定位困难</li><li>苹果IAP漏单问题</li><li>缓存时间、状态不一致、压力太大、崩溃重启、启动慢问题</li><li>NoSQL选型问题</li><li>数据库负载问题，主从同步问题</li><li>日志监控问题</li><li>服务自动扩容，全球部署问题</li><li>垃圾信息、僵尸账号问题</li><li>IM丢消息，收不到消息问题。</li><li>IM、群聊问题定位、测试困难</li><li>聊天信息存储问题</li></ol>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;负责某公司技术以来，遇到了一些问题，汇总一下：&lt;/p&gt;
+&lt;ol&gt;
+&lt;li&gt;接口设计问题，错误的接口设计将导致难以避免的问题&lt;/li&gt;
+&lt;li&gt;DNS劫持问题，用户网络问题定位困难&lt;/li&gt;
+&lt;li&gt;苹果IAP漏单问题&lt;/li&gt;
+&lt;li&gt;缓存时间、状态不一致、压力太大、崩溃重
+      
+    
+    </summary>
+    
+    
+      <category term="ops" scheme="http://guileen.github.io/tags/ops/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>笔墨之殇</title>
+    <link href="http://guileen.github.io/2016/11/24/bimozhishang/"/>
+    <id>http://guileen.github.io/2016/11/24/bimozhishang/</id>
+    <published>2016-11-23T16:16:01.000Z</published>
+    <updated>2019-01-29T15:03:50.814Z</updated>
+    
+    <content type="html"><![CDATA[<p>说点什么好呢？这两天我开始，翻阅以前我读过的书，我发现，有很多的书，只是草草看过，还有一些书，根本没有看过。原来自己有做读书笔记的习惯，可是当我把阅读的时间放到地铁上之后，这个习惯，也随之消失了。以至于我根本不知道这本书，有没有读过。纸质书，可以有记录笔记的空间，而电子书，阅读起来比较方便，我想这就是纸质书和电子书的区别吧！</p><p>以前我总想写点文字。可是我发现自己，写作的速度越来越慢了，也找不到合适的输入法。拼音输入法，当你想打一些，书面语，或者是文言文的时候，就很难输入。而，五笔输入法或者其他的字型输入法，都有一个问题，就是，学起来太麻烦了，我根本记不住那些字码表，而且，当我，去回忆那些字码的时候，我的思路已经被打断了。</p><p>我还是喜欢拿着笔在纸上写字的感觉。在这种状态下，我的思路是最流畅的。</p><p>一直以来，我都想写一两本小说，可是构思了很久，却迟迟没有动笔。自己内心真正想表达的东西，和整个故事的结构，往往存在冲突。我不愿意写一些，没有人想看的东西，但我也不想，完全是为了迎合别人的口味，而写作。</p><p>其实，这并不是什么文章，我这是在测试一种新的输入法，一种，新的写作方式，那就是，直接把我想写的，念出来。你所看到的一切，都是我通过语音输入的。好吧，今天就说到这里，我的脚也泡好了。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;说点什么好呢？这两天我开始，翻阅以前我读过的书，我发现，有很多的书，只是草草看过，还有一些书，根本没有看过。原来自己有做读书笔记的习惯，可是当我把阅读的时间放到地铁上之后，这个习惯，也随之消失了。以至于我根本不知道这本书，有没有读过。纸质书，可以有记录笔记的空间，而电子书，
+      
+    
+    </summary>
+    
+    
+      <category term="gossip" scheme="http://guileen.github.io/tags/gossip/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>如何学习编程</title>
+    <link href="http://guileen.github.io/2016/11/21/how-to-learn-computer-sciense/"/>
+    <id>http://guileen.github.io/2016/11/21/how-to-learn-computer-sciense/</id>
+    <published>2016-11-21T06:35:31.000Z</published>
+    <updated>2019-01-29T15:02:49.261Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="编程入门"><a href="#编程入门" class="headerlink" title="编程入门"></a>编程入门</h2><p>大部分人都是通过某一个原因，喜欢上了编程。同样，你也需要一个理由。也许只是走在路上，忽然有人对你说：“年轻人，我看你天赋异禀，骨骼惊奇，我这里有一套编程秘笈，你想不想学啊”</p><p>入门编程语言，有很多选择，你可以选择python、JS，也可以选择C。比如我自己，是通过Basic语言入门的，也是因为它喜欢上了编程。</p><p>…</p><p>在这一阶段，最容易出现的问题是：Compiler Error，Syntax Error。你还不习惯和计算机进行沟通，你们之间的语言不够顺畅。它听不懂你说什么，当它说Error，你也听不懂它在说什么。你总是很抓狂的问，What’s the Error，一定是计算机出了什么问题，而不是我的代码有任何问题。直到你意识到，计算机没有任何问题，有问题的一定是我的代码，你能够检查你的代码，修复语法错误，恭喜你，你已经入门了。</p><p>这一阶段，你对编程有了感性的认识。你为自己写出来的东西感到骄傲，完全不会注意到其实那些代码其实只是piece of shit。你也会遇到很多的问题，即使你已经查阅到了所需要的知识点，还是无法实现你要的功能。就好像已经把所需要的材料全部交给了你，你却无法用这些材料造出你想造的东西。</p><p>这一段时间，你的灵感泉涌，有很多的想法想要去做，但却又感觉力不从心。你需要开始补充一些基础知识了，难度也要开始增加。</p><h2 id="计算机科学基础"><a href="#计算机科学基础" class="headerlink" title="计算机科学基础"></a>计算机科学基础</h2><p>这是一个非常重要的阶段，这一阶段的学习效果，直接决定了你的技术实力。有些知识，并不会立刻用得上，但是，这些知识，已经潜移默化的影响了你的思维方式。你的任督二脉将在这一阶段打开。</p><h3 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h3><p>算法和数据结构 这是一切程序的基础，你需要恰当的使用这些数据结构，你无法绕开它们。有一些算法，你需要知道它们的原理，这有助于你理解你的代码最终在计算机上是如何运行的。你可能并不需要掌握算法设计的机巧，也不需要去参加一个算法比赛。但你需要理解这些经典算法，记住它们的名字，在你遇到问题时，第一时间想到它们。最终，你可能不需要自己去实现它们，但你需要恰当的使用现有的算法代码。</p><h3 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h3><p>函数式编程、面向对象编程，设计模式。这些方面的知识，你也需要掌握，你需要了解如何将自己的代码组织在一起。这就像你拥有了一些积木，你需要了解玩积木的常用技巧。阅读一些书籍或者阅读他人的代码，都是非常好的途径。学习这些知识，就像是学习作画。这些技巧你一看就会明白，但却不能熟练的使用。这里是考验你艺术天分的地方。</p><p>在拥有了以上这些技能后，你已经可以算是一个不错的程序员了。但这些知识可以让你写出很棒的代码，却无法使你的程序有任何的功能。你必须要让你的程序和外界进行交互，它才有存在的价值。</p><h3 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h3><p>你的程序如何和外界进行交互？你的程序是运行在一个封闭的环境之中的。想象一下，一只猴子被关进了一个房间中，房间中有一个操作面板，当它按下某个按钮，外界就会发生某件事情，比如说在你的电脑上打开一个新网页。你的程序就是这只猴子，你必须熟悉你的操作面板，有些时候面对一些奇怪的面板故障，你甚至需要了解它的工作原理，以避免发生那些故障。</p><p>网络基础, TCP/IP 协议，HTTP协议，如果你要开发网络应用，这些都是非常重要的基础知识。</p><p>操作系统原理，无论你开发桌面应用、移动应用、嵌入式应用、网络应用、服务器端应用，你都应该对你的程序所运行的环境有足够了解。</p><p>如果你开发的是Web应用，也许你不需要了解操作系统，但你需要了解你的浏览器，它是你的运行环境。</p><p>计算机架构，这个你可以不必知道。但如果你要开发一个操作系统，那么你必须对计算机架构有所了解，还是那句话，你需要了解你的程序所运行的环境。而操作系统所运行的环境就是计算机硬件的体系架构。</p><h2 id="交流"><a href="#交流" class="headerlink" title="交流"></a>交流</h2><p>你需要一个目标，你定下的这个目标可能就是下一个facebook。带着目标学习，这是我所推崇的方式。对于还处于学习阶段的你来说，这是一段幸福的时光。你不必为了生计而学习，你可以纯粹的为了爱好而学习。</p><p>你需要加入开发者交流的社区，加入论坛、QQ群、讨论组、邮件列表。与别人分享你的收获与挫折，社区的氛围也是你继续学习的动力之一。当你遇到难题，可以在社区里提问。但是你应该学习一些提问的智慧，不要做伸手党，这对你的学习不会有任何帮助。你应该至少已经阅读了相关的书籍、资料，并借助搜索引擎（不要使用baidu，中国可以用bing）来寻求答案。记住一点：社区不能给你想要的东西，但社区可以解答你的疑惑。社区是用来交流的，你也可以通过回答别人的问题来提高自己的知识。</p><p>开源社区，也是你获取知识技能的主要来源之一。当你需要某个功能，有人可能已经实现了他，并将他开源在了github（目前最大的开源社区）之类的地方。这些开源项目可以帮助你解决某些细节问题，使你可以更专注在你的主要目标上。对于优秀的开源项目，你可以阅读他们的代码，学习他们的机巧。</p><h2 id="再论运行环境"><a href="#再论运行环境" class="headerlink" title="再论运行环境"></a>再论运行环境</h2><p>如果你仔细体会的话，你会发现，编写代码只占到你学习编程中的很少的一部分时间，而大部分时间，你是在查阅资料。你需要花大量的时间在学习程序的运行环境上，而不是学习编程语言上。运行环境会提供给你很多的编程接口，一般被称之为API。</p><p>我这里所说的运行环境，并不是仅仅指操作系统运行环境，它也可以是浏览器，Java运行环境，Sevlet容器，node.js，unity3D运行环境，flash运行环境，directX，OpenGL，cocos2d游戏开发框架。</p><p>你可能注意到了一点，我将开发框架，视作了一种运行环境。为什么这么说呢？因为框架是对运行环境的再次封装，在框架之上，你将看到更加易用，更加人性化的接口。有一些框架，还额外提供了很多辅助的库，甚至插件机制，让你可以直接使用整个社区贡献的插件。你只需要面对框架编程，借来几个插件，再搭配几个辅助库，就可以完成一个作品。</p><p>你明白了吗？编程就是这么简单！这也是为什么有那么多平庸的程序员的主要原因————他们只懂得在框架之上编程，使用别人写好的现成的代码。<em>可是一旦他所赖以生存的框架或插件或库，出现了任何问题，他们的平庸就会显现</em>。</p><p>如果你是初次接触编程，还不知道什么是开发框架（framework）什么是库（library）的话，没关系，你只需要记住一点：Library决定了你能做什么，framework决定了你不能做什么。如果有一个新的框架，让你眼前一亮，蠢蠢欲动，请保持冷静，先想一想，如果你用了这个框架，你将失去哪些能力，是否是可以接受的？我看过太多的项目因为框架的限制，而不得不使用一些旁门左道来突破框架的限制，从而失去了代码的美感。抑或是自己动手，将框架改的面目全非，完全失去了框架的意义。</p><p>对于初学者，我强烈建议远离框架。框架是一种捷径，但对于一个以学习阶段的人来说，捷径是并不是什么好事。如果你已经有了足够的经验，对你的运行环境足够了解了之后，你应该在你的运行环境之上，寻找一个优秀的框架，学习它的设计思想。更进一步的，你可以搭建一个你自己的框架。我并不反对使用框架，但我反对不求甚解的使用框架。</p><p>修炼是一个长期的过程，即使你已经成为了一名优秀的程序员，你依然需要不断的修炼。记住一点：<em>修炼的捷径就是不走捷径</em>。</p><h2 id="Hack"><a href="#Hack" class="headerlink" title="Hack"></a>Hack</h2><p>你可能想要做一些看起来不可能的事情，这通常是从某个夸张的想法而引起的。Hook、反射，这些略有些高级的技巧。</p><h2 id="软件工程"><a href="#软件工程" class="headerlink" title="软件工程"></a>软件工程</h2><p>你已经找到了你的第一份工作，你加入了一个团队，经过一段时间，你又被提升为了项目组长。你需要开始考虑一些团队管理问题、系统架构问题</p><h2 id="专业方向"><a href="#专业方向" class="headerlink" title="专业方向"></a>专业方向</h2><h2 id="一些资源："><a href="#一些资源：" class="headerlink" title="一些资源："></a>一些资源：</h2><p><a href="https://pdos.csail.mit.edu/6.828/2014/" target="_blank" rel="noopener">MIT 6.828 操作系统工程</a><br><a href="github.com">github.com</a><br><a href="stackshare.io">stackshare.io</a><br><a href="stackoverflow.com">stackoverflow.com</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;编程入门&quot;&gt;&lt;a href=&quot;#编程入门&quot; class=&quot;headerlink&quot; title=&quot;编程入门&quot;&gt;&lt;/a&gt;编程入门&lt;/h2&gt;&lt;p&gt;大部分人都是通过某一个原因，喜欢上了编程。同样，你也需要一个理由。也许只是走在路上，忽然有人对你说：“年轻人，我看你天赋异禀
+      
+    
+    </summary>
+    
+    
+      <category term="education" scheme="http://guileen.github.io/tags/education/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>游戏开发书籍</title>
+    <link href="http://guileen.github.io/2016/11/20/game-development-books/"/>
+    <id>http://guileen.github.io/2016/11/20/game-development-books/</id>
+    <published>2016-11-20T14:35:28.000Z</published>
+    <updated>2019-01-29T14:27:28.123Z</updated>
+    
+    <content type="html"><![CDATA[<h1 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h1><p>(2015) Prototyping(21st Century Skills Innovation Library: Makers as Innovators)<br>(2015) Spelunky (Boss Fight Books #11)<br>(1988) The Design of Everyday Things<br>(2008) The Art of Game Design: A Book of Lenses</p><h1 id="数学"><a href="#数学" class="headerlink" title="数学"></a>数学</h1><p>(2001) Mathematics for 3D Game Programming and Computer Graphics<br>(2002) 3D Math Primer for Graphics and Game Development</p><h1 id="图形学"><a href="#图形学" class="headerlink" title="图形学"></a>图形学</h1><p>Computer Graphics: Principles and Practice<br>(1999) Real-Time Rendering<br>Physically Based Rendering: From Theory to Implementation</p><h1 id="语言"><a href="#语言" class="headerlink" title="语言"></a>语言</h1><p>Modern C++ Design: Generic Programming and Design Patterns Applied<br>More Effective C++<br>(1999) C++ Standard Library: A Tutorial and Reference</p><h1 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h1><p>(2009) Game Engine Architecture<br>(2011) Game Programming Patterns<br>(2003) Game Coding Complete<br>Game Physics Engine Development: How to Build a Robust Commercial-Grade Physics Engine for Your Game</p><h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><p>(1st 2004) Real-Time Collision Detection (The Morgan Kaufmann Series in Interactive 3d Technology)<br>Game Programming Algorithms and Techniques: A Platform-Agnostic Approach</p><h1 id="AI"><a href="#AI" class="headerlink" title="AI"></a>AI</h1><p>Programming Game AI by Example<br>Artificial Intelligence for Games</p><h1 id="MMO"><a href="#MMO" class="headerlink" title="MMO"></a>MMO</h1><p>(2015) Multiplayer Game Programming: Architecting Networked Games (Game Design)</p><h1 id="Unity-不推荐"><a href="#Unity-不推荐" class="headerlink" title="Unity (不推荐)"></a>Unity (不推荐)</h1><p>Unity in Action</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h1 id=&quot;设计&quot;&gt;&lt;a href=&quot;#设计&quot; class=&quot;headerlink&quot; title=&quot;设计&quot;&gt;&lt;/a&gt;设计&lt;/h1&gt;&lt;p&gt;(2015) Prototyping(21st Century Skills Innovation Library: Makers as I
+      
+    
+    </summary>
+    
+    
+      <category term="game-dev, books" scheme="http://guileen.github.io/tags/game-dev-books/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Too many open files 的解决办法</title>
+    <link href="http://guileen.github.io/2016/11/14/fix-too-many-open-files/"/>
+    <id>http://guileen.github.io/2016/11/14/fix-too-many-open-files/</id>
+    <published>2016-11-14T14:26:31.000Z</published>
+    <updated>2019-01-29T15:02:23.846Z</updated>
+    
+    <content type="html"><![CDATA[<p>在开发TCP网络应用的过程中，我们经常会遇到“Too many open files”这个问题。这说明你的程序以达到Linux所允许的打开文件数上限。你需要按照以下方式来提升：</p><h3 id="每用户上限："><a href="#每用户上限：" class="headerlink" title="每用户上限："></a>每用户上限：</h3><p>打开 <code>/etc/security/limits.conf</code><br>在末尾添加：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">*         hard    nofile      500000</span><br><span class="line">*         soft    nofile      500000</span><br><span class="line">root      hard    nofile      500000</span><br><span class="line">root      soft    nofile      500000</span><br></pre></td></tr></table></figure><p>修改后，你需要logout并重新login。</p><h4 id="pam-limits"><a href="#pam-limits" class="headerlink" title="pam-limits"></a>pam-limits</h4><p>据说对于Daemon进程需要额外的步骤，但目前我并不需要。如果以上改动不能对你有所帮助，可能需要以下步骤。</p><p>打开 <code>/etc/pam.d/common-session</code></p><p>添加以下内容：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">session required pam_limits.so</span><br></pre></td></tr></table></figure><h3 id="系统级限制"><a href="#系统级限制" class="headerlink" title="系统级限制"></a>系统级限制</h3><p>这项设置应该大于没用户限制。</p><p>打开 <code>/etc/sysctl.conf</code></p><p>添加以下内容：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fs.file-max = 2097152</span><br></pre></td></tr></table></figure><p>运行：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl -p</span><br></pre></td></tr></table></figure><p>这会增加系统级的最大打开文件数。</p><h2 id="验证效果"><a href="#验证效果" class="headerlink" title="验证效果"></a>验证效果</h2><p>使用以下命令验证系统级最大打开文件数</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/sys/fs/file-max</span><br></pre></td></tr></table></figure><p>Hard Limit</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -Hn</span><br></pre></td></tr></table></figure><p>Soft Limit</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -Sn</span><br></pre></td></tr></table></figure><h3 id="检测用户限制"><a href="#检测用户限制" class="headerlink" title="检测用户限制"></a>检测用户限制</h3><p>将<code>www-data</code>替换为你希望检测的用户。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su - www-data -c &apos;ulimit -aHS&apos; -s &apos;/bin/bash&apos;</span><br></pre></td></tr></table></figure><h3 id="检测运行中的进程限制"><a href="#检测运行中的进程限制" class="headerlink" title="检测运行中的进程限制"></a>检测运行中的进程限制</h3><p>将<code>XXX</code>替换为PID</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat /proc/XXX/limits</span><br></pre></td></tr></table></figure><p>今日在一台新启动的服务器上，系统级、用户级配置都正常，唯独进程的limits仅为默认1024。进程使用的是supervisor守护启动，使用supervisor restart进程后，limits依然为1024，后重启了supervisor服务，limits恢复所设定数值。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在开发TCP网络应用的过程中，我们经常会遇到“Too many open files”这个问题。这说明你的程序以达到Linux所允许的打开文件数上限。你需要按照以下方式来提升：&lt;/p&gt;
+&lt;h3 id=&quot;每用户上限：&quot;&gt;&lt;a href=&quot;#每用户上限：&quot; class=&quot;hea
+      
+    
+    </summary>
+    
+    
+      <category term="ops" scheme="http://guileen.github.io/tags/ops/"/>
+    
+      <category term="network" scheme="http://guileen.github.io/tags/network/"/>
+    
+      <category term="tcp" scheme="http://guileen.github.io/tags/tcp/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>开源静态网站生成工具</title>
+    <link href="http://guileen.github.io/2016/11/08/static-site-generators/"/>
+    <id>http://guileen.github.io/2016/11/08/static-site-generators/</id>
+    <published>2016-11-07T16:00:00.000Z</published>
+    <updated>2019-01-29T15:02:11.421Z</updated>
+    
+    <content type="html"><![CDATA[<p>有博客订阅者反馈我的博客ATOM输出有问题，总有两篇已unpublish的博客出来诈尸。这个是个老问题，当时也是因为总是有这两篇博客捣乱所以unpublish了，但完全无效。</p><p>自己的博客一直没有认真维护，只是偶尔随手记录，更没有想到有人订阅了，闻之顿感责任重大。计划认真整理一下自己的博客。</p><p>那两篇诈尸的博客，或是github的bug，或是jekyll的bug，未能验证。细思之，将博客系统完全交予github管理，的确不够合理，于是考虑使用本地生成静态文件再行push的方式，代替先push再由github jekyll生成静态文件的方式。顺便也更新一下自己博客的样式。</p><p>关于jekyll，也有不少问题，比如不能生存tag page等，也考虑更换一下生成器。奈何目前的静态网站生成器着实太多，无从选择。幸有有心人整理了一个列表，<a href="https://www.staticgen.com/" target="_blank" rel="noopener">staticgen.com</a>，包含了github的关注数、项目使用的语言，模版语言等信息，选择方便了许多。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;有博客订阅者反馈我的博客ATOM输出有问题，总有两篇已unpublish的博客出来诈尸。这个是个老问题，当时也是因为总是有这两篇博客捣乱所以unpublish了，但完全无效。&lt;/p&gt;
+&lt;p&gt;自己的博客一直没有认真维护，只是偶尔随手记录，更没有想到有人订阅了，闻之顿感责任重大
+      
+    
+    </summary>
+    
+    
+      <category term="generator" scheme="http://guileen.github.io/tags/generator/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>计算机科学经典书籍</title>
+    <link href="http://guileen.github.io/2016/10/17/classic-computer-sciense-books/"/>
+    <id>http://guileen.github.io/2016/10/17/classic-computer-sciense-books/</id>
+    <published>2016-10-16T16:00:00.000Z</published>
+    <updated>2019-01-29T14:27:28.120Z</updated>
+    
+    <content type="html"><![CDATA[<p>在我学习编程的过程中，看过很多的书籍，大部分的书籍只能提供很有限的知识，有的甚至不能提供真正的“知识，充其量只是某个软件产品的使用手册而已，而且这类手册极易过时。现在，因为工作的需要，我依然会偶尔阅读这类“手册”。但我渐渐体会到了有些计算机知识是永恒的，如果从一开始我所阅读的，都是这些永恒的知识，而不是那些短暂的技能，我的知识体系会比现在更加的完整。</p><p>所以，我整理了这个列表。我希望他能涵盖目前已知的计算机科学体系，并且尽可能的在每个领域都提供一两本经典书籍。我会优先选取发布时间较早的书籍，因为那代表着它经得起时间的考验，同时我会参考Amazon和豆瓣的评分，以及维基百科等网站的引用和评价。我希望所提供的这个列表是“相对权威”的列表。</p><p>我会尽可能的包含中文译名和英文原版书名。</p><p>我会尽可能按照权威的学科分类对书籍进行划分，如果在分类上有错误，希望各位指出。</p><p>我也希望能够对学科间的依赖关系明确描述，默认是无依赖，当我发现了某个学科需要依赖于一些前置知识的时候，我会注明。如有遗漏，希望指出。</p><p>在列表中，也会包含部分非“计算机科学”方面的书籍，比如游戏开发，互联网相关的书籍。这些书籍入选的条件时，他是适合程序员阅读的，并且同样符合经典、权威的要求的。</p><h2 id="科普"><a href="#科普" class="headerlink" title="科普"></a>科普</h2><ul><li>1985 计算机科学概论 Computer Science: An Overview</li><li>1999 编码 Code</li></ul><h2 id="计算历史"><a href="#计算历史" class="headerlink" title="计算历史"></a>计算历史</h2><ul><li>The Computer from Pascal to von Neumann</li><li>A History of Computing in the Twentieth Century</li></ul><h2 id="Mathematics-数学"><a href="#Mathematics-数学" class="headerlink" title="Mathematics 数学"></a>Mathematics 数学</h2><ul><li>300 BC 几何原本 Elements</li><li>1687 自然哲学的数学原理 Philosophiae Naturalis Principia Mathematica</li><li>1965 微积分和数学分析引论 Introduction to Calculus and Analysis (Richard Courant / Fritz John)</li><li>1976 线性代数及其应用（侯自新 译）Linear Algebra and Its Applications (Gilbert Strang)</li><li>1988 具体数学 Concrete Mathematics</li><li>1995 线性代数应该这样学 Linear Algebra Done Right</li><li>(当下流行) 托马斯微积分 Thomas calculus</li><li>(当下流行) 初等概率论</li></ul><h2 id="Computability-计算理论"><a href="#Computability-计算理论" class="headerlink" title="Computability 计算理论"></a>Computability 计算理论</h2><ul><li>Alan Turing (1937) “On computable numbers, with an application to the Entscheidungsproblem”</li><li>(1979) 自动机理论、语言和计算导论  Introduction to Automata Theory, Languages, and Computation</li></ul><p>本书建议看原版</p><ul><li>1996 计算理论导论 Introduction to the Theory of Computation</li></ul><h2 id="Information-theory-信息论"><a href="#Information-theory-信息论" class="headerlink" title="Information theory 信息论"></a>Information theory 信息论</h2><ul><li>Shannon, C.E. (1948)  “A mathematical theory of communication”</li><li>Hamming, Richard (1950) “Error detecting and error correcting codes”</li><li>Huffman, D. (1952). “A Method for the Construction of Minimum-Redundancy Codes”</li><li>Ziv, J.; Lempel, A. (1977). “A universal algorithm for sequential data compression”</li><li>1991 Elements of Information Theory</li></ul><h2 id="Computer-Architecture-计算机架构"><a href="#Computer-Architecture-计算机架构" class="headerlink" title="Computer Architecture 计算机架构"></a>Computer Architecture 计算机架构</h2><ul><li>1990 Computer Architecture: A Quantitative Approach</li></ul><h2 id="Operating-System-操作系统"><a href="#Operating-System-操作系统" class="headerlink" title="Operating System 操作系统"></a>Operating System 操作系统</h2><ul><li>1974 操作系统设计与实现 Operating Systems Design and Implementation</li><li>1992 UNIX环境高级编程 Advanced Programming in the UNIX Environment</li><li>1992 现代操作系统 Modern Operating Systems</li><li>2002 深入理解计算机系统 Computer Systems:A Programmer’s Perspective</li></ul><h2 id="Compilers-编译原理"><a href="#Compilers-编译原理" class="headerlink" title="Compilers 编译原理"></a>Compilers 编译原理</h2><ul><li>1986 Compilers: Principles, Techniques and Tools</li></ul><p>在封面变成一条龙后，被称为 dragon book.</p><p><img src="http://images.gr-assets.com/books/1387666736l/703102.jpg" alt="img"></p><h2 id="Programming-Languages"><a href="#Programming-Languages" class="headerlink" title="Programming Languages"></a>Programming Languages</h2><ul><li>1978 C程序设计语言 The C programming Language</li></ul><h2 id="Programming-not-science"><a href="#Programming-not-science" class="headerlink" title="Programming ?? (not science)"></a>Programming ?? (not science)</h2><ul><li>1984 计算机程序的构造和解释 Structure and Interpretation of Computer Programs</li><li>1986 编程珠玑 Programming pearls</li><li>1993 代码大全 Code Complete</li></ul><h2 id="Algorithms-算法"><a href="#Algorithms-算法" class="headerlink" title="Algorithms 算法"></a>Algorithms 算法</h2><ul><li>1968 The Art of Computer Programming</li><li>1974 The Design and Analysis of Computer Algorithms</li><li>1983 Data Structures and Algorithms</li><li>1983 Algorithms</li><li>1990 Introduction to Algorithms</li><li>1996 Data Structures and Algorithm Analysis in C</li></ul><h2 id="Computational-complexity-theory-计算复杂度理论"><a href="#Computational-complexity-theory-计算复杂度理论" class="headerlink" title="Computational complexity theory 计算复杂度理论"></a>Computational complexity theory 计算复杂度理论</h2><ul><li>1979 Computers and Intractability: A Guide to the Theory of NP-Completeness</li><li>1994 Computational Complexity</li></ul><h2 id="Networking-网络"><a href="#Networking-网络" class="headerlink" title="Networking 网络"></a>Networking 网络</h2><ul><li>TCP/IP详解 卷1：协议</li><li>UNIX网络编程</li></ul><h2 id="Database-数据库"><a href="#Database-数据库" class="headerlink" title="Database 数据库"></a>Database 数据库</h2><ul><li>1980 Principles of Database &amp; Knowledge-Base Systems, Vol. 1: Classical Database Systems</li><li>1987 Database System Concepts</li><li>2001 数据库系统全书 Database Systems: The Complete Book</li></ul><h2 id="Software-engineering-软件工程"><a href="#Software-engineering-软件工程" class="headerlink" title="Software engineering 软件工程"></a>Software engineering 软件工程</h2><ul><li>1975 人月神话 The Mythical Man-Month: Essays on Software Engineering</li><li>1994 设计模式 Design Patterns: Elements of Reusable Object-Oriented Software</li><li>1999 程序员修炼之道 The Pragmatic Programmer: From Journeyman to Master</li></ul><p>面向对象程序设计的经典。但当你使用动态语言时，会发现部分模式是不必要的</p><ul><li>2004 软件随想录 Joe on software</li><li>重构：既有代码的改善 Refactoring: Improving the Design of Existing Code</li><li>人件</li><li>Rework</li></ul><h2 id="Artificial-Intelligence"><a href="#Artificial-Intelligence" class="headerlink" title="Artificial Intelligence"></a>Artificial Intelligence</h2><ul><li>1994 人工智能：一种现代方法 Artificial Intelligence: A modern approach</li></ul><h3 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h3><ul><li>Probability Theory: The Logic of Science</li><li>The Elements of Statistical Learning: Data Mining, Inference, and Prediction</li><li>Information Theory, Inference and Learning Algorithms</li><li>Learning From Data: A Short Course</li><li>Pattern Recognition and Machine Learning</li><li>Probabilistic Graphical Models: Principles and Techniques</li><li>Mining of Massive Datasets</li><li>经典 <a href="http://www-bcf.usc.edu/~gareth/ISL/" target="_blank" rel="noopener">An Introduction to Statistical Learning with Applications in R</a></li><li><a href="http://www.cs.ubc.ca/~murphyk/MLbook/index.html" target="_blank" rel="noopener">Machine Learning: a Probabilistic Perspective</a> 学习曲线平滑</li><li>2016 <a href="http://www.deeplearningbook.org/" target="_blank" rel="noopener">Deep Learning(Free HTML)</a> <a href="https://github.com/HFTrader/DeepLearningBook" target="_blank" rel="noopener">pdf</a> Ian Goodfellow and Yoshua Bengio and Aaron Courville</li><li><a href="http://www.youtube.com/view_play_list?p=A89DCFA6ADACE599" target="_blank" rel="noopener">http://www.youtube.com/view_play_list?p=A89DCFA6ADACE599</a></li><li><p>[深度学习论文]<a href="https://github.com/HFTrader/DeepLearningBook/blob/master/DeepLearningPapers.md" target="_blank" rel="noopener">https://github.com/HFTrader/DeepLearningBook/blob/master/DeepLearningPapers.md</a></p></li><li><p><a href="https://github.com/josephmisiti/awesome-machine-learning/blob/master/books.md" target="_blank" rel="noopener">Awesome machine learning books list</a></p></li><li><p><a href="http://learningtensorflow.com/index.html" target="_blank" rel="noopener">learning tensorflow</a></p></li></ul><h2 id="膜计算-Membrane-Computing-这是什么？"><a href="#膜计算-Membrane-Computing-这是什么？" class="headerlink" title="膜计算 Membrane Computing ??? 这是什么？"></a>膜计算 Membrane Computing ??? 这是什么？</h2><ul><li>2002 膜计算导论 Membrane Computing - An Introduction</li></ul><p>参考:<br><a href="http://dl.acm.org/classics.cfm" target="_blank" rel="noopener">ACM: 经典出版物</a><br><a href="https://en.wikipedia.org/wiki/List_of_important_publications_in_computer_science" target="_blank" rel="noopener">维基百科：计算机科学重要出版物</a><br><a href="https://en.wikipedia.org/wiki/List_of_important_publications_in_theoretical_computer_science" target="_blank" rel="noopener">维基百科：理论计算机科学重要出版物</a><br><a href="http://www.goodreads.com/list/show/2205.Essential_Books_of_Computer_Science" target="_blank" rel="noopener">Goodreads: 必备计算机科学书籍列表</a><br><a href="https://www.goodreads.com/shelf/show/game-development" target="_blank" rel="noopener">Goodreads: 游戏开发</a><br><a href="https://zh.wikipedia.org/wiki/数学著作列表" target="_blank" rel="noopener">维基百科：数学著作列表</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;在我学习编程的过程中，看过很多的书籍，大部分的书籍只能提供很有限的知识，有的甚至不能提供真正的“知识，充其量只是某个软件产品的使用手册而已，而且这类手册极易过时。现在，因为工作的需要，我依然会偶尔阅读这类“手册”。但我渐渐体会到了有些计算机知识是永恒的，如果从一开始我所阅读
+      
+    
+    </summary>
+    
+    
+      <category term="books" scheme="http://guileen.github.io/tags/books/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Golang 黑科技</title>
+    <link href="http://guileen.github.io/2016/09/27/golang-hack/"/>
+    <id>http://guileen.github.io/2016/09/27/golang-hack/</id>
+    <published>2016-09-26T16:00:00.000Z</published>
+    <updated>2019-01-29T14:27:28.118Z</updated>
+    
+    <content type="html"><![CDATA[<ul><li><a href="https://github.com/mitchellh/gox" target="_blank" rel="noopener">https://github.com/mitchellh/gox</a> gox 跨平台交叉编译</li><li><a href="https://gopm.io" target="_blank" rel="noopener">https://gopm.io</a> 国内无需翻墙就能快速下载国外的包</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;ul&gt;
+&lt;li&gt;&lt;a href=&quot;https://github.com/mitchellh/gox&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/mitchellh/gox&lt;/a&gt; gox 跨平台交叉编译&lt;/li&gt;
+&lt;li
+      
+    
+    </summary>
+    
+    
+      <category term="go" scheme="http://guileen.github.io/tags/go/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Kingshard阅读笔记</title>
+    <link href="http://guileen.github.io/2016/09/16/kingshard-read-log/"/>
+    <id>http://guileen.github.io/2016/09/16/kingshard-read-log/</id>
+    <published>2016-09-15T16:00:00.000Z</published>
+    <updated>2019-01-29T14:27:28.117Z</updated>
+    
+    <content type="html"><![CDATA[<p>KingShard 是 mysql 代理，可实现分库分表等功能。但因业务复杂，无法使用，故阅读其源码，以便修改。</p><p>代码版本：<br>2016-09-12<br>3c4a1db63226cb1384047a3f915d10e0594228d1</p><p>入口: cmd/</p><p>服务启动： proxy/server/server.go</p><p>Server.Run()<br>服务逻辑</p><p>Server.onConn(net.Conn)<br>客户端连接逻辑</p><ul><li>Server.newClientConn(net.Conn)<br>客户端连接初始化</li></ul><p>客户端连接：proxy/server/conn.go</p><p>ClientConn.IsAllowConnect()<br>判断客户端IP是否合法</p><p>ClientConn.Handshake()<br>握手</p><p>ClientConn.Run()<br>客户端逻辑</p><p>ClientConn.readPacket()<br>PacketIO.ReadPacket()<br>拆包逻辑</p><p>ClientConn.dispatch(data)<br>包分发逻辑<br>data[0] mysql命令</p><ul><li>QUIT  c.handleRollback() c.Close()</li><li>QUERY c.handleQuery(string(data))</li><li>PING</li><li>INIT_DB c.handleUseDB 分配后端节点 backend.Node</li><li>FIELD_LIST</li><li>STMT_PREPARE</li><li>STMT_EXECUTE</li><li>STMT_CLOSE</li><li>STMT_SEND_LONG_DATA</li><li>STMT_RESET</li><li>SET_OPTION<br>其它命令不支持,log</li></ul><p>命令执行成功后，写结果给客户端，某些命令只需 ClientConn.writeOK</p><p>执行查询 ClientConn.handleQuery<br>ClientConn.preHanleShard 不确定什么时候会用<br>解析sql<br>handleSelect<br>handleExec<br>handleBegin<br>handleCommit<br>handleRollback</p><p>后端节点: backend/node.go backend.Node<br>GetSlaveConn<br>GetMasterConn</p><p>后端连接：<br>基类 backend/backend_conn.go backend.Conn<br>子类 backend/db.go backend.BackendConn</p><p>写入命令，读取返回<br>writeCommandStr<br>readOK</p><p>SQL 语法解析<br>sqlparser<br>需要执行 make，通过yacc编译</p><p>其它<br>Counter  计数器</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;KingShard 是 mysql 代理，可实现分库分表等功能。但因业务复杂，无法使用，故阅读其源码，以便修改。&lt;/p&gt;
+&lt;p&gt;代码版本：&lt;br&gt;2016-09-12&lt;br&gt;3c4a1db63226cb1384047a3f915d10e0594228d1&lt;/p&gt;
+&lt;p&gt;入口
+      
+    
+    </summary>
+    
+      <category term="mysql" scheme="http://guileen.github.io/categories/mysql/"/>
+    
+    
+      <category term="mysql" scheme="http://guileen.github.io/tags/mysql/"/>
+    
+      <category term="go" scheme="http://guileen.github.io/tags/go/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>雇主与雇员的关系</title>
+    <link href="http://guileen.github.io/2016/08/28/employee-with-employer/"/>
+    <id>http://guileen.github.io/2016/08/28/employee-with-employer/</id>
+    <published>2016-08-27T16:00:00.000Z</published>
+    <updated>2019-01-29T14:27:28.115Z</updated>
+    
+    <content type="html"><![CDATA[<p>  通常，我们认为雇主与雇员之间的关系是一种管理者和被管理者的关系，但在作者看来，雇主与雇员之间的关系并非如此，在很多时候雇员往往拥有更多的主动权。</p><p>  在法制社会中，当我们成立一家公司时，股东之间通过契约联系在了一起，向同一个目标共同努力，同时实现股东个体的成功。可以说，契约精神是公司赖以存在的基础。</p><p>  在公司与员工的关系上，契约精神同样是重要的基础。在公司与员工形成雇佣关系，这种契约关系就建立了。</p><p>  在一个人成为管理者之前，应该对这一事实有充分的认识。你与下属是平等的，你只有一种权利那就是聘用和解聘的权利。如果公司没有赋予管理者这种权利，本质上，管理者只是个为员工提供服务的人员。员工会向你索取各种资源配合他们的工作，而你提供资源的过程和服务人员递上餐具和食物的过程并没有太大区别。</p><p>  人事部门应该按市场规则与员工进行互动，本质上就和买菜时侃价行为类似。是一种交易行为。如果你要对其进行职位和薪资的调整，本质上是一种内部重新聘用的过程，即使是升职加薪，也需要征得员工的同意，然后才可执行。如果要进行合理的避税，这些事项必须在签订契约（也就是聘用）之前达成共识。对于辞退员工，各种处理方法亦必须要按照契约精神进行，无论是劝退或是辞退，本质上就是一种公司违约行为，理应给予赔偿。对于一些曾经有过突出贡献的员工，在辞退时不仅要给予法律内规定的赔偿，甚至要给予更多的“补偿”。这种补偿本质上也是基于一条根本契约：员工向公司提供劳动，公司为这种劳动支付报酬。违反这种契约，或许不会受到法律的惩罚，但会使某一方丧失在市场上的信用，无论是公司方还是员工方。</p><p>  No Blame Culture，它的基础在于，人和人之间是平等。人们通过不同的分工在一起协作，人们不应因理念、方法的差别而受到羞辱或讽刺。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;  通常，我们认为雇主与雇员之间的关系是一种管理者和被管理者的关系，但在作者看来，雇主与雇员之间的关系并非如此，在很多时候雇员往往拥有更多的主动权。&lt;/p&gt;
+&lt;p&gt;  在法制社会中，当我们成立一家公司时，股东之间通过契约联系在了一起，向同一个目标共同努力，同时实现股东个体的
+      
+    
+    </summary>
+    
+    
+      <category term="management" scheme="http://guileen.github.io/tags/management/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>Go语言的GC优化技巧</title>
+    <link href="http://guileen.github.io/2016/06/15/how-did-i-optimize-golang-gc/"/>
+    <id>http://guileen.github.io/2016/06/15/how-did-i-optimize-golang-gc/</id>
+    <published>2016-06-14T16:00:00.000Z</published>
+    <updated>2019-01-29T14:27:28.113Z</updated>
+    
+    <content type="html"><![CDATA[<p>GC只要不出问题，就不会有人关心GC的问题，但如果GC出了问题，想要优化它却不是一件容易的事情。我最近就遇到了Golang GC问题，经过一系列的尝试终于将应用性能优化了300%的。你一定会觉得性能优化300%，那之前的代码得写的多烂啊。坦白的说，之前的代码虽然未做优化，但并没有大的问题。</p><p>我们的IM服务器，使用golang开发，自定义的协议，运行在一台4核8G的云主机上，同时在线大约一万多人。一直以来，运行的还不错，但近期我们发现当在线人数达到2万人的时候，CPU占用就会达到100%，它就彻底的失去了响应。我的内心是奔溃的，因为根据我们曾经做过的压力测试推测，这点连接数完全不应该有问题的。</p><h2 id="定位CPU问题"><a href="#定位CPU问题" class="headerlink" title="定位CPU问题"></a>定位CPU问题</h2><p>Golang定位CPU问题还是比较方便的，因为golang提供了非常便捷的profile工具。官方的文档看<a href="https://golang.org/pkg/net/http/pprof/" target="_blank" rel="noopener">这里</a></p><p>首先需要在程序内部启动一个http服务，并引入<code>net/http/pprof</code>模块，就会自动增加 <code>/debug/pprof/*</code> 相关的Handler。其中 <code>/debug/pprof/profile</code>为CPU profile，<code>/debug/pprof/heap</code>为heap信息， 也是我们主要关注的两个信息。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import _ &quot;net/http/pprof&quot;</span><br><span class="line">import &quot;net/http&quot;</span><br><span class="line"></span><br><span class="line">go func() &#123;</span><br><span class="line">    log.Println(http.ListenAndServe(&quot;localhost:6060&quot;, nil))</span><br><span class="line">&#125;()</span><br></pre></td></tr></table></figure><p>添加好上述代码，并部署执行后，即可使用如下<code>go tool pprof</code>命令进行监测</p><blockquote><p>go tool pprof <a href="http://localhost:6060/debug/pprof/profile" target="_blank" rel="noopener">http://localhost:6060/debug/pprof/profile</a></p></blockquote><p>默认会搜集30s的profile，这里会等待30s。然后就可以查看profile的结果了。</p><blockquote><p>> png &gt; profile.png</p></blockquote><p>我们发现最耗时的几个点 <code>runtime.scanobject</code>, <code>runtime.pcvalue</code>, <code>runtime.memclr</code></p><blockquote><p>runtime.scanobject 7.82s(18.16%) of 10.64s(24.74%)<br><br>runtime.pcvalue 4.43s(10.29%) of 9.50s(22.07%)<br><br>runtime.memclr 3.18s(7.39%)<br></p></blockquote><p>而它们大部分都来自于 <code>runtime.gcDrain</code></p><blockquote><p>runtime.gcDrain 0.02s of 23.66s(54.96%)</p></blockquote><p>而这些都是和GC相关的操作，至此，我们可以得出一个初步结论，GC占用了大部分的CPU。</p><h2 id="第一次实验"><a href="#第一次实验" class="headerlink" title="第一次实验"></a>第一次实验</h2><p>既然是GC问题，那么我们看一下heap吧</p><blockquote><p>go tool pprof <a href="http://localhost:6060/debug/pprof/heap" target="_blank" rel="noopener">http://localhost:6060/debug/pprof/heap</a><br>> png &gt; heap.png</p></blockquote><p>通过Heap我们可以发现内存占用最大的是Connection，每一个IM用户的连接都会有一个独立的Connection，而这个Connection上还会保存一些用户ID、昵称等基本信息。同时我们要把每个Connection放入一个map中，让我们称他cmap，cmap的key是用户ID，这样我们才能定位用户对应的Connection。</p><p>我们并不能确定问题在cmap上，或者是Connection结构上。但是我们完全没有其他的线索，既然它的heap占用最大，就先拿它开刀吧。</p><p>为了验证我们的假设，我们在测试环境中，不断的创建连接，关闭连接，同时运行profile。profile的结果显示，GC完全没问题，甚至GC都没出现在profile中。</p><p>其实这时测试实验已经可以基本确定GC问题和Connection和cmap无关了。但是我们依然希望对Connection的创建与销毁进行一个优化，然后再来对比GC是否有改善。</p><h2 id="对象池模式"><a href="#对象池模式" class="headerlink" title="对象池模式"></a>对象池模式</h2><p>我们决定使用<a href="https://zh.wikipedia.org/wiki/%E5%AF%B9%E8%B1%A1%E6%B1%A0%E6%A8%A1%E5%BC%8F" target="_blank" rel="noopener">对象池模式</a>来优化Connection的创建销毁。所谓对象池模式，就是在对象创建时我们通过对象池进行获取而不是分配内存创建新对象，当我们要释放一个对象时也不是直接丢给GC而是放入对象池。</p><p>Golang已经提供了一个<code>sync.Pool</code>实现。｀sync.Pool<code>是线程安全的，你可以在多个goroutine中安全的使用它。</code>Pool<code>可能在任何时候回收</code>Pool<code>中的对象，所以你不用关心</code>Pool`的GC问题。</p><p>优化的调整也很简单：</p><p>优化前代码：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func NewConnection(conn net.Conn) *Connection&#123;</span><br><span class="line">    c := &amp;Connection&#123;conn: conn&#125;</span><br><span class="line">    // init stuffs...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (c *Connection) Close() error&#123;</span><br><span class="line">    c.conn.Close()</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>优化后代码</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">// 对象池：全局对象池</span><br><span class="line">var cPool = sync.Pool&#123;</span><br><span class="line">    // 当对象池中无对象时，如何创建新对象</span><br><span class="line">    New:func() interface&#123;&#125;&#123;return new(Connection)&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func NewConnection(conn net.Conn) *Connection&#123;</span><br><span class="line">    c := cPool.Get()  // 从对象池中获取</span><br><span class="line">    c.conn = conn  //初始化</span><br><span class="line">    // init stuffs...</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (c *Connection) Close() error&#123;</span><br><span class="line">    c.conn.Close()</span><br><span class="line">    c.conn = nil  // Relaese</span><br><span class="line">    // release stuffs ...</span><br><span class="line">    cPool.Put(c) // 放回对象池</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>测试了没问题就发布了。事实再次证明，GC和Connection、connection map完全没有关系，GC的问题在生产环境上依然如常。而且还产生了一些bug，因为原本的释放由GC完成，所以不需要做临时属性的reset工作，但使用了对象池后，这些未释放的临时属性会一直存在，当你以为你是用的是一个<code>NewConnection</code>的时候，其他它并不是一个新的对象。</p><p>我的结论是，在与业务逻辑相关的地方，尽量不要使用对象池，以免引出新的bug。对象池应该用在那些边界明确、高内聚的模块上。</p><h2 id="slice-append-的妙用"><a href="#slice-append-的妙用" class="headerlink" title="slice, append 的妙用"></a>slice, append 的妙用</h2><p>GC更多还是与内存的分配与释放频次有关，我们把目光从内存占用量最大的模块上移开，关注了一下其他琐碎的小对象。通过profile与heap的对比往往能比较好的发现问题，profile与频率相关，heap与占用相关，如果两样都占了，那么就是很可疑的。</p><p>通过对比，我决定优化一下日志模块，这是自己写的一个小的日志模块，为了能更方便记录每个Connection上的基本信息、时间、行号等，但写的比较直接，基本靠 <code>Time.Format</code> <code>fmt.Sprintf</code> 完成了每行日志文本的拼接，这两个函数比较易用，但是性能并不是最佳。我参照了原生的<code>log</code>模块，对自己的日期格式化和日志文本的拼接进行了优化，值得一提的是一个原生<code>log</code>代码中对<code>append</code>的妙用。</p><p>优化前代码示意：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">type Logger struct &#123;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (l *Logger) Log(str string) &#123;</span><br><span class="line">    ...</span><br><span class="line">    fmt.Fprintln(writer, fmt.Sprintf(&quot;%s %s:%d %s %s&quot;,</span><br><span class="line">        &quot;[INFO]&quot;,filename, line, str</span><br><span class="line">    ))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>优化后代码示意：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">type Logger struct &#123;</span><br><span class="line">    buf []byte</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (l *Logger) formatHeader(buf *[]byte) &#123;</span><br><span class="line">    ...</span><br><span class="line">    *buf = append(*buf, &quot;[INFO]&quot;...)</span><br><span class="line">    *buf = append(*buf, filename...)</span><br><span class="line">    *buf = append(*buf, &apos;:&apos;)</span><br><span class="line">    *buf = append(*buf, itoa(line)...)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (l *Logger) Log(str string) &#123;</span><br><span class="line">    l.buf = l.buf[:0]   // Reset slice</span><br><span class="line">    l.formatHeader(&amp;l.buf)</span><br><span class="line">    l.buf = append(l.buf, str...)</span><br><span class="line">    l.writer.Write(*buf)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>以上的示例代码中，大家可以仔细体会一下。<code>Logger</code>对象有一个<code>buf</code>，<code>l.buf:=l.buf[:0]</code>这句本质上只是把<code>buf</code>这个slice的length修改了，但是capacity并没有改变，所以不会发生内存的分配。而<code>*buf=append(*buf, xxx)</code> 只有在length &gt; capacity 时才会导致内存重新分配。而length &gt; capacity 是很少发生的，也就意味着很少发生buf内存的分配，这也就是优化了GC。</p><p>受此启发，我们每次读取网络数据包的位置，也做了类似的优化，但这里无法使用append，只能直接make。</p><p>优化前的代码类似这样：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">func (c *Connection) ReadBuffer(length) []byte&#123;</span><br><span class="line">    buff := make([]byte, length)</span><br><span class="line">    io.ReadFull(c.reader, buff)</span><br><span class="line">    return buff</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>我在Connection中增加了一个可重用的buf缓冲区，优化后的代码类似这样：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">func (c *Connection) ReadBuffer(length int) []byte&#123;</span><br><span class="line">    if length &gt; len(c.buf) &#123;</span><br><span class="line">        c.buf = make([]byte, length)</span><br><span class="line">    &#125;</span><br><span class="line">    buff := c.buf[:length]</span><br><span class="line">    io.ReadFull(reader, buff)</span><br><span class="line">    return buff</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>这可以大大减少读数据时的内存分配。</p><p>这里我们可以总结出一条GC优化原则：<br>＊ 成员变量代替临时变量，减少内存分配。</p><p>注意：文中代码仅为示例，未考虑线程安全因素，实际使用中需要对成员变量的访问加锁。</p><h2 id="return还是传址"><a href="#return还是传址" class="headerlink" title="return还是传址"></a>return还是传址</h2><p>成员变量可以解决方法内部的GC问题，但是当需要与外部交互时，我们还需要其他的技巧。比如这个函数：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">func (c *Connection) ReadPacket() *Packet &#123;</span><br><span class="line">    buff := c.ReadBuffer()</span><br><span class="line">    packet := new(Packet)</span><br><span class="line">    packet.Init(buff)</span><br><span class="line">    return packet</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>这里我们不可避免的创建了一个<code>Packet</code>对象。而如果我们将函数进行如下改造，则可以为其他的代码创造出优化的空间。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">func (c *Connection) ReadPacket() *Packet &#123;</span><br><span class="line">    packet := new(Packet)</span><br><span class="line">    c.Read(packet)</span><br><span class="line">    return packet</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func (c *Connection) Read(packet *Packet) &#123;</span><br><span class="line">    buff := c.ReadBuffer()</span><br><span class="line">    packet.Init(buff)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>我们保留了<code>ReadPacket</code>方法以保持向下兼容，同时增加了一个新方法<code>Read</code>，它没有return，但是需要你传入一个Packet指针，这使它的消费者有条件重用这个Packet。</p><p>原消费者代码：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">for &#123;</span><br><span class="line">    packet := connection.ReadPacket()</span><br><span class="line">    handle(packet)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>这里每次会创建一个新的packet。</p><p>优化后的消费者代码：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">packet = new(Packet)</span><br><span class="line">for &#123;</span><br><span class="line">    connection.Read(packet)</span><br><span class="line">    handle(packet)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>这里始终重用一个packet。</p><h2 id="类型转换，-byte-to-string"><a href="#类型转换，-byte-to-string" class="headerlink" title="类型转换，[]byte to string"></a>类型转换，[]byte to string</h2><p>在网络应用中，不可避免的要使用[]byte，并且需要将[]byte转换为最终要使用的数据，因此我们经常需要做 []byte到string的转换。但是我们发现<code>string(bytes)</code> 这一转换将引起一次内存copy，这使得转换会产生一些重复数据。有一些黑科技可以让它不复制内存，但是这样获得的string没有imutable特性，会导致不可预料的后果以及一些内部优化也将失效。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">func unsafeToString(bytes []byte) *string &#123;</span><br><span class="line">    hdr := &amp;reflect.StringHeader&#123;</span><br><span class="line">        Data: uintptr(unsafe.Pointer(&amp;bytes[0])),</span><br><span class="line">        Len:  len(bytes),</span><br><span class="line">    &#125;</span><br><span class="line">    return (*string)(unsafe.Pointer(hdr))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>我尚不能确定是否有其他类型的相互转换也会有同样的问题。</p><h2 id="GOGC"><a href="#GOGC" class="headerlink" title="GOGC"></a>GOGC</h2><p>使用GOGC环境变量或者<a href="https://golang.org/pkg/runtime/debug/#SetGCPercent" target="_blank" rel="noopener">SetGCPercent</a>，可以用来调整GC的触发频率，默认 GOGC=100，我们将这个数值调到了GOGC=200。对于这个参数，我还没有深入的研究，不过实验证明调高这个数值可以减少GC的CPU占用。</p><h2 id="GC日志"><a href="#GC日志" class="headerlink" title="GC日志"></a>GC日志</h2><p>有时在做一些实验的时候我们可以通过观察GC日志来发现检验效果。你需要使用GODEBUG=gctrace=1 作为程序启动的环境变量，即可看到GC相关信息。</p><blockquote><p>GODEBUG=gctrace=1 yourprogram</p></blockquote><h2 id="禁术"><a href="#禁术" class="headerlink" title="禁术"></a>禁术</h2><p>Well，做了这么多，我们的CPU占用情况和GC情况到底改善了多少呢？18000连接左右时，CPU从80%占用降低到了50%占用。GC占比依然很高，仅从54%下降到了50%。这说明，我们并没有找到影响GC真正的原因。我必须寻找下一个优化点，否则一切好无头绪。于是我再次对比CPU profile和Heap dump的图，我想也许是业务逻辑处理模块的问题，但我还不能确定是哪个业务模块的问题，那就赌那个CPU占用最高的业务模块吧。</p><p>但已经花费了太多的时间优化GC，我不想再浪费时间不断的猜测，于是我只能使出我从不轻易使用的禁术（请勿模仿，使用不当可能会对你的职业生涯造成严重的伤害）————直接禁用了那个功能，并以最快的时间跑出了profile，然后立刻恢复了这个功能。</p><p>这次猜中了，当禁用了这个功能后，GC情况大大改善。这下心里有底了，顺藤摸瓜就发现了这么一段代码：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">func Compress(p []byte) ([]byte, error) &#123;</span><br><span class="line">    buf := new(bytes.Buffer)</span><br><span class="line">    zipWriter := zlib.NewWriter(buf)</span><br><span class="line">    if _, err := zipWriter.Write(p); err != nil &#123;</span><br><span class="line">        return nil, err</span><br><span class="line">    &#125;</span><br><span class="line">    if err := zipWriter.Close(); err != nil &#123;</span><br><span class="line">        return nil, err</span><br><span class="line">    &#125;</span><br><span class="line">    return buf.Bytes(), nil</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>这就是照着golang<a href="https://golang.org/pkg/compress/zlib/#pkg-overview" target="_blank" rel="noopener">官方zlib Example</a>写的。看来Golang的zlib封装有很大的问题，导致了这个对象很重。</p><p>既然已经找到了问题的原因，就很好办了。解决的方法就是最开始提到的<code>对象池模式</code>。这次并没有使用<code>sync.Pool</code>，而是自己实现了一个简单的对象池。完整代码就不贴了</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">func (w *zlibWorker) compress(p []byte) ([]byte, error) &#123;</span><br><span class="line">    buf := new(bytes.Buffer)</span><br><span class="line">    zipWriter := w.zipWriter  // 重用zipWriter</span><br><span class="line">    zipWriter.Reset(buf)  // &lt;- 主要在这里</span><br><span class="line">    if _, err := zipWriter.Write(p); err != nil &#123;</span><br><span class="line">        return nil, err</span><br><span class="line">    &#125;</span><br><span class="line">    if err := zipWriter.Close(); err != nil &#123;</span><br><span class="line">        return nil, err</span><br><span class="line">    &#125;</span><br><span class="line">    return buf.Bytes(), nil</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>优化后的同时段的CPU占用率从50%下降到了20%，GC占用量可以忽略。而CPU占用最高的三个函数分别是 <code>runtime.memmove</code> 和 <code>compress/flate.(*compressor).reset</code> 还有 <code>syscall.Syscall</code>，前两个都源自<code>zlib.Writer.Reset</code>，看来还有进一步的优化空间，比如用CGO，不过这已经超出了本文的讨论范围。<code>syscall.Syscall</code>是网络应用不可避免的的部分，无法优化。可以将<code>syscall.Syscall</code>视为性能优化的参照标准，这一函数的CPU占比越大，通常程序是越健康的。</p><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>这些技巧在其他有自动垃圾回收机制的语言中也同样适用</p><ul><li>Profile与Heap对照，往往能更有效的定位问题</li><li>通过实验来验证猜测</li><li>使用成员变量代替临时变量</li><li>使用传址代替返回</li><li>对比较重的对象应用<code>对象池模式</code></li><li>利用语言特性进行优化</li><li>调整GC相关参数进行优化</li></ul>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;GC只要不出问题，就不会有人关心GC的问题，但如果GC出了问题，想要优化它却不是一件容易的事情。我最近就遇到了Golang GC问题，经过一系列的尝试终于将应用性能优化了300%的。你一定会觉得性能优化300%，那之前的代码得写的多烂啊。坦白的说，之前的代码虽然未做优化，但
+      
+    
+    </summary>
+    
+    
+      <category term="go" scheme="http://guileen.github.io/tags/go/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>React相关坑记录</title>
+    <link href="http://guileen.github.io/2016/01/28/react-pit-notes/"/>
+    <id>http://guileen.github.io/2016/01/28/react-pit-notes/</id>
+    <published>2016-01-27T16:00:00.000Z</published>
+    <updated>2019-01-29T14:27:28.112Z</updated>
+    
+    <content type="html"><![CDATA[<h2 id="空组件"><a href="#空组件" class="headerlink" title="空组件"></a>空组件</h2><p>这个错误可以用最简单的方式重现</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">var Example = null</span><br><span class="line">ReactDOM.render(&lt;Example/&gt;, document.getElementById(&apos;container&apos;))</span><br></pre></td></tr></table></figure><p>会报以下错误：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Warning: React.createElement: type should not be null, undefined, boolean, or number. It should be a string (for DOM elements) or a ReactClass (for composite components).</span><br><span class="line"></span><br><span class="line">Invariant Violation: Element type is invalid: expected a string (for built-in components) or a class/function (for composite components) but got: object.</span><br></pre></td></tr></table></figure></p><h2 id="babel-6-export-default"><a href="#babel-6-export-default" class="headerlink" title="babel@6 export default"></a>babel@6 export default</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export default Example</span><br></pre></td></tr></table></figure><p>babel使用了 presets <code>[&#39;es2015&#39;, &#39;react&#39;, &#39;stage-2&#39;]</code> 转换为了<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">exports.default = Example</span><br></pre></td></tr></table></figure></p><p>请使用 <code>module.exports = Exmaple</code> 代替。</p><p>以上两个问题结合起来后产生的问题，让我抓狂了数日。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h2 id=&quot;空组件&quot;&gt;&lt;a href=&quot;#空组件&quot; class=&quot;headerlink&quot; title=&quot;空组件&quot;&gt;&lt;/a&gt;空组件&lt;/h2&gt;&lt;p&gt;这个错误可以用最简单的方式重现&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td
+      
+    
+    </summary>
+    
+    
+      <category term="React" scheme="http://guileen.github.io/tags/React/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>vim现代js设置</title>
+    <link href="http://guileen.github.io/2016/01/21/setting-up-vim-for-modern-js/"/>
+    <id>http://guileen.github.io/2016/01/21/setting-up-vim-for-modern-js/</id>
+    <published>2016-01-20T16:00:00.000Z</published>
+    <updated>2019-01-29T14:27:28.109Z</updated>
+    
+    <content type="html"><![CDATA[<p>Install vim plugin: yajs editorconfig-vim</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let g:jsx_ext_required = 0 &quot; Allow JSX in normal JS files</span><br><span class="line">let g:syntastic_javascript_checkers = [&apos;eslint&apos;]</span><br></pre></td></tr></table></figure><p>安装相关工具</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g eslint babel-eslint eslint-plugin-react</span><br></pre></td></tr></table></figure><p>代码检查开关：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">/* eslint-disable no-console */</span><br><span class="line"></span><br><span class="line">//suppress all warnings between comments</span><br><span class="line">console.log(&apos;foo&apos;);</span><br><span class="line"></span><br><span class="line">/* eslint-enable */</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;Install vim plugin: yajs editorconfig-vim&lt;/p&gt;
+&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/sp
+      
+    
+    </summary>
+    
+    
+      <category term="editor" scheme="http://guileen.github.io/tags/editor/"/>
+    
+      <category term="vim" scheme="http://guileen.github.io/tags/vim/"/>
+    
+  </entry>
+  
+</feed>

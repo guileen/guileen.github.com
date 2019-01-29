@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <link rel="dns-prefetch" href="http://guileen.github.io">
+  <title>桂糊涂的德州扑克AI | 桂糊涂的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="如何编写德州扑克的AI。 德州扑克与其他的棋牌类游戏不同，他不一定存在着最优解，更多的是一种心理竞技。这对于人类来说可能很简单，但对于电脑来说却并不擅长。我的目标就是将人类的思维用代码的方式重现出来。 对德州的分析，首先是概率。一手牌的胜率是多少。在底牌，翻牌，转牌，河牌阶段的算法依次如下： 底牌阶段的算法采用查表法。13不同花色的牌组合共有169种，分为，对子面，同花面，杂花面。这里有个小技巧，">
+<meta name="keywords" content="game,AI">
+<meta property="og:type" content="article">
+<meta property="og:title" content="桂糊涂的德州扑克AI">
+<meta property="og:url" content="http://guileen.github.io/2015/01/19/guileen-texasholdem-ai/index.html">
+<meta property="og:site_name" content="桂糊涂的博客">
+<meta property="og:description" content="如何编写德州扑克的AI。 德州扑克与其他的棋牌类游戏不同，他不一定存在着最优解，更多的是一种心理竞技。这对于人类来说可能很简单，但对于电脑来说却并不擅长。我的目标就是将人类的思维用代码的方式重现出来。 对德州的分析，首先是概率。一手牌的胜率是多少。在底牌，翻牌，转牌，河牌阶段的算法依次如下： 底牌阶段的算法采用查表法。13不同花色的牌组合共有169种，分为，对子面，同花面，杂花面。这里有个小技巧，">
+<meta property="og:locale" content="default">
+<meta property="og:updated_time" content="2019-01-29T14:57:52.307Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="桂糊涂的德州扑克AI">
+<meta name="twitter:description" content="如何编写德州扑克的AI。 德州扑克与其他的棋牌类游戏不同，他不一定存在着最优解，更多的是一种心理竞技。这对于人类来说可能很简单，但对于电脑来说却并不擅长。我的目标就是将人类的思维用代码的方式重现出来。 对德州的分析，首先是概率。一手牌的胜率是多少。在底牌，翻牌，转牌，河牌阶段的算法依次如下： 底牌阶段的算法采用查表法。13不同花色的牌组合共有169种，分为，对子面，同花面，杂花面。这里有个小技巧，">
+  
+    <link rel="alternative" href="/atom.xml" title="桂糊涂的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/avatar.jpg">
+  
+  <link rel="stylesheet" href="/main.css">
+  
+
+</head>
+</html>
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">桂糊涂</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">代码杂记</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/course/">课程</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/guileen" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="https://weibo.com/guileen" title="weibo">weibo</a>
+		        
+					<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">桂糊涂</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">桂糊涂</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">代码杂记</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/course/">课程</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/guileen" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="https://weibo.com/guileen" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-guileen-texasholdem-ai" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      桂糊涂的德州扑克AI
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>如何编写德州扑克的AI。</p>
+<p>德州扑克与其他的棋牌类游戏不同，他不一定存在着最优解，更多的是一种心理竞技。这对于人类来说可能很简单，但对于电脑来说却并不擅长。我的目标就是将人类的思维用代码的方式重现出来。</p>
+<p>对德州的分析，首先是概率。一手牌的胜率是多少。在底牌，翻牌，转牌，河牌阶段的算法依次如下：</p>
+<p>底牌阶段的算法采用查表法。13不同花色的牌组合共有169种，分为，对子面，同花面，杂花面。这里有个小技巧，13可以用4个bit来表示，两张底牌的组合，正好可以用一个字节来表示。我用高位在前表示同花，低位在前表示杂花。</p>
+<p>河牌阶段的胜率算法也比较简单。我采用的是穷举法————去除自己的底牌和公牌后，组合遍历对手可能的底牌，将对手的底牌与自己的底牌比较，胜率=获胜次数/组合数。组合数共有995种。这里的关键是如何高效比较我方牌与对手牌的大小。</p>
+<p>转牌阶段的胜率，依然采用穷举法————组合遍历河牌，并计算河牌胜率的平均值。河牌共有46种可能，因此算法复杂度为O(45540)。这一切比较都依赖于快速比较手牌，如果手牌比较速度慢，将无法快速计算出这一胜率。</p>
+<p>翻牌阶段胜率，无法再采用转牌阶段胜率的算法，这里有个技巧，翻牌阶段胜率近似=发一张牌后的胜率。</p>
+<p>如何快速比较自己和对方的手牌。这里也使用了一个小技巧，就是将每张牌面的大小数值化。德州牌面比较是先比较牌型，再比较牌值。因此，将牌型的值作为最高位，将牌面的值作为后5位，即可形成一个比较值。如红3黑5方A梅5方5，牌值为=3555e3。3代表3条牌型，555e3是牌面值。A一般作为14牌值处理。从高牌，对子，两对，三条，顺子，葫芦，同花，四条，同花顺，依次是0，1，2，3，4，5，6，7，8。牌面值直接用2,3,4,5,6,7,8,9,A,B,C,D,E。以16进制表示依然可以有很好的可读性。</p>
+<p>在做牌型检测时，同花，顺子比较特殊，其他的4条，3条，葫芦，两对，对子，高牌，都是相似的。</p>
+<p>同花检测，将同样花色的牌放进桶里，一个桶里的牌大于等于5张，则为同花，若这5张还能成顺，则为同花顺。</p>
+<p>顺子检测时，A较为特殊，既可以和10，J，Q，K搭配，也可以和2，3，4，5，6搭配。将14位数组，设置1，0，1表示存在该牌，0表示不存在。从大到小遍历计数，连续计数5次则为顺子。之所以从大到小遍历是为了找到最大的顺子而不是最小的顺子。</p>
+<p>其他牌型比较，先将牌放进13个桶里，然后将这些桶排序。排序方法是，桶里的牌越多越大，牌一样多比较桶本身的编号。这样我们就得出了[3个3，2个J，2个8，1个K]的桶列表。如果第一个桶是4张，那我们的牌型就是4条。第一个桶是3张就是3条，同时第二个桶是2张就是葫芦，前两个桶是两张就是两对，第一个桶是两张是一对，否则就是杂牌。</p>
+<p>但是仅仅知道胜率是远远不够的，这只是人类思维的开始。人类对于胜率的判断很多是基于经验，但这种经验非常高效，综合考虑了很多数学概率中没考虑到的因素：比如，玩家数量，底池大小，对手下注量。人类有恐惧感，也有冒险精神，这都是电脑所不具备的。</p>
+<p>有没有可能设计一种AI，只根据标准的概率下注，完全不考虑人类心理因素呢？</p>
+<p>德州高手会研究对手。如果一个玩家从来不Bluff（诈赌），并且他的下注量和他的胜率相关。有经验的牌手，可以根据他的下注量反推出他的胜率，再根据他的胜率反推出他的手牌。与一个透明的玩家玩牌，要赢可能要看手气，要输真的很难。</p>
+<p>另一方面，一个绝不冒险的玩家，也会被轻易的Bluff掉，从而使对手的实际胜率远大于理论上的胜率。</p>
+<p>还有一方面，那就是恐惧。电脑不会恐惧，当对手ALLIN的时候，人类会忌惮，会重新评估对手的牌力。但电脑不会，他认为的大牌，无论多大的注都会跟。</p>
+<p>因此，学会冒险与恐惧是编写德州AI的最大难点。</p>
+<p>人数概率修正。人数影响概率。<br>恐惧修正。<br>安全跟注值计算。<br>Value控制。<br>Balnace。<br>BLUFF。Bluff的时机。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/01/19/guileen-texasholdem-ai/" class="archive-article-date">
+  	<time datetime="2015-01-18T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-01-19</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/">AI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game/">game</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2015/02/04/install-pptp-vpn-on-ubuntu/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Ubuntu安装pptp vpn 防火墙
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2015/01/18/stretegy-of-texasholdem/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">德州扑克策略心得</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+
+<script type="text/javascript">
+(function(){
+var url = "http://widget.weibo.com/distribution/comments.php?width=0&url=auto&brandline=y&fontsize=12&skin=9&ralateuid=1751113432&appkey=3729652156&iframskin=9&dpc=1";
+url = url.replace("url=auto", "url=" + encodeURIComponent(document.URL));
+document.write('<iframe id="WBCommentFrame" src="' + url + '" scrolling="no" frameborder="0" style="width:100%"></iframe>');
+})();
+</script>
+<script src="http://tjs.sjs.sinajs.cn/open/widget/js/widget/comment.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.WBComment.init({
+    "id": "WBCommentFrame"
+});
+</script>
+
+</div>
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2019 桂糊涂
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+<script src="/./main.js"></script>
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.43px;">AI</a> <a href="/tags/CI/" style="font-size: 12.86px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.86px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.43px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.86px;">android</a> <a href="/tags/architecture/" style="font-size: 18.57px;">architecture</a> <a href="/tags/books/" style="font-size: 11.43px;">books</a> <a href="/tags/cli/" style="font-size: 10px;">cli</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.86px;">data-format</a> <a href="/tags/editor/" style="font-size: 14.29px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 14.29px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.14px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.86px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 14.29px;">go</a> <a href="/tags/gossip/" style="font-size: 12.86px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.43px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 11.43px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.86px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/management/" style="font-size: 11.43px;">management</a> <a href="/tags/marketing/" style="font-size: 11.43px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 14.29px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.86px;">mysql</a> <a href="/tags/network/" style="font-size: 15.71px;">network</a> <a href="/tags/nginx/" style="font-size: 11.43px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.86px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/philosophy/" style="font-size: 11.43px;">philosophy</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.43px;">redis</a> <a href="/tags/resources/" style="font-size: 10px;">resources</a> <a href="/tags/security/" style="font-size: 11.43px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.86px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.86px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.43px;">vim</a> <a href="/tags/web/" style="font-size: 15.71px;">web</a>
+    			</div>
+    	</section>
+    
+
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">一&lt;br&gt;个&lt;br&gt;码&lt;br&gt;农</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
