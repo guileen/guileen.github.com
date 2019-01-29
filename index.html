@@ -174,7 +174,7 @@
 </ol>
 <p>最终选择了maildev，安装简单方便<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i -g maildev</span><br><span class="line">maildev --web-user xx --web-pass xx</span><br></pre></td></tr></table></figure></p>
 <p>使用supervisor，后台运行<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># supervisor/conf.d/maildev.conf</span><br><span class="line">[program:maildev]</span><br><span class="line">command=/opt/nodejs/bin/maildev --web-user=xx --web-pass=xx -s 25 -w 1080</span><br><span class="line">redirect_stderr=true</span><br><span class="line">stdout_logfile=/var/log/maildev.log</span><br><span class="line">stdout_logfile_maxbytes=10MB</span><br><span class="line">stdout_logfile_backups=10</span><br><span class="line">stdout_capture_maxbytes=100MB</span><br></pre></td></tr></table></figure></p>
-<p>修改DNS，添加MX记录为服务器IP。发邮件到<a href="mailto:test@example.com" target="_blank" rel="noopener">test@example.com</a> 测试，打开 <a href="http://example.com:1080/，可以看到自己刚发的邮件。说明已经可以有任意多的邮箱了。" target="_blank" rel="noopener">http://example.com:1080/，可以看到自己刚发的邮件。说明已经可以有任意多的邮箱了。</a></p>
+<p>修改DNS，添加MX记录为服务器IP。发邮件到<a href="mailto:test@example.com" target="_blank" rel="noopener">test@example.com</a> 测试，打开 <code>http://example.com:1080/</code> ，可以看到自己刚发的邮件。说明已经可以有任意多的邮箱了。</p>
 <p>把他和brook科学上网服务放在同一台服务器上，充分利用资源。</p>
 
       

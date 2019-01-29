@@ -140,61 +140,6 @@
       <div class="body-wrap">
         
   
-    <article id="post-f-shaped-pattern-reading-web-content" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/03/18/f-shaped-pattern-reading-web-content/">尼爾森F模型</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>尼爾森F模型，是根據眼球追蹤技術的實驗數據得出的結論，即人類在瀏覽網頁時通常遵循先橫向再縱向再橫向的模式。</p>
-<p>對這種模式的理解在提高網站轉化率方面非常有意義。</p>
-<p><img src="http://media.nngroup.com/media/editor/alertbox/f_reading_pattern_eyetracking.jpg" alt=""></p>
-<p><a href="http://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/" target="_blank" rel="noopener">F-Shaped Pattern For Reading Web Content</a><br> by JAKOB NIELSEN on April 17, 2006</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2014/03/18/f-shaped-pattern-reading-web-content/" class="archive-article-date">
-  	<time datetime="2014-03-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-18</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/marketing/">marketing</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
     <article id="post-static-site-generator" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -258,6 +203,61 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-f-shaped-pattern-reading-web-content" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/18/f-shaped-pattern-reading-web-content/">尼爾森F模型</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>尼爾森F模型，是根據眼球追蹤技術的實驗數據得出的結論，即人類在瀏覽網頁時通常遵循先橫向再縱向再橫向的模式。</p>
+<p>對這種模式的理解在提高網站轉化率方面非常有意義。</p>
+<p><img src="http://media.nngroup.com/media/editor/alertbox/f_reading_pattern_eyetracking.jpg" alt=""></p>
+<p><a href="http://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/" target="_blank" rel="noopener">F-Shaped Pattern For Reading Web Content</a><br> by JAKOB NIELSEN on April 17, 2006</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/03/18/f-shaped-pattern-reading-web-content/" class="archive-article-date">
+  	<time datetime="2014-03-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-18</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/marketing/">marketing</a></li></ul>
 	</div>
 
       
@@ -462,60 +462,6 @@
 
 
   
-    <article id="post-localstorage-errors" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/02/25/localstorage-errors/">LocalStorage的异常处理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>当达到localStorage容量上限时，按照标准描述会抛出 <code>QUOTA_EXCEEDED_ERR</code>. 但这个 <code>QUOTA_EXCEEDED_ERR</code> 到底是什么？一个常量？一个字符串？<a href="http://chrisberkhout.com/blog/localstorage-errors/" target="_blank" rel="noopener">各浏览器的实现却不一样</a>.</p>
-<p>所以我使用了以下简单的方法来处理这个异常。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    localStorage.setItem(key, value);</span><br><span class="line">&#125;<span class="keyword">catch</span>(e) &#123;</span><br><span class="line">    localStorage.clear();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2014/02/25/localstorage-errors/" class="archive-article-date">
-  	<time datetime="2014-02-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-02-25</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
     <article id="post-common-app-folders" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -619,6 +565,60 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/">ops</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-localstorage-errors" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/02/25/localstorage-errors/">LocalStorage的异常处理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>当达到localStorage容量上限时，按照标准描述会抛出 <code>QUOTA_EXCEEDED_ERR</code>. 但这个 <code>QUOTA_EXCEEDED_ERR</code> 到底是什么？一个常量？一个字符串？<a href="http://chrisberkhout.com/blog/localstorage-errors/" target="_blank" rel="noopener">各浏览器的实现却不一样</a>.</p>
+<p>所以我使用了以下简单的方法来处理这个异常。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    localStorage.setItem(key, value);</span><br><span class="line">&#125;<span class="keyword">catch</span>(e) &#123;</span><br><span class="line">    localStorage.clear();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/02/25/localstorage-errors/" class="archive-article-date">
+  	<time datetime="2014-02-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-02-25</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/">web</a></li></ul>
 	</div>
 
       

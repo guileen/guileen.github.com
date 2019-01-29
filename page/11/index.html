@@ -140,7 +140,7 @@
       <div class="body-wrap">
         
   
-    <article id="post-how-to-enable-fenced-code-block-on-github-pages" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-redis-leveldb" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy">
@@ -150,7 +150,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/17/how-to-enable-fenced-code-block-on-github-pages/">How to enable fenced code block in github pages</a>
+      <a class="article-title" href="/2013/03/17/redis-leveldb/">redis leveldb</a>
     </h1>
   
 
@@ -158,34 +158,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://github.com/blog/1366-github-pages-updated-to-jekyll-0-12-0" target="_blank" rel="noopener">Github pages最近升级了jekyll 0.12.0</a>, 这一版本支持fenced code block.</p>
-<p>in your _config.yml</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">markdown:</span> <span class="string">redcarpet</span></span><br></pre></td></tr></table></figure>
-<pre><code><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span></span></span><br><span class="line">  puts <span class="string">'foo'</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-</code></pre><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span></span></span><br><span class="line">    puts <span class="string">'foo'</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; &quot;&#123;%&quot; &#125;&#125; highlight ruby linenos=table %&#125;</span><br><span class="line">def foo</span><br><span class="line">  puts &apos;foo&apos;</span><br><span class="line">end</span><br><span class="line">&#123;&#123; &quot;&#123;%&quot; &#125;&#125; endhighlight %&#125;</span><br></pre></td></tr></table></figure>
-<p>to:</p>
-
-{% highlight ruby linenos=table %}
-def foo
-  puts 'foo'
-end
-{% endhighlight %}
-
-<p>如你所见，鄙人想增加行号，但是失败了。</p>
-<p>非常遗憾的是，tag pages依然不被支持</p>
+        <p>redis protocol + leveldb storage = perfect key/value database</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/03/17/how-to-enable-fenced-code-block-on-github-pages/" class="archive-article-date">
+      <a href="/2013/03/17/redis-leveldb/" class="archive-article-date">
   	<time datetime="2013-03-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-17</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/generator/">generator</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nosql/">nosql</a></li></ul>
 	</div>
 
       
@@ -371,6 +356,73 @@ SIGVTALRM 终止进程    虚拟计时器到时
 
 
   
+    <article id="post-chauvenet-criterion" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/15/chauvenet-criterion/">肖维勒准则</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>数据中并不总是合法数据，为了更好的完成统计，我们必须剔除异常的数据。</p>
+<p>如何剔除异常的实验数据(Outlier rejection)，有许多的方法。</p>
+<p>介绍一种易于实现的方法，叫做<a href="http://en.wikipedia.org/wiki/Chauvenet&#39;s_criterion" target="_blank" rel="noopener">肖维勒准则(Chauvenet’s criterion)</a></p>
+<p>平均值</p>
+<pre><code>mean = sum(v) / n
+</code></pre><p>标准差</p>
+<pre><code>sd = sqrt(sum(v(i) * v(i) - mean * mean, i=1 to n) / (n - 1))
+</code></pre><p><a href="http://en.wikipedia.org/wiki/Chauvenet&#39;s_criterion" target="_blank" rel="noopener">肖维勒准则(Chauvenet’s criterion)</a></p>
+<p>如果某样本数据d满足</p>
+<pre><code>|v(d)| &gt; w(n) * sd
+</code></pre><p>则认为v(d)是一个异常数据，将其剔除。</p>
+<p>W(n) 是一个常数，可以用查表法获得</p>
+<p>Table of Chauvenet’s Criterion for data rejection, with curve fit equation</p>
+<p>Chauvenet’s Criterion</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">--------------------------</span><br><span class="line">| n          | c         |</span><br><span class="line">--------------------------</span><br><span class="line">| 3          | 1.38      |</span><br><span class="line">| 4          | 1.54      |</span><br><span class="line">| 5          | 1.65      |</span><br><span class="line">| 6          | 1.73      |</span><br><span class="line">| 7          | 1.8       |</span><br><span class="line">| 10         | 1.96      |</span><br><span class="line">| 15         | 2.13      |</span><br><span class="line">| 25         | 2.33      |</span><br><span class="line">| 50         | 2.57      |</span><br><span class="line">| 100        | 2.81      |</span><br><span class="line">--------------------------</span><br><span class="line">|c = 0.9969+0.4040*ln(n) |</span><br><span class="line">--------------------------</span><br></pre></td></tr></table></figure>
+<p>很奇怪，通过公式获得的结果和表上给的结果并不一致。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/15/chauvenet-criterion/" class="archive-article-date">
+  	<time datetime="2013-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-15</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-node-events-scope" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -418,73 +470,6 @@ foo.emit(&apos;hello&apos;);
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/">node.js</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-chauvenet-criterion" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/15/chauvenet-criterion/">肖维勒准则</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>数据中并不总是合法数据，为了更好的完成统计，我们必须剔除异常的数据。</p>
-<p>如何剔除异常的实验数据(Outlier rejection)，有许多的方法。</p>
-<p>介绍一种易于实现的方法，叫做<a href="http://en.wikipedia.org/wiki/Chauvenet&#39;s_criterion" target="_blank" rel="noopener">肖维勒准则(Chauvenet’s criterion)</a></p>
-<p>平均值</p>
-<pre><code>mean = sum(v) / n
-</code></pre><p>标准差</p>
-<pre><code>sd = sqrt(sum(v(i) * v(i) - mean * mean, i=1 to n) / (n - 1))
-</code></pre><p><a href="http://en.wikipedia.org/wiki/Chauvenet&#39;s_criterion" target="_blank" rel="noopener">肖维勒准则(Chauvenet’s criterion)</a></p>
-<p>如果某样本数据d满足</p>
-<pre><code>|v(d)| &gt; w(n) * sd
-</code></pre><p>则认为v(d)是一个异常数据，将其剔除。</p>
-<p>W(n) 是一个常数，可以用查表法获得</p>
-<p>Table of Chauvenet’s Criterion for data rejection, with curve fit equation</p>
-<p>Chauvenet’s Criterion</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">--------------------------</span><br><span class="line">| n          | c         |</span><br><span class="line">--------------------------</span><br><span class="line">| 3          | 1.38      |</span><br><span class="line">| 4          | 1.54      |</span><br><span class="line">| 5          | 1.65      |</span><br><span class="line">| 6          | 1.73      |</span><br><span class="line">| 7          | 1.8       |</span><br><span class="line">| 10         | 1.96      |</span><br><span class="line">| 15         | 2.13      |</span><br><span class="line">| 25         | 2.33      |</span><br><span class="line">| 50         | 2.57      |</span><br><span class="line">| 100        | 2.81      |</span><br><span class="line">--------------------------</span><br><span class="line">|c = 0.9969+0.4040*ln(n) |</span><br><span class="line">--------------------------</span><br></pre></td></tr></table></figure>
-<p>很奇怪，通过公式获得的结果和表上给的结果并不一致。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/15/chauvenet-criterion/" class="archive-article-date">
-  	<time datetime="2013-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-15</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
 	</div>
 
       
@@ -799,7 +784,7 @@ serverurl=AUTO
 
 
   
-    <article id="post-game-essence-theory" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-lua-tools" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy">
@@ -809,7 +794,7 @@ serverurl=AUTO
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/02/game-essence-theory/">网络游戏本质论</a>
+      <a class="article-title" href="/2013/03/02/lua-tools/">Lua 工具集</a>
     </h1>
   
 
@@ -817,63 +802,48 @@ serverurl=AUTO
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>网络游戏的本质是什么？</p>
-<h2 id="游戏的本质"><a href="#游戏的本质" class="headerlink" title="游戏的本质?"></a>游戏的本质?</h2><p>游戏的历史比人类的历史还要久远。玩游戏并不是人类才有的行为，猫猫狗狗都喜欢玩游戏。人类的游戏花样更多，<br>在计算机和互联网的时代，这种变化更加复杂。</p>
-<ul>
-<li>游戏心理学</li>
-</ul>
-<p>游戏制作不是胡乱拼凑。最后出来的东西四不像，没人玩。</p>
-<ul>
-<li>情景 体验无法体验的生活、世界。 神话、故事、小说、动漫、电影</li>
-<li>好奇 探险、解谜</li>
-<li>挑战 Puzzle。Boss。无尽。</li>
-<li>归属 与人一起玩，不想脱离群体</li>
-<li>战争 模拟战争。野心家、君主、策略。</li>
-<li>战斗 好战者。鼓励进攻。对战的策略感，紧张感。斗智为主。</li>
-<li>杀戮 角色扮演，ARPG，Dota</li>
-<li>收集 别人有的我也想有。</li>
-<li>炫耀 向周围的人、好友炫耀自己的战果。</li>
-<li>名望 让尽可能多的人注意到自己。</li>
-<li>休闲 打发时间。</li>
-<li>贪婪 投机取巧，用最少的成本获得大家都想要的东西。2，占小便宜</li>
-<li>恐惧 害怕失去、害怕死亡、害怕孤独</li>
-<li>赌博</li>
-<li>狂欢</li>
-<li>自信 寻找自信。</li>
-<li>色欲</li>
-</ul>
-<ul>
-<li><p>游戏反心理学</p>
-<ul>
-<li>挫败 挫败感是游戏大敌。要让人越战越勇，宁可杀红眼，不能让人一蹶不振。</li>
-<li>不公 不公平。成长类的游戏，要阶段性的公平。</li>
-<li>作弊</li>
-<li>懒惰</li>
-<li>重复 重复性的事情，令人厌倦。</li>
-</ul>
-</li>
-<li><p>网络游戏的必要元素</p>
-</li>
-</ul>
-<p>游戏的特点</p>
-<ul>
-<li>真正的虚拟世界，与现实关联少</li>
-<li>发展、成长、进步</li>
-<li>变化<br>*</li>
-<li>时间越长忠诚度越高</li>
-</ul>
-
+        <p>Lua note on Mac</p>
+<h2 id="lua"><a href="#lua" class="headerlink" title="lua"></a>lua</h2><p>brew install lua</p>
+<h2 id="luarocks-包管理"><a href="#luarocks-包管理" class="headerlink" title="luarocks - 包管理"></a>luarocks - 包管理</h2><p>brew install  luarocks</p>
+<p>luarocks install …</p>
+<p>试用失败</p>
+<h2 id="busted-BDD-like-node-mocha"><a href="#busted-BDD-like-node-mocha" class="headerlink" title="busted - BDD, like node mocha"></a>busted - BDD, like node mocha</h2><p><a href="https://github.com/Olivine-Labs/busted" target="_blank" rel="noopener">https://github.com/Olivine-Labs/busted</a></p>
+<h2 id="inspect"><a href="#inspect" class="headerlink" title="inspect"></a>inspect</h2><p><a href="https://github.com/kikito/inspect.lua" target="_blank" rel="noopener">https://github.com/kikito/inspect.lua</a><br>我用这个工具来debug</p>
+<h1 id="C-绑定到lua"><a href="#C-绑定到lua" class="headerlink" title="C++绑定到lua"></a>C++绑定到lua</h1><h2 id="tolua"><a href="#tolua" class="headerlink" title="tolua++"></a>tolua++</h2><p>cocos2d-x tools 目录下有编译好的tolua++</p>
+<p>编译（Mac OSX）</p>
+<p>1.用brew安装lua</p>
+<p>brew install lua</p>
+<p>2.到官网下载tolua++</p>
+<p><a href="http://www.codenix.com/~tolua/" target="_blank" rel="noopener">http://www.codenix.com/~tolua/</a></p>
+<p>3.编译生成tolua++.a静态库</p>
+<p>cd Downloads/tolua++-1.0.93/src/lib</p>
+<p>gcc -c *.c -I../../include</p>
+<p>ar rcsv libtolua++.a *.o</p>
+<p>4.编译tolua++</p>
+<p>cd Downloads/tolua++-1.0.93/src/bin</p>
+<p>gcc tolua.c toluabind.c -I../../include -L../lib/ -ltolua++ -llua -o tolua++</p>
+<p>5.done</p>
+<p>tolua++ 1.0.93 not support Lua 5.2, use Lua 5.1</p>
+<p>好久没有更新了</p>
+<h2 id="tolua-1"><a href="#tolua-1" class="headerlink" title="tolua"></a>tolua</h2><p>更新，但是没有尝试</p>
+<h2 id="luabind"><a href="#luabind" class="headerlink" title="luabind"></a>luabind</h2><h2 id="swig"><a href="#swig" class="headerlink" title="swig"></a>swig</h2><p>Swig 是为多语言准备的，编译lua有点重。</p>
+<h2 id="LuaJIT"><a href="#LuaJIT" class="headerlink" title="LuaJIT"></a>LuaJIT</h2><h2 id="学习cocos2d-x-lua"><a href="#学习cocos2d-x-lua" class="headerlink" title="学习cocos2d-x lua"></a>学习cocos2d-x lua</h2><p>先看了一本cocos2d-iphone的书。</p>
+<p>看pkg文件来了解哪些功能可以使用，pkg文件也是了解cocos2d-x的好方法。</p>
+<h2 id="unpack"><a href="#unpack" class="headerlink" title="unpack"></a>unpack</h2><pre><code>a,b,c = unpack({1,2,3})
+local ret = self.db[cmd](self.db, arg[0], arg[1], arg[2])
+local ret = self.db[cmd](self.db, unpack(arg))
+</code></pre>
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/03/02/game-essence-theory/" class="archive-article-date">
+      <a href="/2013/03/02/lua-tools/" class="archive-article-date">
   	<time datetime="2013-03-01T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-02</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/">game-dev</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/lua/">lua</a></li></ul>
 	</div>
 
       

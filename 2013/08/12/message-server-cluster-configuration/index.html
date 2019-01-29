@@ -9,7 +9,7 @@
   <title>消息服务器集群的管理 | 桂糊涂的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
   <meta name="description" content="N台服务器，N &amp;gt; 10，相互之间会有通信，每台服务器都会开启数个进程监听数个端口用于接收来自其他服务器的消息。每个进程都必须设置一个id，其他服务器发送消息时需要根据目标服务器的id获取该id对应的进程ip和port。 静态配置1all_server_ids[id] = &amp;#123;host: &amp;apos;xxx&amp;apos;, port: 1234&amp;#125;; 启动每个进程时，用参数指定">
-<meta name="keywords" content="IM,cluster,architecture">
+<meta name="keywords" content="architecture,IM,cluster">
 <meta property="og:type" content="article">
 <meta property="og:title" content="消息服务器集群的管理">
 <meta property="og:url" content="http://guileen.github.io/2013/08/12/message-server-cluster-configuration/index.html">

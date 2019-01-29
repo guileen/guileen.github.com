@@ -210,6 +210,68 @@
 
 
   
+    <article id="post-network-tools" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/26/network-tools/">集群运维工具</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="www.17ce.com">17ce</a><br><a href="ip.cn">ip.cn</a></p>
+<p>zookeeper<br>docker<br><a href="https://github.com/googlecloudplatform/kubernetes" target="_blank" rel="noopener">kubernetes</a><br><a href="https://github.com/wandoulabs/codis" target="_blank" rel="noopener">codis</a><br>ssdb<br>stridecd<br>devops - 开发运营</p>
+<h2 id="直接Mark！开源的DevOps开发工具箱"><a href="#直接Mark！开源的DevOps开发工具箱" class="headerlink" title="直接Mark！开源的DevOps开发工具箱"></a>直接Mark！开源的DevOps开发工具箱</h2><p>来源CSDN| 作者张红月</p>
+<p>开源工具DevOps监控工具开源<br>摘要：在DevOps的整个流程中，使用一些开源工具可以促进开发与运维之间的沟通，有利于项目的管理，甚至可以达到事半功倍的效果。<br>DevOps是一组过程、方法与系统的统称，用于促进开发（应用程序/软件工程）、技术运营和质量保障（QA）部门之间的沟通、协作与整合。在DevOps的整个流程中，使用一些开源工具可以促进开发与运维之间的沟通，有利于项目的管理，甚至可以达到事半功倍的效果。</p>
+<p>本文作者Richard Kraaijenhagen是Owlin创始人，全栈工程师，数据科学家。他收集了DevOps开发可能用到的所有工具，并且把它们按照职责进行分类，本文摘取了部分工具分享给大家，这些工具也可以用于日常软件方面的开发，所以，大家直接Mark吧！</p>
+<p>包&amp;产品管理工具</p>
+<p>Chocolatey：Chocolatey是Windows下一款开源的命令行包管理软件 ，简单说这就是Windows的apt-get；<br>FPM：全称是Effing package management，该死的软件包管理器，极大的缓解了多个平台构建软件包(deb,rpm,等)的痛苦；<br>Herd：是一个基于Twitter Murder的文件分布系统；<br>Vagrant Cachier：Vagrant的一个插件，用于缓存包方面的管理；<br>WiX Toolset：提供一组最强大的工具集来帮助你创建Windows安装包。该工具集从XML源代码构建你的Windows安装程序包，可以无缝集成到构建过程；<br>Boxstarter：利用Chocolatey包管理工具来自动化安装软件和创建可重复、脚本化的Windows环境；<br>Elita：Elita是一个利用git和salt进行持续部署（部署作为服务）和API-driven基础设施的引擎/框架；<br>Fig：主要用来跟Docker一起来实现的快速隔离的开发环境；<br>Pulp：Pulp是一个用来管理软件库以及相关内容的平台；<br>Veewee：Veewee是一个开源工具，用来创建和配置轻量级、可再生、便捷式虚拟机环境。</p>
+<p>日志&amp;监控<br>AmonOne：现代化的自托管服务器监控工具；<br>Anthracite：一个事件/日志改变/管理应用程序；<br>collectd3：是一个可视化的collectd系统性能统计工具；<br>collectd：是一个守护(daemon)进程，用来收集系统性能和提供各种存储方式来存储不同值的机制；<br>Diamond：是一个基于Python的守护程序，主要用来收集系统指标，并且把它们发布到Graphite（或其它）工具中；<br>Errbit：是一个用于收集和管理程序错误的开源工具；<br>Sensu：一个开源的监控框架；<br>Logstash：是一个应用程序日志、事件的传输、处理、管理和搜索的平台。你可以用它来统一对应用程序日志进行收集管理，提供Web接口用于查询和统计；<br>log.io：一个实时的开源日志监控工具；<br>FnordMetric：是一个基于redis/ruby的实时事件跟踪应用，是个收集和可视化时间序列数据的框架，用户可以在几分钟内创建漂亮的实时分析仪表盘；<br>Logster：是一个工具，读取日志文件然后创建Graphite 或 Ganglia可用的指标数据。比如你可能使用logster来图形化在你的Web Server日志中的HTTP响应发生数量；<br>Kibana：是一个为Logstash和ElasticSearch提供的日志分析的Web接口。可使用它对日志进行高效的搜索、可视化、分析等各种操作；<br>Monit：是一款功能非常丰富的进程、文件、目录和设备的监测软件，用于Unix平台。 它可以自动修复那些已经停止运作的程序，适合处理那些由于多种原因导致的软件错误；<br>Metrics：这并不是Java库，而是基于Go的一个轻量级的检测器；<br>Graphite：是一个用于采集网站实时信息并进行统计的开源项目，可用于采集多种网站服务运行状态信息；<br>Ganglia：Ganglia是一个跨平台可扩展的、高性能计算系统下的分布式监控系统，如集群和网格；<br>Server Density：一个跨平台的监控系统；<br>Folsom：Folsom是一款受 Coda Hale’s metrics启发的、基于Erlang的度量系统；<br>CMB (Cloud Message Bus)：是一个高可用、横向扩展的队列和通知服务，兼容AWS SQS和SNS；<br>Glances：是一款用于Linux、BSD的开源命令行系统监视工具，它使用Python语言开发，能够监视CPU、负载、内存、磁盘I/O、网络流量、文件系统、系统温度等信息。<br>Uptime：使用Node.js、MongoDB和Twitter Bootstrap开发的远程监控系统；<br>Icinga：Nagios的扩展版本；<br>Packetbeat： 是开源应用监控和包跟踪系统；<br>Zipkin：是Twitter的一个开源项目，允许开发者收集Twitter各个服务上的监控数据，并提供查询接口；<br>Dead Manâs Snitch：是一款监控Heroku Scheduler、计划的监视工具；<br>Statsd：是一个Node.js的daemon程序，简单，轻巧。使用的UDP协议，可以和Graphite图片渲染应用结合；<br>Riemann：一个网络监控系统；<br>Puppet Dashboard：Puppet Dashboard是一个Web接口，为Puppet提供节点分类和报告功能，是一个开源的配置管理工具；<br>jmxtrans：jmxtrans是一款非常强大的工具，使用它可以轻易生成基于json的配置文章，然后再以你想要的格式输出；<br>Scales：跟踪服务器状态和统计指标，使你全面掌握服务器状态，还可以发送指标到Graphite来图像呈现或者向文件写入崩溃信息；<br>Zabbix：是一个基于Web界面的提供分布式系统监视以及网络监视功能的企业级的开源解决方案；<br>Graylog 2：Graylog2是一个用来将系统日志syslog保存到MongoDB中的工具。<br>进程管理</p>
+<p>Bouncy：可以作为HTTP路由主机；<br>Supervisor：是一个客户端服务器系统，允许用户监控和控制类Unix操作系统上的进程数；<br>God：由Ruby实现的进程监控框架。<br>服务发现<br>Consul：简化了分布式环境中的服务的注册和发现流程，通过HTTP或者DNS接口发现。支持外部SaaS 提供者等；<br>etcd：是一个高可用的Key/Value存储系统，主要用于分享配置和服务发现；<br>Apache ZooKeeper：是Apache Hadoop的一个子项目，它主要是用来解决分布式应用中经常遇到的一些数据管理问题；<br>Weave：创建一个虚拟网络并连接到部署在多个主机上的Docker容器。<br>持续集成和交付</p>
+<p>Buildbot：是一个系统的自动化编译/测试周期最需要的软件，以验证代码的变化。通过自动重建和测试每次发生了变化的东西，在建设迅速查明之前，减少不必要的失败；<br>Cabot：是一个开源，自我托管的监控工具；<br>Jenkins：是基于Java开发的一种持续集成工具，用于监控持续重复的工作；<br>Hubot：基于脚本具有很高的灵活性，任何人都可以编写自己的脚本来扩展基本功能；<br>Hudson：是一个可扩展的持续集成引擎，主要用于：持续、自动地构建/测试软件项目、监控一些定时执行的任务；<br>CruiseControl.rb：是一个持续集成服务器，它可以让团队里的每个人随时了解项目的健康状况和进度；<br>OpsBot：是一个开源的、可插入的改善通信的机器人。<br>希望这些工具能够给开发者带来实实在在的帮助，想要查看更多工具，大家可以 访问原文，原文中的工具列表会持续更新。</p>
+<p>最后，再跟大家分享一个 DevOps BookMarks，这里面涉及了DevOps方方面面的工具和内容，有兴趣的同学可以前去学习。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/03/26/network-tools/" class="archive-article-date">
+  	<time datetime="2015-03-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-26</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/">ops</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-what-is-CRDT" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -319,68 +381,6 @@
 
 
   
-    <article id="post-network-tools" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/26/network-tools/">集群运维工具</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="www.17ce.com">17ce</a><br><a href="ip.cn">ip.cn</a></p>
-<p>zookeeper<br>docker<br><a href="https://github.com/googlecloudplatform/kubernetes" target="_blank" rel="noopener">kubernetes</a><br><a href="https://github.com/wandoulabs/codis" target="_blank" rel="noopener">codis</a><br>ssdb<br>stridecd<br>devops - 开发运营</p>
-<h2 id="直接Mark！开源的DevOps开发工具箱"><a href="#直接Mark！开源的DevOps开发工具箱" class="headerlink" title="直接Mark！开源的DevOps开发工具箱"></a>直接Mark！开源的DevOps开发工具箱</h2><p>来源CSDN| 作者张红月</p>
-<p>开源工具DevOps监控工具开源<br>摘要：在DevOps的整个流程中，使用一些开源工具可以促进开发与运维之间的沟通，有利于项目的管理，甚至可以达到事半功倍的效果。<br>DevOps是一组过程、方法与系统的统称，用于促进开发（应用程序/软件工程）、技术运营和质量保障（QA）部门之间的沟通、协作与整合。在DevOps的整个流程中，使用一些开源工具可以促进开发与运维之间的沟通，有利于项目的管理，甚至可以达到事半功倍的效果。</p>
-<p>本文作者Richard Kraaijenhagen是Owlin创始人，全栈工程师，数据科学家。他收集了DevOps开发可能用到的所有工具，并且把它们按照职责进行分类，本文摘取了部分工具分享给大家，这些工具也可以用于日常软件方面的开发，所以，大家直接Mark吧！</p>
-<p>包&amp;产品管理工具</p>
-<p>Chocolatey：Chocolatey是Windows下一款开源的命令行包管理软件 ，简单说这就是Windows的apt-get；<br>FPM：全称是Effing package management，该死的软件包管理器，极大的缓解了多个平台构建软件包(deb,rpm,等)的痛苦；<br>Herd：是一个基于Twitter Murder的文件分布系统；<br>Vagrant Cachier：Vagrant的一个插件，用于缓存包方面的管理；<br>WiX Toolset：提供一组最强大的工具集来帮助你创建Windows安装包。该工具集从XML源代码构建你的Windows安装程序包，可以无缝集成到构建过程；<br>Boxstarter：利用Chocolatey包管理工具来自动化安装软件和创建可重复、脚本化的Windows环境；<br>Elita：Elita是一个利用git和salt进行持续部署（部署作为服务）和API-driven基础设施的引擎/框架；<br>Fig：主要用来跟Docker一起来实现的快速隔离的开发环境；<br>Pulp：Pulp是一个用来管理软件库以及相关内容的平台；<br>Veewee：Veewee是一个开源工具，用来创建和配置轻量级、可再生、便捷式虚拟机环境。</p>
-<p>日志&amp;监控<br>AmonOne：现代化的自托管服务器监控工具；<br>Anthracite：一个事件/日志改变/管理应用程序；<br>collectd3：是一个可视化的collectd系统性能统计工具；<br>collectd：是一个守护(daemon)进程，用来收集系统性能和提供各种存储方式来存储不同值的机制；<br>Diamond：是一个基于Python的守护程序，主要用来收集系统指标，并且把它们发布到Graphite（或其它）工具中；<br>Errbit：是一个用于收集和管理程序错误的开源工具；<br>Sensu：一个开源的监控框架；<br>Logstash：是一个应用程序日志、事件的传输、处理、管理和搜索的平台。你可以用它来统一对应用程序日志进行收集管理，提供Web接口用于查询和统计；<br>log.io：一个实时的开源日志监控工具；<br>FnordMetric：是一个基于redis/ruby的实时事件跟踪应用，是个收集和可视化时间序列数据的框架，用户可以在几分钟内创建漂亮的实时分析仪表盘；<br>Logster：是一个工具，读取日志文件然后创建Graphite 或 Ganglia可用的指标数据。比如你可能使用logster来图形化在你的Web Server日志中的HTTP响应发生数量；<br>Kibana：是一个为Logstash和ElasticSearch提供的日志分析的Web接口。可使用它对日志进行高效的搜索、可视化、分析等各种操作；<br>Monit：是一款功能非常丰富的进程、文件、目录和设备的监测软件，用于Unix平台。 它可以自动修复那些已经停止运作的程序，适合处理那些由于多种原因导致的软件错误；<br>Metrics：这并不是Java库，而是基于Go的一个轻量级的检测器；<br>Graphite：是一个用于采集网站实时信息并进行统计的开源项目，可用于采集多种网站服务运行状态信息；<br>Ganglia：Ganglia是一个跨平台可扩展的、高性能计算系统下的分布式监控系统，如集群和网格；<br>Server Density：一个跨平台的监控系统；<br>Folsom：Folsom是一款受 Coda Hale’s metrics启发的、基于Erlang的度量系统；<br>CMB (Cloud Message Bus)：是一个高可用、横向扩展的队列和通知服务，兼容AWS SQS和SNS；<br>Glances：是一款用于Linux、BSD的开源命令行系统监视工具，它使用Python语言开发，能够监视CPU、负载、内存、磁盘I/O、网络流量、文件系统、系统温度等信息。<br>Uptime：使用Node.js、MongoDB和Twitter Bootstrap开发的远程监控系统；<br>Icinga：Nagios的扩展版本；<br>Packetbeat： 是开源应用监控和包跟踪系统；<br>Zipkin：是Twitter的一个开源项目，允许开发者收集Twitter各个服务上的监控数据，并提供查询接口；<br>Dead Manâs Snitch：是一款监控Heroku Scheduler、计划的监视工具；<br>Statsd：是一个Node.js的daemon程序，简单，轻巧。使用的UDP协议，可以和Graphite图片渲染应用结合；<br>Riemann：一个网络监控系统；<br>Puppet Dashboard：Puppet Dashboard是一个Web接口，为Puppet提供节点分类和报告功能，是一个开源的配置管理工具；<br>jmxtrans：jmxtrans是一款非常强大的工具，使用它可以轻易生成基于json的配置文章，然后再以你想要的格式输出；<br>Scales：跟踪服务器状态和统计指标，使你全面掌握服务器状态，还可以发送指标到Graphite来图像呈现或者向文件写入崩溃信息；<br>Zabbix：是一个基于Web界面的提供分布式系统监视以及网络监视功能的企业级的开源解决方案；<br>Graylog 2：Graylog2是一个用来将系统日志syslog保存到MongoDB中的工具。<br>进程管理</p>
-<p>Bouncy：可以作为HTTP路由主机；<br>Supervisor：是一个客户端服务器系统，允许用户监控和控制类Unix操作系统上的进程数；<br>God：由Ruby实现的进程监控框架。<br>服务发现<br>Consul：简化了分布式环境中的服务的注册和发现流程，通过HTTP或者DNS接口发现。支持外部SaaS 提供者等；<br>etcd：是一个高可用的Key/Value存储系统，主要用于分享配置和服务发现；<br>Apache ZooKeeper：是Apache Hadoop的一个子项目，它主要是用来解决分布式应用中经常遇到的一些数据管理问题；<br>Weave：创建一个虚拟网络并连接到部署在多个主机上的Docker容器。<br>持续集成和交付</p>
-<p>Buildbot：是一个系统的自动化编译/测试周期最需要的软件，以验证代码的变化。通过自动重建和测试每次发生了变化的东西，在建设迅速查明之前，减少不必要的失败；<br>Cabot：是一个开源，自我托管的监控工具；<br>Jenkins：是基于Java开发的一种持续集成工具，用于监控持续重复的工作；<br>Hubot：基于脚本具有很高的灵活性，任何人都可以编写自己的脚本来扩展基本功能；<br>Hudson：是一个可扩展的持续集成引擎，主要用于：持续、自动地构建/测试软件项目、监控一些定时执行的任务；<br>CruiseControl.rb：是一个持续集成服务器，它可以让团队里的每个人随时了解项目的健康状况和进度；<br>OpsBot：是一个开源的、可插入的改善通信的机器人。<br>希望这些工具能够给开发者带来实实在在的帮助，想要查看更多工具，大家可以 访问原文，原文中的工具列表会持续更新。</p>
-<p>最后，再跟大家分享一个 DevOps BookMarks，这里面涉及了DevOps方方面面的工具和内容，有兴趣的同学可以前去学习。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/03/26/network-tools/" class="archive-article-date">
-  	<time datetime="2015-03-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-26</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/">ops</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
     <article id="post-game-server-design" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -439,7 +439,7 @@
 
 
   
-    <article id="post-get-isp-ip-blocks" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-setup-a-safe-server" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy">
@@ -449,7 +449,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/15/get-isp-ip-blocks/">获取运营商IP段</a>
+      <a class="article-title" href="/2015/03/15/setup-a-safe-server/">入侵检测</a>
     </h1>
   
 
@@ -457,44 +457,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>转载，整理</p>
-<h1 id="过滤法"><a href="#过滤法" class="headerlink" title="过滤法"></a>过滤法</h1><p>apnic.sh</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">FILE=./ip_apnic</span><br><span class="line">rm -f $FILE</span><br><span class="line">wget http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest -O $FILE</span><br><span class="line">grep &apos;apnic|CN|ipv4|&apos; $FILE | cut -f 4,5 -d&apos;|&apos;|sed -e &apos;s/|/ /g&apos; | while read ip cnt</span><br><span class="line">do</span><br><span class="line">        echo $ip:$cnt</span><br><span class="line">        mask=$(cat &lt;&lt; EOF | bc | tail -1</span><br><span class="line">        pow=32;</span><br><span class="line">        define log2(x) &#123;</span><br><span class="line">        if (x&lt;=1) return (pow);</span><br><span class="line">                pow--;</span><br><span class="line">                return(log2(x/2));</span><br><span class="line">        &#125;</span><br><span class="line">        log2($cnt)</span><br><span class="line">EOF)</span><br><span class="line">        echo $ip/$mask&gt;&gt; cn.net</span><br><span class="line">        NETNAME=`whois $ip@whois.apnic.net | sed -e &apos;/./&#123;H;$!d;&#125;&apos; -e &apos;x;/netnum/!d&apos; |grep ^netname | sed -e &apos;s/.*: \(.*\)/\1/g&apos; | sed -e &apos;s/-.*//g&apos;`</span><br><span class="line">        NETNAME=`echo $NETNAME | sed -e &apos;s/cJ/ /g&apos; | awk -F&apos; &apos; &apos;&#123; printf $1; &#125;&apos;`</span><br><span class="line">       case $NETNAME in</span><br><span class="line">       CNC)</span><br><span class="line">               echo $ip/$mask &gt;&gt; CNCGROUP</span><br><span class="line">       ;;</span><br><span class="line">       CHINANET|CNCGROUP)</span><br><span class="line">               echo $ip/$mask &gt;&gt; $NETNAME</span><br><span class="line">       ;;</span><br><span class="line">       CHINATELECOM)</span><br><span class="line">               echo $ip/$mask &gt;&gt; CHINANET</span><br><span class="line">       ;;</span><br><span class="line">       *)</span><br><span class="line">               echo $ip/$mask $NETNAME &gt;&gt; OTHER</span><br><span class="line">       ;;</span><br><span class="line">       esac</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-<h1 id="whois3"><a href="#whois3" class="headerlink" title="whois3"></a>whois3</h1><p>从apnic获取电信 网通 铁通等ip的办法<br>　　APNIC是管理亚太地区IP地址分配的机构，它有着丰富准确的IP地址分配库，同时这些信息也是对外公开的！下面就让我们看看如何在Linux下获得一些电信运营商的IP地址分配情况：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; wget http://ftp.apnic.net/apnic/dbase/tools/ripe-dbase-client-v3.tar.gz</span><br><span class="line">shell&gt; tar xzvf ripe-dbase-client-v3.tar.gz</span><br><span class="line">shell&gt; cd whois-3.1</span><br><span class="line">shell&gt; ./configure</span><br><span class="line">shell&gt; make</span><br></pre></td></tr></table></figure>
-<p>中国网通：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; ./whois3 -h whois.apnic.net -l -i mb MAINT-CNCGROUP &gt; /var/cnc</span><br></pre></td></tr></table></figure></p>
-<p>中国电信：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; ./whois3 -h whois.apnic.net -l -i mb MAINT-CHINANET &gt; /var/chinanet</span><br></pre></td></tr></table></figure>
-<p>中国铁通：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; ./whois3 -h whois.apnic.net -l -i mb MAINT-CN-CRTC &gt; /var/crtc</span><br></pre></td></tr></table></figure></p>
-<p>　　打开获取后的文件可以看到里面的信息非常详细，甚至可以看到各个分公司的负责人、电话、电子邮件等等信息。如果想得到一份整齐干净的IP地址段文件，只要用grep和awk简单过滤就可以了：）</p>
-<p>　　使用ripe-whois3获得电信，网通等运营商的ip地址<br>Linux中下载安装</p>
-<p>  <a href="http://ftp.apnic.net/apnic/dbase/tools/" target="_blank" rel="noopener">http://ftp.apnic.net/apnic/dbase/tools/</a></p>
-<p>ripe-whois-tools-2.3.tar.gz  tar xzvf </p>
-<p>ripe-whois-tools-2.3.tar.gz  cd /usr/ports/net/ripe-whois3</p>
-<p>  make install clean  rehash</p>
-<p>查询：<br>中国网通: whois3 -h whois.apnic.net -l -i mb MAINT-CNCGROUP</p>
-<p>中国电信: whois3 -h whois.apnic.net -l -i mb MAINT-CHINANET</p>
-<p>中国铁通: whois3 -h whois.apnic.net -l -i mb MAINT-CNC-CRTC</p>
-<h1 id="在线列表"><a href="#在线列表" class="headerlink" title="在线列表"></a>在线列表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line">FILE=/home/ip_apnic</span><br><span class="line">rm -f $FILE</span><br><span class="line">rm -f CNC</span><br><span class="line">rm -f OTHER</span><br><span class="line">rm -f CHINANET</span><br><span class="line">rm -f CRTC</span><br><span class="line">wget http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest -O $FILE</span><br><span class="line">grep &apos;apnic|CN|ipv4|&apos; $FILE | cut -f 4,5 -d&apos;|&apos;|sed -e &apos;s/|/ /g&apos; | while read ip cnt</span><br><span class="line">do</span><br><span class="line">    mask=$(cat &lt;&lt; EOF | bc | tail -1</span><br><span class="line">pow=32;</span><br><span class="line">define log2(x) &#123;</span><br><span class="line">if (x&lt;=1) return (pow);</span><br><span class="line">pow--;</span><br><span class="line">return(log2(x/2));</span><br><span class="line">&#125;</span><br><span class="line">log2($cnt)</span><br><span class="line">EOF)</span><br><span class="line">        echo $ip/$mask</span><br><span class="line">        echo $ip/$mask&gt;&gt; cn.net</span><br><span class="line">        NETNAME=`whois $ip | grep ^netname | sed -e &apos;s/.*:      (.*)/1/g&apos; | sed -e &apos;s/-.*//g&apos;`</span><br><span class="line">echo $NETNAME;</span><br><span class="line">        case $NETNAME in</span><br><span class="line">        CNC)</span><br><span class="line">                echo $ip/$mask &gt;&gt; CNC</span><br><span class="line">        ;;</span><br><span class="line">        CNCGROUP)</span><br><span class="line">                echo $ip/$mask &gt;&gt; CNC</span><br><span class="line">        ;;</span><br><span class="line">        CHINANET)</span><br><span class="line">                echo $ip/$mask &gt;&gt; CHINANET</span><br><span class="line">        ;;</span><br><span class="line">        CHINATELECOM)</span><br><span class="line">                echo $ip/$mask &gt;&gt; CHINANET</span><br><span class="line">        ;;</span><br><span class="line">        CRTC)</span><br><span class="line">                echo $ip/$mask &gt;&gt; CRTC</span><br><span class="line">        ;;</span><br><span class="line">        *)</span><br><span class="line">                echo $ip/$mask &gt;&gt; OTHER</span><br><span class="line">        ;;</span><br><span class="line">        esac</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-<p>中国电信 IP地址段：<br><a href="http://ispip.clangcn.com/chinatelecom.html" target="_blank" rel="noopener">http://ispip.clangcn.com/chinatelecom.html</a></p>
-<p>中国联通（网通）IP地址段：<br><a href="http://ispip.clangcn.com/unicom_cnc.html" target="_blank" rel="noopener">http://ispip.clangcn.com/unicom_cnc.html</a></p>
-<p>中国移动 IP地址段：<br><a href="http://ispip.clangcn.com/cmcc.html" target="_blank" rel="noopener">http://ispip.clangcn.com/cmcc.html</a></p>
-<p>中国铁通 IP地址段：<br><a href="http://ispip.clangcn.com/crtc.html" target="_blank" rel="noopener">http://ispip.clangcn.com/crtc.html</a></p>
-<p>中国教育网 IP地址段：<br><a href="http://ispip.clangcn.com/cernet.html" target="_blank" rel="noopener">http://ispip.clangcn.com/cernet.html</a></p>
-<p>中国其他ISP IP地址段：<br><a href="http://ispip.clangcn.com/othernet.html" target="_blank" rel="noopener">http://ispip.clangcn.com/othernet.html</a></p>
-<p>本博缓存 uploads/2015</p>
+        <p>fail2ban<br>ufw enable<br>git no password<br>fcheck<br>unattended-upgrade<br>munin</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2015/03/15/get-isp-ip-blocks/" class="archive-article-date">
+      <a href="/2015/03/15/setup-a-safe-server/" class="archive-article-date">
   	<time datetime="2015-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-15</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hack/">hack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/network/">network</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/security/">security</a></li></ul>
 	</div>
 
       
@@ -590,7 +565,7 @@
 
 
   
-    <article id="post-setup-a-safe-server" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-get-isp-ip-blocks" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy">
@@ -600,7 +575,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/15/setup-a-safe-server/">入侵检测</a>
+      <a class="article-title" href="/2015/03/15/get-isp-ip-blocks/">获取运营商IP段</a>
     </h1>
   
 
@@ -608,19 +583,44 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>fail2ban<br>ufw enable<br>git no password<br>fcheck<br>unattended-upgrade<br>munin</p>
+        <p>转载，整理</p>
+<h1 id="过滤法"><a href="#过滤法" class="headerlink" title="过滤法"></a>过滤法</h1><p>apnic.sh</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/bash</span><br><span class="line">FILE=./ip_apnic</span><br><span class="line">rm -f $FILE</span><br><span class="line">wget http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest -O $FILE</span><br><span class="line">grep &apos;apnic|CN|ipv4|&apos; $FILE | cut -f 4,5 -d&apos;|&apos;|sed -e &apos;s/|/ /g&apos; | while read ip cnt</span><br><span class="line">do</span><br><span class="line">        echo $ip:$cnt</span><br><span class="line">        mask=$(cat &lt;&lt; EOF | bc | tail -1</span><br><span class="line">        pow=32;</span><br><span class="line">        define log2(x) &#123;</span><br><span class="line">        if (x&lt;=1) return (pow);</span><br><span class="line">                pow--;</span><br><span class="line">                return(log2(x/2));</span><br><span class="line">        &#125;</span><br><span class="line">        log2($cnt)</span><br><span class="line">EOF)</span><br><span class="line">        echo $ip/$mask&gt;&gt; cn.net</span><br><span class="line">        NETNAME=`whois $ip@whois.apnic.net | sed -e &apos;/./&#123;H;$!d;&#125;&apos; -e &apos;x;/netnum/!d&apos; |grep ^netname | sed -e &apos;s/.*: \(.*\)/\1/g&apos; | sed -e &apos;s/-.*//g&apos;`</span><br><span class="line">        NETNAME=`echo $NETNAME | sed -e &apos;s/cJ/ /g&apos; | awk -F&apos; &apos; &apos;&#123; printf $1; &#125;&apos;`</span><br><span class="line">       case $NETNAME in</span><br><span class="line">       CNC)</span><br><span class="line">               echo $ip/$mask &gt;&gt; CNCGROUP</span><br><span class="line">       ;;</span><br><span class="line">       CHINANET|CNCGROUP)</span><br><span class="line">               echo $ip/$mask &gt;&gt; $NETNAME</span><br><span class="line">       ;;</span><br><span class="line">       CHINATELECOM)</span><br><span class="line">               echo $ip/$mask &gt;&gt; CHINANET</span><br><span class="line">       ;;</span><br><span class="line">       *)</span><br><span class="line">               echo $ip/$mask $NETNAME &gt;&gt; OTHER</span><br><span class="line">       ;;</span><br><span class="line">       esac</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<h1 id="whois3"><a href="#whois3" class="headerlink" title="whois3"></a>whois3</h1><p>从apnic获取电信 网通 铁通等ip的办法<br>　　APNIC是管理亚太地区IP地址分配的机构，它有着丰富准确的IP地址分配库，同时这些信息也是对外公开的！下面就让我们看看如何在Linux下获得一些电信运营商的IP地址分配情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; wget http://ftp.apnic.net/apnic/dbase/tools/ripe-dbase-client-v3.tar.gz</span><br><span class="line">shell&gt; tar xzvf ripe-dbase-client-v3.tar.gz</span><br><span class="line">shell&gt; cd whois-3.1</span><br><span class="line">shell&gt; ./configure</span><br><span class="line">shell&gt; make</span><br></pre></td></tr></table></figure>
+<p>中国网通：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; ./whois3 -h whois.apnic.net -l -i mb MAINT-CNCGROUP &gt; /var/cnc</span><br></pre></td></tr></table></figure></p>
+<p>中国电信：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; ./whois3 -h whois.apnic.net -l -i mb MAINT-CHINANET &gt; /var/chinanet</span><br></pre></td></tr></table></figure>
+<p>中国铁通：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; ./whois3 -h whois.apnic.net -l -i mb MAINT-CN-CRTC &gt; /var/crtc</span><br></pre></td></tr></table></figure></p>
+<p>　　打开获取后的文件可以看到里面的信息非常详细，甚至可以看到各个分公司的负责人、电话、电子邮件等等信息。如果想得到一份整齐干净的IP地址段文件，只要用grep和awk简单过滤就可以了：）</p>
+<p>　　使用ripe-whois3获得电信，网通等运营商的ip地址<br>Linux中下载安装</p>
+<p>  <a href="http://ftp.apnic.net/apnic/dbase/tools/" target="_blank" rel="noopener">http://ftp.apnic.net/apnic/dbase/tools/</a></p>
+<p>ripe-whois-tools-2.3.tar.gz  tar xzvf </p>
+<p>ripe-whois-tools-2.3.tar.gz  cd /usr/ports/net/ripe-whois3</p>
+<p>  make install clean  rehash</p>
+<p>查询：<br>中国网通: whois3 -h whois.apnic.net -l -i mb MAINT-CNCGROUP</p>
+<p>中国电信: whois3 -h whois.apnic.net -l -i mb MAINT-CHINANET</p>
+<p>中国铁通: whois3 -h whois.apnic.net -l -i mb MAINT-CNC-CRTC</p>
+<h1 id="在线列表"><a href="#在线列表" class="headerlink" title="在线列表"></a>在线列表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">#!/bin/sh</span><br><span class="line">FILE=/home/ip_apnic</span><br><span class="line">rm -f $FILE</span><br><span class="line">rm -f CNC</span><br><span class="line">rm -f OTHER</span><br><span class="line">rm -f CHINANET</span><br><span class="line">rm -f CRTC</span><br><span class="line">wget http://ftp.apnic.net/apnic/stats/apnic/delegated-apnic-latest -O $FILE</span><br><span class="line">grep &apos;apnic|CN|ipv4|&apos; $FILE | cut -f 4,5 -d&apos;|&apos;|sed -e &apos;s/|/ /g&apos; | while read ip cnt</span><br><span class="line">do</span><br><span class="line">    mask=$(cat &lt;&lt; EOF | bc | tail -1</span><br><span class="line">pow=32;</span><br><span class="line">define log2(x) &#123;</span><br><span class="line">if (x&lt;=1) return (pow);</span><br><span class="line">pow--;</span><br><span class="line">return(log2(x/2));</span><br><span class="line">&#125;</span><br><span class="line">log2($cnt)</span><br><span class="line">EOF)</span><br><span class="line">        echo $ip/$mask</span><br><span class="line">        echo $ip/$mask&gt;&gt; cn.net</span><br><span class="line">        NETNAME=`whois $ip | grep ^netname | sed -e &apos;s/.*:      (.*)/1/g&apos; | sed -e &apos;s/-.*//g&apos;`</span><br><span class="line">echo $NETNAME;</span><br><span class="line">        case $NETNAME in</span><br><span class="line">        CNC)</span><br><span class="line">                echo $ip/$mask &gt;&gt; CNC</span><br><span class="line">        ;;</span><br><span class="line">        CNCGROUP)</span><br><span class="line">                echo $ip/$mask &gt;&gt; CNC</span><br><span class="line">        ;;</span><br><span class="line">        CHINANET)</span><br><span class="line">                echo $ip/$mask &gt;&gt; CHINANET</span><br><span class="line">        ;;</span><br><span class="line">        CHINATELECOM)</span><br><span class="line">                echo $ip/$mask &gt;&gt; CHINANET</span><br><span class="line">        ;;</span><br><span class="line">        CRTC)</span><br><span class="line">                echo $ip/$mask &gt;&gt; CRTC</span><br><span class="line">        ;;</span><br><span class="line">        *)</span><br><span class="line">                echo $ip/$mask &gt;&gt; OTHER</span><br><span class="line">        ;;</span><br><span class="line">        esac</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
+<p>中国电信 IP地址段：<br><a href="http://ispip.clangcn.com/chinatelecom.html" target="_blank" rel="noopener">http://ispip.clangcn.com/chinatelecom.html</a></p>
+<p>中国联通（网通）IP地址段：<br><a href="http://ispip.clangcn.com/unicom_cnc.html" target="_blank" rel="noopener">http://ispip.clangcn.com/unicom_cnc.html</a></p>
+<p>中国移动 IP地址段：<br><a href="http://ispip.clangcn.com/cmcc.html" target="_blank" rel="noopener">http://ispip.clangcn.com/cmcc.html</a></p>
+<p>中国铁通 IP地址段：<br><a href="http://ispip.clangcn.com/crtc.html" target="_blank" rel="noopener">http://ispip.clangcn.com/crtc.html</a></p>
+<p>中国教育网 IP地址段：<br><a href="http://ispip.clangcn.com/cernet.html" target="_blank" rel="noopener">http://ispip.clangcn.com/cernet.html</a></p>
+<p>中国其他ISP IP地址段：<br><a href="http://ispip.clangcn.com/othernet.html" target="_blank" rel="noopener">http://ispip.clangcn.com/othernet.html</a></p>
+<p>本博缓存 uploads/2015</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2015/03/15/setup-a-safe-server/" class="archive-article-date">
+      <a href="/2015/03/15/get-isp-ip-blocks/" class="archive-article-date">
   	<time datetime="2015-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-15</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/security/">security</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hack/">hack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/network/">network</a></li></ul>
 	</div>
 
       

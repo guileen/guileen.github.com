@@ -140,7 +140,7 @@
       <div class="body-wrap">
         
   
-    <article id="post-lua-tools" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-game-essence-theory" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy">
@@ -150,7 +150,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/02/lua-tools/">Lua 工具集</a>
+      <a class="article-title" href="/2013/03/02/game-essence-theory/">网络游戏本质论</a>
     </h1>
   
 
@@ -158,48 +158,63 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Lua note on Mac</p>
-<h2 id="lua"><a href="#lua" class="headerlink" title="lua"></a>lua</h2><p>brew install lua</p>
-<h2 id="luarocks-包管理"><a href="#luarocks-包管理" class="headerlink" title="luarocks - 包管理"></a>luarocks - 包管理</h2><p>brew install  luarocks</p>
-<p>luarocks install …</p>
-<p>试用失败</p>
-<h2 id="busted-BDD-like-node-mocha"><a href="#busted-BDD-like-node-mocha" class="headerlink" title="busted - BDD, like node mocha"></a>busted - BDD, like node mocha</h2><p><a href="https://github.com/Olivine-Labs/busted" target="_blank" rel="noopener">https://github.com/Olivine-Labs/busted</a></p>
-<h2 id="inspect"><a href="#inspect" class="headerlink" title="inspect"></a>inspect</h2><p><a href="https://github.com/kikito/inspect.lua" target="_blank" rel="noopener">https://github.com/kikito/inspect.lua</a><br>我用这个工具来debug</p>
-<h1 id="C-绑定到lua"><a href="#C-绑定到lua" class="headerlink" title="C++绑定到lua"></a>C++绑定到lua</h1><h2 id="tolua"><a href="#tolua" class="headerlink" title="tolua++"></a>tolua++</h2><p>cocos2d-x tools 目录下有编译好的tolua++</p>
-<p>编译（Mac OSX）</p>
-<p>1.用brew安装lua</p>
-<p>brew install lua</p>
-<p>2.到官网下载tolua++</p>
-<p><a href="http://www.codenix.com/~tolua/" target="_blank" rel="noopener">http://www.codenix.com/~tolua/</a></p>
-<p>3.编译生成tolua++.a静态库</p>
-<p>cd Downloads/tolua++-1.0.93/src/lib</p>
-<p>gcc -c *.c -I../../include</p>
-<p>ar rcsv libtolua++.a *.o</p>
-<p>4.编译tolua++</p>
-<p>cd Downloads/tolua++-1.0.93/src/bin</p>
-<p>gcc tolua.c toluabind.c -I../../include -L../lib/ -ltolua++ -llua -o tolua++</p>
-<p>5.done</p>
-<p>tolua++ 1.0.93 not support Lua 5.2, use Lua 5.1</p>
-<p>好久没有更新了</p>
-<h2 id="tolua-1"><a href="#tolua-1" class="headerlink" title="tolua"></a>tolua</h2><p>更新，但是没有尝试</p>
-<h2 id="luabind"><a href="#luabind" class="headerlink" title="luabind"></a>luabind</h2><h2 id="swig"><a href="#swig" class="headerlink" title="swig"></a>swig</h2><p>Swig 是为多语言准备的，编译lua有点重。</p>
-<h2 id="LuaJIT"><a href="#LuaJIT" class="headerlink" title="LuaJIT"></a>LuaJIT</h2><h2 id="学习cocos2d-x-lua"><a href="#学习cocos2d-x-lua" class="headerlink" title="学习cocos2d-x lua"></a>学习cocos2d-x lua</h2><p>先看了一本cocos2d-iphone的书。</p>
-<p>看pkg文件来了解哪些功能可以使用，pkg文件也是了解cocos2d-x的好方法。</p>
-<h2 id="unpack"><a href="#unpack" class="headerlink" title="unpack"></a>unpack</h2><pre><code>a,b,c = unpack({1,2,3})
-local ret = self.db[cmd](self.db, arg[0], arg[1], arg[2])
-local ret = self.db[cmd](self.db, unpack(arg))
-</code></pre>
+        <p>网络游戏的本质是什么？</p>
+<h2 id="游戏的本质"><a href="#游戏的本质" class="headerlink" title="游戏的本质?"></a>游戏的本质?</h2><p>游戏的历史比人类的历史还要久远。玩游戏并不是人类才有的行为，猫猫狗狗都喜欢玩游戏。人类的游戏花样更多，<br>在计算机和互联网的时代，这种变化更加复杂。</p>
+<ul>
+<li>游戏心理学</li>
+</ul>
+<p>游戏制作不是胡乱拼凑。最后出来的东西四不像，没人玩。</p>
+<ul>
+<li>情景 体验无法体验的生活、世界。 神话、故事、小说、动漫、电影</li>
+<li>好奇 探险、解谜</li>
+<li>挑战 Puzzle。Boss。无尽。</li>
+<li>归属 与人一起玩，不想脱离群体</li>
+<li>战争 模拟战争。野心家、君主、策略。</li>
+<li>战斗 好战者。鼓励进攻。对战的策略感，紧张感。斗智为主。</li>
+<li>杀戮 角色扮演，ARPG，Dota</li>
+<li>收集 别人有的我也想有。</li>
+<li>炫耀 向周围的人、好友炫耀自己的战果。</li>
+<li>名望 让尽可能多的人注意到自己。</li>
+<li>休闲 打发时间。</li>
+<li>贪婪 投机取巧，用最少的成本获得大家都想要的东西。2，占小便宜</li>
+<li>恐惧 害怕失去、害怕死亡、害怕孤独</li>
+<li>赌博</li>
+<li>狂欢</li>
+<li>自信 寻找自信。</li>
+<li>色欲</li>
+</ul>
+<ul>
+<li><p>游戏反心理学</p>
+<ul>
+<li>挫败 挫败感是游戏大敌。要让人越战越勇，宁可杀红眼，不能让人一蹶不振。</li>
+<li>不公 不公平。成长类的游戏，要阶段性的公平。</li>
+<li>作弊</li>
+<li>懒惰</li>
+<li>重复 重复性的事情，令人厌倦。</li>
+</ul>
+</li>
+<li><p>网络游戏的必要元素</p>
+</li>
+</ul>
+<p>游戏的特点</p>
+<ul>
+<li>真正的虚拟世界，与现实关联少</li>
+<li>发展、成长、进步</li>
+<li>变化<br>*</li>
+<li>时间越长忠诚度越高</li>
+</ul>
+
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/03/02/lua-tools/" class="archive-article-date">
+      <a href="/2013/03/02/game-essence-theory/" class="archive-article-date">
   	<time datetime="2013-03-01T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-02</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/lua/">lua</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/">game-dev</a></li></ul>
 	</div>
 
       
