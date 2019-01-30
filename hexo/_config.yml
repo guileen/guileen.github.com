@@ -73,7 +73,7 @@ deploy:
   branch: master
   #message: Site updated: {{ now('YYYY-MM-DD HH:mm:ss')  }}
 - type: rsync
-  host: leengui.com
+  host: leen.ipub.io
   user: root
   root: /var/www/leengui.com
   delete: true

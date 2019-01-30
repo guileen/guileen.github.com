@@ -38,7 +38,7 @@ stdout_logfile_backups=10
 stdout_capture_maxbytes=100MB
 ```
 
-修改DNS，添加MX记录为服务器IP。发邮件到test@example.com 测试，打开 http://example.com:1080/，可以看到自己刚发的邮件。说明已经可以有任意多的邮箱了。
+修改DNS，添加MX记录为服务器IP。发邮件到test@example.com 测试，打开 `http://example.com:1080/` ，可以看到自己刚发的邮件。说明已经可以有任意多的邮箱了。
 
 把他和brook科学上网服务放在同一台服务器上，充分利用资源。
 
