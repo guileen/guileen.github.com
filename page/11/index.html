@@ -140,7 +140,7 @@
       <div class="body-wrap">
         
   
-    <article id="post-redis-leveldb" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-game-server-architecture" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy">
@@ -150,7 +150,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/17/redis-leveldb/">redis leveldb</a>
+      <a class="article-title" href="/2013/03/17/game-server-architecture/">Game server architecture</a>
     </h1>
   
 
@@ -158,19 +158,30 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>redis protocol + leveldb storage = perfect key/value database</p>
+        <ul>
+<li>✓ Router</li>
+<li>✓ SessionContext </li>
+<li>✓ AppContext</li>
+<li>SuperManager - load player(from online, pool or db), create player</li>
+<li>SessionManager - player online, player offline, send message to other player</li>
+<li>WorldManager - A whole world controller (get player ? find player, get clans)</li>
+<li>✕ RoomManager sub world?</li>
+<li>✕ RoomNodeManager Room is tree?</li>
+<li>✓ PlayerWritePool -<br>PlayerCache - </li>
+<li>✓ PlayerStore - </li>
+</ul>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/03/17/redis-leveldb/" class="archive-article-date">
+      <a href="/2013/03/17/game-server-architecture/" class="archive-article-date">
   	<time datetime="2013-03-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-17</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nosql/">nosql</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/">game-dev</a></li></ul>
 	</div>
 
       
@@ -238,58 +249,6 @@ end
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/generator/">generator</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-git-activity-report-by-git-stats" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/16/git-activity-report-by-git-stats/">使用GitStats了解项目活动情况</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://github.com/trybeee/GitStats" target="_blank" rel="noopener">GitStats</a></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/16/git-activity-report-by-git-stats/" class="archive-article-date">
-  	<time datetime="2013-03-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-16</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/">ops</a></li></ul>
 	</div>
 
       
@@ -396,6 +355,58 @@ SIGVTALRM 终止进程    虚拟计时器到时
     <div class="article-info article-info-index">
       
       <a href="/2013/03/16/unix-signals/" class="archive-article-date">
+  	<time datetime="2013-03-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-16</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/">ops</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-git-activity-report-by-git-stats" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/16/git-activity-report-by-git-stats/">使用GitStats了解项目活动情况</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/trybeee/GitStats" target="_blank" rel="noopener">GitStats</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/16/git-activity-report-by-git-stats/" class="archive-article-date">
   	<time datetime="2013-03-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-16</time>
 </a>
       

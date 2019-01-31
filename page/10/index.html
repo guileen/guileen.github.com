@@ -405,6 +405,58 @@ c.json
 
 
   
+    <article id="post-use-varnish" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/28/use-varnish/">Use varnish</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Varnish 是一个反向代理服务器，并且只能作为反向代理。可编程式的配置。性能很好。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/28/use-varnish/" class="archive-article-date">
+  	<time datetime="2013-03-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-28</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/">architecture</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-how-to-learn-linear-algebra" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -437,58 +489,6 @@ c.json
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mathematics/">mathematics</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-use-varnish" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/28/use-varnish/">Use varnish</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Varnish 是一个反向代理服务器，并且只能作为反向代理。可编程式的配置。性能很好。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/28/use-varnish/" class="archive-article-date">
-  	<time datetime="2013-03-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-28</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/">architecture</a></li></ul>
 	</div>
 
       
@@ -678,7 +678,7 @@ c.json
 
 
   
-    <article id="post-game-server-architecture" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-redis-leveldb" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy">
@@ -688,7 +688,7 @@ c.json
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/17/game-server-architecture/">Game server architecture</a>
+      <a class="article-title" href="/2013/03/17/redis-leveldb/">redis leveldb</a>
     </h1>
   
 
@@ -696,30 +696,19 @@ c.json
     
     <div class="article-entry" itemprop="articleBody">
       
-        <ul>
-<li>✓ Router</li>
-<li>✓ SessionContext </li>
-<li>✓ AppContext</li>
-<li>SuperManager - load player(from online, pool or db), create player</li>
-<li>SessionManager - player online, player offline, send message to other player</li>
-<li>WorldManager - A whole world controller (get player ? find player, get clans)</li>
-<li>✕ RoomManager sub world?</li>
-<li>✕ RoomNodeManager Room is tree?</li>
-<li>✓ PlayerWritePool -<br>PlayerCache - </li>
-<li>✓ PlayerStore - </li>
-</ul>
+        <p>redis protocol + leveldb storage = perfect key/value database</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/03/17/game-server-architecture/" class="archive-article-date">
+      <a href="/2013/03/17/redis-leveldb/" class="archive-article-date">
   	<time datetime="2013-03-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-17</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/">game-dev</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nosql/">nosql</a></li></ul>
 	</div>
 
       
