@@ -29,15 +29,15 @@ CA的全称是Certificate Authority，即证书颁发机构。A为了保证自�
 
 Letsencrypt根据agent公钥来验证账号，agent第一次与Letsencrypt交互时，Letsencrypt会要求agent证明自己拥有某个域名。agent会询问需要自己做什么来证明自己拥有这个域名，这时Letsencrypt会下发一组任务，比如添加某个DNS记录，在网站下提供某个制定的资源。这和传统的CA证书机构类似。当agent完成操作后，CA就认为该agent已经拥有这个域名了，之后的域名更新都可以通过agent操作。
 
-`
+```
 $ sudo add-apt-repository ppa:certbot/certbot
 $ sudo apt-get update
 $ sudo apt-get install certbot
 $ sudo certbot certonly -d ipub.io -d *.ipub.io --manual --preferred-challenges dns --server https://acme-v02.api.letsencrypt.org/directory
-`
+```
 跟着提示填写，其中一步要求在DNS记录中添加一个TXT，修改后继续，准确无误的话，证书会在/etc/letsencrypt/live/ipub.io/ 目录下, 修改nginx配置文件。
 
-`
+```
 server {
   listen 443 ssl;
   listen [::]:443 ssl;
@@ -52,4 +52,4 @@ server {
     try_files $uri $uri/ /index.html =404;
   }
 }
-`
+```
