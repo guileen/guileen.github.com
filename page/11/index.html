@@ -434,6 +434,73 @@ SIGVTALRM 终止进程    虚拟计时器到时
 
 
   
+    <article id="post-chauvenet-criterion" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/15/chauvenet-criterion/">肖维勒准则</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>数据中并不总是合法数据，为了更好的完成统计，我们必须剔除异常的数据。</p>
+<p>如何剔除异常的实验数据(Outlier rejection)，有许多的方法。</p>
+<p>介绍一种易于实现的方法，叫做<a href="http://en.wikipedia.org/wiki/Chauvenet&#39;s_criterion" target="_blank" rel="noopener">肖维勒准则(Chauvenet’s criterion)</a></p>
+<p>平均值</p>
+<pre><code>mean = sum(v) / n
+</code></pre><p>标准差</p>
+<pre><code>sd = sqrt(sum(v(i) * v(i) - mean * mean, i=1 to n) / (n - 1))
+</code></pre><p><a href="http://en.wikipedia.org/wiki/Chauvenet&#39;s_criterion" target="_blank" rel="noopener">肖维勒准则(Chauvenet’s criterion)</a></p>
+<p>如果某样本数据d满足</p>
+<pre><code>|v(d)| &gt; w(n) * sd
+</code></pre><p>则认为v(d)是一个异常数据，将其剔除。</p>
+<p>W(n) 是一个常数，可以用查表法获得</p>
+<p>Table of Chauvenet’s Criterion for data rejection, with curve fit equation</p>
+<p>Chauvenet’s Criterion</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">--------------------------</span><br><span class="line">| n          | c         |</span><br><span class="line">--------------------------</span><br><span class="line">| 3          | 1.38      |</span><br><span class="line">| 4          | 1.54      |</span><br><span class="line">| 5          | 1.65      |</span><br><span class="line">| 6          | 1.73      |</span><br><span class="line">| 7          | 1.8       |</span><br><span class="line">| 10         | 1.96      |</span><br><span class="line">| 15         | 2.13      |</span><br><span class="line">| 25         | 2.33      |</span><br><span class="line">| 50         | 2.57      |</span><br><span class="line">| 100        | 2.81      |</span><br><span class="line">--------------------------</span><br><span class="line">|c = 0.9969+0.4040*ln(n) |</span><br><span class="line">--------------------------</span><br></pre></td></tr></table></figure>
+<p>很奇怪，通过公式获得的结果和表上给的结果并不一致。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/15/chauvenet-criterion/" class="archive-article-date">
+  	<time datetime="2013-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-15</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-node-events-scope" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -481,73 +548,6 @@ foo.emit(&apos;hello&apos;);
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/">node.js</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-chauvenet-criterion" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/15/chauvenet-criterion/">肖维勒准则</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>数据中并不总是合法数据，为了更好的完成统计，我们必须剔除异常的数据。</p>
-<p>如何剔除异常的实验数据(Outlier rejection)，有许多的方法。</p>
-<p>介绍一种易于实现的方法，叫做<a href="http://en.wikipedia.org/wiki/Chauvenet&#39;s_criterion" target="_blank" rel="noopener">肖维勒准则(Chauvenet’s criterion)</a></p>
-<p>平均值</p>
-<pre><code>mean = sum(v) / n
-</code></pre><p>标准差</p>
-<pre><code>sd = sqrt(sum(v(i) * v(i) - mean * mean, i=1 to n) / (n - 1))
-</code></pre><p><a href="http://en.wikipedia.org/wiki/Chauvenet&#39;s_criterion" target="_blank" rel="noopener">肖维勒准则(Chauvenet’s criterion)</a></p>
-<p>如果某样本数据d满足</p>
-<pre><code>|v(d)| &gt; w(n) * sd
-</code></pre><p>则认为v(d)是一个异常数据，将其剔除。</p>
-<p>W(n) 是一个常数，可以用查表法获得</p>
-<p>Table of Chauvenet’s Criterion for data rejection, with curve fit equation</p>
-<p>Chauvenet’s Criterion</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">--------------------------</span><br><span class="line">| n          | c         |</span><br><span class="line">--------------------------</span><br><span class="line">| 3          | 1.38      |</span><br><span class="line">| 4          | 1.54      |</span><br><span class="line">| 5          | 1.65      |</span><br><span class="line">| 6          | 1.73      |</span><br><span class="line">| 7          | 1.8       |</span><br><span class="line">| 10         | 1.96      |</span><br><span class="line">| 15         | 2.13      |</span><br><span class="line">| 25         | 2.33      |</span><br><span class="line">| 50         | 2.57      |</span><br><span class="line">| 100        | 2.81      |</span><br><span class="line">--------------------------</span><br><span class="line">|c = 0.9969+0.4040*ln(n) |</span><br><span class="line">--------------------------</span><br></pre></td></tr></table></figure>
-<p>很奇怪，通过公式获得的结果和表上给的结果并不一致。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/15/chauvenet-criterion/" class="archive-article-date">
-  	<time datetime="2013-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-15</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/">algorithm</a></li></ul>
 	</div>
 
       

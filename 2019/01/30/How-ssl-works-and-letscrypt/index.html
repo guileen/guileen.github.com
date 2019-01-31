@@ -16,7 +16,7 @@
 <meta property="og:description" content="SSL/TLS 解决了什么问题？假设A给B发信息，直接明文发送，那么所有的中间传输节点，都可以截获明文，这种通信是不安全的，想象一下你的密码全部在网上明文传输，是不是很危险。 现在A将信息加密后传输给B，B解密信息，加密密钥和解密密钥是相同，这种加密算法叫做对称加密算法。题是，A如何把密钥告诉B？如果依然通过同一个中间人告诉B，一旦中间人知道这个密钥，那么传输过程就依然是不安全的了。 这时非对称加">
 <meta property="og:locale" content="default">
 <meta property="og:image" content="http://guileen.github.io/img/https_flowchart.jpg">
-<meta property="og:updated_time" content="2019-01-30T17:39:35.456Z">
+<meta property="og:updated_time" content="2019-01-31T16:20:11.042Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="How ssl works and Letscrypt">
 <meta name="twitter:description" content="SSL/TLS 解决了什么问题？假设A给B发信息，直接明文发送，那么所有的中间传输节点，都可以截获明文，这种通信是不安全的，想象一下你的密码全部在网上明文传输，是不是很危险。 现在A将信息加密后传输给B，B解密信息，加密密钥和解密密钥是相同，这种加密算法叫做对称加密算法。题是，A如何把密钥告诉B？如果依然通过同一个中间人告诉B，一旦中间人知道这个密钥，那么传输过程就依然是不安全的了。 这时非对称加">
@@ -172,12 +172,9 @@ A  &lt;-C公钥加密信息---  C  &lt;- A公钥加密信息--- B
 <p><img src="/img/https_flowchart.jpg" alt=""></p>
 <p>现在就该今天的主角上场了，<a href="https://letsencrypt.org/" target="_blank" rel="noopener">Letsencrypt</a>，他是一个免费、自动化的证书颁发机构。今天就向大家安利一下Letsencrypt。 Letsencryt在web server上运行了一个证书管理代理（Certificate management agent）的程序。假设我们希望设置<code>https://example.com</code>的证书。那么一共有两个步骤，第一步，证明你拥有exmaple.com，第二步，代理程序可以请求（request）、更新（renew）以及废除（revoke）证书，</p>
 <p>Letsencrypt根据agent公钥来验证账号，agent第一次与Letsencrypt交互时，Letsencrypt会要求agent证明自己拥有某个域名。agent会询问需要自己做什么来证明自己拥有这个域名，这时Letsencrypt会下发一组任务，比如添加某个DNS记录，在网站下提供某个制定的资源。这和传统的CA证书机构类似。当agent完成操作后，CA就认为该agent已经拥有这个域名了，之后的域名更新都可以通过agent操作。</p>
-<p><code>$ sudo add-apt-repository ppa:certbot/certbot
-$ sudo apt-get update
-$ sudo apt-get install certbot
-$ sudo certbot certonly -d ipub.io -d *.ipub.io --manual --preferred-challenges dns --server https://acme-v02.api.letsencrypt.org/directory</code><br>跟着提示填写，其中一步要求在DNS记录中添加一个TXT，修改后继续，准确无误的话，证书会在/etc/letsencrypt/live/ipub.io/ 目录下, 修改nginx配置文件。</p>
-<p>`<br>server {<br>  listen 443 ssl;<br>  listen [::]:443 ssl;<br>  keepalive_timeout 70;</p>
-<p>  root /var/www/leen.ipub.io;<br>  index index.html index.htm;<br>  server_name leen.ipub.io;<br>  ssl_certificate  /etc/letsencrypt/live/ipub.io/fullchain.pem;<br>  ssl_certificate_key  /etc/letsencrypt/live/ipub.io/privkey.pem;<br>  location / {<br>    try_files $uri $uri/ /index.html =404;<br>  }<br>}<br>`</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo add-apt-repository ppa:certbot/certbot</span><br><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install certbot</span><br><span class="line">$ sudo certbot certonly -d ipub.io -d *.ipub.io --manual --preferred-challenges dns --server https://acme-v02.api.letsencrypt.org/directory</span><br></pre></td></tr></table></figure>
+<p>跟着提示填写，其中一步要求在DNS记录中添加一个TXT，修改后继续，准确无误的话，证书会在/etc/letsencrypt/live/ipub.io/ 目录下, 修改nginx配置文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">  listen 443 ssl;</span><br><span class="line">  listen [::]:443 ssl;</span><br><span class="line">  keepalive_timeout 70;</span><br><span class="line"></span><br><span class="line">  root /var/www/leen.ipub.io;</span><br><span class="line">  index index.html index.htm;</span><br><span class="line">  server_name leen.ipub.io;</span><br><span class="line">  ssl_certificate  /etc/letsencrypt/live/ipub.io/fullchain.pem;</span><br><span class="line">  ssl_certificate_key  /etc/letsencrypt/live/ipub.io/privkey.pem;</span><br><span class="line">  location / &#123;</span><br><span class="line">    try_files $uri $uri/ /index.html =404;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
