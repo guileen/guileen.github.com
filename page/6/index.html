@@ -140,6 +140,346 @@
       <div class="body-wrap">
         
   
+    <article id="post-abstract-data-layer-design" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/30/abstract-data-layer-design/">数据抽象层设计</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>数据层的封装</p>
+<p>Data Layer must be split by <code>User Space</code>, each <code>User Space</code> should be monitored.<br>Space is vertical split to <code>Data Type</code>. Each <code>Data Type</code> has it’s own <code>Operations</code>.<br>Most <code>Operation</code> take <code>Id</code> as parameter or no parameter.<br>Some <code>Operation</code> take effect to <code>Rows</code> match some condition.</p>
+<h2 id="DataTypes"><a href="#DataTypes" class="headerlink" title="DataTypes"></a>DataTypes</h2><ul>
+<li>Object</li>
+<li>File</li>
+<li>User</li>
+<li>Message</li>
+<li>MQ</li>
+<li>Third-Service</li>
+</ul>
+<h2 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h2><h3 id="Goals"><a href="#Goals" class="headerlink" title="Goals"></a>Goals</h3><ul>
+<li>Auto caching and persistent.</li>
+<li>Fast and advance query.</li>
+<li>Schemeless.</li>
+<li>Full-text search.</li>
+<li>Geo-Search.</li>
+<li>Safe lock-column?</li>
+<li>Programable configuration.</li>
+<li>Lazy ensure index.</li>
+<li>Multi IDC distributed.</li>
+</ul>
+<p>Get/Set<br>Redis zset<br>Ardb<br>Mongodb<br>Hadoop MapReduce<br>Object {…}</p>
+<h2 id="SQL-Abstract-Layer"><a href="#SQL-Abstract-Layer" class="headerlink" title="SQL Abstract Layer"></a>SQL Abstract Layer</h2><p>Redis As SQL</p>
+<h2 id="MapReduce-Abstract-Layer"><a href="#MapReduce-Abstract-Layer" class="headerlink" title="MapReduce Abstract Layer"></a>MapReduce Abstract Layer</h2><p>Redis Lua As MapReduce</p>
+<h2 id="Redis-Abstract-Layer"><a href="#Redis-Abstract-Layer" class="headerlink" title="Redis Abstract Layer"></a>Redis Abstract Layer</h2><p>Massive Redis Storage and Cache</p>
+<h2 id="Mongodb-As-Storage-Layer"><a href="#Mongodb-As-Storage-Layer" class="headerlink" title="Mongodb As Storage Layer"></a>Mongodb As Storage Layer</h2><p>It’s OK, mongodb it self is an Abstract Layer.</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/04/30/abstract-data-layer-design/" class="archive-article-date">
+  	<time datetime="2015-04-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-04-30</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/">architecture</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-flyrpc-spec" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/19/flyrpc-spec/">FlyRPC 协议设计</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>FlyRPC是适合高频率的通信框架。</p>
+<h1 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h1><h2 id="消息协议"><a href="#消息协议" class="headerlink" title="消息协议"></a>消息协议</h2><table>
+<thead>
+<tr>
+<th>Flag</th>
+<th style="text-align:center">Command</th>
+<th style="text-align:right">Sequence</th>
+<th style="text-align:center">Buffer Length</th>
+<th>Buffer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 byte</td>
+<td style="text-align:center">2 byte</td>
+<td style="text-align:right">2 byte</td>
+<td style="text-align:center">2 byte</td>
+<td>n byte</td>
+</tr>
+<tr>
+<td>标志位</td>
+<td style="text-align:center">命令ID</td>
+<td style="text-align:right">序列ID</td>
+<td style="text-align:center">消息长度</td>
+<td>消息体</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Flag说明"><a href="#Flag说明" class="headerlink" title="Flag说明"></a>Flag说明</h3><table>
+<thead>
+<tr>
+<th style="text-align:right">子协议</th>
+<th>控制位</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:right">2 bit</td>
+<td>6 bit</td>
+</tr>
+</tbody>
+</table>
+<table>
+<thead>
+<tr>
+<th>子协议</th>
+<th>1</th>
+<th>2</th>
+<th>3</th>
+<th>4</th>
+<th>5</th>
+<th>6</th>
+<th>7</th>
+<th>8</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>RPC</td>
+<td>1</td>
+<td>1</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>Buffer</td>
+<td>Error</td>
+<td>Resp</td>
+</tr>
+<tr>
+<td>Ping</td>
+<td>1</td>
+<td>0</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>Pong</td>
+<td>Ping</td>
+</tr>
+<tr>
+<td>Helo</td>
+<td>0</td>
+<td>1</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+<tr>
+<td>MQ</td>
+<td>0</td>
+<td>0</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+<td>?</td>
+</tr>
+</tbody>
+</table>
+<h2 id="服务器内部多路复用协议"><a href="#服务器内部多路复用协议" class="headerlink" title="服务器内部多路复用协议"></a>服务器内部多路复用协议</h2><table>
+<thead>
+<tr>
+<th>Client count</th>
+<th style="text-align:center">Client Id 1</th>
+<th style="text-align:right">…</th>
+<th style="text-align:center">Client Id n</th>
+<th>Buffer Length</th>
+<th>Buffer</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>1 byte</td>
+<td style="text-align:center">2 byte</td>
+<td style="text-align:right">…</td>
+<td style="text-align:center">2 byte</td>
+<td>2byte</td>
+<td>n byte</td>
+</tr>
+</tbody>
+</table>
+<h2 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h2><ul>
+<li>[OK]Send/Recv</li>
+<li>[OK]Req/Res</li>
+<li>Pub/Sub</li>
+</ul>
+<h2 id="网络协议"><a href="#网络协议" class="headerlink" title="网络协议"></a>网络协议</h2><ul>
+<li>[OK]TCP</li>
+<li>UDP</li>
+<li>Websocket</li>
+<li>P2P</li>
+</ul>
+<h2 id="序列化接口"><a href="#序列化接口" class="headerlink" title="序列化接口"></a>序列化接口</h2><ul>
+<li>数据压缩</li>
+<li>[OK]自定义</li>
+<li>[OK]json</li>
+<li>[OK]protobuf (proto3)</li>
+<li>[OK]msgpack</li>
+</ul>
+<h2 id="多路复用"><a href="#多路复用" class="headerlink" title="多路复用"></a>多路复用</h2><ul>
+<li>Gateway Node</li>
+<li>Backend Node</li>
+</ul>
+<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><h4 id="type-MessageHandler"><a href="#type-MessageHandler" class="headerlink" title="type MessageHandler"></a>type MessageHandler</h4><p>MessageHandler 可以有以下几种形式</p>
+<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 有返回值，用于处理Call</span></span><br><span class="line"><span class="function"><span class="keyword">func</span><span class="params">(*Context, in Message)</span> <span class="params">(out Message, err error)</span></span></span><br><span class="line"><span class="function"><span class="title">func</span><span class="params">(*Context, in Message)</span> <span class="title">out</span> <span class="title">Message</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">// 无返回值，用于处理<span class="title">SendMessage</span></span></span><br><span class="line"><span class="function"><span class="title">func</span><span class="params">(*Context, in Message)</span> <span class="title">err</span> <span class="title">error</span></span></span><br><span class="line"><span class="function"><span class="title">func</span><span class="params">(*Context, in Message)</span></span></span><br></pre></td></tr></table></figure>
+<h4 id="Server-Listen-addr"><a href="#Server-Listen-addr" class="headerlink" title="Server.Listen(addr)"></a>Server.Listen(addr)</h4><h4 id="Server-OnMessage-cmd-MessageHandler"><a href="#Server-OnMessage-cmd-MessageHandler" class="headerlink" title="Server.OnMessage(cmd, MessageHandler)"></a>Server.OnMessage(cmd, MessageHandler)</h4><h4 id="Context-SendMessage-cmd-Message"><a href="#Context-SendMessage-cmd-Message" class="headerlink" title="Context.SendMessage(cmd, Message)"></a>Context.SendMessage(cmd, Message)</h4><h4 id="Context-Call-cmd-Message-Message-error"><a href="#Context-Call-cmd-Message-Message-error" class="headerlink" title="Context.Call(cmd, Message) (Message, error)"></a>Context.Call(cmd, Message) (Message, error)</h4><h4 id="Client-Connect-addr"><a href="#Client-Connect-addr" class="headerlink" title="Client.Connect(addr)"></a>Client.Connect(addr)</h4><h4 id="Client-OnMessage-cmd-MessageHandler"><a href="#Client-OnMessage-cmd-MessageHandler" class="headerlink" title="Client.OnMessage(cmd, MessageHandler)"></a>Client.OnMessage(cmd, MessageHandler)</h4><h4 id="Client-SendMessage-cmd-Message"><a href="#Client-SendMessage-cmd-Message" class="headerlink" title="Client.SendMessage(cmd, Message)"></a>Client.SendMessage(cmd, Message)</h4><h4 id="Client-Call-cmd-Message-Message-error"><a href="#Client-Call-cmd-Message-Message-error" class="headerlink" title="Client.Call(cmd, Message) (Message, error)"></a>Client.Call(cmd, Message) (Message, error)</h4><h4 id="Client-Ping-cmd-size"><a href="#Client-Ping-cmd-size" class="headerlink" title="Client.Ping(cmd, size)"></a>Client.Ping(cmd, size)</h4><h4 id="Client-OnPong-cmd-pongSize"><a href="#Client-OnPong-cmd-pongSize" class="headerlink" title="Client.OnPong(cmd, pongSize)"></a>Client.OnPong(cmd, pongSize)</h4><h2 id="待定"><a href="#待定" class="headerlink" title="待定"></a>待定</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">type ClientStub struct &#123;</span><br><span class="line">    foo func(a) b `flyid:1`</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">rpc := &amp;ClientStub&#123;&#125;</span><br><span class="line">client.InjectService(rpc)</span><br><span class="line">b := rpc.foo(a)</span><br></pre></td></tr></table></figure>
+<h1 id="类关联结构"><a href="#类关联结构" class="headerlink" title="类关联结构"></a>类关联结构</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">TCP/UDP/WS        Packet    json/protobuf/msgpack</span><br><span class="line"> |                + + +                   |</span><br><span class="line"> |                | | |                   |</span><br><span class="line"> --&gt;Protocol ------ | |      Serializer &lt;--</span><br><span class="line">      +       ------- |          +</span><br><span class="line">      |       | ----Route --------</span><br><span class="line">      |       | |     *+</span><br><span class="line">      |       | |     |</span><br><span class="line">      |       | |   Router</span><br><span class="line">      |       | |    + +</span><br><span class="line">      ------- | | ---- |</span><br><span class="line">          1*| | + |    |</span><br><span class="line">       ---&gt;Context     |</span><br><span class="line">       |transport+*    |</span><br><span class="line">       |        ------ |</span><br><span class="line">       |             | |</span><br><span class="line"> --&gt;Client          Server&lt;--   MultiplexedServer&lt;--</span><br><span class="line"> |                          |                      |</span><br><span class="line"> |                          |                      |</span><br><span class="line">TCP/UDP/WS            TCP/UDP/WS               TCP/UDP/WS</span><br></pre></td></tr></table></figure>
+<ul>
+<li>_*_ 多实例</li>
+<li><em>–&gt;</em> 继承或实现</li>
+<li>_+_  被引用</li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/04/19/flyrpc-spec/" class="archive-article-date">
+  	<time datetime="2015-04-18T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-04-19</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/network/">network</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tcp/">tcp</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-compile-ledis" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/17/compile-ledis/">compile ledis</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>ledis 很简单，安装leveldb比较麻烦</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">source dev.sh</span><br><span class="line">sudo sh tools/build_leveldb.sh</span><br></pre></td></tr></table></figure>
+<p>autoreconf 找不到，PKG_MODULE_CONF, LIBTOOL, AM_PROG_AR 等等问题</p>
+<p>解决办法, 安装新版本打 automake, pkg-config, libtool</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">brew install automake</span><br><span class="line">brew install pkg-config</span><br><span class="line">brew install libtool</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/04/17/compile-ledis/" class="archive-article-date">
+  	<time datetime="2015-04-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-04-17</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/">ops</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-redis-transaction" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -500,132 +840,6 @@
 
 
   
-    <article id="post-setup-a-safe-server" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/15/setup-a-safe-server/">入侵检测</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>fail2ban<br>ufw enable<br>git no password<br>fcheck<br>unattended-upgrade<br>munin</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/03/15/setup-a-safe-server/" class="archive-article-date">
-  	<time datetime="2015-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-15</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/security/">security</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-global-deployment-keynote" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/15/global-deployment-keynote/">全球部署要点</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>NSServer domain : 就近请求DNS<br>NSServer IP 分布式 : 就近解析目标地址<br>Cloud Load Balance : Load Balance, DDoS Protection, Single-Point-Failure<br>CDN 层: 静态资源的CDN, HTTP, OPEN的，非动态的<br>反向缓存层 : 动态结果的缓存, compress, etag, last-modified, 优化, 如 varnish<br>Logic Node : Main Logic<br>数据路由层 ：根据hash原则，分区标志，进行数据路由，在本地或远程获取数据。<br>数据缓存 : 本地热门数据缓存，远程数据缓存<br>Data Cluster : Distribution, Cluster, CAP理论和BASE思想，反ACID。</p>
-<p>客户端信息采集：<br>    DNS信息采集<br>    PING 延迟采集<br>    Cloud Load Balance, CDN 延迟采集<br>    HTTP 失败、慢链接 日志</p>
-<p>BASE思想：<br>Basic Available: 基本可用，支持分区失败<br>Soft state: 状态可以有一段时间不同步<br>Eventually consistent: 最终一致，而不是实时一致。</p>
-<p>BASE实践：<br>数据按区域分布，各地有数据中心，存储当地的数据，同时各地都有缓存，缓存对当地用户而言的热点数据。</p>
-<ol>
-<li>DNS</li>
-</ol>
-<p>全球的客户端一律解析至各自最近的服务器。 需要自架DNS，<a href="https://github.com/abh/geodns" target="_blank" rel="noopener">GEODNS</a>。</p>
-<p>参考获取各国内运营商ip地址，可知道线路，但并不能知道IP所对应的地域。</p>
-<p>根据ip地址的线路进行部署。</p>
-<p>这一层同时负责一部分入侵检测工作</p>
-<p>在攻击发生时，如果攻击是执行域名的，可以通过DNS将大量未知来源的请求</p>
-<ol start="2">
-<li>发布工具</li>
-</ol>
-<p>全球部署的效率。</p>
-<p>服务升级导致的服务暂停时间缩短。</p>
-<p>发布流程：</p>
-<p>对试点发布节点：<br>    宣布某节点进入维护状态。<br>    代码发布，服务重启，基本测试。<br>    宣布某节点上线。<br>    监测节点状态。</p>
-<p>对所有待升级节点进行升级。</p>
-<ol start="3">
-<li>灰度发布</li>
-</ol>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/03/15/global-deployment-keynote/" class="archive-article-date">
-  	<time datetime="2015-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-15</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/">architecture</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
     <article id="post-get-isp-ip-blocks" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -703,7 +917,7 @@
 
 
   
-    <article id="post-ddos-defense" class="article article-type-post" itemscope="" itemprop="blogPost">
+    <article id="post-setup-a-safe-server" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy">
@@ -713,7 +927,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/13/ddos-defense/">DDoS 防御笔记</a>
+      <a class="article-title" href="/2015/03/15/setup-a-safe-server/">入侵检测</a>
     </h1>
   
 
@@ -721,91 +935,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>DDoS 意为分布式拒绝服务攻击</p>
-<h2 id="DDoS-分类："><a href="#DDoS-分类：" class="headerlink" title="DDoS 分类："></a>DDoS 分类：</h2><ul>
-<li>IP欺骗攻击 利用RST位欺骗服务器大量合法用户连接错误，用户将会掉线。</li>
-<li>ICMP-Flood</li>
-<li>SYN-Flood</li>
-<li>UDP-Flood  网络带宽耗尽攻击。</li>
-<li>HTTP-Flood 又名 CC 攻击</li>
-</ul>
-<h2 id="应对DDoS的方案"><a href="#应对DDoS的方案" class="headerlink" title="应对DDoS的方案"></a>应对DDoS的方案</h2><h3 id="DNS攻击"><a href="#DNS攻击" class="headerlink" title="DNS攻击"></a>DNS攻击</h3><p>攻击你的DNS服务器，导致拒绝服务。选择专业的DNS服务。</p>
-<p>DNS层也可以选择自架DNS，主要是用于第一时间进行攻击检测，将检测到的攻击解析至一个黑洞地址，也可以解析至BAT的地址。</p>
-<p>服务分级。将信任的，重要的客户解析至单独设立的服务区。</p>
-<p>对于客户IP的日志分析，确定哪些是老用户。</p>
-<p>DNS攻击防御也有类似HTTP的防御手段，第一方案是缓存。其次是重发，可以是直接丢弃DNS报文导致UDP层面的请求重发，可以是返回特殊响应强制要求客户端使用TCP协议重发DNS查询请求。</p>
-<p>特殊的，对于授权域DNS的保护，设备会在业务正常时期提取收到的DNS域名列表和ISP DNS IP列表备用，在攻击时，非此列表的请求一律丢弃，大幅降低性能压力。对于域名，实行同样的域名白名单机制，非白名单中的域名解析请求，做丢弃处理。</p>
-<p>对于每个向DNS请求的IP，都进行计数。在每分钟请求数正常时，形成白名单。在每分钟请求激增时，拒绝所有非白名单请求。</p>
-<h4 id="流量攻击"><a href="#流量攻击" class="headerlink" title="流量攻击"></a>流量攻击</h4><p>网络架构层面</p>
-<p>流量攻击是最常用的手法，也是最难防御的手法。而流量攻击通常可以达到10G的流量，这是普通网站所无法负担的。解决方案有2：一是买带宽，买机器，这就是拼钱，也是拼运维。二是将自己的网站置于强大的保护盾之后。</p>
-<p>怎么理解这个保护盾？普通网站没有财力购买如此大的网络流量，并且这些资源在大多数的时候都是无用的，只有在攻击发生时，起到冗余带宽的作用。现在有专业的公司开始从事这种业务，他们拥有大量的带宽和入侵检测技术，将你的真实IP置于这个保护盾之后，让这个保护盾分担掉大部分的攻击，你的网站的带宽压力就降低了。</p>
-<p>国内云盾，国外CloudFlare, rockspace<br><a href="http://totaluptime.com/solutions/cloud-load-balancing/" target="_blank" rel="noopener">http://totaluptime.com/solutions/cloud-load-balancing/</a><br><a href="http://www.fortinet.com/" target="_blank" rel="noopener">http://www.fortinet.com/</a><br><a href="http://dyn.com/traffic-director/" target="_blank" rel="noopener">http://dyn.com/traffic-director/</a><br><a href="http://aws.amazon.com/cn/elasticloadbalancing/" target="_blank" rel="noopener">http://aws.amazon.com/cn/elasticloadbalancing/</a><br><a href="http://www.hpcloud.com/products-services/load-balancer" target="_blank" rel="noopener">http://www.hpcloud.com/products-services/load-balancer</a><br><a href="https://cloud.google.com/compute/docs/load-balancing/http/" target="_blank" rel="noopener">https://cloud.google.com/compute/docs/load-balancing/http/</a></p>
-<p>关键字：cloud load balance</p>
-<h4 id="SYN-Flood"><a href="#SYN-Flood" class="headerlink" title="SYN-Flood"></a>SYN-Flood</h4><p>运维层面</p>
-<p>SYN-cookie 技术。在SYN握手时不立即分配资源。</p>
-<p>地址状态监控技术。</p>
-<h3 id="系统安全"><a href="#系统安全" class="headerlink" title="系统安全"></a>系统安全</h3><p>运维层面</p>
-<p>SSH, Fail2Ban, Firewall, SYN-Flood 策略</p>
-<h3 id="CC攻击"><a href="#CC攻击" class="headerlink" title="CC攻击"></a>CC攻击</h3><p>拒绝http-proxy的访问。<br>人机识别，HTTP，用js的方式，将IP加入黑名单。<br>移动网络也需要考虑人机识别。</p>
-<p>对于合法数据的甄别。<br>安全性，数据校验，非法数据记录丢弃，加入黑名单。</p>
-<p>静态化，高性能</p>
-<h3 id="测试工具"><a href="#测试工具" class="headerlink" title="测试工具"></a>测试工具</h3><p>架设一个目标服务器，自己尝试攻击自己，或者让黑客攻击自己。</p>
+        <p>fail2ban<br>ufw enable<br>git no password<br>fcheck<br>unattended-upgrade<br>munin</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2015/03/13/ddos-defense/" class="archive-article-date">
-  	<time datetime="2015-03-12T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-13</time>
+      <a href="/2015/03/15/setup-a-safe-server/" class="archive-article-date">
+  	<time datetime="2015-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-15</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/">ops</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/security/">security</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-use-protobuf-on-unity3d" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在Mac下编译protobuf-net遇到了很多问题，最终还是选择了下载预编译好的版本。</p>
-<p><a href="http://guileen.github.io/upload/protobuf-net-r668.zip">protobuf-net下载</a></p>
-<p>下一次再介绍我是如何用protobuf编写RPC的。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/03/10/use-protobuf-on-unity3d/" class="archive-article-date">
-  	<time datetime="2015-03-09T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-10</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data-format/">data-format</a></li></ul>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/security/">security</a></li></ul>
 	</div>
 
       

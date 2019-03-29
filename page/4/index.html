@@ -140,6 +140,218 @@
       <div class="body-wrap">
         
   
+    <article id="post-ranking-algorithms" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/12/07/ranking-algorithms/">排名算法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>机器学习来做排名运营机器人，做内容排名推荐。时间衰减 t, t^2、用户评价、VIP用户推荐、专家用户推荐(用户加权评价，每个用户权重不同）、分词,话题,信息熵机器学习估算、编辑推荐。<br>算法评价标准即是运营指标：用户收藏率、点赞率、评价率、转发率、浏览时长、打开次数。</p>
+<p>参考文章：<br><a href="http://www.cricode.com/2374.html" target="_blank" rel="noopener">http://www.cricode.com/2374.html</a></p>
+<p>极客头条是通过什么算法将来进行排名的呢？</p>
+<p>答案是：基于用户投票的排名！该算法在数据挖掘领域有这广泛的应用。</p>
+<p>基于用户投票的排名算法有多种，下面我们先来介绍各种基于用户投票的排名算法，并最终给出极客头条可能使用的一种排名算法。</p>
+<h2 id="排名算法一：Delicious算法"><a href="#排名算法一：Delicious算法" class="headerlink" title="排名算法一：Delicious算法"></a>排名算法一：Delicious算法</h2><p>Delicious算法是最简单也是最直观的一种用户投票排名算法：它按照”过去 60 分钟内被收藏的次数”(也就是极客头条中的“顶”按钮)进行排名，每过 60 分钟，就统计一次。</p>
+<p>这个算法的优点是比较简单、容易部署、内容更新相当快；缺点是排名变化不够平滑，前一个小时还排在前列的内容，往往第二个小时就一落千丈。</p>
+<h2 id="排名算法二：Hacker-News算法"><a href="#排名算法二：Hacker-News算法" class="headerlink" title="排名算法二：Hacker News算法"></a>排名算法二：Hacker News算法</h2><p>Hacker News算法由Paul Graham(此人著有《黑客与画家》一书，名震江湖)设计实现，它通过计算每篇文章的得分来进行排名。</p>
+<p>计算公式如下：</p>
+<p>`“Score” = (P-1) / (T + 2)^G`</p>
+<p>其中，<br>P 表示帖子的得票数，减去 1 是为了忽略发帖人的投票。<br>T 表示距离发帖的时间（单位为小时），加上 2 是为了防止最新的帖子导致分母过小（之所以选择2，可能是因为从原始文章出现在其他网站，到转贴至 Hacker News，平均需要两个小时）。<br>G 表示”重力因子”（gravityth power），即将帖子排名往下拉的力量，默认值为1.8<br>因此，决定一个文章排名的因素主要有三个：得票数P、距离发帖的时间T、重力因子G。其中G在实现中可以进行适当调整，得到一个理想的经验值，从而保证该推荐算法的准确性！</p>
+<p>Hacker News算法的特点是用户只能投赞成票，不能投反对票！对于一些需要正反观点的网站，Hacker News并不适用。</p>
+<p>这个算法的特点是不是有点像极客头条的运作方式了？别急，接着往下看。</p>
+<p>详细介绍：<a href="http://cricode.com/2295.html" target="_blank" rel="noopener">Hacker News算法</a></p>
+<h2 id="算法三：Reddit算法"><a href="#算法三：Reddit算法" class="headerlink" title="算法三：Reddit算法"></a>算法三：Reddit算法</h2><p>顾名思义，这个算法是由美国社交新闻网站Reddit提出的。该算法相对于Hacker News算法来说更加复杂，支持正反投票。该算法考虑了如下几个因素：</p>
+<p>1）帖子的新旧程度t<br>2）赞成票与反对票的差x<br>3）投票方向y：y 是一个符号变量，表示对文章的总体看法，如果赞成票居多，y就是 +1；如果反对票居多，y就是-1；如果赞成票和反对票相等，y就是0<br>4）帖子的受肯定程度z：z 表示赞成票超过反对票的数量。如果赞成票少于或等于反对票，那么z就等于1<br>综合以上四个因素看，Reddit算法似乎比Hacker News算法算法更合理、更靠谱！但是，请继续往下看！</p>
+<p>详细介绍：<a href="http://cricode.com/2304.html" target="_blank" rel="noopener">Reddit算法</a></p>
+<h2 id="算法四：Stack-Overflow算法"><a href="#算法四：Stack-Overflow算法" class="headerlink" title="算法四：Stack Overflow算法"></a>算法四：Stack Overflow算法</h2><p>看到这个名字，大家是不是很眼熟？就是那个大名鼎鼎的网站Stack Overflow，世界排名第一的程序员问答社区。</p>
+<p>Stack Overflow算法的作用是，找出某段时间内的热点问题，即哪些问题最被关注、得到了最多的讨论。该算法主要考虑如下几个因素：</p>
+<p>Qviews（问题的浏览次数）<br>Qscore（问题得分）和 Qanswers（回答的数量）<br>Ascores（回答得分）<br>Qage（距离问题发表的时间）和 Qupdated（距离最后一个回答的时间）<br>Stack Overflow算法是专门针对热点问题进行排名而设计的算法。最终的排名与参与度（Qviews 和 Qanswers）和质量（Qscore 和 Ascores）成正比，与时间（Qage 和 Qupdated）成反比。</p>
+<p>详细介绍：<a href="http://cricode.com/2308.html" target="_blank" rel="noopener">Stack Overflow算法</a></p>
+<h2 id="算法五：牛顿冷却定律"><a href="#算法五：牛顿冷却定律" class="headerlink" title="算法五：牛顿冷却定律"></a>算法五：牛顿冷却定律</h2><p>“牛顿冷却定律”描述起来非常简单，用一句话概况就是：物体的冷却速度，与其当前温度与室温之间的温差成正比。</p>
+<p>其基本思路如下：</p>
+<p>我们把”热文排名”想象成一个”自然冷却”的过程，那么有如下几点成立：</p>
+<p>（1）任一时刻，网站中所有的文章，都有一个”当前温度”，温度最高的文章就排在第一位。<br>（2）如果一个用户对某篇文章投了赞成票，该文章的温度就上升一度。<br>（3）随着时间流逝，所有文章的温度都逐渐”冷却”。<br>接下来，我们需要做的事是，把上面三句话抽象成一个数学模型，便得到牛顿冷却定律排名算法。</p>
+<p>详细介绍：<a href="http://cricode.com/2315.html" target="_blank" rel="noopener">牛顿冷却定律</a></p>
+<h2 id="算法六：威尔逊区间-数学来了，你准备好了吗？"><a href="#算法六：威尔逊区间-数学来了，你准备好了吗？" class="headerlink" title="算法六：威尔逊区间(数学来了，你准备好了吗？)"></a>算法六：威尔逊区间(数学来了，你准备好了吗？)</h2><p>威尔逊区间排名算法是一个完全基于概率统计的排名算法。算法基于如下假定：</p>
+<p>（1）每个用户的投票都是独立事件。<br>（2）用户只有两个选择，要么投赞成票，要么投反对票。<br>（3）如果投票总人数为n，其中赞成票为k，那么赞成票的比例p就等于k/n。<br>基于上述假定，得到威尔逊区间排名算法步骤如下：</p>
+<p>第一步，计算每个项目的”好评率”（即赞成票的比例）。<br>第二步，计算每个”好评率”的置信区间（以 95% 的概率）。<br>第三步，根据置信区间的下限值，进行排名。这个值越大，排名就越高。<br>这样做的原理是，置信区间的宽窄与样本的数量有关。比如，A有 8 张赞成票，2张反对票；B有 80 张赞成票，20张反对票。这两个项目的赞成票比例都是 80%，但是B的置信区间（假定[75%， 85%]）会比A（假定[70%， 90%]）窄得多，因此B的置信区间的下限值（75%）会比A（70%）大，所以B应该排在A前面。</p>
+<p>置信区间的实质，就是进行可信度的修正，弥补样本量过小的影响。如果样本多，就说明比较可信，不需要很大的修正，所以置信区间会比较窄，下限值会比较大；如果样本少，就说明不一定可信，必须进行较大的修正，所以置信区间会比较宽，下限值会比较小。</p>
+<p>“威尔逊区间”排名算法解决了投票人数过少、导致结果不可信的问题。</p>
+<p>详细介绍：<a href="http://cricode.com/2341.html" target="_blank" rel="noopener">威尔逊区间排名算法</a></p>
+<h2 id="算法七：贝叶斯平均-大神出没"><a href="#算法七：贝叶斯平均-大神出没" class="headerlink" title="算法七：贝叶斯平均(大神出没)"></a>算法七：贝叶斯平均(大神出没)</h2><p>程序员必须知道的10个基础算法及其讲解一文中，我们就介绍了贝叶斯概率。</p>
+<p>“威尔逊区间”能解决了投票人数过少、导致结果不可信的问题，例如如果只有 2 个人投票，”威尔逊区间”的下限值会将赞成票的比例大幅拉低。这样做虽然保证了排名的可信性，但却带来了另一个问题：排行榜前列总是那些票数最多的项目，新项目或者冷门的项目，很难有出头机会，排名可能会长期靠后。</p>
+<p>贝叶斯平均排序算法考虑了如下几个因素：</p>
+<p>1）C，投票人数扩展的规模，是一个自行设定的常数，与整个网站的总体用户人数有关，2）可以等于每个项目的平均投票数。<br>3）n，该项目的现有投票人数。<br>4）x，该项目的每张选票的值。<br>5）m，总体平均分，即整个网站所有选票的算术平均值。<br>这种算法被称为“<a href="http://en.wikipedia.org/wiki/Bayesian_average" target="_blank" rel="noopener">贝叶斯平均</a>”（Bayesian average）。因为它借鉴了“<a href="http://www.ruanyifeng.com/blog/2011/08/bayesian_inference_part_one.html" target="_blank" rel="noopener">贝叶斯推断</a>”（Bayesian inference）的思想：既然不知道投票结果，那就先估计一个值，然后不断用新的信息修正，使得它越来越接近正确的值。</p>
+<p>上述几个因素中的m（总体平均分）是”先验概率”，每一次新的投票都是一个调整因子，使总体平均分不断向该项目的真实投票结果靠近。投票人数越多，该项目的”贝叶斯平均”就越接近算术平均，对排名的影响就越小。</p>
+<p>因此，这种方法可以给一些投票人数较少的项目，以相对公平的排名。</p>
+<p>详细介绍：贝叶斯平均</p>
+<p>好了，几种有名的基于用户投票的排名算法介绍完了，上述算法看起来是一个比一个靠谱，用起来是一个比一个难用！</p>
+<p>回到本文的题目，如果是你来实现这个排名算法你会采用哪一种呢？极客头条究竟采用了哪种排名算法？</p>
+<p>根据本人有限的知识体系，极客头条的排名方法很有可能就是Stack Overflow算法的一个具体应用。</p>
+<p>结合本文介绍的算法，以下是本人对于极客头条产品设计实现的几点思考，路过的高手见笑了！<br>第一：采用Stack Overflow算法进行推荐排名，并根据自身的特点进行适当的修改简化。</p>
+<p>理由主要有两点：</p>
+<p>1）从表面上看，极客头条该算法主要参考的因素为发布时间、用户赞成数、评论数目、点击数目(很有可能极客头条也将点击数目加入了考量，这个无法肯定)。</p>
+<p>2）Stack Overflow算法相对比较简单，易于实现调优。事实上简单的算法往往能达到最好的效果，这就是所谓的大道至简吧！</p>
+<p>有兴趣的可以看这篇文章：<a href="http://cricode.com/999.html" target="_blank" rel="noopener">Google 阿卡 47 的制造者阿米特.辛格博士，体验一下大道至简！</a></p>
+<p>第二：为什么极客头条不设置”踩”按钮？</p>
+<p>这是因为，如果将反对按钮一加进来，排名结果立马变得不可控，效果会马上变差。主要原因是，不排除有个别投机分子，会将极客头条当做导流量的渠道(或者仅仅是出于好玩，随便一踩)，一旦有作弊的情况，比如出现刻意踩别人的文章，顶自己的文章，问题将变得麻烦，推荐效果也就难以保障了。去掉反对按钮后，问题会简单很多。关于作弊的问题，有兴趣的可以看这篇文章：闪光的不一定是金子——谈谈搜索引擎作弊问题(Search Engine Anti-SPAM) </p>
+<p>第三：极客头条可以开放一个管理员权限，管理员能够人为将文章置顶，让排名算法结果适当受人工控制，而不是全自动化。机器，在目前的情况下，还不能完全替代人类，尤其在内容编辑方面。</p>
+<p>第四：如果人力物力允许，可以将机器学习应用到排名上来，实现一个更加智能的排名算法。</p>
+<p>想象一下这个场景：在三分钟之内同时有50篇文章被提交审核通过(事实上，这应该有可能，因为极客头条的编辑就有30个之多)。假设在几分钟内，没有生成点赞数据和评论数据，那么，算法就只能按时间来排序了，仅仅按时间排序，效果肯定不尽如人意。<br>一个可能的解决方案是：根据以往的极客头条数据，统计出一些受欢迎的主题、关键字等信息，建立一个数学模型。当同时有大量新文章到来时，先对新文章进行分词，再根据这个数学模型，对每篇文章进行评分，按得分排行。当然，可以考虑文章来源，对于可靠的文章来源，可以给予更高的评分，例如：伯乐网、CSDN、快课网(this is a kidding)等等网站。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/12/07/ranking-algorithms/" class="archive-article-date">
+  	<time datetime="2015-12-06T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-12-07</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithms/">algorithms</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-rtmp-research" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/11/20/rtmp-research/">RTMP学习</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/slavavdovichenko/MediaLibDemos3x" target="_blank" rel="noopener">iOS rtmp lib</a><br><a href="https://github.com/nareix/rtmp" target="_blank" rel="noopener">golang rtmp server</a><br><a href="https://github.com/iizukanao/node-rtsp-rtmp-server" target="_blank" rel="noopener">nodejs rtmp server</a><br><a href="https://github.com/arut/nginx-rtmp-module" target="_blank" rel="noopener">nginx rtmp module</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/11/20/rtmp-research/" class="archive-article-date">
+  	<time datetime="2015-11-19T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-11-20</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/live-dev/">live-dev</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-mac-greek-input-on-qwerty" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/18/mac-greek-input-on-qwerty/">希腊字母在QWERTY键盘上的布局</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在做数学学习时，有时需要输入希腊字母，熟练掌握希腊字母的输入法有利于提高效率。Mac内置了希腊输入法，以下是在qwerty键盘上的布局。</p>
+<p>小写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">; ς ε ρ τ υ θ ι ο π [ ] \</span><br><span class="line"> α σ δ φ γ η ξ κ λ ΄ &apos; </span><br><span class="line">  ζ χ ψ ω β ν μ , . /</span><br></pre></td></tr></table></figure>
+<p>大写：<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">: Σ Ε Ρ Τ Υ Θ Ι Ο Π [ ] \</span><br><span class="line"> Α Σ Δ Φ Γ Η Ξ Κ Λ ¨ &quot; </span><br><span class="line">  Ζ Χ Ψ Ω Β Ν Μ &lt; &gt; ?</span><br></pre></td></tr></table></figure></p>
+<p>字母序:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">A B C D E F G</span><br><span class="line">α β ψ δ ε φ γ</span><br><span class="line">Α Β Ψ Δ Ε Φ Γ</span><br><span class="line"></span><br><span class="line">H I J K L M N</span><br><span class="line">η ι ξ κ λ μ ν</span><br><span class="line">Η Ι Ξ Κ Λ Μ Ν</span><br><span class="line"></span><br><span class="line">O P Q R S T</span><br><span class="line">ο π ; ρ σ τ</span><br><span class="line">Ο Π : Ρ Σ Τ</span><br><span class="line"></span><br><span class="line">U V W X Y Z</span><br><span class="line">θ ω ς χ υ ζ</span><br><span class="line">Θ Ω Σ Χ Υ Ζ</span><br></pre></td></tr></table></figure></p>
+<p>常用:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">α a  alpha</span><br><span class="line">β b  beta</span><br><span class="line">γ g  gamma   音近</span><br><span class="line">Γ G  gamma</span><br><span class="line">δ d  delta</span><br><span class="line">Δ D  delta</span><br><span class="line">ε e  epsilon</span><br><span class="line">ζ z  zeta</span><br><span class="line"></span><br><span class="line">η h  eta     形近 音艾塔</span><br><span class="line">θ u  theta  无规律</span><br><span class="line">ι i  iota</span><br><span class="line">κ k  kappa</span><br><span class="line">λ l  lambda 音近</span><br><span class="line">μ m  mu     音近 音谬</span><br><span class="line"></span><br><span class="line">ν n  nu     音近 音纽</span><br><span class="line">ξ j  xi      无规律 音zie</span><br><span class="line">ο o  omicron</span><br><span class="line">π p  pi     音</span><br><span class="line">Π P  pi</span><br><span class="line">ρ r  rho    音近 肉</span><br><span class="line">σ s  sigma  音近</span><br><span class="line">Σ S  sigma  音近</span><br><span class="line"></span><br><span class="line">τ t  tau</span><br><span class="line">υ y  upsilon</span><br><span class="line">φ f  phi     音fie</span><br><span class="line">Φ F  phi</span><br><span class="line">χ x  chi    音 kie</span><br><span class="line">ψ c  psi    音塞 sigh </span><br><span class="line">Ψ C  psi    音塞 sigh</span><br><span class="line">ω v  omega  无规律</span><br><span class="line">Ω V  omega  无规律</span><br></pre></td></tr></table></figure></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/10/18/mac-greek-input-on-qwerty/" class="archive-article-date">
+  	<time datetime="2015-10-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-10-18</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/greek/">greek</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mathematics/">mathematics</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-tcp-connection-optimization" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -174,6 +386,62 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/network/">network</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tcp/">tcp</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-trace-https-requests" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/06/trace-https-requests/">How to trace http request</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>使用 mitmproxy <a href="https://mitmproxy.org/" target="_blank" rel="noopener">https://mitmproxy.org/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mitmproxy</span><br></pre></td></tr></table></figure>
+<p>mitmproxy </p>
+<p>有一个命令行工具，dump工具，</p>
+<p>一个更简单的代码 <a href="https://github.com/allfro/pymiproxy" target="_blank" rel="noopener">https://github.com/allfro/pymiproxy</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/10/06/trace-https-requests/" class="archive-article-date">
+  	<time datetime="2015-10-05T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-10-06</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hack/">hack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/network/">network</a></li></ul>
 	</div>
 
       
@@ -250,62 +518,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/">android</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-trace-https-requests" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/10/06/trace-https-requests/">How to trace http request</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>使用 mitmproxy <a href="https://mitmproxy.org/" target="_blank" rel="noopener">https://mitmproxy.org/</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mitmproxy</span><br></pre></td></tr></table></figure>
-<p>mitmproxy </p>
-<p>有一个命令行工具，dump工具，</p>
-<p>一个更简单的代码 <a href="https://github.com/allfro/pymiproxy" target="_blank" rel="noopener">https://github.com/allfro/pymiproxy</a></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/10/06/trace-https-requests/" class="archive-article-date">
-  	<time datetime="2015-10-05T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-10-06</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hack/">hack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/network/">network</a></li></ul>
 	</div>
 
       
@@ -740,188 +952,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cloud-services/">cloud-services</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-use-asciimath" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/09/08/use-asciimath/">使用Asciimath来编辑数学公式</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="MathJax"><a href="#MathJax" class="headerlink" title="MathJax"></a>MathJax</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">When $a \ne 0$, there are two solutions to \(ax^2 + bx + c = 0\) and they are</span><br><span class="line">$$x = &#123;-b \pm \sqrt&#123;b^2-4ac&#125; \over 2a&#125;.$$</span><br></pre></td></tr></table></figure>
-<p>When $a \ne 0$, there are two solutions to (ax^2 + bx + c = 0) and they are<br>$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$</p>
-<h2 id="AsciiMath"><a href="#AsciiMath" class="headerlink" title="AsciiMath"></a>AsciiMath</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`a * b = c   =&gt; a = c / b =&gt; b = c / a`</span><br></pre></td></tr></table></figure>
-<p>` a * b = c   =&gt; a = c / b =&gt; b = c / a`</p>
-<p>` a / b = c  =&gt; a = b * c`</p>
-<p>` 1 / 2 = 0.5 =&gt;  1/0.5 = 2 `</p>
-<p>` 12 / 3 = 4 =&gt; 12 / 4 = 3 `</p>
-<p>` 18 / 3 = 6 =&gt; 18 / 6 = 3 `</p>
-<p>` 面积 = 长度 *  宽度 `</p>
-<p>` 长度 = (面积) / (宽度) `</p>
-<p><a href="http://asciimath.org" target="_blank" rel="noopener">asciimath</a> 在页面中加入下面这段代码</p>
-<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
-<p>将公式用用`包含起来</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">`sum_(i=1)^n i^3=((n(n+1))/2)^2`</span><br></pre></td></tr></table></figure>
-<p>`sum_(i=1)^n i^3=((n(n+1))/2)^2`</p>
-<p>条件概率公式 <code>P(A|B) = (P(A nn B)) / (P(B))</code></p>
-<p> <code>P(A|B) = (P(A nn B)) / (P(B))</code> </p>
-
-<p>全概率公式 <code>P(A) = sum_(i) P(A|B_i)*P(B_i)</code></p>
-<p> <code>P(A) = sum_(i) P(A|B_i)*P(B_i)</code> </p>
-
-<p>微积分:</p>
-<p>`f(x)=x^2`</p>
-<p>`d/dx(x^3)=((x+dx)^2 - x^2)/dx = (x^2 + 2xdx+dx^2 - x^2)/dx = 2x +dx = 2x`</p>
-<p>`u’+v’ = (du)/dx + (dv)/dx = (du+dv)/dx = (d(u+v)) / dx = (u+v)’`</p>
-<p>`(cu)’ = (dcu)/dx = c(du)/dx = cu’`</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/09/08/use-asciimath/" class="archive-article-date">
-  	<time datetime="2015-09-07T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-09-08</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mathematics/">mathematics</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-nginx-cors" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/31/nginx-cors/">Nginx解决跨域问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Nginx 根据条件设置跨域访问权限</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># CORS header support</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># One way to use this is by placing it into a file called "cors_support"</span></span><br><span class="line"><span class="comment"># under your Nginx configuration directory and placing the following</span></span><br><span class="line"><span class="comment"># statement inside your location block(s):</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment">#   include cors_support;</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># A limitation to this method is that Nginx doesn't currently send headers</span></span><br><span class="line"><span class="comment"># specified by add_header when the backend returns a 4xx or 5xx status code.</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"><span class="comment"># For more information on CORS, please see: http://enable-cors.org/</span></span><br><span class="line"><span class="comment"># Forked from this Gist: https://gist.github.com/michiel/1064640</span></span><br><span class="line"><span class="comment">#</span></span><br><span class="line"></span><br><span class="line"><span class="built_in">set</span> <span class="variable">$cors</span> <span class="string">''</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$http_origin</span> ~* <span class="string">'https?://(localhost|www\.yourdomain\.com|www\.yourotherdomain\.com)'</span>) &#123;</span><br><span class="line">        <span class="built_in">set</span> <span class="variable">$cors</span> <span class="string">'true'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$cors</span> = <span class="string">'true'</span>) &#123;</span><br><span class="line">        add_header <span class="string">'Access-Control-Allow-Origin'</span> <span class="string">"<span class="variable">$http_origin</span>"</span>;</span><br><span class="line">        add_header <span class="string">'Access-Control-Allow-Credentials'</span> <span class="string">'true'</span>;</span><br><span class="line">        add_header <span class="string">'Access-Control-Allow-Methods'</span> <span class="string">'GET, POST, PUT, DELETE, OPTIONS'</span>;</span><br><span class="line">        add_header <span class="string">'Access-Control-Allow-Headers'</span> <span class="string">'Accept,Authorization,Cache-Control,Content-Type,DNT,If-Modified-Since,Keep-Alive,Origin,User-Agent,X-Mx-ReqToken,X-Requested-With'</span>;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$request_method</span> = <span class="string">'OPTIONS'</span>) &#123;</span><br><span class="line">        <span class="built_in">return</span> 204;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/08/31/nginx-cors/" class="archive-article-date">
-  	<time datetime="2015-08-30T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-08-31</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/">nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/">ops</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-golang-work-with-cpp" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/26/golang-work-with-cpp/">Golang与C++混合编译问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>use <a href="http://www.swig.org/Doc2.0/Go.html" target="_blank" rel="noopener">SWIG</a></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/08/26/golang-work-with-cpp/" class="archive-article-date">
-  	<time datetime="2015-08-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-08-26</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/">go</a></li></ul>
 	</div>
 
       

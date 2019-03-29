@@ -140,6 +140,186 @@
       <div class="body-wrap">
         
   
+    <article id="post-common-app-folders" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/02/25/common-app-folders/">通用的項目文件結構</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在項目開發過程中經常會因爲“應該將某個文件放在哪個文件夾下”，以及文件夾應該叫什麼名字這種問題而糾結。在經歷一次次痛苦糾結後，決定整理一個通用的項目文件結構。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">/root</span><br><span class="line">|- README ( LICENSE etc)</span><br><span class="line">|- Makefile ( Gruntfile.js Dockfile etc)</span><br><span class="line">|- /build (if you have complex build scripts)</span><br><span class="line">|- /deps (node_modules, bower_components)</span><br><span class="line">|- /test (test cases)</span><br><span class="line">`- /src</span><br><span class="line">    |- example.conf (example config or default config)</span><br><span class="line">    |- /res (public resources, pack to client)</span><br><span class="line">    |  |- img</span><br><span class="line">    |  |- i18n</span><br><span class="line">    |  `- ...</span><br><span class="line">    |- /etc (miscs)</span><br><span class="line">    |- /utils (utils depends nothing, reuseable)</span><br><span class="line">    |- /core (engine, framework part, depends on utils, reuseable)</span><br><span class="line">    |- /models (or services, talking to data and lowlevel interface)</span><br><span class="line">    |- /routes (handle client request, most use in HTTP, sometimes it called `commands` in CLI or socket program.)</span><br><span class="line">    |- /actions (controllers, UI delegates)</span><br><span class="line">    |- /views (templates, UI, etc)</span><br><span class="line">    `- /helper (like utils, but it is highly relatated with /core /models /actions /views.)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/02/25/common-app-folders/" class="archive-article-date">
+  	<time datetime="2014-02-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-02-25</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/">architecture</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/">node.js</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-linux-commands-you-should-know" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/02/25/linux-commands-you-should-know/">你需要知道的Linux命令</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>grep</li>
+<li>find</li>
+<li>sed</li>
+<li>xargs</li>
+<li>awk</li>
+<li>tar</li>
+<li>vi</li>
+<li>shell and shell scripts</li>
+<li>top</li>
+<li>account and group management commands<ul>
+<li>/etc/passwd</li>
+<li>/etc/shadow</li>
+<li>/etc/group</li>
+<li>/etc/gshadow</li>
+<li>…</li>
+</ul>
+</li>
+</ul>
+<p><a href="http://blog.csdn.net/windone0109/article/details/2909565" target="_blank" rel="noopener">Linux高級命令詳解</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/02/25/linux-commands-you-should-know/" class="archive-article-date">
+  	<time datetime="2014-02-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-02-25</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/">ops</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-etag-vs-lastmodified-vs-expire" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/01/28/etag-vs-lastmodified-vs-expire/">Etag与Last-Modified以及浏览器永久缓存的比较</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Etag 和 Last-Modified 的功效类似，但是Etag出现较晚。</p>
+<p>Last-Modified 适合静态文件。</p>
+<p>Etag 适合动态内容的变更。</p>
+<p>永久缓存。。。这只适合类似图片、视频等内容。对js，css等静态文件可以通过加版本号的方式来永久缓存之。</p>
+<p>xxx.js?etag=12345 这种方式来永久缓存</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/01/28/etag-vs-lastmodified-vs-expire/" class="archive-article-date">
+  	<time datetime="2014-01-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-01-28</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/">HTTP</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-for-each-file-in-makefile" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -405,58 +585,6 @@ c.json
 
 
   
-    <article id="post-use-varnish" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/28/use-varnish/">Use varnish</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Varnish 是一个反向代理服务器，并且只能作为反向代理。可编程式的配置。性能很好。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/28/use-varnish/" class="archive-article-date">
-  	<time datetime="2013-03-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-28</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/">architecture</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
     <article id="post-how-to-learn-linear-algebra" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -510,6 +638,58 @@ c.json
 
 
   
+    <article id="post-use-varnish" class="article article-type-post" itemscope="" itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/28/use-varnish/">Use varnish</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Varnish 是一个反向代理服务器，并且只能作为反向代理。可编程式的配置。性能很好。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/28/use-varnish/" class="archive-article-date">
+  	<time datetime="2013-03-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-28</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/">architecture</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-javascript-date" class="article article-type-post" itemscope="" itemprop="blogPost">
   <div class="article-inner">
     
@@ -542,173 +722,6 @@ c.json
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/">js</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-wow-design" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/26/wow-design/">再探魔兽世界</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>日常任务</p>
-<p>货币、声望、荣誉。。。</p>
-<p>副本、英雄副本、团队副本</p>
-<p>社交、公会</p>
-<p>商业技能</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/26/wow-design/" class="archive-article-date">
-  	<time datetime="2013-03-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-26</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/">game-dev</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-game-gambling-design" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/23/game-gambling-design/">游戏赌博设计</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>暗黑创造了赌博系统。这个概念被暗黑刻意弱化了，赌博概率过低，页游将他发扬光大。<br>打怪物掉随机掉装备。<br>打怪掉装备与赌博系统有差别吗？一个投入的是时间，一个投入的是金钱。</p>
-<p>暗黑符文系统，宝石系统，插槽系统。个性化。<br>英雄联盟符文系统，天赋系统。个性化。</p>
-<p>神仙道命格系统————赌博+个性化。</p>
-<p>抢劫系统与竞技场系统。同为PvP。</p>
-<p>天梯、竞技场 与 抢劫是两条不同的线。</p>
-<p>天梯是目标。天梯是单向的。<br>抢劫是手段。抢劫是乱斗。</p>
-<p>活动战，仙道会，帮派战。</p>
-<p>世界boss与副本。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/23/game-gambling-design/" class="archive-article-date">
-  	<time datetime="2013-03-22T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-23</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/">game-dev</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-redis-leveldb" class="article article-type-post" itemscope="" itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy">
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/17/redis-leveldb/">redis leveldb</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>redis protocol + leveldb storage = perfect key/value database</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/17/redis-leveldb/" class="archive-article-date">
-  	<time datetime="2013-03-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-17</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nosql/">nosql</a></li></ul>
 	</div>
 
       
