@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://guileen.github.io">
+  <title>桂糊涂的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="桂糊涂的博客">
+<meta property="og:url" content="http://guileen.github.io/index.html">
+<meta property="og:site_name" content="桂糊涂的博客">
+<meta property="og:description" content="Description">
+<meta property="article:author" content="桂糊涂">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternative" href="/atom.xml" title="桂糊涂的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/avatar.jpg">
+  
+  
+<link rel="stylesheet" href="/main.css">
+
+  
+
+<meta name="generator" content="Hexo 4.1.1"></head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">桂糊涂</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">代码杂记</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/course/">课程</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/guileen" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="https://weibo.com/guileen" title="weibo">weibo</a>
+		        
+					<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">桂糊涂</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">桂糊涂</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">代码杂记</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/course/">课程</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/guileen" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="https://weibo.com/guileen" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-setup-gogs-with-docker-compose" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/03/29/setup-gogs-with-docker-compose/">使用docker-compose设置Gogs</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>创建 ~/gogs/docker-compose.yml</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">version: &#39;2&#39;</span><br><span class="line">services:</span><br><span class="line">  gogs:</span><br><span class="line">    container_name: gogs</span><br><span class="line">    image: gogs&#x2F;gogs</span><br><span class="line">    volumes:</span><br><span class="line">      - &#x2F;data&#x2F;gogs&#x2F;:&#x2F;data</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;3080:3000&quot;</span><br><span class="line">      - &quot;3022:22&quot;</span><br><span class="line">    restart: always</span><br></pre></td></tr></table></figure>
+
+<p>执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker-compose up -d</span><br></pre></td></tr></table></figure>
+
+<p>Nginx配置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">  listen 80;</span><br><span class="line">  server_name git.example.com;</span><br><span class="line"></span><br><span class="line">  location &#x2F; &#123;</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        proxy_pass http:&#x2F;&#x2F;127.0.0.1:3080;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>配置注意事项：</p>
+<ul>
+<li><em>SSH Port:</em> Use the exposed port from Docker container. For example, your SSH server listens on 22 inside Docker, but you expose it by 10022:22, then use 10022 for this value. Builtin SSH server is not recommended inside Docker Container</li>
+<li><em>HTTP Port:</em> Use port you want Gogs to listen on inside Docker container. For example, your Gogs listens on 3000 inside Docker, and you expose it by 10080:3000, but you still use 3000 for this value.</li>
+<li><em>Application URL:</em> Use combination of Domain and exposed HTTP Port values (e.g. <a href="http://192.168.99.100:10080/" target="_blank" rel="noopener">http://192.168.99.100:10080/</a>).</li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/03/29/setup-gogs-with-docker-compose/" class="archive-article-date">
+  	<time datetime="2019-03-29T08:58:02.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-03-29</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-How-ssl-works-and-letscrypt" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/30/How-ssl-works-and-letscrypt/">How ssl works and Letscrypt</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="SSL-TLS-解决了什么问题？"><a href="#SSL-TLS-解决了什么问题？" class="headerlink" title="SSL/TLS 解决了什么问题？"></a>SSL/TLS 解决了什么问题？</h2><p>假设A给B发信息，直接明文发送，那么所有的中间传输节点，都可以截获明文，这种通信是不安全的，想象一下你的密码全部在网上明文传输，是不是很危险。</p>
+<p>现在A将信息加密后传输给B，B解密信息，加密密钥和解密密钥是相同，这种加密算法叫做对称加密算法。题是，A如何把密钥告诉B？如果依然通过同一个中间人告诉B，一旦中间人知道这个密钥，那么传输过程就依然是不安全的了。</p>
+<p>这时非对称加密算法出现了，非对称加密的加密解密需要两把钥匙，我们称之为公钥和私钥，所谓公钥就是可以公开的钥匙，可以安全的分享出去。使用公钥加密的数据必须用私钥解密，使用私钥加密的必须用公钥解密。如果A和B之间进行通信，那么AB双方首先交换各自的公钥，保留各自的私钥，这个过程是安全的。A要给B发信息则使用B的公钥加密，因为只有B自己拥有私钥，所以只有B可以解密信息，反之依然。这是非对称加密的第一个用途，防止中间人破译信息。非对称加密还有另一个用途————身份验证，如果A要向B表明身份证明自己的确是A，只需要按照B的要求加密一段随机字符串S即可，A使用自己的私钥加密S，将加密结果发送给B，B使用A提供的公钥进行解密，若结果为S，则证明对方的身份的确是A，这样就完成了认证过程，我们常用的ssh公钥登录，就是这个原理。</p>
+<p>一切看起来很完美，但是还有一个问题没有解决。假设A、B之间有一个中间人C，AB之间的所有消息都经过C传递。这是C在这个传输过程做了手脚，当AB交换公钥时，A把公钥发给C，希望C把A的公钥转交给B，可是这是C没有把A的公钥交给B，而是把C的公钥交给了B，B误以为C的公钥就是A的公钥。在B把公钥发给A的过程中，C做了同样的手脚。这时A、B手上都是C的公钥，而C手上也有A、B的公钥。这时A给B发消息时，会使用C的公钥加密，C则先用C的私钥解密得出原文完成信息窃取，再用B的公钥加密信息发给B。AB都认为自己进行了安全的传输，一切天衣无缝。更可怕的是C还可以直接篡改信息。谁有能力做这件事？你的网络提供商，你连接的免费wifi，网络上的交换节点，都有能力实施这个中间人攻击。那么问题来了，既然交换公钥这种非对称加密手段都无法奏效，还搞毛线呢？这时就需要CA上场了。</p>
+<pre><code>A  ---- A的公钥 ---&gt;  C  ---- C的公钥 ---&gt; B
+A  &lt;--- C的公钥 ----  C  &lt;--- B的公钥 ---- B
+A  --C公钥加密信息--&gt;  C  -- B公钥加密信息--&gt; B
+A  &lt;-C公钥加密信息---  C  &lt;- A公钥加密信息--- B</code></pre><p>CA的全称是Certificate Authority，即证书颁发机构。A为了保证自己的公钥不被中间人篡改，会先将自己的公钥交给CA，CA用自己的私钥教秘A的公钥，B使用CA的公钥解密A的公钥，只要CA的签名的公钥没有问题，则A的公钥也必然没有问题。那么又有一个新的问题来了，如果中间人C伪造CA的公钥怎么办？这个问题的解决方案比较粗暴，CA的公钥是直接写在浏览器里的。如果CA的公钥被篡改，浏览器会直接提示不安全的网络连接。因此我们也需要警惕一些山寨浏览器，如果没有道德底线的约束，他们完全可以篡改CA证书，为网络监听大开方便之门。</p>
+<p>因为CA需要各大浏览器厂商的共同认可，因此是个壁垒很高的生意。如果一个网站需要提供安全的网络连接，则需要将自己的网站公钥通过CA生成一个认证公钥，这个认证的公钥也就是证书，这个证书不便宜。想象一下，每一年你都需要付出两千块钱，就是为了证明你是你，这钱花的是不是挺冤枉。你说我的网站就不提供安全传输不就完了吗，反正我这信息也都是公开的，也没什么值得监听的。不行，因为很多业务场景，第三方接口，必须要求你提供安全的网络连接。这就增加了开设一个网络服务的成本，尤其是增加了玩票的成本，小微创新就会受影响。</p>
+<p><img src="/img/https_flowchart.jpg" alt=""></p>
+<p>现在就该今天的主角上场了，<a href="https://letsencrypt.org/" target="_blank" rel="noopener">Letsencrypt</a>，他是一个免费、自动化的证书颁发机构。今天就向大家安利一下Letsencrypt。 Letsencryt在web server上运行了一个证书管理代理（Certificate management agent）的程序。假设我们希望设置<code>https://example.com</code>的证书。那么一共有两个步骤，第一步，证明你拥有exmaple.com，第二步，代理程序可以请求（request）、更新（renew）以及废除（revoke）证书，</p>
+<p>Letsencrypt根据agent公钥来验证账号，agent第一次与Letsencrypt交互时，Letsencrypt会要求agent证明自己拥有某个域名。agent会询问需要自己做什么来证明自己拥有这个域名，这时Letsencrypt会下发一组任务，比如添加某个DNS记录，在网站下提供某个制定的资源。这和传统的CA证书机构类似。当agent完成操作后，CA就认为该agent已经拥有这个域名了，之后的域名更新都可以通过agent操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo add-apt-repository ppa:certbot&#x2F;certbot</span><br><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install certbot</span><br><span class="line">$ sudo certbot certonly -d ipub.io -d *.ipub.io --manual --preferred-challenges dns --server https:&#x2F;&#x2F;acme-v02.api.letsencrypt.org&#x2F;directory</span><br></pre></td></tr></table></figure>
+<p>跟着提示填写，其中一步要求在DNS记录中添加一个TXT，修改后继续，准确无误的话，证书会在/etc/letsencrypt/live/ipub.io/ 目录下, 修改nginx配置文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">  listen 443 ssl;</span><br><span class="line">  listen [::]:443 ssl;</span><br><span class="line">  keepalive_timeout 70;</span><br><span class="line"></span><br><span class="line">  root &#x2F;var&#x2F;www&#x2F;leen.ipub.io;</span><br><span class="line">  index index.html index.htm;</span><br><span class="line">  server_name leen.ipub.io;</span><br><span class="line">  ssl_certificate  &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;ipub.io&#x2F;fullchain.pem;</span><br><span class="line">  ssl_certificate_key  &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;ipub.io&#x2F;privkey.pem;</span><br><span class="line">  location &#x2F; &#123;</span><br><span class="line">    try_files $uri $uri&#x2F; &#x2F;index.html &#x3D;404;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/01/30/How-ssl-works-and-letscrypt/" class="archive-article-date">
+  	<time datetime="2019-01-30T12:49:39.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-01-30</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-set-up-a-mail-server" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/29/set-up-a-mail-server/">设置邮箱服务器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>发现自己已经有足足一年多没有更新任何博客了。过去的一年中，自己越来越多的在做管理型的工作，远离了一线开发，开发笔记类的东西也就少了。</p>
+<p>最近这段时间一直在整理自己的思路，希望能够做些能够触达用户的事情，比如搞一个公众号之类的。而各种自媒体号都需要邮箱，申请免费邮箱又是很麻烦的事，搞不好密码忘了，也很麻烦。既然自己有域名，为什么不自己搞一个企业邮箱呢。常用的是腾讯的免费企业邮箱，但是只能绑定一个域名，而我的账号下已经绑定了一个域名。于是想着自己动手搭建一个邮箱服务器。</p>
+<p>这个邮箱服务器的主要目标是接收各种注册邮件、验证码，并不要求完善的账号管理系统。备选方案有：</p>
+<ol>
+<li><a href="https://postal.atech.media/" target="_blank" rel="noopener">Postal</a>, write with ruby, MySQL</li>
+<li><a href="https://modoboa.org/en/" target="_blank" rel="noopener">Modoboa</a>, write with python.</li>
+<li>postfix</li>
+<li>dovecot</li>
+<li><a href="https://github.com/mailhog/MailHog" target="_blank" rel="noopener">MailHog</a></li>
+<li><a href="https://github.com/toorop/tmail" target="_blank" rel="noopener">tmail</a></li>
+<li><a href="https://mailinabox.email/" target="_blank" rel="noopener">Mail in a box</a></li>
+<li><a href="https://github.com/djfarrelly/MailDev" target="_blank" rel="noopener">MailDev</a></li>
+<li><a href="https://www.inbucket.org/" target="_blank" rel="noopener">Inbucket</a></li>
+</ol>
+<p>最终选择了maildev，安装简单方便</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i -g maildev</span><br><span class="line">maildev --web-user xx --web-pass xx</span><br></pre></td></tr></table></figure>
+
+<p>使用supervisor，后台运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># supervisor&#x2F;conf.d&#x2F;maildev.conf</span><br><span class="line">[program:maildev]</span><br><span class="line">command&#x3D;&#x2F;opt&#x2F;nodejs&#x2F;bin&#x2F;maildev --web-user&#x3D;xx --web-pass&#x3D;xx -s 25 -w 1080</span><br><span class="line">redirect_stderr&#x3D;true</span><br><span class="line">stdout_logfile&#x3D;&#x2F;var&#x2F;log&#x2F;maildev.log</span><br><span class="line">stdout_logfile_maxbytes&#x3D;10MB</span><br><span class="line">stdout_logfile_backups&#x3D;10</span><br><span class="line">stdout_capture_maxbytes&#x3D;100MB</span><br></pre></td></tr></table></figure>
+
+<p>修改DNS，添加MX记录为服务器IP。发邮件到<a href="mailto:test@example.com">test@example.com</a> 测试，打开 <code>http://example.com:1080/</code> ，可以看到自己刚发的邮件。说明已经可以有任意多的邮箱了。</p>
+<p>把他和brook科学上网服务放在同一台服务器上，充分利用资源。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/01/29/set-up-a-mail-server/" class="archive-article-date">
+  	<time datetime="2019-01-29T14:40:54.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-01-29</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-backslash-r" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/06/06/backslash-r/">backslash r</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一直都知道Windows底下的换行符是 <code>\r\n</code>，Linux系统下是<code>\n</code>。<br>但并没有关心过 <code>\r</code>和<code>\n</code> 到底是什么意思。其实 <code>\r</code> 是将光标移至行首，而 <code>\n</code> 是将光标移至下一行。这么一看也理解了为什么Windows会将换行符设置为<code>\r\n</code>了。</p>
+<p>下面这段代码，可以看出<code>\r</code>的作用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">var i &#x3D; 0</span><br><span class="line">function update() &#123;</span><br><span class="line">  i++</span><br><span class="line">  process.stdout.write(&quot;\r&quot; + i)</span><br><span class="line">  if ((i % 10) &#x3D;&#x3D; 0) &#123;</span><br><span class="line">    console.log(&quot;&quot;)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">setInterval(update, 100)</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/06/06/backslash-r/" class="archive-article-date">
+  	<time datetime="2017-06-06T09:28:04.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-06-06</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cli/" rel="tag">cli</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-introduce-rela-tech-team" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/04/13/introduce-rela-tech-team/">我在热拉工作的体验</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>两年前我以CTO身份加入了一家专注于拉拉社交的互联网公司——热拉。有次和一个身在国外的朋友提起我正在做LGBT，他的第一反应是，wow！so cool！要知道，在硅谷，库克等一帮大佬都是弯的，数据显示硅谷有三分之一公司的中高层都是同性恋。所以在他人眼中，从事LGBT是一件很fasion的事业。配合我不羁的长发和稀虚的胡渣，很多人认为我也是弯的。很遗憾，我是一个直男癌晚期！</p>
+<p>在很多人的看来，一个小众社交软件应该是很简单的，做好它应该不难。起初我也认为自己可以驾轻就熟的做好这件事，并且不需要多少的人手，但我很快意识到没那么简单。在我加入之时，热拉已经是上线了一年多，拥有完整的产品形态，几十万体量的用户。所有后端由java开发，每天到了晚高峰时间，服务器都会崩溃。而与此同时，我们的市场推广依然不能停下，产品迭代仍要进行，这对于技术架构改进来说，无疑是雪上加霜。</p>
+<p>我提出了招聘更多的人员，拆分为两个后端团队的想法，一个团队进行产品架构的重构，而另一团队则对现有系统进行维护和改进，在重构完成后切换到新系统上。这个方案很快被否定了，相反，我们需要对团队进行压缩，因为我们当时正面临着财务的压力。原本人员就严重不足的后端团队，减少了一位java工程师，和运维工程师。<br>我们当时无暇去做架构上的调整，并不是我们不明白它的重要性，而是情势使然。我们只能从运维的角度来进行优化，将现有系统看作一个黑盒的系统，从各项指标来分析整个系统的瓶颈所在，按影响程度从高到低进行优化。至少，在晚高峰的时候服务器不再频繁的崩溃了。</p>
+<p>为了在进行现有系统优化的同时，依然能满足产品迭代的需求，我尽可能的不增加现有后台的负担，使用node.js 提供完全独立于现有系统的一部分新API接口。选择node.js是因为他的开发效率高，也可以保证与现有系统完全解耦。</p>
+<p>在这样的团队结构下，服务逐步得到了稳定，产品也在不断迭代中。虽然过程中我们依然遇到了各种各样的问题，但我们也度过了最困难的时期，成功融资，并且拥有了变现能力，现在的财务状况非常之好。</p>
+<h3 id="热拉何时开始引入Go语言的？"><a href="#热拉何时开始引入Go语言的？" class="headerlink" title="热拉何时开始引入Go语言的？"></a>热拉何时开始引入Go语言的？</h3><p>在技术选型上编程语言的选型是基础，每种编程语言都有不同的特性，开源社区或是某家大公司支持都会影响它的生态。Java整个生态并不符合我们的“审美”。而且既有的java服务很不稳定，所以我们一直有计划替换掉java。</p>
+<p>我们原本考虑使用node.js作为后端主要开发语言，但是我们在人才招聘上遇到了障碍，原因在于node.js工程师的后端能力可以说是良莠不齐。在意识到这一点后，我们决定使用Golang作为后端主要开发语言，而node.js主要应用于web相关的项目中。golang程序员相对而言，编程基础更加扎实，对后端的sense更好。</p>
+<p>我们首次尝试Golang，是在聊天系统（IM）中。热拉的IM系统此前是使用的是XMPP协议的开源框架，当时已经达到了性能的瓶颈，难以维护和优化。因为IM系统是相对独立的，重写它对于整个系统架构没有太大影响，所以我决定自己使用Golang做一套IM系统。准确的说我们所开发的是一套网络通信框架，它包含Go服务端框架、Go客户端库、iOS客户端库、Android客户端库。我们的IM系统就是在这套网络通信框架之上开发的，目前已经在线上稳定运行一年多了。</p>
+<p>另一个Golang的使用是重写整个后端API。当时我们的用户相比之前已经翻了几番，除了IM之外的功能主要还是在老后台上，在经历了几次严重的故障之后，我们终于决定使用Golang重写。我们的目标是灰度的、无缝的迁移，一切的重写对用户来说都是无感知的。所以Golang在热拉技术架构中的比重也越来越大了</p>
+<h3 id="介绍一下技术团队"><a href="#介绍一下技术团队" class="headerlink" title="介绍一下技术团队"></a>介绍一下技术团队</h3><p>热拉这个产品除了在用户量级上比其他社交软件小以外，在产品功能上一点也不比其他社交软件少，甚至还要更多，更复杂。对比我们的团队规模，还是非常有挑战的，我们的原则是“小而美”。对于一名程序员来说，还有什么比做一件充满挑战的事情更有趣的呢？</p>
+<p>我们下一步的计划是按照微服务架构对服务进行重构，这次是重构而不是重写。你可能会好奇，为什么不直接使用Golang重构，而是先重写，再重构？这一点说来话长，简言之是权衡风险与成本的结果。</p>
+<p>我们认为每个微服务模块都应该有唯一的负责人，这可以让每一个团队成员都有自主发挥的空间。一部分的微服务也成为了我们实验新技术的环境，consul，NSQ等技术都有在应用。我们也会在接下来组建数据团队，在大数据架构中依然会选择Golang作为主要的语言，这与很多公司以java为主的做法是不一样的，但我们相信Golang是可以胜任大数据基础架构的工作的，并且可以让我们使用更少的人力资源和硬件资源来完成这件事。当然，这也是一个新的挑战。</p>
+<p>所以我们也在 <strong>招聘更多优秀的Golang程序员</strong></p>
+<ul>
+<li>我们希望你首先对于Golang 语言特性的理解上是扎实的，同时也有3年以上的任意编程语言的后端开发经验</li>
+<li>如果你完全没有Golang的经验，但是后端经验非常丰富，并乐于转型到Golang，我们也非常欢迎</li>
+<li>如果你在github上有开源项目，在stackoverflow上有贡献答案，有坚持写博客的习惯，请把链接甩给我们</li>
+<li>如果你有大数据相关经验那就更合适了</li>
+<li>我们鼓励交流和分享，但不鼓励加班，我们认为加班与工作效率不存在正相关性</li>
+<li>MBP是标配，也可以配备外置显示器</li>
+</ul>
+<p>如果你对我们有兴趣，请将你的简历直接发送至我的邮箱： ****@thel.co</p>
+<p>—— Update 2019-01-29 ——</p>
+<p>已于不久前离开该公司，我会带着感悟和收获继续前行。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/04/13/introduce-rela-tech-team/" class="archive-article-date">
+  	<time datetime="2017-04-13T02:04:35.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-04-13</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gossip/" rel="tag">gossip</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-creative-commons-license" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/27/creative-commons-license/">创作共用协议</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>作为缺乏审美的工程师，当想要独立设计一些页面时，有时会感到力不从心。所幸的是如今是一个知识共享的时代，在码农的圈子里有开放源代码协议，在设计的圈子里也有创作共用协议即Creative Commons协议。</p>
+<p>比如我们所熟知的bootstrap，其代码是使用MIT协议发布的，而其官网则是以Creative Commons协议发布的，意味着我们可以在CC协议之下使用其官网的设计。</p>
+<p>有许多的设计开始通过Creative Commons协议发布，包括网页设计、字体、图标集等。</p>
+<ul>
+<li><a href="http://glyphicons.com/" target="_blank" rel="noopener">http://glyphicons.com/</a></li>
+<li><a href="http://html5up.net" target="_blank" rel="noopener">http://html5up.net</a></li>
+<li><a href="http://www.styleshout.com/" target="_blank" rel="noopener">http://www.styleshout.com/</a></li>
+</ul>
+<p>其他一些非CC协议的免费设计资源</p>
+<ul>
+<li>mononoki 字体</li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/03/27/creative-commons-license/" class="archive-article-date">
+  	<time datetime="2017-03-27T09:00:23.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-27</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/resources/" rel="tag">resources</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-one-day-of-my-life" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/03/08/one-day-of-my-life/">我今天都干了啥？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我今天都干了啥</p>
+<p>今天起了个大早，送娃上学，回来还早，玩了局王者，吃早饭，上班</p>
+<p>打开电脑看了下TODO，邮箱、微信、QQ上的很多未读消息。</p>
+<p>11点面试了一位产品经理，聊了她的工作经历，以及她对产品的理解，抛出了一些问题，没有什么问题，但也没有什么亮点打动我，还是淘汰了。</p>
+<p>年后对接了很多三方服务，合同流程要走。两家文本识别服务，我们需要评估其质量，安排小伙伴将差异数据整理，并安排人工复审，统计各家质量，督促改进。</p>
+<p>抽烟的时候，使用我们的app发了一个话题。</p>
+<p>安排团建小分队的同学，确定技术分享会的最终流程，奖品，准备全员邮件，确认邮件内容。</p>
+<p>准备新的JD，招人，也要看一下新的人才招聘渠道，与HR沟通。</p>
+<p>叫外卖，吃午饭，今天没玩王者。休息一下，听公开课午睡。</p>
+<p>某CDN的合作协议，来回多次，无法接受，对方的售前沟通能力实在够呛，也说明他们的服务的确一般，无奈国内网络环境就这样，而他们价格尚可接受，只得继续纠缠。</p>
+<p>某些提现操作失败，需要退回金额，这个操作比较敏感，我一直是手动操作。决定安排小伙伴优化这段代码，完全自动化。</p>
+<p>另一个必须手动操作的金额相关的调整。</p>
+<p>某SEO合同寄到，签字盖章安排寄回，通知对方。</p>
+<p>某直播服务合同确认，一些技术和计费细节还是要沟通清楚。我真的很努力的在为公司省钱啊。</p>
+<p>某直播账单发票寄到，向财务请款，提醒相关人员审批。</p>
+<p>某发邮件服务余额不足，前去支付并申请发票，以便以后报销。</p>
+<p>还有一堆简历没有筛选，质量太差，懒得筛选。</p>
+<p>开始写这个记录，回忆一下一天都干了什么。</p>
+<p>开了一个10分钟的小会。</p>
+<p>大部分的沟通都是需要往复的，所以以上很多事情都没有真正结束。我需要重新看一下TODO，整理一下思路。</p>
+<p>已经周三了，本周计划还没提交，前去整理提交。</p>
+<p>今天中途抽了几根烟，继续看那本关于人性的书。</p>
+<p>产生了一个产品灵感，记录一下，年纪越大灵感越少，要珍惜。</p>
+<p>已经17:30了，还有时间，要把简历都筛选掉。</p>
+<p>感谢我的小伙伴们，没有什么事来打扰我，所以说团队搭建是CTO的首要工作。我也是心大，对他们的工作很放心，其实我最应该做的就是review一下他们的工作。说实话，我挺怀念不闻窗外事，只管写代码的日子，心静！那种不断的思考、设计、实现的过程，很爽。而现在不得不处理各种事情，没什么难度，但也不能假手于人。</p>
+<p>可能是年初吧，各种外部的、产品的、团队的事情都挤在了一起，希望可以尽快了解掉一些事情，让自己可以更专注在某一方面。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2017/03/08/one-day-of-my-life/" class="archive-article-date">
+  	<time datetime="2017-03-08T10:09:02.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-08</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gossip/" rel="tag">gossip</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-public-avatar" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/public-avatar/">公共画像</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>什么是SNS的本质？当我们看待一个SNS的时候，我们看到的是什么？</p>
+<p>信息、状态、转发、私信、粉丝、评论，我们看到的是这些产品功能吗？还是这些数据？他的价值在哪里？</p>
+<p>一个SNS，我们看到的是，我们自己的公共形象，或者是某些人的公共形象。SNS为这些红人提供了舞台。</p>
+<p>而且，每个SNS所提供的舞台是不一样的，往来的红人也是不一样的。</p>
+<p>SNS就像一个主题酒吧，来往形形色色的人，但他们身上或多或少会有一些共同点。在同一个SNS上，他们有同样的期许。</p>
+<p>粉丝是一个两难的设计。没有粉丝，红人们没有动力在SNS上奋斗，而有了粉丝之后，任何的SNS最终会走向固化，红人霸占了主要的SNS资源。</p>
+<p>这也是各种SNS会不断推陈出新的原因，因为有一批有潜质的红人，无论他／她是什么类别的红人，他需要一个舞台。但是有些场子，已经被人霸占，于是他们不得不寻找新的舞台。而总有一些SNS平台会抓住一些机会，提供某个类别的小舞台，这就是垂直SNS。</p>
+<p>是否有可能干翻霸主级的社交网络？Facebook，twitter，国内的腾讯、微博。答案是能！本质上腾讯就被自己干翻了，微信取代QQ，本质上就是对霸主的挑战，虽然这一切发生在腾讯内部。但是微信取代QQ，这样的现象是难以复制的，为什么呢？因为微信取代QQ是发生在移动互联网与传统互联网更替的阶段的，是大事因缘，没有微信取代QQ，也会有其他应用取代QQ，但机会只有一次。</p>
+<p>陌陌，用陌生人社交的方式占领了一定的市场，但是陌陌本身的名称定位已经把自己钉死了，就是陌生人社交。微信早期用摇一摇也达到了同样的爆发式增长，但用户规模上去之后，微信就可以弱化了这一个功能。</p>
+<p>SNS下一个风口在哪里？SNS不是风口，但机会永远存在。挑战霸主级的社交网络，需要的是天时地利人和。产品与用户，双方共同成就了一个霸主级社交产品。得红人者得天下，微博的发展正是这样的模式。</p>
+<p>但红人是本身就存在的，还是通过平台而红的，这个问题很关键。一个优秀的SNS平台应该有制造红人的能力，或者是让红人可以成长起来的能力。当你知道的红人越来越多的来自微信公众号，而不是来自微博的时候，那么说明微博的影响力降低了。</p>
+<p>因此霸主级的似乎不可撼动的庞然大物其实是可以被打败的。</p>
+<p>如何再造一个现象级的社交网络，我们不应该从产品模式上来思考这个问题，而是需要从人性的角度上来思考这个问题。人性是社交网络之所以成立的本质。更具体的说，人的社会性，情绪化，是社交网络的根本驱动力。人渴望被关注，渴望交流，渴望存在感，或只是渴望来自他人的声音。找到人在精神上的未被充分满足的需求点，强化这种概念，就有机会在社交产品中找到一席之地。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/19/public-avatar/" class="archive-article-date">
+  	<time datetime="2016-12-19T04:15:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-19</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gossip/" rel="tag">gossip</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-python-data-analysis-note" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/15/python-data-analysis-note/">Python数据分析笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="可选"><a href="#可选" class="headerlink" title="[可选]"></a>[可选]</h1><p>install python</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pip install -U pip</span><br><span class="line"></span><br><span class="line">pip install &lt;something&gt;</span><br><span class="line">pip uninstall &lt;something&gt;</span><br></pre></td></tr></table></figure>
+
+<p>pip support virtualenv</p>
+<h1 id="Anaconda"><a href="#Anaconda" class="headerlink" title="[Anaconda]"></a>[Anaconda]</h1><p><a href="https://www.continuum.io/downloads" target="_blank" rel="noopener">Install anaconda</a></p>
+<p>国内可从清华镜像下载，并设置镜像</p>
+<p><a href="https://mirror.tuna.tsinghua.edu.cn/help/anaconda/" target="_blank" rel="noopener">清华镜像源</a></p>
+<p>MacOS:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;anaconda&#x2F;archive&#x2F;Anaconda2-x.x.x-MacOSX-x86_64.sh&#96;</span><br><span class="line">bash Anaconda2-x.x.x-MacOS-x86_64.sh</span><br></pre></td></tr></table></figure>
+
+<p>会安装到~/anaconda2下，默认会将PATH设置在 bash_profile中，根据你自己的shell设置，加入</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH&#x3D;&quot;&#x2F;home&#x2F;xx&#x2F;anaconda2&#x2F;bin:$PATH&quot;</span><br></pre></td></tr></table></figure>
+
+<p>重新打开你的shell，执行<code>conda</code>命令测试。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda config --add channels https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;anaconda&#x2F;pkgs&#x2F;free&#x2F;</span><br><span class="line">conda config --set show_channel_urls yes</span><br></pre></td></tr></table></figure>
+
+<p>Python环境管理:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda create --name py27 python&#x3D;2.7</span><br><span class="line">activate py27</span><br></pre></td></tr></table></figure>
+
+<p>包管理:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda list</span><br><span class="line">conda install numpy</span><br></pre></td></tr></table></figure>
+
+<p>(conda install 会安装或更新依赖库，pip install则不会)</p>
+<h1 id="安装工具包"><a href="#安装工具包" class="headerlink" title="[安装工具包]"></a>[安装工具包]</h1><p>conda install numpy scipy pandas matplotlib</p>
+<h1 id="IDE"><a href="#IDE" class="headerlink" title="[IDE]"></a>[IDE]</h1><p>spyder, pycharm, sublime text, vim</p>
+<h1 id="Jupyter"><a href="#Jupyter" class="headerlink" title="[Jupyter]"></a>[Jupyter]</h1><p><code>ipython</code> 一个更好的python交互命令</p>
+<p><code>jupyter notebook</code> Web记事本，可以将交互过程记录并分享。</p>
+<p>后续使用 jupyter 记录。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/15/python-data-analysis-note/" class="archive-article-date">
+  	<time datetime="2016-12-15T13:51:36.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-15</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data/" rel="tag">data</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/machine-learning/" rel="tag">machine-learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/python/" rel="tag">python</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-architect-problems" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/24/architect-problems/">问题汇总</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>负责某公司技术以来，遇到了一些问题，汇总一下：</p>
+<ol>
+<li>接口设计问题，错误的接口设计将导致难以避免的问题</li>
+<li>DNS劫持问题，用户网络问题定位困难</li>
+<li>苹果IAP漏单问题</li>
+<li>缓存时间、状态不一致、压力太大、崩溃重启、启动慢问题</li>
+<li>NoSQL选型问题</li>
+<li>数据库负载问题，主从同步问题</li>
+<li>日志监控问题</li>
+<li>服务自动扩容，全球部署问题</li>
+<li>垃圾信息、僵尸账号问题</li>
+<li>IM丢消息，收不到消息问题。</li>
+<li>IM、群聊问题定位、测试困难</li>
+<li>聊天信息存储问题</li>
+</ol>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/24/architect-problems/" class="archive-article-date">
+  	<time datetime="2016-11-24T06:55:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-24</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2019 桂糊涂
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+
+<script src="/./main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 11.25px;">books</a> <a href="/tags/cli/" style="font-size: 10px;">cli</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 15px;">go</a> <a href="/tags/gossip/" style="font-size: 13.75px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 11.25px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/management/" style="font-size: 11.25px;">management</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 15px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/philosophy/" style="font-size: 11.25px;">philosophy</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/resources/" style="font-size: 10px;">resources</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 16.25px;">web</a>
+    			</div>
+    	</section>
+    
+
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">一&lt;br&gt;个&lt;br&gt;码&lt;br&gt;农</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
