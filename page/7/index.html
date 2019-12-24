@@ -140,352 +140,6 @@
       <div class="body-wrap">
         
   
-    <article id="post-get-isp-ip-blocks" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/15/get-isp-ip-blocks/">获取运营商IP段</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>转载，整理</p>
-<h1 id="过滤法"><a href="#过滤法" class="headerlink" title="过滤法"></a>过滤法</h1><p>apnic.sh</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">FILE&#x3D;.&#x2F;ip_apnic</span><br><span class="line">rm -f $FILE</span><br><span class="line">wget http:&#x2F;&#x2F;ftp.apnic.net&#x2F;apnic&#x2F;stats&#x2F;apnic&#x2F;delegated-apnic-latest -O $FILE</span><br><span class="line">grep &#39;apnic|CN|ipv4|&#39; $FILE | cut -f 4,5 -d&#39;|&#39;|sed -e &#39;s&#x2F;|&#x2F; &#x2F;g&#39; | while read ip cnt</span><br><span class="line">do</span><br><span class="line">        echo $ip:$cnt</span><br><span class="line">        mask&#x3D;$(cat &lt;&lt; EOF | bc | tail -1</span><br><span class="line">        pow&#x3D;32;</span><br><span class="line">        define log2(x) &#123;</span><br><span class="line">        if (x&lt;&#x3D;1) return (pow);</span><br><span class="line">                pow--;</span><br><span class="line">                return(log2(x&#x2F;2));</span><br><span class="line">        &#125;</span><br><span class="line">        log2($cnt)</span><br><span class="line">EOF)</span><br><span class="line">        echo $ip&#x2F;$mask&gt;&gt; cn.net</span><br><span class="line">        NETNAME&#x3D;&#96;whois $ip@whois.apnic.net | sed -e &#39;&#x2F;.&#x2F;&#123;H;$!d;&#125;&#39; -e &#39;x;&#x2F;netnum&#x2F;!d&#39; |grep ^netname | sed -e &#39;s&#x2F;.*: \(.*\)&#x2F;\1&#x2F;g&#39; | sed -e &#39;s&#x2F;-.*&#x2F;&#x2F;g&#39;&#96;</span><br><span class="line">        NETNAME&#x3D;&#96;echo $NETNAME | sed -e &#39;s&#x2F;cJ&#x2F; &#x2F;g&#39; | awk -F&#39; &#39; &#39;&#123; printf $1; &#125;&#39;&#96;</span><br><span class="line">       case $NETNAME in</span><br><span class="line">       CNC)</span><br><span class="line">               echo $ip&#x2F;$mask &gt;&gt; CNCGROUP</span><br><span class="line">       ;;</span><br><span class="line">       CHINANET|CNCGROUP)</span><br><span class="line">               echo $ip&#x2F;$mask &gt;&gt; $NETNAME</span><br><span class="line">       ;;</span><br><span class="line">       CHINATELECOM)</span><br><span class="line">               echo $ip&#x2F;$mask &gt;&gt; CHINANET</span><br><span class="line">       ;;</span><br><span class="line">       *)</span><br><span class="line">               echo $ip&#x2F;$mask $NETNAME &gt;&gt; OTHER</span><br><span class="line">       ;;</span><br><span class="line">       esac</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-
-<h1 id="whois3"><a href="#whois3" class="headerlink" title="whois3"></a>whois3</h1><p>从apnic获取电信 网通 铁通等ip的办法<br>　　APNIC是管理亚太地区IP地址分配的机构，它有着丰富准确的IP地址分配库，同时这些信息也是对外公开的！下面就让我们看看如何在Linux下获得一些电信运营商的IP地址分配情况：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; wget http:&#x2F;&#x2F;ftp.apnic.net&#x2F;apnic&#x2F;dbase&#x2F;tools&#x2F;ripe-dbase-client-v3.tar.gz</span><br><span class="line">shell&gt; tar xzvf ripe-dbase-client-v3.tar.gz</span><br><span class="line">shell&gt; cd whois-3.1</span><br><span class="line">shell&gt; .&#x2F;configure</span><br><span class="line">shell&gt; make</span><br></pre></td></tr></table></figure>
-
-<p>中国网通：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; .&#x2F;whois3 -h whois.apnic.net -l -i mb MAINT-CNCGROUP &gt; &#x2F;var&#x2F;cnc</span><br></pre></td></tr></table></figure>
-
-<p>中国电信：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; .&#x2F;whois3 -h whois.apnic.net -l -i mb MAINT-CHINANET &gt; &#x2F;var&#x2F;chinanet</span><br></pre></td></tr></table></figure>
-
-
-<p>中国铁通：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; .&#x2F;whois3 -h whois.apnic.net -l -i mb MAINT-CN-CRTC &gt; &#x2F;var&#x2F;crtc</span><br></pre></td></tr></table></figure>
-
-<p>　　打开获取后的文件可以看到里面的信息非常详细，甚至可以看到各个分公司的负责人、电话、电子邮件等等信息。如果想得到一份整齐干净的IP地址段文件，只要用grep和awk简单过滤就可以了：）</p>
-<p>　　使用ripe-whois3获得电信，网通等运营商的ip地址<br>Linux中下载安装</p>
-<p>  <a href="http://ftp.apnic.net/apnic/dbase/tools/" target="_blank" rel="noopener">http://ftp.apnic.net/apnic/dbase/tools/</a></p>
-<p>ripe-whois-tools-2.3.tar.gz  tar xzvf </p>
-<p>ripe-whois-tools-2.3.tar.gz  cd /usr/ports/net/ripe-whois3</p>
-<p>  make install clean  rehash</p>
-<p>查询：<br>中国网通: whois3 -h whois.apnic.net -l -i mb MAINT-CNCGROUP</p>
-<p>中国电信: whois3 -h whois.apnic.net -l -i mb MAINT-CHINANET</p>
-<p>中国铁通: whois3 -h whois.apnic.net -l -i mb MAINT-CNC-CRTC</p>
-<h1 id="在线列表"><a href="#在线列表" class="headerlink" title="在线列表"></a>在线列表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;sh</span><br><span class="line">FILE&#x3D;&#x2F;home&#x2F;ip_apnic</span><br><span class="line">rm -f $FILE</span><br><span class="line">rm -f CNC</span><br><span class="line">rm -f OTHER</span><br><span class="line">rm -f CHINANET</span><br><span class="line">rm -f CRTC</span><br><span class="line">wget http:&#x2F;&#x2F;ftp.apnic.net&#x2F;apnic&#x2F;stats&#x2F;apnic&#x2F;delegated-apnic-latest -O $FILE</span><br><span class="line">grep &#39;apnic|CN|ipv4|&#39; $FILE | cut -f 4,5 -d&#39;|&#39;|sed -e &#39;s&#x2F;|&#x2F; &#x2F;g&#39; | while read ip cnt</span><br><span class="line">do</span><br><span class="line">    mask&#x3D;$(cat &lt;&lt; EOF | bc | tail -1</span><br><span class="line">pow&#x3D;32;</span><br><span class="line">define log2(x) &#123;</span><br><span class="line">if (x&lt;&#x3D;1) return (pow);</span><br><span class="line">pow--;</span><br><span class="line">return(log2(x&#x2F;2));</span><br><span class="line">&#125;</span><br><span class="line">log2($cnt)</span><br><span class="line">EOF)</span><br><span class="line">        echo $ip&#x2F;$mask</span><br><span class="line">        echo $ip&#x2F;$mask&gt;&gt; cn.net</span><br><span class="line">        NETNAME&#x3D;&#96;whois $ip | grep ^netname | sed -e &#39;s&#x2F;.*:      (.*)&#x2F;1&#x2F;g&#39; | sed -e &#39;s&#x2F;-.*&#x2F;&#x2F;g&#39;&#96;</span><br><span class="line">echo $NETNAME;</span><br><span class="line">        case $NETNAME in</span><br><span class="line">        CNC)</span><br><span class="line">                echo $ip&#x2F;$mask &gt;&gt; CNC</span><br><span class="line">        ;;</span><br><span class="line">        CNCGROUP)</span><br><span class="line">                echo $ip&#x2F;$mask &gt;&gt; CNC</span><br><span class="line">        ;;</span><br><span class="line">        CHINANET)</span><br><span class="line">                echo $ip&#x2F;$mask &gt;&gt; CHINANET</span><br><span class="line">        ;;</span><br><span class="line">        CHINATELECOM)</span><br><span class="line">                echo $ip&#x2F;$mask &gt;&gt; CHINANET</span><br><span class="line">        ;;</span><br><span class="line">        CRTC)</span><br><span class="line">                echo $ip&#x2F;$mask &gt;&gt; CRTC</span><br><span class="line">        ;;</span><br><span class="line">        *)</span><br><span class="line">                echo $ip&#x2F;$mask &gt;&gt; OTHER</span><br><span class="line">        ;;</span><br><span class="line">        esac</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-
-<p>中国电信 IP地址段：<br><a href="http://ispip.clangcn.com/chinatelecom.html" target="_blank" rel="noopener">http://ispip.clangcn.com/chinatelecom.html</a></p>
-<p>中国联通（网通）IP地址段：<br><a href="http://ispip.clangcn.com/unicom_cnc.html" target="_blank" rel="noopener">http://ispip.clangcn.com/unicom_cnc.html</a></p>
-<p>中国移动 IP地址段：<br><a href="http://ispip.clangcn.com/cmcc.html" target="_blank" rel="noopener">http://ispip.clangcn.com/cmcc.html</a></p>
-<p>中国铁通 IP地址段：<br><a href="http://ispip.clangcn.com/crtc.html" target="_blank" rel="noopener">http://ispip.clangcn.com/crtc.html</a></p>
-<p>中国教育网 IP地址段：<br><a href="http://ispip.clangcn.com/cernet.html" target="_blank" rel="noopener">http://ispip.clangcn.com/cernet.html</a></p>
-<p>中国其他ISP IP地址段：<br><a href="http://ispip.clangcn.com/othernet.html" target="_blank" rel="noopener">http://ispip.clangcn.com/othernet.html</a></p>
-<p>本博缓存 uploads/2015</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/03/15/get-isp-ip-blocks/" class="archive-article-date">
-  	<time datetime="2015-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-15</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hack/" rel="tag">hack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/network/" rel="tag">network</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-global-deployment-keynote" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/15/global-deployment-keynote/">全球部署要点</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>NSServer domain : 就近请求DNS<br>NSServer IP 分布式 : 就近解析目标地址<br>Cloud Load Balance : Load Balance, DDoS Protection, Single-Point-Failure<br>CDN 层: 静态资源的CDN, HTTP, OPEN的，非动态的<br>反向缓存层 : 动态结果的缓存, compress, etag, last-modified, 优化, 如 varnish<br>Logic Node : Main Logic<br>数据路由层 ：根据hash原则，分区标志，进行数据路由，在本地或远程获取数据。<br>数据缓存 : 本地热门数据缓存，远程数据缓存<br>Data Cluster : Distribution, Cluster, CAP理论和BASE思想，反ACID。</p>
-<p>客户端信息采集：<br>    DNS信息采集<br>    PING 延迟采集<br>    Cloud Load Balance, CDN 延迟采集<br>    HTTP 失败、慢链接 日志</p>
-<p>BASE思想：<br>Basic Available: 基本可用，支持分区失败<br>Soft state: 状态可以有一段时间不同步<br>Eventually consistent: 最终一致，而不是实时一致。</p>
-<p>BASE实践：<br>数据按区域分布，各地有数据中心，存储当地的数据，同时各地都有缓存，缓存对当地用户而言的热点数据。</p>
-<ol>
-<li>DNS</li>
-</ol>
-<p>全球的客户端一律解析至各自最近的服务器。 需要自架DNS，<a href="https://github.com/abh/geodns" target="_blank" rel="noopener">GEODNS</a>。</p>
-<p>参考获取各国内运营商ip地址，可知道线路，但并不能知道IP所对应的地域。</p>
-<p>根据ip地址的线路进行部署。</p>
-<p>这一层同时负责一部分入侵检测工作</p>
-<p>在攻击发生时，如果攻击是执行域名的，可以通过DNS将大量未知来源的请求</p>
-<ol start="2">
-<li>发布工具</li>
-</ol>
-<p>全球部署的效率。</p>
-<p>服务升级导致的服务暂停时间缩短。</p>
-<p>发布流程：</p>
-<p>对试点发布节点：<br>    宣布某节点进入维护状态。<br>    代码发布，服务重启，基本测试。<br>    宣布某节点上线。<br>    监测节点状态。</p>
-<p>对所有待升级节点进行升级。</p>
-<ol start="3">
-<li>灰度发布</li>
-</ol>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/03/15/global-deployment-keynote/" class="archive-article-date">
-  	<time datetime="2015-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-15</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-setup-a-safe-server" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/15/setup-a-safe-server/">入侵检测</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>fail2ban<br>ufw enable<br>git no password<br>fcheck<br>unattended-upgrade<br>munin</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/03/15/setup-a-safe-server/" class="archive-article-date">
-  	<time datetime="2015-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-15</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/security/" rel="tag">security</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ddos-defense" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/13/ddos-defense/">DDoS 防御笔记</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>DDoS 意为分布式拒绝服务攻击</p>
-<h2 id="DDoS-分类："><a href="#DDoS-分类：" class="headerlink" title="DDoS 分类："></a>DDoS 分类：</h2><ul>
-<li>IP欺骗攻击 利用RST位欺骗服务器大量合法用户连接错误，用户将会掉线。</li>
-<li>ICMP-Flood</li>
-<li>SYN-Flood</li>
-<li>UDP-Flood  网络带宽耗尽攻击。</li>
-<li>HTTP-Flood 又名 CC 攻击</li>
-</ul>
-<h2 id="应对DDoS的方案"><a href="#应对DDoS的方案" class="headerlink" title="应对DDoS的方案"></a>应对DDoS的方案</h2><h3 id="DNS攻击"><a href="#DNS攻击" class="headerlink" title="DNS攻击"></a>DNS攻击</h3><p>攻击你的DNS服务器，导致拒绝服务。选择专业的DNS服务。</p>
-<p>DNS层也可以选择自架DNS，主要是用于第一时间进行攻击检测，将检测到的攻击解析至一个黑洞地址，也可以解析至BAT的地址。</p>
-<p>服务分级。将信任的，重要的客户解析至单独设立的服务区。</p>
-<p>对于客户IP的日志分析，确定哪些是老用户。</p>
-<p>DNS攻击防御也有类似HTTP的防御手段，第一方案是缓存。其次是重发，可以是直接丢弃DNS报文导致UDP层面的请求重发，可以是返回特殊响应强制要求客户端使用TCP协议重发DNS查询请求。</p>
-<p>特殊的，对于授权域DNS的保护，设备会在业务正常时期提取收到的DNS域名列表和ISP DNS IP列表备用，在攻击时，非此列表的请求一律丢弃，大幅降低性能压力。对于域名，实行同样的域名白名单机制，非白名单中的域名解析请求，做丢弃处理。</p>
-<p>对于每个向DNS请求的IP，都进行计数。在每分钟请求数正常时，形成白名单。在每分钟请求激增时，拒绝所有非白名单请求。</p>
-<h4 id="流量攻击"><a href="#流量攻击" class="headerlink" title="流量攻击"></a>流量攻击</h4><p>网络架构层面</p>
-<p>流量攻击是最常用的手法，也是最难防御的手法。而流量攻击通常可以达到10G的流量，这是普通网站所无法负担的。解决方案有2：一是买带宽，买机器，这就是拼钱，也是拼运维。二是将自己的网站置于强大的保护盾之后。</p>
-<p>怎么理解这个保护盾？普通网站没有财力购买如此大的网络流量，并且这些资源在大多数的时候都是无用的，只有在攻击发生时，起到冗余带宽的作用。现在有专业的公司开始从事这种业务，他们拥有大量的带宽和入侵检测技术，将你的真实IP置于这个保护盾之后，让这个保护盾分担掉大部分的攻击，你的网站的带宽压力就降低了。</p>
-<p>国内云盾，国外CloudFlare, rockspace<br><a href="http://totaluptime.com/solutions/cloud-load-balancing/" target="_blank" rel="noopener">http://totaluptime.com/solutions/cloud-load-balancing/</a><br><a href="http://www.fortinet.com/" target="_blank" rel="noopener">http://www.fortinet.com/</a><br><a href="http://dyn.com/traffic-director/" target="_blank" rel="noopener">http://dyn.com/traffic-director/</a><br><a href="http://aws.amazon.com/cn/elasticloadbalancing/" target="_blank" rel="noopener">http://aws.amazon.com/cn/elasticloadbalancing/</a><br><a href="http://www.hpcloud.com/products-services/load-balancer" target="_blank" rel="noopener">http://www.hpcloud.com/products-services/load-balancer</a><br><a href="https://cloud.google.com/compute/docs/load-balancing/http/" target="_blank" rel="noopener">https://cloud.google.com/compute/docs/load-balancing/http/</a></p>
-<p>关键字：cloud load balance</p>
-<h4 id="SYN-Flood"><a href="#SYN-Flood" class="headerlink" title="SYN-Flood"></a>SYN-Flood</h4><p>运维层面</p>
-<p>SYN-cookie 技术。在SYN握手时不立即分配资源。</p>
-<p>地址状态监控技术。</p>
-<h3 id="系统安全"><a href="#系统安全" class="headerlink" title="系统安全"></a>系统安全</h3><p>运维层面</p>
-<p>SSH, Fail2Ban, Firewall, SYN-Flood 策略</p>
-<h3 id="CC攻击"><a href="#CC攻击" class="headerlink" title="CC攻击"></a>CC攻击</h3><p>拒绝http-proxy的访问。<br>人机识别，HTTP，用js的方式，将IP加入黑名单。<br>移动网络也需要考虑人机识别。</p>
-<p>对于合法数据的甄别。<br>安全性，数据校验，非法数据记录丢弃，加入黑名单。</p>
-<p>静态化，高性能</p>
-<h3 id="测试工具"><a href="#测试工具" class="headerlink" title="测试工具"></a>测试工具</h3><p>架设一个目标服务器，自己尝试攻击自己，或者让黑客攻击自己。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/03/13/ddos-defense/" class="archive-article-date">
-  	<time datetime="2015-03-12T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-13</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/security/" rel="tag">security</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-use-protobuf-on-unity3d" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/10/use-protobuf-on-unity3d/">use-protobuf-on-unity3d</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在Mac下编译protobuf-net遇到了很多问题，最终还是选择了下载预编译好的版本。</p>
-<p><a href="http://guileen.github.io/upload/protobuf-net-r668.zip">protobuf-net下载</a></p>
-<p>下一次再介绍我是如何用protobuf编写RPC的。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/03/10/use-protobuf-on-unity3d/" class="archive-article-date">
-  	<time datetime="2015-03-09T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-10</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data-format/" rel="tag">data-format</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
     <article id="post-architect-for-testing" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -840,9 +494,331 @@
 
 
   
+    <article id="post-mathematics-vs-experience" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/17/mathematics-vs-experience/">数学与直觉</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>数学与直觉到底哪个更可靠？</p>
+<p>交换门的实验说明直觉不太可靠。还有很多这样的例子。</p>
+<p>德州扑克。胜率计算。一副牌的胜率，用数学计算出来的，但是实际上胜率并没有这么高。因为你本来面对的是5个对手，现在其中的4个人已经弃牌了，现在你虽然只有一个对手，但是这个对手是经过多轮淘汰剩下的。根据直觉，我们会判断这个人的牌会很强，但是数学上我们却忽视了这一点。</p>
+<p>数学没有错，错的是我们的数学模型。</p>
+<p>我们拿到了一手普通牌，胜率是50%。这时，一个玩家加注了，在数学逻辑上，我的胜率是没有改变的。但是在经验上，我的胜率降低了，我开始紧张。如果他加了一个大注，我可能就要弃牌了，因为我觉得赢的希望已经变小。我还是谨慎的跟了注，又发了一张牌，我得到了两对，这是一个不小的牌，我感觉胜率提升了，加注。可是这时对手全押。我感觉我的胜率又降低了，我想要弃牌，可是我又不甘心，我决定相信数学上的概率，我又80%的胜率，我跟了全押。开牌，我输了。我懊悔不已。那么问题来了，我的胜率真的有80%吗？</p>
+<p>我们直觉的工作原理：当我抓到两对时，对手全押，我跟全押的胜率是45%，主动全押的情况下胜率是60%。</p>
+<p>经验的数学原理。样本统计，相似度参照。似是而非的样本，会干扰我们的判断，形成偏见。女性的胼胝体更发达，能够更好的交换左右脑的信息，这也赋予了女人更强的直觉能力，不过有利有弊，胼胝体强的人可能偏见也会更多，因为他们将很多无关信息综合起来进行了利用。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/01/17/mathematics-vs-experience/" class="archive-article-date">
+  	<time datetime="2015-01-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-01-17</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mathematics/" rel="tag">mathematics</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/philosophy/" rel="tag">philosophy</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-setup-vpn-and-git-server-on-vps" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/15/setup-vpn-and-git-server-on-vps/">自己动手搭建VPN和Git仓库</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>工作中是否想过自己动手搭建VPN服务？如果你是码农，是否想过顺便搭建个git私有仓库？</p>
+<p>自己搭建VPN和Git仓库，贵不贵？github个人版私有仓库7美元一个月，5个私有仓库。不过，读完本文，你将以5美元/月的成本，收获一个VPN，一个SSH Tunnel，以及一个不限数量的git私有仓库。</p>
+<h2 id="需要准备什么？"><a href="#需要准备什么？" class="headerlink" title="需要准备什么？"></a>需要准备什么？</h2><p>需要有一个VPS了。一个安装了ubuntu操作系统的VPS。最低配置的就行。当然得在外面的机房，你懂的。<br>为什么选ubuntu？因为我懒，谢谢。</p>
+<p>推荐<a href="https://www.digitalocean.com/?refcode=6c7bd4a13044" target="_blank" rel="noopener">DigitalOcean</a>，或者<a href="https://www.linode.com/?r=94d2619aa76f5ffbd8d0869d575829f311322f69" target="_blank" rel="noopener">Linode</a></p>
+<h2 id="到底选什么VPN协议？"><a href="#到底选什么VPN协议？" class="headerlink" title="到底选什么VPN协议？"></a>到底选什么VPN协议？</h2><p>VPN主要有L2TP，PPTP，以及IPsec三种。本文不打算详细讲解VPN的协议原理，也不讲如何选择，只讲答案：选PPTP，因为搭建简单。如果你的目的和我一样，只是为了能够方便工作，那么就选PPTP吧，至于什么加密啥啥的，我不是太care。</p>
+<h2 id="如何搭建PPTP服务"><a href="#如何搭建PPTP服务" class="headerlink" title="如何搭建PPTP服务"></a>如何搭建PPTP服务</h2><p>搭建PPTP服务这一步有点麻烦，我曾经踩了不少坑，花了一整天的时间才网vpn网络连通。你需要知道如何设置iptables，ppp，pptpd。</p>
+<p>不过别怕，懒人们有福了！我知道iptables，ppp，pptpd的设置你都不想关心，你只关心把服务run起来然后设置用户名密码。<br>一键脚本：<a href="https://github.com/nowall/setup-simple-pptp-vpn/blob/master/setup.sh" target="_blank" rel="noopener">github.com/nowall/setup-simple-pptp-vpn</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;nowall&#x2F;setup-simple-pptp-vpn&#x2F;master&#x2F;setup.sh</span><br><span class="line">sh setup.sh</span><br></pre></td></tr></table></figure>
+
+<p>执行完后，控制台会提示你用户名密码（随机生成）。编辑/etc/ppp/chap-secrets 可以修改用户名密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用户名 pptpd 密码 *</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何安装git服务"><a href="#如何安装git服务" class="headerlink" title="如何安装git服务"></a>如何安装git服务</h2><p>你一定听过gitlab，不过这货占用内存太大，另外配置复杂，维护困难，不适合在VPS上用。今天给大家介绍一个利器，<a href="gogs.io">gogs</a>，用go语言开发，内存占用小的git服务。<br><a href="http://gogs.io/docs/installation/install_from_binary.html" target="_blank" rel="noopener">下载gogs</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo useradd -m git</span><br><span class="line">sudo su git</span><br><span class="line">wget http:&#x2F;&#x2F;gogs.dn.qbox.me&#x2F;gogs-xxx.zip</span><br><span class="line">unzip gogs-xxx.zip</span><br><span class="line">cd gogs-xxx</span><br><span class="line">nohup scripts&#x2F;start.sh&amp;</span><br></pre></td></tr></table></figure>
+
+<p>浏览器访问 http://你的ip:3000 。第一步要进行设置，建议选择，sqlite数据库，因为省事。</p>
+<h2 id="VPS选择哪个机房？"><a href="#VPS选择哪个机房？" class="headerlink" title="VPS选择哪个机房？"></a>VPS选择哪个机房？</h2><p>如果选择<a href="https://www.linode.com/?r=94d2619aa76f5ffbd8d0869d575829f311322f69" target="_blank" rel="noopener">Linode</a>，建议选用Tokoy（东京）机房，速度很快。</p>
+<p>DigitalOcean的价格更便宜，并且支持按小时付费，而且他的快照服务是免费的。机房建议选择<a href="https://www.digitalocean.com/?refcode=6c7bd4a13044" target="_blank" rel="noopener">DigitalOcean SFO数据中心</a>，虽然在某些网络中SGP（新加坡）速度很快，但是本人在电信网络中实测，SGP机房非常不稳定。SFO（旧金山）机房综合比较是个不错的选择。</p>
+<h2 id="如何给你的VPS提供商汇报问题？"><a href="#如何给你的VPS提供商汇报问题？" class="headerlink" title="如何给你的VPS提供商汇报问题？"></a>如何给你的VPS提供商汇报问题？</h2><p>网络不通，速度慢的时候，你需要把你的问题反馈给你的VPS提供商，最好提供一些数据。<br>ping ip 日志<br>traceroute ip 日志<br>mtr日志<br>mtr -rwc 100 112.64.205.210<br>最好还有从远程主机的控制台 mtr -rwc 100 本地外网ip（通过很多网站可以查到自己的外网ip）</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/01/15/setup-vpn-and-git-server-on-vps/" class="archive-article-date">
+  	<time datetime="2015-01-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-01-15</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-nginx-http-limit-request-frequency" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/12/01/nginx-http-limit-request-frequency/">Nginx 限制访问频率</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>使用<a href="http://nginx.org/cn/docs/http/ngx_http_limit_req_module.html" target="_blank" rel="noopener">Nginx http_limit_req</a>可以限制访问的频率。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">http &#123;</span><br><span class="line">    limit_req_zone $binary_remote_addr zone&#x3D;one:10m rate&#x3D;50r&#x2F;s;</span><br><span class="line">    ...</span><br><span class="line">    server &#123;</span><br><span class="line">        ...</span><br><span class="line">            location &#x2F;search&#x2F; &#123;</span><br><span class="line">                limit_req zone&#x3D;one burst&#x3D;5 nodelay;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/12/01/nginx-http-limit-request-frequency/" class="archive-article-date">
+  	<time datetime="2014-11-30T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-12-01</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-everything-is-fate" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/08/05/everything-is-fate/">尽人事 听天命</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>从十几岁开始，思考人为什么要活着这个问题，很快这个问题的答案显得不那么重要，因为思考的结果直接导致我相信命中注定。因为我是单纯从哲学的角度思考这个问题，而不是因为自身经历而产生的厌世情绪，所以我觉得有必要说一下。注意不是宿命，不是命运，而是命中注定，我觉得这几个词之间是有微妙的差别的，宿命与命运是一个范畴，而命中注定，是对宿命观的一个具体定义。</p>
+<p>从微观物理学的角度上来说，一切物理现象都是有规律的，虽然在量子物理的层次上，有诸如测不准、不可知、不连续、等现象，但这都只能说明人类认知的极限，不能否定“一切物理现象都是有规律”的这一定律，爱因斯坦说“上帝不掷骰子”。人类可能以为自己的行为是有主观能动性的，不受规律限制的，但事实上，生物学基于化学，化学基于物理学，我们人类的一切活动都已经由最微观的粒子所决定了。</p>
+<p>再从宏观系统论角度来分析。一个微观系统很难对一个宏观系统产生巨大的影响，除非这些微观系统体现出惊人的一致性。比如太阳系的活动很难影响到整个银河系，但反过来则影响很大。而人类社会看起来是一个复杂的系统，但依然是符合这种宏观系统与微观系统的制约规律的。</p>
+<p> 人类社会目前还是局限于地球这个环境的，而且目前人类也是无法操控气候的，人类社会系统无法过多的影响地球的气候系统，但地球气候系统的细微变化都会对人类社会产生巨大的影响。人类的生死往往只在瞬间。</p>
+<p> 人类社会由各种政体国家所统治，由几大主流的价值观所统治，人类的经济活动和思维模式都受这些大系统的影响。我们都是被各种经济活动和思潮变迁裹挟着在前进。人类社会的变迁往往只在一个很短的时代内完成。</p>
+<p> 人类社会资源的分配方式，是由下层聚集到上层，并由上层分配到下层的一个循环。你可以看出这种资源分配方式是多么不合理了吗？你获得的资源，与你付出的努力关系很小，而只与你所处的资源分配层次关系最大。而决定你分配层次的往往只是一两个瞬间：出生、升学、第一份工作、面试的表现。这点 赵劼 举了很多例子。</p>
+<p>  你的伴侣会陪伴你的一生，影响你很多的决定，而你和你伴侣的相识只在某一个瞬间。</p>
+<p>  我们的人生由太多的瞬间所决定。而这一瞬，有太多的巧合，这种巧合其实都是命中注定。</p>
+<h2 id="如何正确处理命中注定这一观点："><a href="#如何正确处理命中注定这一观点：" class="headerlink" title="如何正确处理命中注定这一观点："></a>如何正确处理命中注定这一观点：</h2><p>  你努力了，不一定会成功（你可以随意定义什么是成功），但是不努力，有很大可能不成功。中国古人是很早认识到天命的，六个字概括的太好：<strong>“尽人事，听天命”</strong></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/08/05/everything-is-fate/" class="archive-article-date">
+  	<time datetime="2014-08-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-08-05</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/philosophy/" rel="tag">philosophy</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-web-front-end-is-a-mess" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/07/25/web-front-end-is-a-mess/">web前端脏乱差及其解决之道</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="这是一个软件工程问题"><a href="#这是一个软件工程问题" class="headerlink" title="这是一个软件工程问题"></a>这是一个软件工程问题</h2><p>先吐槽一下，遇到许多所谓“软件工程师”，根本没有“软件工程”的概念，make，ant，持续集成，自动化测试，一概无视，这样的人只能称码农，不能叫软件工程师。<br>很多牛逼的软件工程师喜欢自称程序员，导致很多菜鸟认为会写程序就足够了，殊不知“programmer”、“coder”是牛人们的谦称————不懂软件工程之人不足与之论代码。</p>
+<h2 id="Web前端脏乱差"><a href="#Web前端脏乱差" class="headerlink" title="Web前端脏乱差"></a>Web前端脏乱差</h2><p>Web前端长期以来很混乱，虽然不断的有人用各种框架，工具来改善前端开发过程，web前端依然让人感觉脏乱差。究其原因有三：</p>
+<ul>
+<li>javascript语言层面缺乏包机制。这是requirejs之类所试图解决的问题</li>
+<li>web前端包管理机制问题复杂，不仅需要考虑js，还要考虑css和html。这是bower试图解决的问题</li>
+<li>有合并、压缩的需求，虽然有很多工具很好的完成了压缩的工作，但合并一直缺乏优雅的方案。</li>
+</ul>
+<h2 id="前端社区割裂"><a href="#前端社区割裂" class="headerlink" title="前端社区割裂"></a>前端社区割裂</h2><p>基于前面说到的一些问题，导致社区产生了大量风格迥异的js代码。这些代码也许可以一起很好的工作，但将错就错的行为让社区更加混乱。</p>
+<p>这过程中产生了一些子社区，比如jquery，这导致了javascript社区的分裂。<br>Argular试图重新定义前端开发的整个流程，google一直在尝试让web前端的开发过程变得像传统软件开发一样清晰，比如GWT和Dart。<br>Argular取得了一定的成功，但依然有不少web工程师对Argular比较抵触。<br>所有试图以框架来解决web开发问题的，最终的结局要么是消亡，要么是割裂。</p>
+<h2 id="解决之道"><a href="#解决之道" class="headerlink" title="解决之道"></a>解决之道</h2><p>正确的选择只有一条，就像其他编程语言一样：</p>
+<ul>
+<li>统一社区风格, 利用社区的力量。</li>
+<li>不应该让整个社区依赖某一个框架，我们只需要制定行业标准。</li>
+</ul>
+<p>目前有些工具在解决这些问题：</p>
+<ul>
+<li><a href="http://bower.io/" target="_blank" rel="noopener">Bower</a> 是包管理工具</li>
+<li><a href="http://gruntjs.com/" target="_blank" rel="noopener">grunt</a>是构建工具</li>
+<li>CMD, AMD的一堆工具</li>
+<li><a href="https://github.com/component/component" target="_blank" rel="noopener">component</a>则是既包含包管理，也包含简单的构建，同时component还是一个CMD工具。</li>
+</ul>
+<p>我个人认为component是目前最好的解决方案。因为 component 包含了 bower + grunt + requirejs 的主要功能，而我们没空去学那么多乱七八糟的工具。</p>
+<p>有人可能会问，component的存在是否也会造成前端社区的割裂？component要做的不是框架，而是社区标准，所以component的存在不会造成社区的割裂，只会让社区更加繁荣。</p>
+<p>component 社区虽然也可以兼容jquery这样的框架，但这不是component所推荐的做法。component的风格是大量的小型的库，比如superagent, eacape-html, dom，每个库只做一件明确的事情。</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>感谢TJ holowaychuk，给我们带来了太多美好的东西。不过自从TJ转投Go语言社区后，似乎是被Go社区”从语言层面解决软件工程问题”的哲学所感染，给component的发展带来了一些不确定性。目前component的官方网站<a href="http://component.io" target="_blank" rel="noopener">component.io</a>已经无法访问。TJ 在component的<a href="https://github.com/component/component/issues/587" target="_blank" rel="noopener">一条issue</a>中表达了自己的一些观点：“遗留的npm/browserify是最坏的东西，说实在的Go的方法好多了，只要ES6的module loaders可以玩了。Browserify最终会玩完，所有的都会哈哈，长期来看，他们都不管用，构建一点都不好玩”</p>
+<p>原文</p>
+<blockquote>
+<p>The rest of npm/browserify is mostly bad stuff, a Go approach would be much better IMO, once ES6 module loaders are in play. Browserify will eventually die out too, they all will haha, long-term none of them make sense, builds are no fun</p>
+</blockquote>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/07/25/web-front-end-is-a-mess/" class="archive-article-date">
+  	<time datetime="2014-07-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-07-25</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/engineering/" rel="tag">engineering</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/6/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/8/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/6/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="page-number" href="/page/6/">6</a><span class="page-number current">7</span><a class="page-number" href="/page/8/">8</a><a class="page-number" href="/page/9/">9</a><span class="space">&hellip;</span><a class="page-number" href="/page/12/">12</a><a class="extend next" rel="next" href="/page/8/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -926,7 +902,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 13.75px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 11.25px;">books</a> <a href="/tags/cli/" style="font-size: 10px;">cli</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 15px;">go</a> <a href="/tags/gossip/" style="font-size: 13.75px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 11.25px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 13.75px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/management/" style="font-size: 11.25px;">management</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 15px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/philosophy/" style="font-size: 11.25px;">philosophy</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/resources/" style="font-size: 10px;">resources</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 16.25px;">web</a>
+    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 13.75px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 11.25px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 11.25px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 11.25px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 13.75px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/management/" style="font-size: 11.25px;">management</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 15px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/philosophy/" style="font-size: 11.25px;">philosophy</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 16.25px;">web</a>
     			</div>
     	</section>
     
