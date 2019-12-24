@@ -2,6 +2,27 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://guileen.github.io/2019/12/24/understanding-cnn/</loc>
+    
+    <lastmod>2019-12-24T11:10:54.647Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2019/11/01/alpha-go-zero/</loc>
+    
+    <lastmod>2019-12-24T11:10:49.120Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2019/11/01/promise-in-cache-crash/</loc>
+    
+    <lastmod>2019-12-24T11:10:36.913Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://guileen.github.io/course/index.html</loc>
     
     <lastmod>2019-12-21T06:04:23.596Z</lastmod>

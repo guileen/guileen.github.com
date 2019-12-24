@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://guileen.github.io">
+  <title>桂糊涂的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="桂糊涂的博客">
+<meta property="og:url" content="http://guileen.github.io/page/13/index.html">
+<meta property="og:site_name" content="桂糊涂的博客">
+<meta property="og:description" content="Description">
+<meta property="article:author" content="桂糊涂">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternative" href="/atom.xml" title="桂糊涂的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/avatar.jpg">
+  
+  
+<link rel="stylesheet" href="/main.css">
+
+  
+
+<meta name="generator" content="Hexo 4.1.1"></head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">桂糊涂</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">代码杂记</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/course/">课程</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/guileen" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="https://weibo.com/guileen" title="weibo">weibo</a>
+		        
+					<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">桂糊涂</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">桂糊涂</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">代码杂记</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/course/">课程</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/guileen" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="https://weibo.com/guileen" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-professional-github-blog-hosting-guide" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/09/19/professional-github-blog-hosting-guide/">github博客專業教程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="準備知識"><a href="#準備知識" class="headerlink" title="準備知識"></a>準備知識</h2><p>git, github, markdown</p>
+<h2 id="爲什麼要把博客host在github？"><a href="#爲什麼要把博客host在github？" class="headerlink" title="爲什麼要把博客host在github？"></a>爲什麼要把博客host在github？</h2><ul>
+<li>彰顯碼農風采</li>
+<li>你的每篇文章擁有版本控制，每次修改都有版本記錄。</li>
+<li>文件，markdown，內容樣式分離。</li>
+</ul>
+<h2 id="Github"><a href="#Github" class="headerlink" title="Github"></a>Github</h2><p>用過Github的人都知道，github會自動將markdown文件渲染爲html。所以許多項目直接用Readme.md 作爲文檔，簡單有效。有些高級點的github玩家則會爲項目創建一個github page，<br>你可以使用github page generator來生成頁面，如果你對自己的html/css非常有信心，<br>那麼我強烈建議你使用<a href="https://github.com/visionmedia/git-extras" target="_blank" rel="noopener">git-extras</a>的<br><a href="https://github.com/visionmedia/git-extras/blob/master/bin/git-gh-pages" target="_blank" rel="noopener">gh-pages</a>命令來創建一個乾淨的gh-pages分支，<br>在這個分支上你可以隨心所欲的編寫你的項目主頁。</p>
+<p><img src="/upload/2012/github-page-gen.png" alt="github page generator"></p>
+<p>既然github可以host項目主頁，那麼他是否可以host用戶主頁呢？當然可以，否則，本文就無從談起了。方法很簡單，你只需要創建一個 USERNAME.github.com 的項目即可host你的個人主頁。文中所有USERNAME都表示你的github用戶名。</p>
+<p>但是如果只是一堆的html/js/css堆砌而成的個人主頁，是完全無法與博客相提並論的。本文既然叫做《github博客專業教程》，自然不能只教大家host一堆靜態文件。</p>
+<h2 id="Step-1-創建repository"><a href="#Step-1-創建repository" class="headerlink" title="Step 1. 創建repository"></a>Step 1. 創建repository</h2><p>假定你已經有了github帳號，我的github用户名是<code>guileen</code>，請將本文中的<code>guileen</code>一律替換爲你的github用戶名。</p>
+<p>在github上創建一個新的Repository，命名爲 guileen.github.com，恭喜你，你已經有了一個屬於自己的博客空間，而且你可以隨心所欲的定製它。</p>
+<p>接下來，把這個庫clone到本地。</p>
+<pre><code>git clone git@github.com:guileen/guileen.github.com.git</code></pre><h2 id="Step-2-index-html"><a href="#Step-2-index-html" class="headerlink" title="Step 2. index.html"></a>Step 2. index.html</h2><p>在项目根目录下创建 index.html</p>
+<pre><code>&lt;html&gt;
+    &lt;head&gt;
+        &lt;title&gt;Hello&lt;/title&gt;
+    &lt;/head&gt;
+    &lt;body&gt;
+        &lt;h1&gt;Hello world&lt;/h1&gt;
+    &lt;/body&gt;
+&lt;/html&gt;</code></pre><p>将这个文件添加到git中</p>
+<blockquote>
+<p>git add index.html<br>git commit -m ‘first commit’<br>git push origin master</p>
+</blockquote>
+<p>当你将这个文件push到github之后，访问 <a href="http://guileen.github.com" target="_blank" rel="noopener">http://guileen.github.com</a> ，就可以看到你的主页了。<br>就像你所看到的，github会自动host这个库下的静态文件，也包括 js/css/images。不过有部分文件不在次列，稍候介绍。</p>
+<h2 id="Step-3-安装jekyll"><a href="#Step-3-安装jekyll" class="headerlink" title="Step 3. 安装jekyll"></a>Step 3. 安装jekyll</h2><p>大家可能会以为，github page只能host静态文件，无法完成类似，分类，分页，日期等功能。对于这些需求，github用一种很巧妙的方法来实现了。</p>
+<p>Github初期是使用ruby开发的，现在ruby依然是github主要使用的编程语言。在ruby这样一个富有创造力的社区，诞生过很多神奇的开源项目。<br>而github就是使用了一个叫做jekyll的ruby项目。</p>
+<p>Mac</p>
+<pre><code>gem update --system
+gem install jekyll
+jekyll --server --auto</code></pre><h2 id="Step-4-config-yml"><a href="#Step-4-config-yml" class="headerlink" title="Step 4. _config.yml"></a>Step 4. _config.yml</h2><pre><code># Configure of jekyll
+
+# github default configurations
+safe: true
+lsi: false
+pygments: true
+
+# override jekyll configurations
+
+# use redcarpet more like github
+markdown: redcarpet
+
+# My configurations
+title: 桂糊涂的流水账
+ga: UA-00000000-0</code></pre><h2 id="Step-4-post"><a href="#Step-4-post" class="headerlink" title="Step 4. _post"></a>Step 4. _post</h2><h2 id="Step-5-layout"><a href="#Step-5-layout" class="headerlink" title="Step 5. layout"></a>Step 5. layout</h2><h2 id="Step-6-google-analytics"><a href="#Step-6-google-analytics" class="headerlink" title="Step 6. google analytics"></a>Step 6. google analytics</h2><h2 id="Step-7-comment"><a href="#Step-7-comment" class="headerlink" title="Step 7. comment"></a>Step 7. comment</h2><p>使用 <a href="https://disqus.com" target="_blank" rel="noopener">Disqus</a> 服务</p>
+<h2 id="Step-8-highlight"><a href="#Step-8-highlight" class="headerlink" title="Step 8. highlight"></a>Step 8. highlight</h2><h2 id="Step-9-share"><a href="#Step-9-share" class="headerlink" title="Step 9. share"></a>Step 9. share</h2><h2 id="Step-10-RSS"><a href="#Step-10-RSS" class="headerlink" title="Step 10. RSS"></a>Step 10. RSS</h2><p><a href="https://github.com/guileen/guileen.github.com/blob/master/atom.xml" target="_blank" rel="noopener">atom.xml</a></p>
+<h2 id="Step-11-github-info"><a href="#Step-11-github-info" class="headerlink" title="Step 11. github info"></a>Step 11. github info</h2><h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
+<li><a href="http://jekyllrb.com/" target="_blank" rel="noopener">http://jekyllrb.com/</a></li>
+<li><a href="https://github.com/mojombo/jekyll" target="_blank" rel="noopener">https://github.com/mojombo/jekyll</a></li>
+<li><a href="https://help.github.com/categories/20/articles" target="_blank" rel="noopener">https://help.github.com/categories/20/articles</a></li>
+<li><a href="http://erjjones.github.com/blog/How-I-built-my-blog-in-one-day/" target="_blank" rel="noopener">http://erjjones.github.com/blog/How-I-built-my-blog-in-one-day/</a></li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2012/09/19/professional-github-blog-hosting-guide/" class="archive-article-date">
+  	<time datetime="2012-09-18T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-09-19</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/generator/" rel="tag">generator</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/12/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2019 桂糊涂
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+
+<script src="/./main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 13.75px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 11.25px;">books</a> <a href="/tags/cli/" style="font-size: 10px;">cli</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 15px;">go</a> <a href="/tags/gossip/" style="font-size: 13.75px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 11.25px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 13.75px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/management/" style="font-size: 11.25px;">management</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 15px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/philosophy/" style="font-size: 11.25px;">philosophy</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/resources/" style="font-size: 10px;">resources</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 16.25px;">web</a>
+    			</div>
+    	</section>
+    
+
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">一&lt;br&gt;个&lt;br&gt;码&lt;br&gt;农</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
