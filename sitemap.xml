@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://guileen.github.io/2019/12/24/torch-output-loss-optimizer/</loc>
+    
+    <lastmod>2019-12-24T16:34:23.819Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://guileen.github.io/2019/12/24/understanding-cnn/</loc>
     
     <lastmod>2019-12-24T11:10:54.647Z</lastmod>

@@ -140,6 +140,74 @@
       <div class="body-wrap">
         
   
+    <article id="post-torch-output-loss-optimizer" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/24/torch-output-loss-optimizer/">Torch的损失函数和优化器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>深度神经网络输出的结果与标注结果进行对比，计算出损失，根据损失进行优化。那么输出结果、损失函数、优化方法就需要进行正确的选择。</p>
+<h1 id="常用损失函数"><a href="#常用损失函数" class="headerlink" title="常用损失函数"></a>常用损失函数</h1><p>pytorch 损失函数的基本用法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">criterion = LossCriterion(参数)</span><br><span class="line">loss = criterion(x, y)</span><br></pre></td></tr></table></figure>
+<p>Mean Absolute Error<br>torch.nn.L1Loss<br>Measures the mean absolute error.</p>
+<h2 id="Mean-Absolute-Error-L1Loss"><a href="#Mean-Absolute-Error-L1Loss" class="headerlink" title="Mean Absolute Error/ L1Loss"></a>Mean Absolute Error/ L1Loss</h2><p>nn.L1Loss<br><img src="/img/loss/l1loss.png" alt=""><br>很少使用</p>
+<h2 id="Mean-Square-Error-Loss"><a href="#Mean-Square-Error-Loss" class="headerlink" title="Mean Square Error Loss"></a>Mean Square Error Loss</h2><p>nn.MSELoss<br><img src="/img/loss/mseloss.png" alt=""><br>针对数值不大的回归问题。</p>
+<h2 id="Smooth-L1-Loss"><a href="#Smooth-L1-Loss" class="headerlink" title="Smooth L1 Loss"></a>Smooth L1 Loss</h2><p>nn.SmoothL1Loss<br><img src="/img/loss/smoothl1loss.png" alt=""><br>它在绝对差值大于1时不求平方，可以避免梯度爆炸。大部分回归问题都可以适用，尤其是数值比较大的时候。</p>
+<h2 id="Negative-Log-Likelihood-Loss"><a href="#Negative-Log-Likelihood-Loss" class="headerlink" title="Negative Log-Likelihood Loss"></a>Negative Log-Likelihood Loss</h2><p>torch.nn.NLLLoss，一般与 LogSoftmax 成对使用。使用时 <code>loss(softmaxTarget, target)</code>。用于处理多分类问题。<br><img src="/img/loss/nllloss.png" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">m = nn.LogSoftmax(dim=<span class="number">1</span>)</span><br><span class="line">loss = nn.NLLLoss()</span><br><span class="line"><span class="comment"># input is of size N x C = 3 x 5， C为分类数</span></span><br><span class="line">input = torch.randn(<span class="number">3</span>, <span class="number">5</span>, requires_grad=<span class="keyword">True</span>)</span><br><span class="line"><span class="comment"># each element in target has to have 0 &lt;= value &lt; C</span></span><br><span class="line">target = torch.tensor([<span class="number">1</span>, <span class="number">0</span>, <span class="number">4</span>])</span><br><span class="line">output = loss(m(input), target)</span><br><span class="line">output.backward()</span><br></pre></td></tr></table></figure>
+
+<h2 id="Cross-Entropy-Loss"><a href="#Cross-Entropy-Loss" class="headerlink" title="Cross Entropy Loss"></a>Cross Entropy Loss</h2><p>nn.CrossEntropyLoss 将 LogSoftmax 和 NLLLoss 绑定到了一起。所以无需再对结果使用Softmax</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">loss &#x3D; nn.CrossEntropyLoss()</span><br><span class="line">input &#x3D; torch.randn(3, 5, requires_grad&#x3D;True)</span><br><span class="line">target &#x3D; torch.empty(3, dtype&#x3D;torch.long).random_(5)</span><br><span class="line">output &#x3D; loss(input, target)</span><br><span class="line">output.backward()</span><br></pre></td></tr></table></figure>
+
+<h2 id="BCELoss"><a href="#BCELoss" class="headerlink" title="BCELoss"></a>BCELoss</h2><p>二分类问题的CrossEntropyLoss。输入、目标结构是一样的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">m = nn.Sigmoid()</span><br><span class="line">loss = nn.BCELoss()</span><br><span class="line">input = torch.randn(<span class="number">3</span>, requires_grad=<span class="keyword">True</span>)</span><br><span class="line">target = torch.empty(<span class="number">3</span>).random_(<span class="number">2</span>)</span><br><span class="line">output = loss(m(input), target)</span><br><span class="line">output.backward()</span><br></pre></td></tr></table></figure>
+
+<h2 id="Margin-Ranking-Loss"><a href="#Margin-Ranking-Loss" class="headerlink" title="Margin Ranking Loss"></a>Margin Ranking Loss</h2><p><img src="/img/loss/marginrankingloss.png" alt=""></p>
+<p>常用户增强学习、对抗生成网络、排序任务。给定输入x1，x2，y的值是1或-1，如果y==1表示x1应该比x2的排名更高，y==-1则相反。如果y值与x1、x2顺序一致，那么loss为0，否则错误为 y*(x1-x2)</p>
+<h2 id="Hinge-Embedding-Loss"><a href="#Hinge-Embedding-Loss" class="headerlink" title="Hinge Embedding Loss"></a>Hinge Embedding Loss</h2><p>y的值是1或-1，用于衡量两个输入是否相似或不相似。</p>
+<h2 id="Cosine-Embedding-Loss"><a href="#Cosine-Embedding-Loss" class="headerlink" title="Cosine Embedding Loss"></a>Cosine Embedding Loss</h2><p>给定两个输入x1，x2，y的值是1或-1，用于衡量x1和x2是否相似。<br><img src="/img/loss/cosineembeddingloss.png" alt=""><br>其中cos(x1, x2)表示相似度<br><img src="/img/loss/cossim.png" alt=""></p>
+<h1 id="各种优化器"><a href="#各种优化器" class="headerlink" title="各种优化器"></a>各种优化器</h1><p>大多数情况Adam能够取得比较好的效果。SGD 是最普通的优化器, 也可以说没有加速效果, 而 Momentum 是 SGD 的改良版, 它加入了动量原则. 后面的 RMSprop 又是 Momentum 的升级版. 而 Adam 又是 RMSprop 的升级版. 不过从这个结果中我们看到, Adam 的效果似乎比 RMSprop 要差一点. 所以说并不是越先进的优化器, 结果越佳.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># SGD 就是随机梯度下降</span></span><br><span class="line">opt_SGD         = torch.optim.SGD(net_SGD.parameters(), lr=LR)</span><br><span class="line"><span class="comment"># momentum 动量加速,在SGD函数里指定momentum的值即可</span></span><br><span class="line">opt_Momentum    = torch.optim.SGD(net_Momentum.parameters(), lr=LR, momentum=<span class="number">0.8</span>)</span><br><span class="line"><span class="comment"># RMSprop 指定参数alpha</span></span><br><span class="line">opt_RMSprop     = torch.optim.RMSprop(net_RMSprop.parameters(), lr=LR, alpha=<span class="number">0.9</span>)</span><br><span class="line"><span class="comment"># Adam 参数betas=(0.9, 0.99)</span></span><br><span class="line">opt_Adam        = torch.optim.Adam(net_Adam.parameters(), lr=LR, betas=(<span class="number">0.9</span>, <span class="number">0.99</span>))</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/12/24/torch-output-loss-optimizer/" class="archive-article-date">
+  	<time datetime="2019-12-24T14:05:59.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-24</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-understanding-cnn" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -742,83 +810,6 @@ A  &lt;-C公钥加密信息---  C  &lt;- A公钥加密信息--- B</code></pre><p
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/resources/" rel="tag">resources</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-one-day-of-my-life" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/08/one-day-of-my-life/">我今天都干了啥？</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我今天都干了啥</p>
-<p>今天起了个大早，送娃上学，回来还早，玩了局王者，吃早饭，上班</p>
-<p>打开电脑看了下TODO，邮箱、微信、QQ上的很多未读消息。</p>
-<p>11点面试了一位产品经理，聊了她的工作经历，以及她对产品的理解，抛出了一些问题，没有什么问题，但也没有什么亮点打动我，还是淘汰了。</p>
-<p>年后对接了很多三方服务，合同流程要走。两家文本识别服务，我们需要评估其质量，安排小伙伴将差异数据整理，并安排人工复审，统计各家质量，督促改进。</p>
-<p>抽烟的时候，使用我们的app发了一个话题。</p>
-<p>安排团建小分队的同学，确定技术分享会的最终流程，奖品，准备全员邮件，确认邮件内容。</p>
-<p>准备新的JD，招人，也要看一下新的人才招聘渠道，与HR沟通。</p>
-<p>叫外卖，吃午饭，今天没玩王者。休息一下，听公开课午睡。</p>
-<p>某CDN的合作协议，来回多次，无法接受，对方的售前沟通能力实在够呛，也说明他们的服务的确一般，无奈国内网络环境就这样，而他们价格尚可接受，只得继续纠缠。</p>
-<p>某些提现操作失败，需要退回金额，这个操作比较敏感，我一直是手动操作。决定安排小伙伴优化这段代码，完全自动化。</p>
-<p>另一个必须手动操作的金额相关的调整。</p>
-<p>某SEO合同寄到，签字盖章安排寄回，通知对方。</p>
-<p>某直播服务合同确认，一些技术和计费细节还是要沟通清楚。我真的很努力的在为公司省钱啊。</p>
-<p>某直播账单发票寄到，向财务请款，提醒相关人员审批。</p>
-<p>某发邮件服务余额不足，前去支付并申请发票，以便以后报销。</p>
-<p>还有一堆简历没有筛选，质量太差，懒得筛选。</p>
-<p>开始写这个记录，回忆一下一天都干了什么。</p>
-<p>开了一个10分钟的小会。</p>
-<p>大部分的沟通都是需要往复的，所以以上很多事情都没有真正结束。我需要重新看一下TODO，整理一下思路。</p>
-<p>已经周三了，本周计划还没提交，前去整理提交。</p>
-<p>今天中途抽了几根烟，继续看那本关于人性的书。</p>
-<p>产生了一个产品灵感，记录一下，年纪越大灵感越少，要珍惜。</p>
-<p>已经17:30了，还有时间，要把简历都筛选掉。</p>
-<p>感谢我的小伙伴们，没有什么事来打扰我，所以说团队搭建是CTO的首要工作。我也是心大，对他们的工作很放心，其实我最应该做的就是review一下他们的工作。说实话，我挺怀念不闻窗外事，只管写代码的日子，心静！那种不断的思考、设计、实现的过程，很爽。而现在不得不处理各种事情，没什么难度，但也不能假手于人。</p>
-<p>可能是年初吧，各种外部的、产品的、团队的事情都挤在了一起，希望可以尽快了解掉一些事情，让自己可以更专注在某一方面。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2017/03/08/one-day-of-my-life/" class="archive-article-date">
-  	<time datetime="2017-03-08T10:09:02.000Z" itemprop="datePublished"><i class="icon-clock"></i>2017-03-08</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gossip/" rel="tag">gossip</a></li></ul>
 	</div>
 
       

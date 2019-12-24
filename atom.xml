@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://guileen.github.io/"/>
-  <updated>2019-12-24T11:10:54.647Z</updated>
+  <updated>2019-12-24T16:34:23.819Z</updated>
   <id>http://guileen.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Torch的损失函数和优化器</title>
+    <link href="http://guileen.github.io/2019/12/24/torch-output-loss-optimizer/"/>
+    <id>http://guileen.github.io/2019/12/24/torch-output-loss-optimizer/</id>
+    <published>2019-12-24T14:05:59.000Z</published>
+    <updated>2019-12-24T16:34:23.819Z</updated>
+    
+    <content type="html"><![CDATA[<p>深度神经网络输出的结果与标注结果进行对比，计算出损失，根据损失进行优化。那么输出结果、损失函数、优化方法就需要进行正确的选择。</p><h1 id="常用损失函数"><a href="#常用损失函数" class="headerlink" title="常用损失函数"></a>常用损失函数</h1><p>pytorch 损失函数的基本用法</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">criterion = LossCriterion(参数)</span><br><span class="line">loss = criterion(x, y)</span><br></pre></td></tr></table></figure><p>Mean Absolute Error<br>torch.nn.L1Loss<br>Measures the mean absolute error.</p><h2 id="Mean-Absolute-Error-L1Loss"><a href="#Mean-Absolute-Error-L1Loss" class="headerlink" title="Mean Absolute Error/ L1Loss"></a>Mean Absolute Error/ L1Loss</h2><p>nn.L1Loss<br><img src="/img/loss/l1loss.png" alt=""><br>很少使用</p><h2 id="Mean-Square-Error-Loss"><a href="#Mean-Square-Error-Loss" class="headerlink" title="Mean Square Error Loss"></a>Mean Square Error Loss</h2><p>nn.MSELoss<br><img src="/img/loss/mseloss.png" alt=""><br>针对数值不大的回归问题。</p><h2 id="Smooth-L1-Loss"><a href="#Smooth-L1-Loss" class="headerlink" title="Smooth L1 Loss"></a>Smooth L1 Loss</h2><p>nn.SmoothL1Loss<br><img src="/img/loss/smoothl1loss.png" alt=""><br>它在绝对差值大于1时不求平方，可以避免梯度爆炸。大部分回归问题都可以适用，尤其是数值比较大的时候。</p><h2 id="Negative-Log-Likelihood-Loss"><a href="#Negative-Log-Likelihood-Loss" class="headerlink" title="Negative Log-Likelihood Loss"></a>Negative Log-Likelihood Loss</h2><p>torch.nn.NLLLoss，一般与 LogSoftmax 成对使用。使用时 <code>loss(softmaxTarget, target)</code>。用于处理多分类问题。<br><img src="/img/loss/nllloss.png" alt=""></p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">m = nn.LogSoftmax(dim=<span class="number">1</span>)</span><br><span class="line">loss = nn.NLLLoss()</span><br><span class="line"><span class="comment"># input is of size N x C = 3 x 5， C为分类数</span></span><br><span class="line">input = torch.randn(<span class="number">3</span>, <span class="number">5</span>, requires_grad=<span class="keyword">True</span>)</span><br><span class="line"><span class="comment"># each element in target has to have 0 &lt;= value &lt; C</span></span><br><span class="line">target = torch.tensor([<span class="number">1</span>, <span class="number">0</span>, <span class="number">4</span>])</span><br><span class="line">output = loss(m(input), target)</span><br><span class="line">output.backward()</span><br></pre></td></tr></table></figure><h2 id="Cross-Entropy-Loss"><a href="#Cross-Entropy-Loss" class="headerlink" title="Cross Entropy Loss"></a>Cross Entropy Loss</h2><p>nn.CrossEntropyLoss 将 LogSoftmax 和 NLLLoss 绑定到了一起。所以无需再对结果使用Softmax</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">loss &#x3D; nn.CrossEntropyLoss()</span><br><span class="line">input &#x3D; torch.randn(3, 5, requires_grad&#x3D;True)</span><br><span class="line">target &#x3D; torch.empty(3, dtype&#x3D;torch.long).random_(5)</span><br><span class="line">output &#x3D; loss(input, target)</span><br><span class="line">output.backward()</span><br></pre></td></tr></table></figure><h2 id="BCELoss"><a href="#BCELoss" class="headerlink" title="BCELoss"></a>BCELoss</h2><p>二分类问题的CrossEntropyLoss。输入、目标结构是一样的。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">m = nn.Sigmoid()</span><br><span class="line">loss = nn.BCELoss()</span><br><span class="line">input = torch.randn(<span class="number">3</span>, requires_grad=<span class="keyword">True</span>)</span><br><span class="line">target = torch.empty(<span class="number">3</span>).random_(<span class="number">2</span>)</span><br><span class="line">output = loss(m(input), target)</span><br><span class="line">output.backward()</span><br></pre></td></tr></table></figure><h2 id="Margin-Ranking-Loss"><a href="#Margin-Ranking-Loss" class="headerlink" title="Margin Ranking Loss"></a>Margin Ranking Loss</h2><p><img src="/img/loss/marginrankingloss.png" alt=""></p><p>常用户增强学习、对抗生成网络、排序任务。给定输入x1，x2，y的值是1或-1，如果y==1表示x1应该比x2的排名更高，y==-1则相反。如果y值与x1、x2顺序一致，那么loss为0，否则错误为 y*(x1-x2)</p><h2 id="Hinge-Embedding-Loss"><a href="#Hinge-Embedding-Loss" class="headerlink" title="Hinge Embedding Loss"></a>Hinge Embedding Loss</h2><p>y的值是1或-1，用于衡量两个输入是否相似或不相似。</p><h2 id="Cosine-Embedding-Loss"><a href="#Cosine-Embedding-Loss" class="headerlink" title="Cosine Embedding Loss"></a>Cosine Embedding Loss</h2><p>给定两个输入x1，x2，y的值是1或-1，用于衡量x1和x2是否相似。<br><img src="/img/loss/cosineembeddingloss.png" alt=""><br>其中cos(x1, x2)表示相似度<br><img src="/img/loss/cossim.png" alt=""></p><h1 id="各种优化器"><a href="#各种优化器" class="headerlink" title="各种优化器"></a>各种优化器</h1><p>大多数情况Adam能够取得比较好的效果。SGD 是最普通的优化器, 也可以说没有加速效果, 而 Momentum 是 SGD 的改良版, 它加入了动量原则. 后面的 RMSprop 又是 Momentum 的升级版. 而 Adam 又是 RMSprop 的升级版. 不过从这个结果中我们看到, Adam 的效果似乎比 RMSprop 要差一点. 所以说并不是越先进的优化器, 结果越佳.</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># SGD 就是随机梯度下降</span></span><br><span class="line">opt_SGD         = torch.optim.SGD(net_SGD.parameters(), lr=LR)</span><br><span class="line"><span class="comment"># momentum 动量加速,在SGD函数里指定momentum的值即可</span></span><br><span class="line">opt_Momentum    = torch.optim.SGD(net_Momentum.parameters(), lr=LR, momentum=<span class="number">0.8</span>)</span><br><span class="line"><span class="comment"># RMSprop 指定参数alpha</span></span><br><span class="line">opt_RMSprop     = torch.optim.RMSprop(net_RMSprop.parameters(), lr=LR, alpha=<span class="number">0.9</span>)</span><br><span class="line"><span class="comment"># Adam 参数betas=(0.9, 0.99)</span></span><br><span class="line">opt_Adam        = torch.optim.Adam(net_Adam.parameters(), lr=LR, betas=(<span class="number">0.9</span>, <span class="number">0.99</span>))</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;深度神经网络输出的结果与标注结果进行对比，计算出损失，根据损失进行优化。那么输出结果、损失函数、优化方法就需要进行正确的选择。&lt;/p&gt;
+&lt;h1 id=&quot;常用损失函数&quot;&gt;&lt;a href=&quot;#常用损失函数&quot; class=&quot;headerlink&quot; title=&quot;常用损失函数&quot;&gt;&lt;
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>理解CNN参数及PyTorch实例</title>
@@ -472,31 +494,6 @@
     
     
       <category term="books" scheme="http://guileen.github.io/tags/books/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Golang 黑科技</title>
-    <link href="http://guileen.github.io/2016/09/27/golang-hack/"/>
-    <id>http://guileen.github.io/2016/09/27/golang-hack/</id>
-    <published>2016-09-26T16:00:00.000Z</published>
-    <updated>2019-12-21T06:04:23.593Z</updated>
-    
-    <content type="html"><![CDATA[<ul><li><a href="https://github.com/mitchellh/gox" target="_blank" rel="noopener">https://github.com/mitchellh/gox</a> gox 跨平台交叉编译</li><li><a href="https://gopm.io" target="_blank" rel="noopener">https://gopm.io</a> 国内无需翻墙就能快速下载国外的包</li></ul>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;ul&gt;
-&lt;li&gt;&lt;a href=&quot;https://github.com/mitchellh/gox&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/mitchellh/gox&lt;/a&gt; gox 跨平台交叉编译&lt;/li&gt;
-&lt;li
-      
-    
-    </summary>
-    
-    
-      <category term="go" scheme="http://guileen.github.io/tags/go/"/>
     
   </entry>
   
