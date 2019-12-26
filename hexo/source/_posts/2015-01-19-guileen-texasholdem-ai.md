@@ -2,7 +2,7 @@
 title: 桂糊涂的德州扑克AI
 layout: post
 published: true
-categories:
+categories: AI
 tags: [game, AI]
 ---
 

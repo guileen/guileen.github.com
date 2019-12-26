@@ -7,13 +7,13 @@ tags:
 
 在缓存失效的瞬间，如果突然爆发大量缓存请求，则会导致所有请求穿透至持久化层，给持久化层带来巨大压力，这种现象叫做缓存雪崩。
 
-![缓存雪崩](http://upload-images.jianshu.io/upload_images/31319-843693e8c36814b6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![缓存雪崩](/img/promise/1.png)
 
 ## 解决缓存雪崩的几种方案
 
 1. 在预加载时设置锁状态。后至的缓存请求，将获得锁状态，在一段时间后重试加载缓存。但这一方法不能保证第一时间返回数据。
 
-![穿透锁](http://upload-images.jianshu.io/upload_images/31319-5138b17e9260eacb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![穿透锁](/img/promise/2.png)
 
 ```
 def lazyload(key):
@@ -30,7 +30,7 @@ def lazyload(key):
 
 2. 这里重点介绍的Promise解决缓存穿透的思路，这种方法将使同一进程内对同一缓存的访问进行汇总，不仅减少对持久层的缓存穿透，而且也可以降低对缓存层的请求量。拥有极强的汇聚效果。
 
-![Promise解决缓存雪崩](http://upload-images.jianshu.io/upload_images/31319-1443709321ad539e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240)
+![Promise解决缓存雪崩](/img/promise/3.png)
 
 ```
 def _lazyload(key):

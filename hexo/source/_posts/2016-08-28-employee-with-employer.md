@@ -2,8 +2,8 @@
 title: 雇主与雇员的关系
 layout: post
 published: true
-categories: 
-tags: [management]
+categories: [随笔]
+tags:
 ---
 
   通常，我们认为雇主与雇员之间的关系是一种管理者和被管理者的关系，但在作者看来，雇主与雇员之间的关系并非如此，在很多时候雇员往往拥有更多的主动权。

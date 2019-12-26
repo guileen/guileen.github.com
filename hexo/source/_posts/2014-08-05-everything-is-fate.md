@@ -2,8 +2,7 @@
 title: 尽人事 听天命
 layout: post
 published: true
-categories:
-tags: philosophy
+categories: [随笔]
 ---
 
 

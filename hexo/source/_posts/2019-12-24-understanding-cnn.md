@@ -1,7 +1,7 @@
 ---
 title: 理解CNN参数及PyTorch实例
 date: 2019-12-24 15:56:21
-tags: [machine-learning, AI]
+categories: AI
 ---
 
 本文假设读者已经了解了CNN的基本原理。在实际的项目中，会发现CNN有多个参数需要调整，本文主要目的在于理清各个参数的作用。

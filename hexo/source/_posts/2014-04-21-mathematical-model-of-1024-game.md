@@ -2,7 +2,7 @@
 title: 小游戏1024的AI数学模型
 layout: post
 published: true
-categories: 
+categories: AI
 tags: [algorithm, mathematics]
 ---
 
@@ -67,7 +67,7 @@ Alpha-beta pruning算法是非常依赖于启发函数（Heuristic）的，启�
 
 ## 最大值模型
 
-基于游戏的基本目标，我们希望尽可能的合成更大的数字，我们可以很显然得出一个数学模型：当局面G里出现的最大数字越大，则代表局面越好。即： 
+基于游戏的基本目标，我们希望尽可能的合成更大的数字，我们可以很显然得出一个数学模型：当局面G里出现的最大数字越大，则代表局面越好。即：
 
 h(G) = Max(G)
 

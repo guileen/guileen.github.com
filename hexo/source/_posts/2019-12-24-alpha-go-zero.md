@@ -1,7 +1,7 @@
 ---
 title: AlphaGo Zero 工作原理
 date: 2019-11-01 01:00:00
-tags: AI
+categories: AI
 ---
 本文写于2017年12月，获[Udacity专栏转载](https://zhuanlan.zhihu.com/p/32952677)。今将其搬运至我的博客。
 

@@ -2,8 +2,7 @@
 title: 程序員的自我管理
 layout: post
 published: true
-categories:
-tags: management
+categories: 随笔
 ---
 
 一位39歲的程序員在[Stackexchange](http://programmers.stackexchange.com/questions/213708/overcoming-slow-problem-solving-due-to-increased-knowledge-of-what-might-go-wron)
