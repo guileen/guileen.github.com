@@ -14,14 +14,14 @@
 <meta property="og:url" content="http://guileen.github.io/2019/11/01/promise-in-cache-crash/index.html">
 <meta property="og:site_name" content="桂糊涂的博客">
 <meta property="og:description" content="对大多数高并发架构而言，缓存是不可或缺的。在数据持久化层，其核心是保证数据一致性，而吞吐能力往往较弱。而在缓存层，因其逻辑简单，则具备较高的吞吐能力，但为了保证数据的时效性，则必须设置缓存的过期时间。在缓存过期后，程序会从持久化层读取数据，填充缓存。我们通常称这种缓存加载方式为懒加载（lazy load）。 在缓存失效的瞬间，如果突然爆发大量缓存请求，则会导致所有请求穿透至持久化层，给持久化层带来">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/31319-843693e8c36814b6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/31319-5138b17e9260eacb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
-<meta property="og:image" content="http://upload-images.jianshu.io/upload_images/31319-1443709321ad539e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta property="og:image" content="http://guileen.github.io/img/promise/1.png">
+<meta property="og:image" content="http://guileen.github.io/img/promise/2.png">
+<meta property="og:image" content="http://guileen.github.io/img/promise/3.png">
 <meta property="article:published_time" content="2019-10-31T16:00:00.000Z">
-<meta property="article:modified_time" content="2019-12-24T11:10:36.913Z">
+<meta property="article:modified_time" content="2019-12-26T07:30:56.779Z">
 <meta property="article:author" content="桂糊涂">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://upload-images.jianshu.io/upload_images/31319-843693e8c36814b6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240">
+<meta name="twitter:image" content="http://guileen.github.io/img/promise/1.png">
   
     <link rel="alternative" href="/atom.xml" title="桂糊涂的博客" type="application/atom+xml">
   
@@ -60,7 +60,9 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/course/">课程</a></li>
+				<li><a href="/categories/AI">AI</a></li>
+	        
+				<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
 	        
 			</ul>
 		</nav>
@@ -124,7 +126,9 @@
 				
 					<li><a href="/">主页</a></li>
 		        
-					<li><a href="/course/">课程</a></li>
+					<li><a href="/categories/AI">AI</a></li>
+		        
+					<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
 		        
 				</ul>
 			</nav>
@@ -164,17 +168,17 @@
       
         <p>对大多数高并发架构而言，缓存是不可或缺的。在数据持久化层，其核心是保证数据一致性，而吞吐能力往往较弱。而在缓存层，因其逻辑简单，则具备较高的吞吐能力，但为了保证数据的时效性，则必须设置缓存的过期时间。在缓存过期后，程序会从持久化层读取数据，填充缓存。我们通常称这种缓存加载方式为懒加载（lazy load）。</p>
 <p>在缓存失效的瞬间，如果突然爆发大量缓存请求，则会导致所有请求穿透至持久化层，给持久化层带来巨大压力，这种现象叫做缓存雪崩。</p>
-<p><img src="http://upload-images.jianshu.io/upload_images/31319-843693e8c36814b6.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="缓存雪崩"></p>
+<p><img src="/img/promise/1.png" alt="缓存雪崩"></p>
 <h2 id="解决缓存雪崩的几种方案"><a href="#解决缓存雪崩的几种方案" class="headerlink" title="解决缓存雪崩的几种方案"></a>解决缓存雪崩的几种方案</h2><ol>
 <li>在预加载时设置锁状态。后至的缓存请求，将获得锁状态，在一段时间后重试加载缓存。但这一方法不能保证第一时间返回数据。</li>
 </ol>
-<p><img src="http://upload-images.jianshu.io/upload_images/31319-5138b17e9260eacb.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="穿透锁"></p>
+<p><img src="/img/promise/2.png" alt="穿透锁"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">def lazyload(key):</span><br><span class="line">    value &#x3D; cache.get(key)</span><br><span class="line">    if(!value):</span><br><span class="line">        cache.set(key, &#39;__lock__&#39;)</span><br><span class="line">        value &#x3D; db.get(key)</span><br><span class="line">        cache.set(key, value)</span><br><span class="line">    if(value &#x3D;&#x3D; &#39;__lock__&#39;):</span><br><span class="line">        sleep(100)</span><br><span class="line">        return lazyload(key)</span><br><span class="line">    return value</span><br></pre></td></tr></table></figure>
 
 <ol start="2">
 <li>这里重点介绍的Promise解决缓存穿透的思路，这种方法将使同一进程内对同一缓存的访问进行汇总，不仅减少对持久层的缓存穿透，而且也可以降低对缓存层的请求量。拥有极强的汇聚效果。</li>
 </ol>
-<p><img src="http://upload-images.jianshu.io/upload_images/31319-1443709321ad539e.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="Promise解决缓存雪崩"></p>
+<p><img src="/img/promise/3.png" alt="Promise解决缓存雪崩"></p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">def _lazyload(key):</span><br><span class="line">    value &#x3D; cache.get(key)</span><br><span class="line">    if(!value):</span><br><span class="line">        value &#x3D; db.get(key)</span><br><span class="line">        cache.set(key, value)</span><br><span class="line"></span><br><span class="line">promiseMap &#x3D; &#123;&#125;</span><br><span class="line">def lazyload(key):</span><br><span class="line">    def clearPromiseMap:</span><br><span class="line">        delete promiseMap[key]</span><br><span class="line">    promise &#x3D; promiseMap[key]</span><br><span class="line">    if(!promise):</span><br><span class="line">        promise &#x3D; Promise(_lazyload, key)</span><br><span class="line">        promise.then(clearPromiseMap)</span><br><span class="line">        promiseMap[key] &#x3D; promise</span><br><span class="line">    return promise.resolve()</span><br></pre></td></tr></table></figure>
 
 <p>本文所有代码为伪代码！</p>
@@ -343,7 +347,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 13.75px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 11.25px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 11.25px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 11.25px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 13.75px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/management/" style="font-size: 11.25px;">management</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 15px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/philosophy/" style="font-size: 11.25px;">philosophy</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 16.25px;">web</a>
+    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
     			</div>
     	</section>
     
