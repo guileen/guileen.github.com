@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://guileen.github.io">
+  <title>强化学习简介（二）：Q-learning实战 | 桂糊涂的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="我们现在通过一个例子来演练Q-learning算法。在练习强化学习之前，我们需要拥有一个模拟器环境。我们主要的目的是学习编写机器人算法，所以对模拟器环境部分不推荐自己写。直接使用gym来作为我们对实验环境。安装方法： 1pip install gym  初识环境我们的实验环境是一个冰湖滑行游戏，你将控制一个agent在冰面到达目标终点，前进方向并不总受你的控制，你还需要躲过冰窟。 12345678">
+<meta property="og:type" content="article">
+<meta property="og:title" content="强化学习简介（二）：Q-learning实战">
+<meta property="og:url" content="http://guileen.github.io/2019/12/27/introduce-reinforcement-learning-2/index.html">
+<meta property="og:site_name" content="桂糊涂的博客">
+<meta property="og:description" content="我们现在通过一个例子来演练Q-learning算法。在练习强化学习之前，我们需要拥有一个模拟器环境。我们主要的目的是学习编写机器人算法，所以对模拟器环境部分不推荐自己写。直接使用gym来作为我们对实验环境。安装方法： 1pip install gym  初识环境我们的实验环境是一个冰湖滑行游戏，你将控制一个agent在冰面到达目标终点，前进方向并不总受你的控制，你还需要躲过冰窟。 12345678">
+<meta property="article:published_time" content="2019-12-27T08:02:19.000Z">
+<meta property="article:modified_time" content="2019-12-27T10:37:57.211Z">
+<meta property="article:author" content="桂糊涂">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternative" href="/atom.xml" title="桂糊涂的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/avatar.jpg">
+  
+  
+<link rel="stylesheet" href="/main.css">
+
+  
+
+<meta name="generator" content="Hexo 4.1.1"></head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">桂糊涂</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">代码杂记</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/categories/AI">AI</a></li>
+	        
+				<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/guileen" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="https://weibo.com/guileen" title="weibo">weibo</a>
+		        
+					<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">桂糊涂</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">桂糊涂</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">代码杂记</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/categories/AI">AI</a></li>
+		        
+					<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/guileen" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="https://weibo.com/guileen" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-introduce-reinforcement-learning-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      强化学习简介（二）：Q-learning实战
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们现在通过一个例子来演练Q-learning算法。在练习强化学习之前，我们需要拥有一个模拟器环境。我们主要的目的是学习编写机器人算法，所以对模拟器环境部分不推荐自己写。直接使用<code>gym</code>来作为我们对实验环境。安装方法：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install gym</span><br></pre></td></tr></table></figure>
+
+<h2 id="初识环境"><a href="#初识环境" class="headerlink" title="初识环境"></a>初识环境</h2><p>我们的实验环境是一个冰湖滑行游戏，你将控制一个agent在冰面到达目标终点，前进方向并不总受你的控制，你还需要躲过冰窟。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gym</span><br><span class="line"><span class="comment"># 构造游戏环境</span></span><br><span class="line">env = gym.make(<span class="string">'FrozenLake-v0'</span>)</span><br><span class="line"><span class="comment"># 动作空间-&gt; Discrete(4)</span></span><br><span class="line">print(env.action_space)</span><br><span class="line"><span class="comment"># 状态空间-&gt; Discrete(16)</span></span><br><span class="line">print(env.observation_space)</span><br><span class="line"><span class="comment"># 初始化游戏环境，并得到状态s</span></span><br><span class="line">s = env.reset()</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    <span class="comment"># 渲染游戏画面</span></span><br><span class="line">    env.render()</span><br><span class="line">    <span class="comment"># 从动作空间中随机选择一个动作a</span></span><br><span class="line">    a = env.action_space.sample()</span><br><span class="line">    <span class="comment"># 执行动作a，得到新状态s，奖励r，是否完成done</span></span><br><span class="line">    s, r, done, info = env.step(a) <span class="comment"># take a random action</span></span><br><span class="line">    print(s, r, done, info)</span><br><span class="line"><span class="comment"># 关闭环境</span></span><br><span class="line">env.close()</span><br></pre></td></tr></table></figure>
+
+<p>游戏画面示意如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SFFF       (S: 起点，安全)</span><br><span class="line">FHFH       (F: 冰面，安全)</span><br><span class="line">FFFH       (H: 冰窟，进入则失败)</span><br><span class="line">HFFG       (G: 终点，到达则成功)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Agent结构"><a href="#Agent结构" class="headerlink" title="Agent结构"></a>Agent结构</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> gym</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">QLAgent</span><span class="params">()</span>:</span></span><br><span class="line">    q = <span class="keyword">None</span></span><br><span class="line">    action_space = <span class="keyword">None</span></span><br><span class="line">    epsilon = <span class="number">0.1</span> <span class="comment"># 探索率</span></span><br><span class="line">    gamma = <span class="number">0.99</span>  <span class="comment"># 衰减率</span></span><br><span class="line">    lr = <span class="number">0.1</span> <span class="comment"># 学习率</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, action_space, state_count, epsilon=<span class="number">0.1</span>, lr=<span class="number">0.1</span>, gamma=<span class="number">0.99</span>)</span>:</span></span><br><span class="line">        self.q = [[<span class="number">0.</span> <span class="keyword">for</span> a <span class="keyword">in</span> range(action_space.n)] <span class="keyword">for</span> s <span class="keyword">in</span> range(state_count)]</span><br><span class="line">        self.action_space = action_space</span><br><span class="line">        self.epsilon = epsilon</span><br><span class="line">        self.lr = lr</span><br><span class="line">        self.gamma = gamma</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 根据状态s，选择动作a</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">choose_action</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 更新状态变化并学习，状态s执行了a动作，得到了奖励r，状态转移到了s_</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">update_transition</span><span class="params">(self, s, a, r, s_)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<p>这是一个Agent的一般结构，主要由初始化、选择动作、更新状态变化，三个方法构成。后续的其他算法将依然采用该结构。q表数据使用一个二维数组表示，其大小为 state_count action_count，对于这个项目而言是一个 `16*4` 的大小。</p>
+<h2 id="添加Q-table的辅助方法"><a href="#添加Q-table的辅助方法" class="headerlink" title="添加Q-table的辅助方法"></a>添加Q-table的辅助方法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 返回状态s的最佳动作a、及其r值。</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">argmax</span><span class="params">(self, s)</span>:</span></span><br><span class="line">    max_r = -math.inf</span><br><span class="line">    max_a = <span class="keyword">None</span></span><br><span class="line">    <span class="keyword">for</span> a <span class="keyword">in</span> range(self.action_space.n):</span><br><span class="line">        r = self.q_get(s, a)</span><br><span class="line">        <span class="keyword">if</span> r &gt; max_r:</span><br><span class="line">            max_a = a</span><br><span class="line">            max_r = r</span><br><span class="line">    <span class="keyword">return</span> max_a, max_r</span><br><span class="line"><span class="comment"># 获得 状态s，动作a 对应的r值</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">q_get</span><span class="params">(self, s, a)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> self.q[s][a]</span><br><span class="line"><span class="comment"># 更新 状态s 动作a 对应的r值</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">q_put</span><span class="params">(self, s, a, v)</span>:</span></span><br><span class="line">    self.q[s][a] = v</span><br></pre></td></tr></table></figure>
+
+<h2 id="Q-learning的关键步骤"><a href="#Q-learning的关键步骤" class="headerlink" title="Q-learning的关键步骤"></a>Q-learning的关键步骤</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">choose_action</span><span class="params">(self, s)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> random.random() &lt; self.epsilon:</span><br><span class="line">        <span class="comment"># 按一定概率进行随机探索</span></span><br><span class="line">        <span class="keyword">return</span> self.action_space.sample()</span><br><span class="line">    <span class="comment"># 返回最佳动作</span></span><br><span class="line">    a, _ = self.argmax(s)</span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">update_transition</span><span class="params">(self, s, a, r, s_)</span>:</span></span><br><span class="line">    q = self.q_get(s, a)</span><br><span class="line">    _, r_ = self.argmax(s_)</span><br><span class="line">    <span class="comment"># Q &lt;- Q + a(Q' - Q)</span></span><br><span class="line">    <span class="comment"># &lt;=&gt; Q &lt;- (1-a)Q + a(Q')</span></span><br><span class="line">    q = (<span class="number">1</span>-self.lr) * q + self.lr * (r + self.gamma * r_)</span><br><span class="line">    self.q_put(s, a, q)</span><br></pre></td></tr></table></figure>
+
+<h2 id="训练主循环"><a href="#训练主循环" class="headerlink" title="训练主循环"></a>训练主循环</h2><p>我们进行10000局游戏的训练，每局游戏执行直到完成。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">env = gym.make(<span class="string">'FrozenLake-v0'</span>)</span><br><span class="line">agent = QLAgent(env.action_space, env.observation_space.n)</span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(<span class="number">10000</span>):</span><br><span class="line">    s = env.reset()</span><br><span class="line">    done = <span class="keyword">False</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> done:</span><br><span class="line">        <span class="comment"># env.render()  # 训练过程不需要渲染</span></span><br><span class="line">        a = agent.choose_action(s) <span class="comment"># 选择动作</span></span><br><span class="line">        s_, r, done, info = env.step(a) <span class="comment"># 执行动作</span></span><br><span class="line">        agent.update_transition(s, a, r, s_) <span class="comment"># 更新状态变化</span></span><br><span class="line">        s = s_</span><br><span class="line"><span class="comment"># 显示训练后的Q表</span></span><br><span class="line">print(agent.q)</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试效果"><a href="#测试效果" class="headerlink" title="测试效果"></a>测试效果</h2><p>在测试中，我们只选择最佳策略，不再探索，也不再更新Q表。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获胜次数</span></span><br><span class="line">total_win = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10000</span>):</span><br><span class="line">    s = env.reset()</span><br><span class="line">    done = <span class="keyword">False</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> done:</span><br><span class="line">        <span class="comment"># 选择最佳策略</span></span><br><span class="line">        a, _ = agent.argmax(s)</span><br><span class="line">        <span class="comment"># 执行动作 a</span></span><br><span class="line">        s_, r, done, info = env.step(a)</span><br><span class="line">        <span class="keyword">if</span> done <span class="keyword">and</span> r == <span class="number">1</span>:</span><br><span class="line">            total_win += <span class="number">1</span></span><br><span class="line">        s = s_</span><br><span class="line">print(<span class="string">'Total win='</span>, total_win)</span><br><span class="line">env.close()</span><br></pre></td></tr></table></figure>
+
+<p>最终测试的效果是在1万局中获胜了7284次，说明达到了不错的实验效果。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/12/27/introduce-reinforcement-learning-2/" class="archive-article-date">
+  	<time datetime="2019-12-27T08:02:19.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-27</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/AI/">AI</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2019/12/27/introduce-reinforcement-learning-1/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">强化学习简介（一）：Q-learning</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+
+<script type="text/javascript">
+(function(){
+var url = "http://widget.weibo.com/distribution/comments.php?width=0&url=auto&brandline=y&fontsize=12&skin=9&ralateuid=1751113432&appkey=3729652156&iframskin=9&dpc=1";
+url = url.replace("url=auto", "url=" + encodeURIComponent(document.URL));
+document.write('<iframe id="WBCommentFrame" src="' + url + '" scrolling="no" frameborder="0" style="width:100%"></iframe>');
+})();
+</script>
+<script src="http://tjs.sjs.sinajs.cn/open/widget/js/widget/comment.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.WBComment.init({
+    "id": "WBCommentFrame"
+});
+</script>
+
+</div>
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2019 桂糊涂
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+
+<script src="/./main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
+    			</div>
+    	</section>
+    
+
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">一&lt;br&gt;个&lt;br&gt;码&lt;br&gt;农</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

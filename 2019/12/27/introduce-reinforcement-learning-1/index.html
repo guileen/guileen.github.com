@@ -6,16 +6,22 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://guileen.github.io">
-  <title>Archives | 桂糊涂的博客</title>
+  <title>强化学习简介（一）：Q-learning | 桂糊涂的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="桂糊涂的博客">
-<meta property="og:url" content="http://guileen.github.io/archives/page/12/index.html">
+  <meta name="description" content="完成图像分类之类的监督学习任务，已经没有特别大的难度。我们希望AI能够帮助我们处理一些更加复杂的任务，比如：下棋、玩游戏、自动驾驶、行走等。这一类的学习任务被称为强化学习。  K摇臂赌博机我们可以考虑一个最简单的环境：一个动作可立刻获得奖励，目标是使每一个动作的奖励最大化。对这种单步强化学习任务，可以设计一个理论模型——“K-摇臂赌博机”。这个赌博机有K个摇臂，赌徒在投入一个硬币后可一选择按下一个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="强化学习简介（一）：Q-learning">
+<meta property="og:url" content="http://guileen.github.io/2019/12/27/introduce-reinforcement-learning-1/index.html">
 <meta property="og:site_name" content="桂糊涂的博客">
-<meta property="og:description" content="Description">
+<meta property="og:description" content="完成图像分类之类的监督学习任务，已经没有特别大的难度。我们希望AI能够帮助我们处理一些更加复杂的任务，比如：下棋、玩游戏、自动驾驶、行走等。这一类的学习任务被称为强化学习。  K摇臂赌博机我们可以考虑一个最简单的环境：一个动作可立刻获得奖励，目标是使每一个动作的奖励最大化。对这种单步强化学习任务，可以设计一个理论模型——“K-摇臂赌博机”。这个赌博机有K个摇臂，赌徒在投入一个硬币后可一选择按下一个">
+<meta property="og:image" content="http://guileen.github.io/img/rl-1/1.png">
+<meta property="og:image" content="http://guileen.github.io/img/rl-1/2.jpg">
+<meta property="og:image" content="http://guileen.github.io/img/rl-1/3.png">
+<meta property="article:published_time" content="2019-12-27T03:28:16.000Z">
+<meta property="article:modified_time" content="2019-12-27T09:57:48.329Z">
 <meta property="article:author" content="桂糊涂">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://guileen.github.io/img/rl-1/1.png">
   
     <link rel="alternative" href="/atom.xml" title="桂糊涂的博客" type="application/atom+xml">
   
@@ -142,356 +148,154 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-introduce-reinforcement-learning-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
+    <h1 class="article-title" itemprop="name">
+      强化学习简介（一）：Q-learning
+    </h1>
   
+
+      </header>
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>完成图像分类之类的监督学习任务，已经没有特别大的难度。我们希望AI能够帮助我们处理一些更加复杂的任务，比如：下棋、玩游戏、自动驾驶、行走等。这一类的学习任务被称为强化学习。</p>
+<p><img src="/img/rl-1/1.png" alt="强化学习图示"></p>
+<h2 id="K摇臂赌博机"><a href="#K摇臂赌博机" class="headerlink" title="K摇臂赌博机"></a>K摇臂赌博机</h2><p>我们可以考虑一个最简单的环境：一个动作可立刻获得奖励，目标是使每一个动作的奖励最大化。对这种单步强化学习任务，可以设计一个理论模型——“K-摇臂赌博机”。这个赌博机有K个摇臂，赌徒在投入一个硬币后可一选择按下一个摇臂，每个摇臂以一定概率吐出硬币，但这个概率赌徒并不知道。赌徒的目标是通过一定的策略最大化自己的奖赏，即获得最多的硬币。最终所获得的总奖励被称为累计奖励。</p>
+<p><img src="/img/rl-1/2.jpg" alt="K摇臂赌博机"></p>
+<p>对于这个简单模型，若要知道每个摇臂的概率，我们只需要进行足够多的尝试即可，这是“仅探索”策略；若要奖励最大化，则需要执行奖赏概率最大的动作即可，这是“仅利用”策略。但在更复杂的环境中，我们不可能对每一个状态的每个动作都进行足够多的探索。比如围棋，我们后续的探索是需要依赖于之前的探索的。因此我们需要在探索和利用之间进行平衡。我们在学习的过程中，必须要保持一定的概率`epsilon`进行探索，其余时候则执行学习到的策略。</p>
+<h2 id="基本概念术语"><a href="#基本概念术语" class="headerlink" title="基本概念术语"></a>基本概念术语</h2><p>为了便于分析讨论，我们定义一些术语。</p>
+<ul>
+<li><p>机器agent处于环境`E`中。</p>
+</li>
+<li><p>状态空间为`S`，每个状态`s in S`是机器感知到的环境描述。</p>
+</li>
+<li><p>机器能够采取的可采取的动作a的集合即动作空间`A`，`a in A`。</p>
+</li>
+<li><p>转移函数`P`表示：当机器执行了一个动作`a`后，环境有一定概率从状态`s`改变为新的状态`s’`。即：`s’=P(s, a)`</p>
+</li>
+<li><p>奖赏函数`R`则表示了执行动作可能获得的奖赏`r`。即：`r=R(s,a)`。</p>
+</li>
+<li><p>环境可以描述为`E=&lt;&lt;S, A, P, R&gt;&gt;`。</p>
+</li>
+<li><p>强化学习的任务是习得一个策略（policy）`pi`，使机器在状态`s`下选择到最佳的`a`。策略有两种描述方法：</p>
+<ol>
+<li>`a=pi(s)` 表示状态`s`下将执行动作`a`，是一种确定性的表示法。</li>
+<li>`pi(s, a)` 表示状态`s`下执行动作`a`的概率。这里有 `sum_a pi(s,a)=1`</li>
+</ol>
+</li>
+<li><p>累计奖励指连续的执行一串动作之后的奖励总和。</p>
+</li>
+<li><p>`Q^(pi)(s, a)`表示在状态`s`下，执行动作`a`，再策略`pi`的累计奖励。为方便讨论后续直接写为`Q(s,a)`。</p>
+</li>
+<li><p>`V^(pi)(s)` 表示在状态`s`下，使用策略`pi`的累计奖励。为方便讨论后续直接写为`V(s)`。</p>
+</li>
+</ul>
+<p>强化学习往往不会立刻得到奖励，而是在很多步之后才能得到一个诸如成功/失败的奖励，这是我们的算法需要反思之前所有的动作来学习。所以强化学习可以视作一种延迟标记的监督学习。</p>
+<h2 id="Q-learning"><a href="#Q-learning" class="headerlink" title="Q-learning"></a>Q-learning</h2><p>对于我们要学习的`Q(s,a)`函数，我们可以使用一个Q-table来表示。Q-table是一个二维表，记录每个状态`s in S, a in A`的`Q`值。Q表被初始化为0的状态。在状态`s`执行了动作`a`之后，得到状态`s’`，奖励`r`。我们将潜在的`Q`函数记为`Q_(real)`，其值为当前奖励r与后续状态`s’`的最佳累计奖励之和。则有：</p>
+<p>` Q_(real)(s, a) = r + gamma * argmax_aQ(s’, a) `<br>` err = Q_(real)(s, a) - Q(s, a) `</p>
+<p>其中`gamma`为`Q`函数的偏差，`err`为误差，`alpha`为学习率。 可得出更新公式为：</p>
+<p>` Q(s, a) leftarrow Q(s, a) + alpha*err `<br>即：<br>` Q(s,a) leftarrow (1-alpha)Q(s,a) + alpha(r + gamma * argmax_aQ(s’, a)) `</p>
+<p>以上公式即为Q-learning的关键</p>
+<h3 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 初始化Q表</span></span><br><span class="line"><span class="keyword">for</span> s <span class="keyword">in</span> S:</span><br><span class="line">  <span class="keyword">for</span> a <span class="keyword">in</span> A:</span><br><span class="line">    Q(s, a) = <span class="number">0</span></span><br><span class="line"><span class="comment"># 训练过程</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(N):</span><br><span class="line">  <span class="keyword">if</span> rand() &lt; epsilon:</span><br><span class="line">    a = 从 A 中随机选取一个动作</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    a = 从 A 中选取使 Q(a) 最大的a</span><br><span class="line">  <span class="comment"># 从环境中获得反馈</span></span><br><span class="line">  r = R(s, a)</span><br><span class="line">  s1 = P(s, a)</span><br><span class="line">  <span class="comment"># 更新Q表</span></span><br><span class="line">  Q(s,a) = (<span class="number">1</span>-alpha)*Q(s,a) + alpha * (r + gamma * argmax Q(s1, a) - Q(s, a))</span><br><span class="line">  s = s1</span><br></pre></td></tr></table></figure>
+
+<p>下图是一个Q表内存结构，在经过一定的学习后，Q表的内容将能够不断逼近每个状态的每个动作的累计收益。<br><img src="/img/rl-1/3.png" alt="Q-table"></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/12/27/introduce-reinforcement-learning-1/" class="archive-article-date">
+  	<time datetime="2019-12-27T03:28:16.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-27</time>
+</a>
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2013" class="archive-year">2013</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2013/03/15/chauvenet-criterion/" class="archive-article-date">
-  	<time datetime="2013-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2013/03/15/chauvenet-criterion/">肖维勒准则</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li></ul>
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/AI/">AI</a>
 	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2013/03/15/node-events-scope/" class="archive-article-date">
-  	<time datetime="2013-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-15</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2013/03/15/node-events-scope/">node.js events scope</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/" rel="tag">node.js</a></li></ul>
+  
+<nav id="article-nav">
+  
+    <a href="/2019/12/27/introduce-reinforcement-learning-2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          强化学习简介（二）：Q-learning实战
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/12/25/2019-new-thinking/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">2019年度回顾：新思潮的前夜</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2013/03/14/redis-extras-and-redis-lua-test/" class="archive-article-date">
-  	<time datetime="2013-03-13T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2013/03/14/redis-extras-and-redis-lua-test/">Redis-extras and script test</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/" rel="tag">node.js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/" rel="tag">redis</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2013/03/12/deploy-nodejs-apps-with-supervisor/" class="archive-article-date">
-  	<time datetime="2013-03-11T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-12</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2013/03/12/deploy-nodejs-apps-with-supervisor/">Deploy node.js apps with supervisor</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
-	</div>
+<div class="duoshuo">
 
-          
+<script type="text/javascript">
+(function(){
+var url = "http://widget.weibo.com/distribution/comments.php?width=0&url=auto&brandline=y&fontsize=12&skin=9&ralateuid=1751113432&appkey=3729652156&iframskin=9&dpc=1";
+url = url.replace("url=auto", "url=" + encodeURIComponent(document.URL));
+document.write('<iframe id="WBCommentFrame" src="' + url + '" scrolling="no" frameborder="0" style="width:100%"></iframe>');
+})();
+</script>
+<script src="http://tjs.sjs.sinajs.cn/open/widget/js/widget/comment.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.WBComment.init({
+    "id": "WBCommentFrame"
+});
+</script>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2013/03/05/game-object-properties-adapter/" class="archive-article-date">
-  	<time datetime="2013-03-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-05</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2013/03/05/game-object-properties-adapter/">GameObject properties adapter ———— 游戏数值开发要点</a>
-    </h1>
-  
+</div>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/" rel="tag">game-dev</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2013/03/04/install-gitlab/" class="archive-article-date">
-  	<time datetime="2013-03-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-04</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2013/03/04/install-gitlab/">安装gitlab</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
-	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2013/03/02/lua-tools/" class="archive-article-date">
-  	<time datetime="2013-03-01T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2013/03/02/lua-tools/">Lua 工具集</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/lua/" rel="tag">lua</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2013/03/02/game-essence-theory/" class="archive-article-date">
-  	<time datetime="2013-03-01T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2013/03/02/game-essence-theory/">网络游戏本质论</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/" rel="tag">game-dev</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-      
-        </div></section>
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2012" class="archive-year">2012</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2012/11/18/murmurhash-algorithm/" class="archive-article-date">
-  	<time datetime="2012-11-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-11-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2012/11/18/murmurhash-algorithm/">MurmurHash 算法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hash/" rel="tag">hash</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2012/11/18/nltk/" class="archive-article-date">
-  	<time datetime="2012-11-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-11-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2012/11/18/nltk/">NLTK</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/machine-learning/" rel="tag">machine-learning</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/11/">&amp;laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/10/">10</a><a class="page-number" href="/archives/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/archives/page/13/">13</a><a class="extend next" rel="next" href="/archives/page/13/">Next &amp;raquo;</a>
-    </nav>
-  
 
 
       </div>
@@ -514,8 +318,8 @@
 		mathjax: true,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

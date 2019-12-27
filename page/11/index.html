@@ -144,6 +144,111 @@
       <div class="body-wrap">
         
   
+    <article id="post-how-to-learn-linear-algebra" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/28/how-to-learn-linear-algebra/">如何学习线性代数</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>曾经看了几本线性代数的书和视频，但是越看越迷惑，大多是直接上来说定义和公式，不了解线性代数的几何意义和应用。</p>
+<p>最终这个疑惑被一本不是专门介绍线性代数的书解决了，书名叫做《Mathematics for 3D Game Programming and Computer Graphics》，这本书很好的解释了线性代数的几何意义。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/28/how-to-learn-linear-algebra/" class="archive-article-date">
+  	<time datetime="2013-03-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-28</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mathematics/" rel="tag">mathematics</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-use-varnish" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/28/use-varnish/">Use varnish</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Varnish 是一个反向代理服务器，并且只能作为反向代理。可编程式的配置。性能很好。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/28/use-varnish/" class="archive-article-date">
+  	<time datetime="2013-03-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-28</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-javascript-date" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -638,138 +743,6 @@ SIGVTALRM 终止进程    虚拟计时器到时</code></pre><p>1) SIGHUP 本信�
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-chauvenet-criterion" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/15/chauvenet-criterion/">肖维勒准则</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>数据中并不总是合法数据，为了更好的完成统计，我们必须剔除异常的数据。</p>
-<p>如何剔除异常的实验数据(Outlier rejection)，有许多的方法。</p>
-<p>介绍一种易于实现的方法，叫做<a href="http://en.wikipedia.org/wiki/Chauvenet' target="_blank" rel="noopener"s_criterion">肖维勒准则(Chauvenet’s criterion)</a></p>
-<p>平均值</p>
-<pre><code>mean = sum(v) / n</code></pre><p>标准差</p>
-<pre><code>sd = sqrt(sum(v(i) * v(i) - mean * mean, i=1 to n) / (n - 1))</code></pre><p><a href="http://en.wikipedia.org/wiki/Chauvenet' target="_blank" rel="noopener"s_criterion">肖维勒准则(Chauvenet’s criterion)</a></p>
-<p>如果某样本数据d满足</p>
-<pre><code>|v(d)| &gt; w(n) * sd</code></pre><p>则认为v(d)是一个异常数据，将其剔除。</p>
-<p>W(n) 是一个常数，可以用查表法获得</p>
-<p>Table of Chauvenet’s Criterion for data rejection, with curve fit equation</p>
-<p>Chauvenet’s Criterion</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">--------------------------</span><br><span class="line">| n          | c         |</span><br><span class="line">--------------------------</span><br><span class="line">| 3          | 1.38      |</span><br><span class="line">| 4          | 1.54      |</span><br><span class="line">| 5          | 1.65      |</span><br><span class="line">| 6          | 1.73      |</span><br><span class="line">| 7          | 1.8       |</span><br><span class="line">| 10         | 1.96      |</span><br><span class="line">| 15         | 2.13      |</span><br><span class="line">| 25         | 2.33      |</span><br><span class="line">| 50         | 2.57      |</span><br><span class="line">| 100        | 2.81      |</span><br><span class="line">--------------------------</span><br><span class="line">|c &#x3D; 0.9969+0.4040*ln(n) |</span><br><span class="line">--------------------------</span><br></pre></td></tr></table></figure>
-
-<p>很奇怪，通过公式获得的结果和表上给的结果并不一致。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/15/chauvenet-criterion/" class="archive-article-date">
-  	<time datetime="2013-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-15</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-node-events-scope" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/15/node-events-scope/">node.js events scope</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Below code display <code>world</code>, it means that the scope of node.js event listener is just the event emmitter itself.</p>
-<pre><code>var util = require(&apos;util&apos;);
-var EventEmitter = require(&apos;events&apos;).EventEmitter;
-
-function Foo(name) {
-  EventEmitter.call(this);
-  this.name = name;
-}
-
-util.inherits(Foo, EventEmitter);
-
-var foo = new Foo(&apos;world&apos;);
-foo.on(&apos;hello&apos;, function(){
-    console.log(this.name);
-});
-
-foo.emit(&apos;hello&apos;);</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/15/node-events-scope/" class="archive-article-date">
-  	<time datetime="2013-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-15</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/" rel="tag">node.js</a></li></ul>
 	</div>
 
       

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://guileen.github.io/"/>
-  <updated>2019-12-26T10:05:58.289Z</updated>
+  <updated>2019-12-27T10:37:57.211Z</updated>
   <id>http://guileen.github.io/</id>
   
   <author>
@@ -15,6 +15,54 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>强化学习简介（二）：Q-learning实战</title>
+    <link href="http://guileen.github.io/2019/12/27/introduce-reinforcement-learning-2/"/>
+    <id>http://guileen.github.io/2019/12/27/introduce-reinforcement-learning-2/</id>
+    <published>2019-12-27T08:02:19.000Z</published>
+    <updated>2019-12-27T10:37:57.211Z</updated>
+    
+    <content type="html"><![CDATA[<p>我们现在通过一个例子来演练Q-learning算法。在练习强化学习之前，我们需要拥有一个模拟器环境。我们主要的目的是学习编写机器人算法，所以对模拟器环境部分不推荐自己写。直接使用<code>gym</code>来作为我们对实验环境。安装方法：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install gym</span><br></pre></td></tr></table></figure><h2 id="初识环境"><a href="#初识环境" class="headerlink" title="初识环境"></a>初识环境</h2><p>我们的实验环境是一个冰湖滑行游戏，你将控制一个agent在冰面到达目标终点，前进方向并不总受你的控制，你还需要躲过冰窟。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gym</span><br><span class="line"><span class="comment"># 构造游戏环境</span></span><br><span class="line">env = gym.make(<span class="string">'FrozenLake-v0'</span>)</span><br><span class="line"><span class="comment"># 动作空间-&gt; Discrete(4)</span></span><br><span class="line">print(env.action_space)</span><br><span class="line"><span class="comment"># 状态空间-&gt; Discrete(16)</span></span><br><span class="line">print(env.observation_space)</span><br><span class="line"><span class="comment"># 初始化游戏环境，并得到状态s</span></span><br><span class="line">s = env.reset()</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    <span class="comment"># 渲染游戏画面</span></span><br><span class="line">    env.render()</span><br><span class="line">    <span class="comment"># 从动作空间中随机选择一个动作a</span></span><br><span class="line">    a = env.action_space.sample()</span><br><span class="line">    <span class="comment"># 执行动作a，得到新状态s，奖励r，是否完成done</span></span><br><span class="line">    s, r, done, info = env.step(a) <span class="comment"># take a random action</span></span><br><span class="line">    print(s, r, done, info)</span><br><span class="line"><span class="comment"># 关闭环境</span></span><br><span class="line">env.close()</span><br></pre></td></tr></table></figure><p>游戏画面示意如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SFFF       (S: 起点，安全)</span><br><span class="line">FHFH       (F: 冰面，安全)</span><br><span class="line">FFFH       (H: 冰窟，进入则失败)</span><br><span class="line">HFFG       (G: 终点，到达则成功)</span><br></pre></td></tr></table></figure><h2 id="Agent结构"><a href="#Agent结构" class="headerlink" title="Agent结构"></a>Agent结构</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> gym</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">QLAgent</span><span class="params">()</span>:</span></span><br><span class="line">    q = <span class="keyword">None</span></span><br><span class="line">    action_space = <span class="keyword">None</span></span><br><span class="line">    epsilon = <span class="number">0.1</span> <span class="comment"># 探索率</span></span><br><span class="line">    gamma = <span class="number">0.99</span>  <span class="comment"># 衰减率</span></span><br><span class="line">    lr = <span class="number">0.1</span> <span class="comment"># 学习率</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, action_space, state_count, epsilon=<span class="number">0.1</span>, lr=<span class="number">0.1</span>, gamma=<span class="number">0.99</span>)</span>:</span></span><br><span class="line">        self.q = [[<span class="number">0.</span> <span class="keyword">for</span> a <span class="keyword">in</span> range(action_space.n)] <span class="keyword">for</span> s <span class="keyword">in</span> range(state_count)]</span><br><span class="line">        self.action_space = action_space</span><br><span class="line">        self.epsilon = epsilon</span><br><span class="line">        self.lr = lr</span><br><span class="line">        self.gamma = gamma</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 根据状态s，选择动作a</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">choose_action</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 更新状态变化并学习，状态s执行了a动作，得到了奖励r，状态转移到了s_</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">update_transition</span><span class="params">(self, s, a, r, s_)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure><p>这是一个Agent的一般结构，主要由初始化、选择动作、更新状态变化，三个方法构成。后续的其他算法将依然采用该结构。q表数据使用一个二维数组表示，其大小为 state_count action_count，对于这个项目而言是一个 `16*4` 的大小。</p><h2 id="添加Q-table的辅助方法"><a href="#添加Q-table的辅助方法" class="headerlink" title="添加Q-table的辅助方法"></a>添加Q-table的辅助方法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 返回状态s的最佳动作a、及其r值。</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">argmax</span><span class="params">(self, s)</span>:</span></span><br><span class="line">    max_r = -math.inf</span><br><span class="line">    max_a = <span class="keyword">None</span></span><br><span class="line">    <span class="keyword">for</span> a <span class="keyword">in</span> range(self.action_space.n):</span><br><span class="line">        r = self.q_get(s, a)</span><br><span class="line">        <span class="keyword">if</span> r &gt; max_r:</span><br><span class="line">            max_a = a</span><br><span class="line">            max_r = r</span><br><span class="line">    <span class="keyword">return</span> max_a, max_r</span><br><span class="line"><span class="comment"># 获得 状态s，动作a 对应的r值</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">q_get</span><span class="params">(self, s, a)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> self.q[s][a]</span><br><span class="line"><span class="comment"># 更新 状态s 动作a 对应的r值</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">q_put</span><span class="params">(self, s, a, v)</span>:</span></span><br><span class="line">    self.q[s][a] = v</span><br></pre></td></tr></table></figure><h2 id="Q-learning的关键步骤"><a href="#Q-learning的关键步骤" class="headerlink" title="Q-learning的关键步骤"></a>Q-learning的关键步骤</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">choose_action</span><span class="params">(self, s)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> random.random() &lt; self.epsilon:</span><br><span class="line">        <span class="comment"># 按一定概率进行随机探索</span></span><br><span class="line">        <span class="keyword">return</span> self.action_space.sample()</span><br><span class="line">    <span class="comment"># 返回最佳动作</span></span><br><span class="line">    a, _ = self.argmax(s)</span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">update_transition</span><span class="params">(self, s, a, r, s_)</span>:</span></span><br><span class="line">    q = self.q_get(s, a)</span><br><span class="line">    _, r_ = self.argmax(s_)</span><br><span class="line">    <span class="comment"># Q &lt;- Q + a(Q' - Q)</span></span><br><span class="line">    <span class="comment"># &lt;=&gt; Q &lt;- (1-a)Q + a(Q')</span></span><br><span class="line">    q = (<span class="number">1</span>-self.lr) * q + self.lr * (r + self.gamma * r_)</span><br><span class="line">    self.q_put(s, a, q)</span><br></pre></td></tr></table></figure><h2 id="训练主循环"><a href="#训练主循环" class="headerlink" title="训练主循环"></a>训练主循环</h2><p>我们进行10000局游戏的训练，每局游戏执行直到完成。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">env = gym.make(<span class="string">'FrozenLake-v0'</span>)</span><br><span class="line">agent = QLAgent(env.action_space, env.observation_space.n)</span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(<span class="number">10000</span>):</span><br><span class="line">    s = env.reset()</span><br><span class="line">    done = <span class="keyword">False</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> done:</span><br><span class="line">        <span class="comment"># env.render()  # 训练过程不需要渲染</span></span><br><span class="line">        a = agent.choose_action(s) <span class="comment"># 选择动作</span></span><br><span class="line">        s_, r, done, info = env.step(a) <span class="comment"># 执行动作</span></span><br><span class="line">        agent.update_transition(s, a, r, s_) <span class="comment"># 更新状态变化</span></span><br><span class="line">        s = s_</span><br><span class="line"><span class="comment"># 显示训练后的Q表</span></span><br><span class="line">print(agent.q)</span><br></pre></td></tr></table></figure><h2 id="测试效果"><a href="#测试效果" class="headerlink" title="测试效果"></a>测试效果</h2><p>在测试中，我们只选择最佳策略，不再探索，也不再更新Q表。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获胜次数</span></span><br><span class="line">total_win = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10000</span>):</span><br><span class="line">    s = env.reset()</span><br><span class="line">    done = <span class="keyword">False</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> done:</span><br><span class="line">        <span class="comment"># 选择最佳策略</span></span><br><span class="line">        a, _ = agent.argmax(s)</span><br><span class="line">        <span class="comment"># 执行动作 a</span></span><br><span class="line">        s_, r, done, info = env.step(a)</span><br><span class="line">        <span class="keyword">if</span> done <span class="keyword">and</span> r == <span class="number">1</span>:</span><br><span class="line">            total_win += <span class="number">1</span></span><br><span class="line">        s = s_</span><br><span class="line">print(<span class="string">'Total win='</span>, total_win)</span><br><span class="line">env.close()</span><br></pre></td></tr></table></figure><p>最终测试的效果是在1万局中获胜了7284次，说明达到了不错的实验效果。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;我们现在通过一个例子来演练Q-learning算法。在练习强化学习之前，我们需要拥有一个模拟器环境。我们主要的目的是学习编写机器人算法，所以对模拟器环境部分不推荐自己写。直接使用&lt;code&gt;gym&lt;/code&gt;来作为我们对实验环境。安装方法：&lt;/p&gt;
+&lt;figure cla
+      
+    
+    </summary>
+    
+      <category term="AI" scheme="http://guileen.github.io/categories/AI/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>强化学习简介（一）：Q-learning</title>
+    <link href="http://guileen.github.io/2019/12/27/introduce-reinforcement-learning-1/"/>
+    <id>http://guileen.github.io/2019/12/27/introduce-reinforcement-learning-1/</id>
+    <published>2019-12-27T03:28:16.000Z</published>
+    <updated>2019-12-27T09:57:48.329Z</updated>
+    
+    <content type="html"><![CDATA[<p>完成图像分类之类的监督学习任务，已经没有特别大的难度。我们希望AI能够帮助我们处理一些更加复杂的任务，比如：下棋、玩游戏、自动驾驶、行走等。这一类的学习任务被称为强化学习。</p><p><img src="/img/rl-1/1.png" alt="强化学习图示"></p><h2 id="K摇臂赌博机"><a href="#K摇臂赌博机" class="headerlink" title="K摇臂赌博机"></a>K摇臂赌博机</h2><p>我们可以考虑一个最简单的环境：一个动作可立刻获得奖励，目标是使每一个动作的奖励最大化。对这种单步强化学习任务，可以设计一个理论模型——“K-摇臂赌博机”。这个赌博机有K个摇臂，赌徒在投入一个硬币后可一选择按下一个摇臂，每个摇臂以一定概率吐出硬币，但这个概率赌徒并不知道。赌徒的目标是通过一定的策略最大化自己的奖赏，即获得最多的硬币。最终所获得的总奖励被称为累计奖励。</p><p><img src="/img/rl-1/2.jpg" alt="K摇臂赌博机"></p><p>对于这个简单模型，若要知道每个摇臂的概率，我们只需要进行足够多的尝试即可，这是“仅探索”策略；若要奖励最大化，则需要执行奖赏概率最大的动作即可，这是“仅利用”策略。但在更复杂的环境中，我们不可能对每一个状态的每个动作都进行足够多的探索。比如围棋，我们后续的探索是需要依赖于之前的探索的。因此我们需要在探索和利用之间进行平衡。我们在学习的过程中，必须要保持一定的概率`epsilon`进行探索，其余时候则执行学习到的策略。</p><h2 id="基本概念术语"><a href="#基本概念术语" class="headerlink" title="基本概念术语"></a>基本概念术语</h2><p>为了便于分析讨论，我们定义一些术语。</p><ul><li><p>机器agent处于环境`E`中。</p></li><li><p>状态空间为`S`，每个状态`s in S`是机器感知到的环境描述。</p></li><li><p>机器能够采取的可采取的动作a的集合即动作空间`A`，`a in A`。</p></li><li><p>转移函数`P`表示：当机器执行了一个动作`a`后，环境有一定概率从状态`s`改变为新的状态`s’`。即：`s’=P(s, a)`</p></li><li><p>奖赏函数`R`则表示了执行动作可能获得的奖赏`r`。即：`r=R(s,a)`。</p></li><li><p>环境可以描述为`E=&lt;&lt;S, A, P, R&gt;&gt;`。</p></li><li><p>强化学习的任务是习得一个策略（policy）`pi`，使机器在状态`s`下选择到最佳的`a`。策略有两种描述方法：</p><ol><li>`a=pi(s)` 表示状态`s`下将执行动作`a`，是一种确定性的表示法。</li><li>`pi(s, a)` 表示状态`s`下执行动作`a`的概率。这里有 `sum_a pi(s,a)=1`</li></ol></li><li><p>累计奖励指连续的执行一串动作之后的奖励总和。</p></li><li><p>`Q^(pi)(s, a)`表示在状态`s`下，执行动作`a`，再策略`pi`的累计奖励。为方便讨论后续直接写为`Q(s,a)`。</p></li><li><p>`V^(pi)(s)` 表示在状态`s`下，使用策略`pi`的累计奖励。为方便讨论后续直接写为`V(s)`。</p></li></ul><p>强化学习往往不会立刻得到奖励，而是在很多步之后才能得到一个诸如成功/失败的奖励，这是我们的算法需要反思之前所有的动作来学习。所以强化学习可以视作一种延迟标记的监督学习。</p><h2 id="Q-learning"><a href="#Q-learning" class="headerlink" title="Q-learning"></a>Q-learning</h2><p>对于我们要学习的`Q(s,a)`函数，我们可以使用一个Q-table来表示。Q-table是一个二维表，记录每个状态`s in S, a in A`的`Q`值。Q表被初始化为0的状态。在状态`s`执行了动作`a`之后，得到状态`s’`，奖励`r`。我们将潜在的`Q`函数记为`Q_(real)`，其值为当前奖励r与后续状态`s’`的最佳累计奖励之和。则有：</p><p>` Q_(real)(s, a) = r + gamma * argmax_aQ(s’, a) `<br>` err = Q_(real)(s, a) - Q(s, a) `</p><p>其中`gamma`为`Q`函数的偏差，`err`为误差，`alpha`为学习率。 可得出更新公式为：</p><p>` Q(s, a) leftarrow Q(s, a) + alpha*err `<br>即：<br>` Q(s,a) leftarrow (1-alpha)Q(s,a) + alpha(r + gamma * argmax_aQ(s’, a)) `</p><p>以上公式即为Q-learning的关键</p><h3 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 初始化Q表</span></span><br><span class="line"><span class="keyword">for</span> s <span class="keyword">in</span> S:</span><br><span class="line">  <span class="keyword">for</span> a <span class="keyword">in</span> A:</span><br><span class="line">    Q(s, a) = <span class="number">0</span></span><br><span class="line"><span class="comment"># 训练过程</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(N):</span><br><span class="line">  <span class="keyword">if</span> rand() &lt; epsilon:</span><br><span class="line">    a = 从 A 中随机选取一个动作</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    a = 从 A 中选取使 Q(a) 最大的a</span><br><span class="line">  <span class="comment"># 从环境中获得反馈</span></span><br><span class="line">  r = R(s, a)</span><br><span class="line">  s1 = P(s, a)</span><br><span class="line">  <span class="comment"># 更新Q表</span></span><br><span class="line">  Q(s,a) = (<span class="number">1</span>-alpha)*Q(s,a) + alpha * (r + gamma * argmax Q(s1, a) - Q(s, a))</span><br><span class="line">  s = s1</span><br></pre></td></tr></table></figure><p>下图是一个Q表内存结构，在经过一定的学习后，Q表的内容将能够不断逼近每个状态的每个动作的累计收益。<br><img src="/img/rl-1/3.png" alt="Q-table"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;完成图像分类之类的监督学习任务，已经没有特别大的难度。我们希望AI能够帮助我们处理一些更加复杂的任务，比如：下棋、玩游戏、自动驾驶、行走等。这一类的学习任务被称为强化学习。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/rl-1/1.png&quot; alt=&quot;强化学习图示&quot;&gt;&lt;/p
+      
+    
+    </summary>
+    
+      <category term="AI" scheme="http://guileen.github.io/categories/AI/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>2019年度回顾：新思潮的前夜</title>
@@ -446,59 +494,6 @@
     
     
       <category term="books" scheme="http://guileen.github.io/tags/books/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>Kingshard阅读笔记</title>
-    <link href="http://guileen.github.io/2016/09/16/kingshard-read-log/"/>
-    <id>http://guileen.github.io/2016/09/16/kingshard-read-log/</id>
-    <published>2016-09-15T16:00:00.000Z</published>
-    <updated>2019-12-25T02:37:31.670Z</updated>
-    
-    <content type="html"><![CDATA[<p>KingShard 是 mysql 代理，可实现分库分表等功能。但因业务复杂，无法使用，故阅读其源码，以便修改。</p><p>代码版本：<br>2016-09-12<br>3c4a1db63226cb1384047a3f915d10e0594228d1</p><p>入口: cmd/</p><p>服务启动： proxy/server/server.go</p><p>Server.Run()<br>服务逻辑</p><p>Server.onConn(net.Conn)<br>客户端连接逻辑</p><ul><li>Server.newClientConn(net.Conn)<br>客户端连接初始化</li></ul><p>客户端连接：proxy/server/conn.go</p><p>ClientConn.IsAllowConnect()<br>判断客户端IP是否合法</p><p>ClientConn.Handshake()<br>握手</p><p>ClientConn.Run()<br>客户端逻辑</p><p>ClientConn.readPacket()<br>PacketIO.ReadPacket()<br>拆包逻辑</p><p>ClientConn.dispatch(data)<br>包分发逻辑<br>data[0] mysql命令</p><ul><li>QUIT  c.handleRollback() c.Close()</li><li>QUERY c.handleQuery(string(data))</li><li>PING</li><li>INIT_DB c.handleUseDB 分配后端节点 backend.Node</li><li>FIELD_LIST</li><li>STMT_PREPARE</li><li>STMT_EXECUTE</li><li>STMT_CLOSE</li><li>STMT_SEND_LONG_DATA</li><li>STMT_RESET</li><li>SET_OPTION<br>其它命令不支持,log</li></ul><p>命令执行成功后，写结果给客户端，某些命令只需 ClientConn.writeOK</p><p>执行查询 ClientConn.handleQuery<br>ClientConn.preHanleShard 不确定什么时候会用<br>解析sql<br>handleSelect<br>handleExec<br>handleBegin<br>handleCommit<br>handleRollback</p><p>后端节点: backend/node.go backend.Node<br>GetSlaveConn<br>GetMasterConn</p><p>后端连接：<br>基类 backend/backend_conn.go backend.Conn<br>子类 backend/db.go backend.BackendConn</p><p>写入命令，读取返回<br>writeCommandStr<br>readOK</p><p>SQL 语法解析<br>sqlparser<br>需要执行 make，通过yacc编译</p><p>其它<br>Counter  计数器</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;KingShard 是 mysql 代理，可实现分库分表等功能。但因业务复杂，无法使用，故阅读其源码，以便修改。&lt;/p&gt;
-&lt;p&gt;代码版本：&lt;br&gt;2016-09-12&lt;br&gt;3c4a1db63226cb1384047a3f915d10e0594228d1&lt;/p&gt;
-&lt;p&gt;入口
-      
-    
-    </summary>
-    
-      <category term="mysql" scheme="http://guileen.github.io/categories/mysql/"/>
-    
-    
-      <category term="mysql" scheme="http://guileen.github.io/tags/mysql/"/>
-    
-      <category term="go" scheme="http://guileen.github.io/tags/go/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>雇主与雇员的关系</title>
-    <link href="http://guileen.github.io/2016/08/28/employee-with-employer/"/>
-    <id>http://guileen.github.io/2016/08/28/employee-with-employer/</id>
-    <published>2016-08-27T16:00:00.000Z</published>
-    <updated>2019-12-25T03:31:02.798Z</updated>
-    
-    <content type="html"><![CDATA[<p>  通常，我们认为雇主与雇员之间的关系是一种管理者和被管理者的关系，但在作者看来，雇主与雇员之间的关系并非如此，在很多时候雇员往往拥有更多的主动权。</p><p>  在法制社会中，当我们成立一家公司时，股东之间通过契约联系在了一起，向同一个目标共同努力，同时实现股东个体的成功。可以说，契约精神是公司赖以存在的基础。</p><p>  在公司与员工的关系上，契约精神同样是重要的基础。在公司与员工形成雇佣关系，这种契约关系就建立了。</p><p>  在一个人成为管理者之前，应该对这一事实有充分的认识。你与下属是平等的，你只有一种权利那就是聘用和解聘的权利。如果公司没有赋予管理者这种权利，本质上，管理者只是个为员工提供服务的人员。员工会向你索取各种资源配合他们的工作，而你提供资源的过程和服务人员递上餐具和食物的过程并没有太大区别。</p><p>  人事部门应该按市场规则与员工进行互动，本质上就和买菜时侃价行为类似。是一种交易行为。如果你要对其进行职位和薪资的调整，本质上是一种内部重新聘用的过程，即使是升职加薪，也需要征得员工的同意，然后才可执行。如果要进行合理的避税，这些事项必须在签订契约（也就是聘用）之前达成共识。对于辞退员工，各种处理方法亦必须要按照契约精神进行，无论是劝退或是辞退，本质上就是一种公司违约行为，理应给予赔偿。对于一些曾经有过突出贡献的员工，在辞退时不仅要给予法律内规定的赔偿，甚至要给予更多的“补偿”。这种补偿本质上也是基于一条根本契约：员工向公司提供劳动，公司为这种劳动支付报酬。违反这种契约，或许不会受到法律的惩罚，但会使某一方丧失在市场上的信用，无论是公司方还是员工方。</p><p>  No Blame Culture，它的基础在于，人和人之间是平等。人们通过不同的分工在一起协作，人们不应因理念、方法的差别而受到羞辱或讽刺。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;  通常，我们认为雇主与雇员之间的关系是一种管理者和被管理者的关系，但在作者看来，雇主与雇员之间的关系并非如此，在很多时候雇员往往拥有更多的主动权。&lt;/p&gt;
-&lt;p&gt;  在法制社会中，当我们成立一家公司时，股东之间通过契约联系在了一起，向同一个目标共同努力，同时实现股东个体的
-      
-    
-    </summary>
-    
-      <category term="随笔" scheme="http://guileen.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
-    
     
   </entry>
   
