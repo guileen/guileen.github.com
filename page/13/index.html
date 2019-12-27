@@ -144,6 +144,174 @@
       <div class="body-wrap">
         
   
+    <article id="post-config-format" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/10/30/config-format/">配置文件格式比较</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ol>
+<li><p>java项目用的比较多的是 XML、properties，容错性很差，配置起来相当痛苦。</p>
+</li>
+<li><p>动态语言的项目往往用代码来配置，node用js配置，python用python配置，ruby用ruby配置。<br>优点是简单<br>缺点：<br>a. 不能跨语言共享配置<br>b. 配置文件里面可以写代码，本身是有风险的<br>c. 运维人员必须了解相应的语言</p>
+</li>
+<li><p>ini文件，是一个不错的选择，容错性较强。只是对于list类型的配置支持不好，比如一个cluster的所有host，port信息。</p>
+</li>
+<li><p>YAML 比较简洁，是个不错的选择，但也有人不习惯这种极简的风格。<br><a href="http://www.yaml.org/spec/1.2/spec.html#Preview" target="_blank" rel="noopener">http://www.yaml.org/spec/1.2/spec.html#Preview</a></p>
+</li>
+<li><p>JSON现在非常流行，但JSON的缺点也很明显的，如下面的语句是非法的</p>
+</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;key: &#39;value&#39;,&#125; &#x2F;&#x2F;注释</span><br></pre></td></tr></table></figure>
+
+<p>key 必须是 “key”, value 必须是双引号，} 前多了个逗号，不支持注释。</p>
+<p>前段时间node社区出现了一种新格式，叫做JSON5，免去了一些JSON的痛苦，<a href="https://github.com/aseemk/json5" target="_blank" rel="noopener">https://github.com/aseemk/json5</a></p>
+<p>如下面的配置是合法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;key: &#39;value&#39;,&#125; &#x2F;&#x2F;注释</span><br></pre></td></tr></table></figure>
+
+<p>可惜他出现于node社区，noder们可以使用JS代码来代替JSON5。所以JSON5可能无法在node社区有所发展，其他的语言实现它的可能性也就更低了。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2012/10/30/config-format/" class="archive-article-date">
+  	<time datetime="2012-10-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-10-30</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data-format/" rel="tag">data-format</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-notes-of-hackers-and-painters" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/10/08/notes-of-hackers-and-painters/">《黑客与画家》读后感</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>《黑客与画家——硅谷创业之父Paul Graham文集》英文原名是 《Hackers and Painters —— Big ideas from the computer age》，中文版由<a href="http://www.ruanyifeng.com/blog/" target="_blank" rel="noopener">阮一峰</a>翻译。</p>
+<p>许多人对“黑客与画家”这个标题感到不知所云，很难将黑客与画家放在一起进行对比。我初次见到这个标题，以为仅仅是描写编程与绘画之间的一些相通之处：思考方式或是创作过程。然而开卷之后，才发现有太多的惊喜，或是引人深思，或是感同身受。初看时觉得每章都是独立的，看完发现其实是环环相扣的。因为阅读多是在路上进行的，所以没有圈点，有必要再看一遍，找出那些绝妙的观点细细品味。</p>
+<p>目录：</p>
+<ol>
+<li>为什么书呆子不受欢迎</li>
+<li>黑客与画家</li>
+<li>不能说的话</li>
+<li>良好的坏习惯</li>
+<li>另一条路</li>
+<li>如何创造财富</li>
+<li>关注贫富分化</li>
+<li>防止垃圾邮件的另一种方法</li>
+<li>设计者的品味</li>
+<li>编程语言解析</li>
+<li>一百年后的编程语言</li>
+<li>拒绝平庸</li>
+<li>书呆子的复仇</li>
+<li>梦寐以求的编程语言</li>
+<li>设计与研究</li>
+</ol>
+<p>第9章的几个小节标题：</p>
+<ul>
+<li>好设计是简单的设计</li>
+<li>好设计是永不过时的设计</li>
+<li>好设计是解决主要问题的设计</li>
+<li>好设计是启发性的设计</li>
+<li>好设计通常是有点趣味性的设计</li>
+<li>好设计是艰苦的设计</li>
+<li>好设计是看似容易的设计</li>
+<li>好设计是对称的设计</li>
+<li>好设计是模仿大自然的设计</li>
+<li>好设计是一种再设计</li>
+<li>好设计是能够复制的设计</li>
+<li>好设计常常是奇特的设计</li>
+<li>好设计是成批出现的</li>
+<li>好设计常常是大胆的设计</li>
+</ul>
+<p>导读：</p>
+<ul>
+<li>1-4章 黑客、Nerd的内心与社会的偏见。</li>
+<li>5-7章 互联网时代的财富创造。</li>
+<li>8-9章 巧妙、简单的设计。</li>
+<li>10-15章 编程语言的设计与选择。</li>
+</ul>
+<p>阅读此书时，连脚注都是不能放过的。</p>
+<p>“画作永远没有完成的一天，你只是不再画下去了而已”。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2012/10/08/notes-of-hackers-and-painters/" class="archive-article-date">
+  	<time datetime="2012-10-07T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-10-08</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-professional-github-blog-hosting-guide" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
