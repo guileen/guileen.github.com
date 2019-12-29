@@ -144,6 +144,70 @@
       <div class="body-wrap">
         
   
+    <article id="post-ddzai-notes" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/29/ddzai-notes/">ddz AI notes</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>`C` is all cards.</p>
+<p>`p` is the part of playing cards.</p>
+<p>`C_1` is all cards after play `p`.</p>
+<p>求：</p>
+<p>`P_a(C) = P_”activeWin”`</p>
+<p>`P_p(C) = P_”passiveWin”`</p>
+<p>设：</p>
+<p>`P_d(p) = P_”dominate”`</p>
+<p>`P_”f”(p) = P_”follow”`</p>
+<p>`P_a(C) = max(P_a(p in C))`</p>
+<p>`P_p(C) = max(P_p(p in C))`</p>
+<p>`P_a(p,C) = P_d(p) * P_a(C_1) + (1-P_d(p)) * P_p(C_1)`</p>
+<p>`P_p(p,C) = P_”f”(p) * P_a(p, C)`</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/09/29/ddzai-notes/" class="archive-article-date">
+  	<time datetime="2015-09-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-09-29</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game/" rel="tag">game</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-scheme-base-object-notation-language" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -854,68 +918,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-mysql-optimization" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/17/mysql-optimization/">MySQL 优化</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>近期mysql 主从同步延迟过高，依次进行了如下优化。</p>
-<ol>
-<li><p>增加从库，将应用负载分散到多个从库，以降低从库同步延迟。</p>
-</li>
-<li><p>查看slow query，优化慢查询，必要位置添加索引。</p>
-</li>
-<li><p>打印所有sql日志，搜集一段时间日志后，去掉条件，按语句合并，汇总执行次数并排序。定位执行次数最高的语句，然后进行代码层面的优化，降低IO。</p>
-</li>
-<li><p>READ IO已经被降低，但CPU使用量却居高不下。SHOW PROCESSLIST; 定位到一些慢查询（执行时间小于long_query_time 但执行次数很多的语句），对这类语句再进行优化。</p>
-</li>
-</ol>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/06/17/mysql-optimization/" class="archive-article-date">
-  	<time datetime="2015-06-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-06-17</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
 	</div>
 
       

@@ -144,6 +144,81 @@
       <div class="body-wrap">
         
   
+    <article id="post-mathematical-model-of-1024-game" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/04/21/mathematical-model-of-1024-game/">小游戏1024的AI数学模型</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="游戏规则"><a href="#游戏规则" class="headerlink" title="游戏规则"></a>游戏规则</h2><p>1024 是一个近期比较流行的小游戏，也有称之为2048。游戏在一个4x4的方格(grid)中进行，方格中会在随机的一个空白位置填上一个数字2，玩家可以选择将所有数字向上、向下、向左、或向右的某一方向移动，所有数字将往这一方向移动，如果数字碰到了边界或一个不相同的数字，则停止移动，如果碰到了相同的数字则这两个数字将会合并为两数之和。如果移动之后局面未有任何改变，则此方向禁止移动。在玩家进行了一次移动后，方格中会再随机的产生一个数字，如此循环，直到4个方向都不可以移动则游戏结束。玩家的目标是尽可能的合成更大的数字。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">2 2 0 0           4 0 0 0</span><br><span class="line">4 0 0 0           4 0 0 0</span><br><span class="line">0 0 0 0  向左移动 0 0 0 0</span><br><span class="line">0 0 0 0           0 0 0 0</span><br><span class="line"></span><br><span class="line">2 2 0 0           0 0 0 4</span><br><span class="line">4 0 0 0           0 0 0 4</span><br><span class="line">0 0 0 0  向右移动 0 0 0 0</span><br><span class="line">0 0 0 0           0 0 0 0</span><br><span class="line"></span><br><span class="line">2 2 0 0           0 0 0 0</span><br><span class="line">4 0 0 0           0 0 0 0</span><br><span class="line">0 0 0 0  向下移动 2 0 0 0</span><br><span class="line">0 0 0 0           4 2 0 0</span><br><span class="line"></span><br><span class="line">2 2 0 0           2 2 0 0</span><br><span class="line">4 0 0 0           4 0 0 0</span><br><span class="line">0 0 0 0  向上移动 0 0 0 0  局面未改变，禁止此方向</span><br><span class="line">0 0 0 0           0 0 0 0</span><br><span class="line"></span><br><span class="line">   2    4    8   16</span><br><span class="line">  32   64  128  256</span><br><span class="line">  64    2    8 1024  任何方向都无法移动，终局。</span><br><span class="line">   2    4   16    8</span><br></pre></td></tr></table></figure>
+
+<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>笔者尝试通过AI来解决这个问题以得出尽可能大的数字。在开发过程中设计了多种数学模型来求解这一问题，希望借本文与大家分享数学建模的一些思路。</p>
+<p>我的AI算法使用的是<a href="http://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning" target="_blank" rel="noopener">alpha-beta pruning</a>。Alpha-beta pruning算法常用于博弈程序的AI，比如象棋、国际象棋、五子棋等。其基本思路与<a href="http://en.wikipedia.org/wiki/Minimax" target="_blank" rel="noopener">Minimax search</a>相似，通过对当前局面及其分支的评分，得出最优解的算法，只是通过剪枝的算法大大降低了算法的复杂度。1024这个游戏也可以理解为一个博弈游戏，玩家向某方向移动，电脑落下一个数字，这是一个玩家与电脑博弈的过程，玩家希望得出最大数字，电脑则是尽可能的让这个数字出现在玩家最不希望它出现的位置（实际游戏过程中，这个数字的出现位置是随机的）。</p>
+<p>Alpha-beta pruning算法是非常依赖于启发函数（Heuristic）的，启发函数是对于一个局面G的优劣的评估值，记为h(G)，h(G)越大，代表局面越好，h(G)越小代表局面越坏。Alpha-beta pruning的目标是做出当前局面G下的最佳决策，依据于一定深度的子分支的评价结果。因为深度有限且部分分支被抛弃，所以alpha-beta不能保证搜索到的结果是最优的，所以启发函数h(G)不仅用来评价局面的好坏，也用于引导搜索的过程。</p>
+<p>本文要讨论的即是关于1024游戏的启发函数h(G)的设计。</p>
+<h2 id="数学模型"><a href="#数学模型" class="headerlink" title="数学模型"></a>数学模型</h2><p>我们都知道数学是什么，但什么是数学模型？我们说铁比棉花“重”，这不是数学模型，而我们说铁的密度更大，而密度=质量/体积，这就是数学模型。我们说某个人速度很快，这不是数学模型，速度=距离/时间，他的速度是10米每秒，这就是数学模型。我们说今天阴天，可能会下雨，这不是数学模型，而我们说今天下雨的概率是P(下雨|阴天)，这就是数学模型。</p>
+<p>当先贤们创造经典力学的时候，他们是在对我们的日常知识建立数学模型。比如你说推一个轻的车比推一个重的车更容易，但如果你说，F=ma，那么你就是牛顿。</p>
+<p>顺便说一句，我认为数学教育的目标应该是建立数学模型，而不是解题。</p>
+<p>关于1024这个游戏，我们说局面A比局面B更好，那么怎么样对一个局面的好坏建立数学模型呢？<code>h(G_A) &lt; h(G_B)</code> 则认为局面B比局面A更好。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2 4 2 8     2 4 8 16</span><br><span class="line">4 2 4 4     2 2 4 8</span><br><span class="line">2 4 2 4     4 4 8 4</span><br><span class="line">4 2 0 0     0 0 4 8</span><br><span class="line">   A           B</span><br></pre></td></tr></table></figure>
+
+<h2 id="最大值模型"><a href="#最大值模型" class="headerlink" title="最大值模型"></a>最大值模型</h2><p>基于游戏的基本目标，我们希望尽可能的合成更大的数字，我们可以很显然得出一个数学模型：当局面G里出现的最大数字越大，则代表局面越好。即：</p>
+<p>h(G) = Max(G)</p>
+<p>假设G中目前的最大数字是256，基于此模型，AI将会尽可能的将这个数字合成到512，然后将512合成1024，然后是2048。看起来是很合理的。但实际测试中发现了如下的局面：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">4   2   4   8</span><br><span class="line">2   512 16  2</span><br><span class="line">64  2   32  4</span><br><span class="line">2   8   4   2</span><br></pre></td></tr></table></figure>
+
+<p>为什么发生这种局面？因为我们的AI过于急功近利了，因为最大值模型。就像我们设计了一个象棋程序，直接吃掉对方老将。。。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/04/21/mathematical-model-of-1024-game/" class="archive-article-date">
+  	<time datetime="2014-04-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-04-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mathematics/" rel="tag">mathematics</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/AI/">AI</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-programmer-self-management" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -795,90 +870,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/editor/" rel="tag">editor</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-static-site-generator" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/03/18/static-site-generator/">靜態網站生成器</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>靜態網頁依然應用的很廣，但是開發一個靜態網站並不像想象的那麼簡單，快速，易於維護。</p>
-<p>搭建慢。首先我們需要搭建項目的結構，引入我們需要的js，css，layout文件。</p>
-<p>復用難。也許同樣的網頁我們之前已經做過一個，但當我們需要再做一個的時候，我們還需要從頭再做一次。如果我們直接複製粘貼此前的代碼到新項目中，<br>對代碼的合併，網站名稱，logo等信息的修改，刪除不需要的代碼，要花去我們很多的時間。一個網站下的多個頁面在結構上應該是復用的。</p>
-<p>維護繁。對於一個已經完成的靜態網站，當我們想要修改它的時候，也並不是那麼簡單。比如我們要修改一個樣式，運氣好的話我們只需要修改一兩處css即可，<br>運氣差的話我們可能要修改DOM結構，但同一類頁面元素的DOM結構是分散在很多地方的，比如contact頁面，about頁面，某個landing page。<br>這就讓我們的代碼變得難以維護。</p>
-<p>如果我們對靜態網站做一個總結的話，一般來說包含以下內容。</p>
-<ul>
-<li>lyaout<br>網站的基本外觀框架。</li>
-<li>partial<br>網站的常用局部組件。</li>
-<li>data<br>網站基本配置，如標題，logo，base url，等。</li>
-<li>pages<br>幾個頁面，比如about，contact。</li>
-<li>posts<br>很多文章。</li>
-</ul>
-<p>於是靜態網站生成器（static site generator）產生了。</p>
-<p>現在比較常見的靜態網站生成器：</p>
-<ul>
-<li><p>jekyll Ruby 實現，github支持，插件豐富，支持諸如tag，分類，本博客使用的就是jekyll。</p>
-</li>
-<li><p>harp <a href="http://harpjs.com" target="_blank" rel="noopener">http://harpjs.com</a></p>
-</li>
-<li><p>hexo <a href="http://zespia.tw/hexo" target="_blank" rel="noopener">http://zespia.tw/hexo</a></p>
-</li>
-<li><p>docpad docpad.org 基於coffeescript</p>
-</li>
-<li><p>assemble assemble.io</p>
-</li>
-<li><p>cabin] cabinjs.com</p>
-</li>
-<li><p>Yeoman yeoman.io nodejs環境。yeoman不能算是一個靜態網站生成器，你可以叫它項目生成器。它可以生成諸如webapp，argularjs，assemble的东西。</p>
-</li>
-</ul>
-<p>我的選擇 Yeoman + x，Yeoman 的設計是面向開發者的。</p>
-<p>對於x的選擇，必須是nodejs的，從github關注量來看，docpad最多。但hexo和assemble产生较新，hexo关注人相对更多，看上去不错。</p>
-<p>yeoman + hexo 計劃用這種方式來實現項目主頁，Landing Page。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2014/03/18/static-site-generator/" class="archive-article-date">
-  	<time datetime="2014-03-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-18</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
 	</div>
 
       
