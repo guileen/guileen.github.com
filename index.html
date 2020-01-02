@@ -144,6 +144,150 @@
       <div class="body-wrap">
         
   
+    <article id="post-introduce-reinforcement-learning-5" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/30/introduce-reinforcement-learning-5/">增强学习简介（五）：策略梯度Policy Gradient</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>DQN证明了深度学习在增强学习中的可行性。深度学习可以将复杂的概念隐含在网络之中。但是DQN并没有将所有的概念都隐含在网络之中，只是把Q值的计算放在了网络之中，比如`epsilon-greedy`动作选择策略。因为如何选择动作和如何通过Q值计算出目标值，都是DQN所面临的问题，而Q值的目的也是为了选择动作。我们可以将增加学习的问题简化为选择动作的问题。那么我们可否使用深度学习直接做出动作选择呢？显然，我们可以定义一个网络`pi_theta`，其中输入为状态`s`，输出为每个动作`a`的概率。</p>
+<p><img src="/img/rl-5/1.png" alt="策略梯度"></p>
+<p>因为这个网络与策略函数的定义一样，所以被称为策略网络。`pi_theta(a|s)`，表示在`s`状态下选择动作`a`的概率。只要这个网络能够收敛，我们就可以直接得到最佳策略。这个网络的奖励函数也就是最终游戏的总奖励。</p>
+<p>`J(theta) = sum_(s in S)d^pi(s)V^pi(s) = sum_(s in S)d^pi(s)sum_(a in A)pi_theta(a|s)Q^pi(s, a)`</p>
+<p>`d^pi(s)`指状态`s`在马尔科夫链上的稳定分布，`d^pi(s) = lim_(t-&gt;oo)P(s_t=s|s_0,pi_theta)`。</p>
+<p>但是这个表达式看上去是不可能计算的，因为状态的分布和Q值都是随着策略的更新而不断变化的。但是我们并不需要计算`J(theta)`，在梯度下降法中我们只需要计算梯度`grad_(theta)J(theta)`即可</p>
+<p>`grad_(theta)V^pi(s)`<br>`= grad_(theta)(sum_(a in A)pi_theta(a|s)Q^pi(s, a))`<br>根据导数乘法规则<br>`= sum_(a in A)(grad_(theta)pi_(theta)Q^pi(s, a)+pi_(theta)(a|s)grad_thetaQ^pi(s, a))`<br>展开`Q^pi(s,a)`为各各种可能的下一状态奖励之和<br>`= sum_(a in A)(grad_(theta)pi_(theta)Q^pi(s, a)+pi_(theta)(a|s)grad_(theta)sum_(s’,r)P(s’,r|s,a)(r+V^pi(s’)))`<br>而其中状态转移函数`P(s’,r|s,a)`、奖励`r`由环境决定，与`grad_theta`无关，所以<br>`= sum_(a in A)(grad_(theta)pi_(theta)Q^pi(s, a)+pi_(theta)(a|s)sum_(s’,r)P(s’,r|s,a)grad_(theta)V^pi(s’))`<br>`= sum_(a in A)(grad_(theta)pi_(theta)Q^pi(s, a)+pi_(theta)(a|s)sum_(s’)P(s’|s,a)grad_(theta)V^pi(s’))`</p>
+<p>现在我们有了一个形式非常好的递归表达式：<br>`grad_(theta)V^pi(s) = sum_(a in A)(grad_(theta)pi_(theta)Q^pi(s, a)+pi_(theta)(a|s)sum_(s’)P(s’|s,a)grad_(theta)V^pi(s’))`</p>
+<p>设 `rho^pi(s-&gt;x, k)` 表示在策略`pi^theta`下，`k`步以后状态`s`转移到状态`x`的概率。有：</p>
+<ul>
+<li>`rho^pi(s-&gt;s, k=0)=1`</li>
+<li>`rho^pi(s-&gt;s’, k=1)=sum_(a)pi_(theta)(a|s)P(s’|s,a)`</li>
+<li>`rho^pi(s-&gt;x, k+1) = sum_(s’)rho^pi(s-&gt;s’, k)rho^pi(s’-&gt;x, 1)`</li>
+</ul>
+<p>为了简化计算，令 `phi(s)=sum_(a in A)grad_(theta)pi_theta(a|s)Q^pi(s,a)`</p>
+<p>`grad_(theta)V^pi(s)`<br>`= phi(s) + sum_(a in A)pi_(theta)(a|s)sum_(s’)P(s’|s,a)grad_(theta)V^pi(s’) `<br>`= phi(s) + sum_(s’)sum_(a in A)pi_(theta)(a|s)P(s’|s,a)grad_(theta)V^pi(s’) `<br>`= phi(s) + sum_(s’)rho^pi(s-&gt;s’,1)grad_(theta)V^pi(s’) `<br>`= phi(s) + sum_(s’)rho^pi(s-&gt;s’,1)(phi(s’) + sum_(s’’)rho^pi(s’-&gt;s’’,1)grad_(theta)V^pi(s’’)) `<br>`= phi(s) + sum_(s’)rho^pi(s-&gt;s’,1)phi(s’) + sum_(s’’)rho^pi(s-&gt;s’’,2)grad_(theta)V^pi(s’’) `<br>`= phi(s) + sum_(s’)rho^pi(s-&gt;s’,1)phi(s’) + sum_(s’’)rho^pi(s-&gt;s’’,2)phi(s’’) + sum_(s’’’)rho^pi(s-&gt;s’’’,3)grad_(theta)V^pi(s’’’) `<br>`= …`<br>`= sum_(x in S)sum_(k=0)^(oo)rho^pi(s-&gt;x, k)phi(x)`</p>
+<p>令 `eta(s)=sum_(k=0)^(oo)rho^pi(s_0-&gt;s, k)`</p>
+<p>`grad_(theta)J(theta)=grad_(theta)V^pi(s_0)`<br>`= sum_(s)sum_(k=0)^(oo)rho^pi(s_0-&gt;s,k)phi(s)`<br>`= sum_(s)eta(s)phi(s)`<br>`= (sum_(s)eta(s))sum_(s)((eta(s))/(sum_(s)eta(s)))phi(s)`<br>因 `sum_(s)eta(s)` 属于常数，对于求梯度而言常数可以忽略。<br>`prop sum_(s)((eta(s))/(sum_(s)eta(s)))phi(s)`<br>因 `eta(s)/(sum_(s)eta(s))`表示`s`的稳定分布<br>`= sum_(s)d^pi(s)sum_a grad_(theta)pi_(theta)(a|s)Q^pi(s,a)`<br>`= sum_(s)d^pi(s)sum_a pi_(theta)(a|s)Q^pi(s,a)(grad_(theta)pi_(theta)(a|s))/(pi_(theta)(a|s))`<br>因 ` (ln x)’ = 1/x `<br>`= Err_pi[Q^pi(s,a)grad_theta ln pi_theta(a|s)]`</p>
+<p>所以得出策略梯度最重要的定理：</p>
+<p>` grad_(theta)J(theta)=Err_pi[Q^pi(s,a)grad_theta ln pi_theta(a|s)] `</p>
+<p>其中的`Q^pi(s,a)`也就是状态s的累计收益，可以在一次完整的动作轨迹中累计计算得出。</p>
+<h2 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h2><ul>
+<li>随机初始化`theta`</li>
+<li>生成一个完整的策略`pi_theta`的轨迹: `S1,A1,R2,S2,A2,…,ST`。</li>
+<li>For t=1, 2, … , T:<ul>
+<li>` G_t = sum_(i=0)^(oo) gamma^i R_(t+i+1) `</li>
+<li>` theta larr theta + alpha gamma^t G_t ln pi_theta (A_t|S_t) `</li>
+</ul>
+</li>
+</ul>
+<p>参考：<br><a href="https://lilianweng.github.io/lil-log/2018/04/08/policy-gradient-algorithms.html" target="_blank" rel="noopener">Lilian Weng:Policy Gradient Algorithms</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/12/30/introduce-reinforcement-learning-5/" class="archive-article-date">
+  	<time datetime="2019-12-30T06:37:07.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-30</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-introduce-reinforcement-learning-4" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/30/introduce-reinforcement-learning-4/">增强学习简介（四）：DQN实战</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们在上文简述了DQN算法。此文以PyTorch来实现一个DQN的例子。我们的环境选用<a href="https://gym.openai.com/envs/CartPole-v1/" target="_blank" rel="noopener">CartPole-v1</a>。我们的输入是一幅图片，动作是施加一个向左向右的力量，我们需要尽可能的保持木棍的平衡。</p>
+<p><img src="/files/cartpole-v1.gif" alt="CartPole-v1"></p>
+<h2 id="Replay-Memory"><a href="#Replay-Memory" class="headerlink" title="Replay Memory"></a>Replay Memory</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Transition = namedtuple(<span class="string">'Transition'</span>, (<span class="string">'state'</span>, <span class="string">'action'</span>, <span class="string">'next_state'</span>, <span class="string">'reward'</span>))</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ReplayMemory</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, capacity)</span>:</span></span><br><span class="line">        self.cap = capacity</span><br><span class="line">        self.mem = []</span><br><span class="line">        self.pos = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">push</span><span class="params">(self, *args)</span>:</span></span><br><span class="line">        <span class="string">"""Save a transition."""</span></span><br><span class="line">        <span class="keyword">if</span> len(self.mem) &lt; self.cap:</span><br><span class="line">            self.mem.append(<span class="keyword">None</span>)</span><br><span class="line">        self.mem[self.pos] = Transition(*args)</span><br><span class="line">        self.pos = (self.pos + <span class="number">1</span>) % self.cap</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sample</span><span class="params">(self, batch_size)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> random.sample(self.mem, batch_size)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> len(self.mem)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Q网络"><a href="#Q网络" class="headerlink" title="Q网络"></a>Q网络</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DQN</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, h, w, outputs)</span>:</span></span><br><span class="line">        super(DQN, self).__init__()</span><br><span class="line">        self.conv1 = nn.Conv2d(<span class="number">3</span>, <span class="number">16</span>, kernel_size=<span class="number">5</span>, stride=<span class="number">2</span>)</span><br><span class="line">        self.bn1 = nn.BatchNorm2d(<span class="number">16</span>)</span><br><span class="line">        self.conv2 = nn.Conv2d(<span class="number">16</span>, <span class="number">32</span>, kernel_size=<span class="number">5</span>, stride=<span class="number">2</span>)</span><br><span class="line">        self.bn2 = nn.BatchNorm2d(<span class="number">32</span>)</span><br><span class="line">        self.conv3 = nn.Conv2d(<span class="number">32</span>, <span class="number">32</span>, kernel_size=<span class="number">5</span>, stride=<span class="number">2</span>)</span><br><span class="line">        self.bn3 = nn.BatchNorm2d(<span class="number">32</span>)</span><br><span class="line"></span><br><span class="line">        <span class="comment"># 计算卷积输出大小</span></span><br><span class="line">        <span class="function"><span class="keyword">def</span> <span class="title">conv2d_size_out</span><span class="params">(size, kernel_size = <span class="number">5</span>, stride = <span class="number">2</span>)</span>:</span></span><br><span class="line">            <span class="keyword">return</span> (size - (kernel_size - <span class="number">1</span>) - <span class="number">1</span>) // stride  + <span class="number">1</span></span><br><span class="line">        convw = conv2d_size_out(conv2d_size_out(conv2d_size_out(w)))</span><br><span class="line">        convh = conv2d_size_out(conv2d_size_out(conv2d_size_out(h)))</span><br><span class="line">        linear_input_size = convw * convh * <span class="number">32</span></span><br><span class="line">        self.head = nn.Linear(linear_input_size, outputs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        x = F.relu(self.bn1(self.conv1(x)))</span><br><span class="line">        x = F.relu(self.bn2(self.conv2(x)))</span><br><span class="line">        x = F.relu(self.bn3(self.conv3(x)))</span><br><span class="line">        <span class="keyword">return</span> self.head(x.view(x.size(<span class="number">0</span>), <span class="number">-1</span>))</span><br></pre></td></tr></table></figure>
+
+<h2 id="获取环境输入图像"><a href="#获取环境输入图像" class="headerlink" title="获取环境输入图像"></a>获取环境输入图像</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_cart_location</span><span class="params">(screen_width)</span>:</span></span><br><span class="line">    world_width = env.x_threshold * <span class="number">2</span></span><br><span class="line">    scale = screen_width / world_width</span><br><span class="line">    <span class="keyword">return</span> int(env.state[<span class="number">0</span>] * scale + screen_width / <span class="number">2.0</span>) <span class="comment"># MIDDLE OF CART</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">get_screen</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="comment"># Returned screen requested by gym is 400x600x3, but is sometimes larger</span></span><br><span class="line">    <span class="comment"># such as 800x1200x3. Transpose it into torch order (CHW).</span></span><br><span class="line">    screen = env.render(mode=<span class="string">'rgb_array'</span>).transpose((<span class="number">2</span>, <span class="number">0</span>, <span class="number">1</span>))</span><br><span class="line">    <span class="comment"># Cart is in the lower half, so strip off the top and bottom of the screen</span></span><br><span class="line">    _, screen_height, screen_width = screen.shape</span><br><span class="line">    screen = screen[:, int(screen_height*<span class="number">0.4</span>):int(screen_height * <span class="number">0.8</span>)]</span><br><span class="line">    view_width = int(screen_width * <span class="number">0.6</span>)</span><br><span class="line">    cart_location = get_cart_location(screen_width)</span><br><span class="line">    <span class="keyword">if</span> cart_location &lt; view_width // <span class="number">2</span>:</span><br><span class="line">        slice_range = slice(view_width)</span><br><span class="line">    <span class="keyword">elif</span> cart_location &gt; (screen_width - view_width // <span class="number">2</span>):</span><br><span class="line">        slice_range = slice(-view_width, <span class="keyword">None</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        slice_range = slice(cart_location - view_width // <span class="number">2</span>,</span><br><span class="line">                            cart_location + view_width // <span class="number">2</span>)</span><br><span class="line">    <span class="comment"># Strip off the edges, so that we have a square image centered on a cart</span></span><br><span class="line">    screen = screen[:, :, slice_range]</span><br><span class="line">    <span class="comment"># Convert to float, rescale, convert to torch tensor</span></span><br><span class="line">    <span class="comment"># (this doesn't require a copy)</span></span><br><span class="line">    screen = np.ascontiguousarray(screen, dtype=np.float32) / <span class="number">255</span></span><br><span class="line">    screen = torch.from_numpy(screen)</span><br><span class="line">    <span class="comment"># Resize, and add a batch dimension (BCHW)</span></span><br><span class="line">    <span class="keyword">return</span> resize(screen).unsqueeze(<span class="number">0</span>).to(device)</span><br></pre></td></tr></table></figure>
+
+<h2 id="初始化参数和状态"><a href="#初始化参数和状态" class="headerlink" title="初始化参数和状态"></a>初始化参数和状态</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">BATCH_SIZE = <span class="number">128</span></span><br><span class="line">GAMMA = <span class="number">0.999</span></span><br><span class="line">EPS_START = <span class="number">0.9</span></span><br><span class="line">EPS_END = <span class="number">0.04</span></span><br><span class="line">EPS_DECAY = <span class="number">200</span></span><br><span class="line">TARGET_UPDATE = <span class="number">10</span></span><br><span class="line"></span><br><span class="line">init_screen = get_screen()</span><br><span class="line">_, _, screen_height, screen_width = init_screen.shape</span><br><span class="line"></span><br><span class="line">n_actions = env.action_space.n</span><br><span class="line"></span><br><span class="line"><span class="comment"># 策略网络</span></span><br><span class="line">policy_net = DQN(screen_height, screen_width, n_actions).to(device)</span><br><span class="line"><span class="comment"># 目标网络</span></span><br><span class="line">target_net = DQN(screen_height, screen_width, n_actions).to(device)</span><br><span class="line"><span class="comment"># 使用策略网络的参数初始化目标网络</span></span><br><span class="line">target_net.load_state_dict(policy_net.state_dict())</span><br><span class="line">target_net.eval()</span><br><span class="line"></span><br><span class="line">optimizer = optim.RMSprop(policy_net.parameters())</span><br><span class="line">memory = ReplayMemory(<span class="number">10000</span>)</span><br></pre></td></tr></table></figure>
+
+<h2 id="探索和选择最佳动作"><a href="#探索和选择最佳动作" class="headerlink" title="探索和选择最佳动作"></a>探索和选择最佳动作</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">steps_done = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">select_action</span><span class="params">(state)</span>:</span></span><br><span class="line">    <span class="keyword">global</span> steps_done</span><br><span class="line">    sample = random.random()</span><br><span class="line">    eps_threshold = EPS_END + (EPS_START - EPS_END) * math.exp(<span class="number">-1.</span> * steps_done / EPS_DECAY)</span><br><span class="line">    steps_done += <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> sample &gt; eps_threshold:</span><br><span class="line">        <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">            <span class="comment"># t.max(1) will return largest column value of each row.</span></span><br><span class="line">            <span class="comment"># second column on max result is index of where max element was</span></span><br><span class="line">            <span class="comment"># found, so we pick action with the larger expected reward.</span></span><br><span class="line">            <span class="keyword">return</span> policy_net(state).max(<span class="number">1</span>)[<span class="number">1</span>].view(<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> torch.tensor([[random.randrange(n_actions)]], device=device, dtype=torch.long)</span><br><span class="line"></span><br><span class="line">episode_durations = []</span><br></pre></td></tr></table></figure>
+
+<h2 id="优化模型-关键代码"><a href="#优化模型-关键代码" class="headerlink" title="优化模型(关键代码)"></a>优化模型(关键代码)</h2><p>这里主要是抽样、目标值计算、损失计算的部分。损失计算采用Huber loss。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">optimize_model</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">if</span> len(memory) &lt; BATCH_SIZE:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    transitions = memory.sample(BATCH_SIZE)</span><br><span class="line">    batch = Transition(*zip(*transitions))</span><br><span class="line">    non_final_mask = torch.tensor(tuple(map(<span class="keyword">lambda</span>  s: s <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>,</span><br><span class="line">                        batch.next_state)), device=device, dtype=torch.uint8)</span><br><span class="line">    non_final_next_states = torch.cat([s <span class="keyword">for</span> s <span class="keyword">in</span> batch.next_state <span class="keyword">if</span> s <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>])</span><br><span class="line">    state_batch = torch.cat(batch.state)</span><br><span class="line">    action_batch = torch.cat(batch.action)</span><br><span class="line">    reward_batch = torch.cat(batch.reward)</span><br><span class="line">    state_action_values = policy_net(state_batch).gather(<span class="number">1</span>, action_batch)</span><br><span class="line">    next_state_values = torch.zeros(BATCH_SIZE, device=device)</span><br><span class="line">    next_state_values[non_final_mask] = target_net(non_final_next_states).max(<span class="number">1</span>)[<span class="number">0</span>].detach()</span><br><span class="line">    expected_state_action_values = (next_state_values * GAMMA) + reward_batch</span><br><span class="line"></span><br><span class="line">    loss = F.smooth_l1_loss(state_action_values, expected_state_action_values.unsqueeze(<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">    optimizer.zero_grad()</span><br><span class="line">    loss.backward()</span><br><span class="line">    <span class="keyword">for</span> param <span class="keyword">in</span> policy_net.parameters():</span><br><span class="line">        param.grad.data.clamp_(<span class="number">-1</span>, <span class="number">1</span>)</span><br><span class="line">    optimizer.step()</span><br></pre></td></tr></table></figure>
+
+<h2 id="训练循环"><a href="#训练循环" class="headerlink" title="训练循环"></a>训练循环</h2><p>这里主要有主循环、获取输入、记录回放、训练、复制参数等环节。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">num_episodes = <span class="number">500</span></span><br><span class="line"><span class="keyword">for</span> i_episode <span class="keyword">in</span> range(num_episodes):</span><br><span class="line">    env.reset()</span><br><span class="line">    last_screen = get_screen()</span><br><span class="line">    current_screen = get_screen()</span><br><span class="line">    state = current_screen - last_screen</span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> count():</span><br><span class="line">        action = select_action(state)</span><br><span class="line">        _, reward,done,_ = env.step(action.item())</span><br><span class="line">        reward = torch.tensor([reward], device=device)</span><br><span class="line">        last_screen = current_screen</span><br><span class="line">        current_screen = get_screen()</span><br><span class="line">        <span class="keyword">if</span> <span class="keyword">not</span> done:</span><br><span class="line">            next_state = current_screen - last_screen</span><br><span class="line">        <span class="keyword">else</span>:</span><br><span class="line">            next_state = <span class="keyword">None</span></span><br><span class="line">        <span class="comment"># 存储回放</span></span><br><span class="line">        memory.push(state, action, next_state, reward)</span><br><span class="line">        state = next_state</span><br><span class="line">        <span class="comment"># 训练</span></span><br><span class="line">        optimize_model()</span><br><span class="line">        <span class="keyword">if</span> done:</span><br><span class="line">            episode_durations.append(t+<span class="number">1</span>)</span><br><span class="line">            plot_durations()</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">if</span> i_episode % TARGET_UPDATE == <span class="number">0</span>:</span><br><span class="line">        <span class="comment"># 复制参数到目标网络</span></span><br><span class="line">        target_net.load_state_dict(policy_net.state_dict())</span><br></pre></td></tr></table></figure>
+
+<p><img src="/files/cart_dqn.png" alt="Cart DQN训练结果"></p>
+<p>从结果来看，Deep Q-learning仍然存在比较大大问题，一度可以达到比较好的效果，但是随着目标网络被替换，原有的策略网络立刻就会失效。</p>
+<p><a href="/files/demo_dqn.py">完整代码</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/12/30/introduce-reinforcement-learning-4/" class="archive-article-date">
+  	<time datetime="2019-12-30T06:37:03.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-30</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-introduce-reinforcement-learning-3" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -801,128 +945,6 @@
 
 
   
-    <article id="post-setup-gogs-with-docker-compose" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/29/setup-gogs-with-docker-compose/">使用docker-compose设置Gogs</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>创建 ~/gogs/docker-compose.yml</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">version: &#39;2&#39;</span><br><span class="line">services:</span><br><span class="line">  gogs:</span><br><span class="line">    container_name: gogs</span><br><span class="line">    image: gogs&#x2F;gogs</span><br><span class="line">    volumes:</span><br><span class="line">      - &#x2F;data&#x2F;gogs&#x2F;:&#x2F;data</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;3080:3000&quot;</span><br><span class="line">      - &quot;3022:22&quot;</span><br><span class="line">    restart: always</span><br></pre></td></tr></table></figure>
-
-<p>执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker-compose up -d</span><br></pre></td></tr></table></figure>
-
-<p>Nginx配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">  listen 80;</span><br><span class="line">  server_name git.example.com;</span><br><span class="line"></span><br><span class="line">  location &#x2F; &#123;</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        proxy_pass http:&#x2F;&#x2F;127.0.0.1:3080;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>配置注意事项：</p>
-<ul>
-<li><em>SSH Port:</em> Use the exposed port from Docker container. For example, your SSH server listens on 22 inside Docker, but you expose it by 10022:22, then use 10022 for this value. Builtin SSH server is not recommended inside Docker Container</li>
-<li><em>HTTP Port:</em> Use port you want Gogs to listen on inside Docker container. For example, your Gogs listens on 3000 inside Docker, and you expose it by 10080:3000, but you still use 3000 for this value.</li>
-<li><em>Application URL:</em> Use combination of Domain and exposed HTTP Port values (e.g. <a href="http://192.168.99.100:10080/" target="_blank" rel="noopener">http://192.168.99.100:10080/</a>).</li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2019/03/29/setup-gogs-with-docker-compose/" class="archive-article-date">
-  	<time datetime="2019-03-29T08:58:02.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-03-29</time>
-</a>
-      
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-How-ssl-works-and-letscrypt" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/01/30/How-ssl-works-and-letscrypt/">How ssl works and Letscrypt</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="SSL-TLS-解决了什么问题？"><a href="#SSL-TLS-解决了什么问题？" class="headerlink" title="SSL/TLS 解决了什么问题？"></a>SSL/TLS 解决了什么问题？</h2><p>假设A给B发信息，直接明文发送，那么所有的中间传输节点，都可以截获明文，这种通信是不安全的，想象一下你的密码全部在网上明文传输，是不是很危险。</p>
-<p>现在A将信息加密后传输给B，B解密信息，加密密钥和解密密钥是相同，这种加密算法叫做对称加密算法。题是，A如何把密钥告诉B？如果依然通过同一个中间人告诉B，一旦中间人知道这个密钥，那么传输过程就依然是不安全的了。</p>
-<p>这时非对称加密算法出现了，非对称加密的加密解密需要两把钥匙，我们称之为公钥和私钥，所谓公钥就是可以公开的钥匙，可以安全的分享出去。使用公钥加密的数据必须用私钥解密，使用私钥加密的必须用公钥解密。如果A和B之间进行通信，那么AB双方首先交换各自的公钥，保留各自的私钥，这个过程是安全的。A要给B发信息则使用B的公钥加密，因为只有B自己拥有私钥，所以只有B可以解密信息，反之依然。这是非对称加密的第一个用途，防止中间人破译信息。非对称加密还有另一个用途————身份验证，如果A要向B表明身份证明自己的确是A，只需要按照B的要求加密一段随机字符串S即可，A使用自己的私钥加密S，将加密结果发送给B，B使用A提供的公钥进行解密，若结果为S，则证明对方的身份的确是A，这样就完成了认证过程，我们常用的ssh公钥登录，就是这个原理。</p>
-<p>一切看起来很完美，但是还有一个问题没有解决。假设A、B之间有一个中间人C，AB之间的所有消息都经过C传递。这是C在这个传输过程做了手脚，当AB交换公钥时，A把公钥发给C，希望C把A的公钥转交给B，可是这是C没有把A的公钥交给B，而是把C的公钥交给了B，B误以为C的公钥就是A的公钥。在B把公钥发给A的过程中，C做了同样的手脚。这时A、B手上都是C的公钥，而C手上也有A、B的公钥。这时A给B发消息时，会使用C的公钥加密，C则先用C的私钥解密得出原文完成信息窃取，再用B的公钥加密信息发给B。AB都认为自己进行了安全的传输，一切天衣无缝。更可怕的是C还可以直接篡改信息。谁有能力做这件事？你的网络提供商，你连接的免费wifi，网络上的交换节点，都有能力实施这个中间人攻击。那么问题来了，既然交换公钥这种非对称加密手段都无法奏效，还搞毛线呢？这时就需要CA上场了。</p>
-<pre><code>A  ---- A的公钥 ---&gt;  C  ---- C的公钥 ---&gt; B
-A  &lt;--- C的公钥 ----  C  &lt;--- B的公钥 ---- B
-A  --C公钥加密信息--&gt;  C  -- B公钥加密信息--&gt; B
-A  &lt;-C公钥加密信息---  C  &lt;- A公钥加密信息--- B</code></pre><p>CA的全称是Certificate Authority，即证书颁发机构。A为了保证自己的公钥不被中间人篡改，会先将自己的公钥交给CA，CA用自己的私钥教秘A的公钥，B使用CA的公钥解密A的公钥，只要CA的签名的公钥没有问题，则A的公钥也必然没有问题。那么又有一个新的问题来了，如果中间人C伪造CA的公钥怎么办？这个问题的解决方案比较粗暴，CA的公钥是直接写在浏览器里的。如果CA的公钥被篡改，浏览器会直接提示不安全的网络连接。因此我们也需要警惕一些山寨浏览器，如果没有道德底线的约束，他们完全可以篡改CA证书，为网络监听大开方便之门。</p>
-<p>因为CA需要各大浏览器厂商的共同认可，因此是个壁垒很高的生意。如果一个网站需要提供安全的网络连接，则需要将自己的网站公钥通过CA生成一个认证公钥，这个认证的公钥也就是证书，这个证书不便宜。想象一下，每一年你都需要付出两千块钱，就是为了证明你是你，这钱花的是不是挺冤枉。你说我的网站就不提供安全传输不就完了吗，反正我这信息也都是公开的，也没什么值得监听的。不行，因为很多业务场景，第三方接口，必须要求你提供安全的网络连接。这就增加了开设一个网络服务的成本，尤其是增加了玩票的成本，小微创新就会受影响。</p>
-<p><img src="/img/https_flowchart.jpg" alt=""></p>
-<p>现在就该今天的主角上场了，<a href="https://letsencrypt.org/" target="_blank" rel="noopener">Letsencrypt</a>，他是一个免费、自动化的证书颁发机构。今天就向大家安利一下Letsencrypt。 Letsencryt在web server上运行了一个证书管理代理（Certificate management agent）的程序。假设我们希望设置<code>https://example.com</code>的证书。那么一共有两个步骤，第一步，证明你拥有exmaple.com，第二步，代理程序可以请求（request）、更新（renew）以及废除（revoke）证书，</p>
-<p>Letsencrypt根据agent公钥来验证账号，agent第一次与Letsencrypt交互时，Letsencrypt会要求agent证明自己拥有某个域名。agent会询问需要自己做什么来证明自己拥有这个域名，这时Letsencrypt会下发一组任务，比如添加某个DNS记录，在网站下提供某个制定的资源。这和传统的CA证书机构类似。当agent完成操作后，CA就认为该agent已经拥有这个域名了，之后的域名更新都可以通过agent操作。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo add-apt-repository ppa:certbot&#x2F;certbot</span><br><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install certbot</span><br><span class="line">$ sudo certbot certonly -d ipub.io -d *.ipub.io --manual --preferred-challenges dns --server https:&#x2F;&#x2F;acme-v02.api.letsencrypt.org&#x2F;directory</span><br></pre></td></tr></table></figure>
-<p>跟着提示填写，其中一步要求在DNS记录中添加一个TXT，修改后继续，准确无误的话，证书会在/etc/letsencrypt/live/ipub.io/ 目录下, 修改nginx配置文件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">  listen 443 ssl;</span><br><span class="line">  listen [::]:443 ssl;</span><br><span class="line">  keepalive_timeout 70;</span><br><span class="line"></span><br><span class="line">  root &#x2F;var&#x2F;www&#x2F;leen.ipub.io;</span><br><span class="line">  index index.html index.htm;</span><br><span class="line">  server_name leen.ipub.io;</span><br><span class="line">  ssl_certificate  &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;ipub.io&#x2F;fullchain.pem;</span><br><span class="line">  ssl_certificate_key  &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;ipub.io&#x2F;privkey.pem;</span><br><span class="line">  location &#x2F; &#123;</span><br><span class="line">    try_files $uri $uri&#x2F; &#x2F;index.html &#x3D;404;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2019/01/30/How-ssl-works-and-letscrypt/" class="archive-article-date">
-  	<time datetime="2019-01-30T12:49:39.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-01-30</time>
-</a>
-      
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -935,7 +957,7 @@ A  &lt;-C公钥加密信息---  C  &lt;- A公钥加密信息--- B</code></pre><p
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2019 桂糊涂
+    		&copy; 2020 桂糊涂
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
