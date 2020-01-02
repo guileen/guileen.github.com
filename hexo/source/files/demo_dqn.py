@@ -1,16 +1,19 @@
----
-title: 增强学习简介（四）：DQN实战
-date: 2019-12-30 14:37:03
-tags:
----
+from collections import namedtuple
+import random
+import math
+import numpy as np
+import matplotlib
+import matplotlib.pyplot as plt
+from collections import namedtuple
+from itertools import count
+from PIL import Image
 
-我们在上文简述了DQN算法。此文以PyTorch来实现一个DQN的例子。我们的环境选用[CartPole-v1](https://gym.openai.com/envs/CartPole-v1/)。我们的输入是一幅图片，动作是施加一个向左向右的力量，我们需要尽可能的保持木棍的平衡。
+import torch
+import torch.nn as nn
+import torch.optim as optim
+import torch.nn.functional as F
+import torchvision.transforms as T
 
-![CartPole-v1](/files/cartpole-v1.gif)
-
-## Replay Memory
-
-```python
 Transition = namedtuple('Transition', ('state', 'action', 'next_state', 'reward'))
 
 class ReplayMemory:
@@ -25,17 +28,14 @@ class ReplayMemory:
             self.mem.append(None)
         self.mem[self.pos] = Transition(*args)
         self.pos = (self.pos + 1) % self.cap
-
+    
     def sample(self, batch_size):
         return random.sample(self.mem, batch_size)
 
     def __len__(self):
         return len(self.mem)
-```
 
-## Q网络
 
-```python
 class DQN(nn.Module):
     def __init__(self, h, w, outputs):
         super(DQN, self).__init__()
@@ -59,11 +59,24 @@ class DQN(nn.Module):
         x = F.relu(self.bn2(self.conv2(x)))
         x = F.relu(self.bn3(self.conv3(x)))
         return self.head(x.view(x.size(0), -1))
-```
 
-## 获取环境输入图像
 
-```python
+resize = T.Compose([
+    T.ToPILImage(),
+    T.Resize(40, interpolation=Image.CUBIC),
+    T.ToTensor()])
+
+import gym
+
+env = gym.make('CartPole-v0').unwrapped
+device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+# set up matplotlib
+is_ipython = 'inline' in matplotlib.get_backend()
+if is_ipython:
+    from IPython import display
+
+plt.ion()
+
 def get_cart_location(screen_width):
     world_width = env.x_threshold * 2
     scale = screen_width / world_width
@@ -93,11 +106,17 @@ def get_screen():
     screen = torch.from_numpy(screen)
     # Resize, and add a batch dimension (BCHW)
     return resize(screen).unsqueeze(0).to(device)
-```
 
-## 初始化参数和状态
+env.reset()
+# plt.figure()
+# plt.imshow(get_screen().cpu().squeeze(0).permute(1, 2, 0).numpy(),
+#            interpolation='none')
+# plt.title('Example extracted screen')
+# plt.show()
 
-```python
+
+#------
+
 BATCH_SIZE = 128
 GAMMA = 0.999
 EPS_START = 0.9
@@ -110,21 +129,16 @@ _, _, screen_height, screen_width = init_screen.shape
 
 n_actions = env.action_space.n
 
-# 策略网络
 policy_net = DQN(screen_height, screen_width, n_actions).to(device)
-# 目标网络
 target_net = DQN(screen_height, screen_width, n_actions).to(device)
-# 使用策略网络的参数初始化目标网络
+
 target_net.load_state_dict(policy_net.state_dict())
 target_net.eval()
 
 optimizer = optim.RMSprop(policy_net.parameters())
 memory = ReplayMemory(10000)
-```
 
-## 探索和选择最佳动作
 
-```python
 steps_done = 0
 
 def select_action(state):
@@ -142,13 +156,27 @@ def select_action(state):
         return torch.tensor([[random.randrange(n_actions)]], device=device, dtype=torch.long)
 
 episode_durations = []
-```
 
-## 优化模型(关键代码)
 
-这里主要是抽样、目标值计算、损失计算的部分。损失计算采用Huber loss。
+def plot_durations():
+    plt.figure(2)
+    plt.clf()
+    durations_t = torch.tensor(episode_durations, dtype=torch.float)
+    plt.title('Training...')
+    plt.xlabel('Episode')
+    plt.ylabel('Duration')
+    plt.plot(durations_t.numpy())
+    # Take 100 episode averages and plot them too
+    if len(durations_t) >= 100:
+        means = durations_t.unfold(0, 100, 1).mean(1).view(-1)
+        means = torch.cat((torch.zeros(99), means))
+        plt.plot(means.numpy())
 
-```python
+    plt.pause(0.001)  # pause a bit so that plots are updated
+    if is_ipython:
+        display.clear_output(wait=True)
+        display.display(plt.gcf())
+
 def optimize_model():
     if len(memory) < BATCH_SIZE:
         return
@@ -172,14 +200,8 @@ def optimize_model():
     for param in policy_net.parameters():
         param.grad.data.clamp_(-1, 1)
     optimizer.step()
-```
 
-## 训练循环
-
-这里主要有主循环、获取输入、记录回放、训练、复制参数等环节。
-
-```python
-num_episodes = 500
+num_episodes = 50
 for i_episode in range(num_episodes):
     env.reset()
     last_screen = get_screen()
@@ -195,22 +217,18 @@ for i_episode in range(num_episodes):
             next_state = current_screen - last_screen
         else:
             next_state = None
-        # 存储回放
         memory.push(state, action, next_state, reward)
         state = next_state
-        # 训练
         optimize_model()
         if done:
             episode_durations.append(t+1)
             plot_durations()
             break
     if i_episode % TARGET_UPDATE == 0:
-        # 复制参数到目标网络
         target_net.load_state_dict(policy_net.state_dict())
-```
 
-![Cart DQN训练结果](/files/cart_dqn.png)
-
-从结果来看，Deep Q-learning仍然存在比较大大问题，一度可以达到比较好的效果，但是随着目标网络被替换，原有的策略网络立刻就会失效。
-
-[完整代码](/files/demo_dqn.py)
+print('Complete')
+env.render()
+env.close()
+plt.ioff()
+plt.show()
