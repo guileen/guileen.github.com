@@ -144,6 +144,66 @@
       <div class="body-wrap">
         
   
+    <article id="post-architect-for-testing" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/02/10/architect-for-testing/">为测试而架构</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>软件架构的目标是什么？为了解耦？解耦的目标是为了什么？为了测试！</p>
+<p>所以我意识到软件架构的根本目标是为了测试。如果代码是可测试的，那么这个软件架构就是好的，如果这个软件架构是难以测试的，那么就是垃圾。</p>
+<p>定理：软件架构质量=最大测试覆盖率</p>
+<p>一个不健壮的难以维护的软件架构，也必然是难以测试的，他所能达到的最大测试覆盖率必然是很低的。</p>
+<p>一个测试覆盖率高的软件架构，其模块必然是解耦的，因此也必然是灵活的，必然是一个高质量的软件架构。</p>
+<h2 id="常见架构"><a href="#常见架构" class="headerlink" title="常见架构"></a>常见架构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">--------------------------</span><br><span class="line">* APP UI, API </span><br><span class="line">-------------------|------</span><br><span class="line">Service       |         |</span><br><span class="line">Facility      - Context |</span><br><span class="line">ORM           |         |</span><br><span class="line">--------------|         |</span><br><span class="line">* 配置        |         |</span><br><span class="line">--------------------------</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/02/10/architect-for-testing/" class="archive-article-date">
+  	<time datetime="2015-02-09T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-02-10</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-compile-vim-and-setup" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -744,67 +804,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/engineering/" rel="tag">engineering</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-redis-list-for-random-distribution" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/06/07/redis-list-for-random-distribution/">redis的list类型控制随机性分布</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>有这样一个需求：</p>
-<ol>
-<li>随机的给用户1篇文章</li>
-<li>最新的文章有更大的几率被随机到</li>
-<li>被随机到之后，文章被随机到的几率降低</li>
-<li>同一文章大约可以被最多随机到5次</li>
-<li>在文章较少时，1操作很多时，系统依然可以正常运行</li>
-</ol>
-<p>实现：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"># 新文章加入系统时 插入5份</span><br><span class="line">LPUSH articles id1</span><br><span class="line">LPUSH articles id1</span><br><span class="line">LPUSH articles id1</span><br><span class="line">LPUSH articles id1</span><br><span class="line">LPUSH articles id1</span><br><span class="line"># 根据随机数x取一篇文章, 结果为idx, x &lt; N， N代表最新的N篇文章</span><br><span class="line">LINDEX articles x</span><br><span class="line"># 将x从articles 移除 1份</span><br><span class="line">LREM articles 1 idx</span><br><span class="line"># 将idx从右方插入</span><br><span class="line">RPUSH articles idx</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2014/06/07/redis-list-for-random-distribution/" class="archive-article-date">
-  	<time datetime="2014-06-06T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-06-07</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/" rel="tag">redis</a></li></ul>
 	</div>
 
       

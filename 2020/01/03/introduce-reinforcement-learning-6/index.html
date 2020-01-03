@@ -6,20 +6,20 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://guileen.github.io">
-  <title>增强学习简介（五）：策略梯度Policy Gradient | 桂糊涂的博客</title>
+  <title>增强学习简介（六）：策略梯度实例 | 桂糊涂的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="DQN证明了深度学习在增强学习中的可行性。深度学习可以将复杂的概念隐含在网络之中。但是DQN并没有将所有的概念都隐含在网络之中，只是把Q值的计算放在了网络之中，比如&#96;epsilon-greedy&#96;动作选择策略。因为如何选择动作和如何通过Q值计算出目标值，都是DQN所面临的问题，而Q值的目的也是为了选择动作。我们可以将增加学习的问题简化为选择动作的问题。那么我们可否使用深度学习直接做出动作选择呢？显">
+  <meta name="description" content="和第四节DQN的实例一样，我们依然使用CartPole-v1来作为训练环境。策略梯度的网络和DQN的网络结构是类似的，只是在输出层需要做Softmax处理，因为策略梯度的输出本质上是一个分类问题——将某一个状态分类到某一个动作的概率。而DQN网络则是一个回归问题——某一个网络在各个动作的Q值是多少。 1234567891011class PolicyNet(nn.Module):    def _">
 <meta property="og:type" content="article">
-<meta property="og:title" content="增强学习简介（五）：策略梯度Policy Gradient">
-<meta property="og:url" content="http://guileen.github.io/2019/12/30/introduce-reinforcement-learning-5/index.html">
+<meta property="og:title" content="增强学习简介（六）：策略梯度实例">
+<meta property="og:url" content="http://guileen.github.io/2020/01/03/introduce-reinforcement-learning-6/index.html">
 <meta property="og:site_name" content="桂糊涂的博客">
-<meta property="og:description" content="DQN证明了深度学习在增强学习中的可行性。深度学习可以将复杂的概念隐含在网络之中。但是DQN并没有将所有的概念都隐含在网络之中，只是把Q值的计算放在了网络之中，比如&#96;epsilon-greedy&#96;动作选择策略。因为如何选择动作和如何通过Q值计算出目标值，都是DQN所面临的问题，而Q值的目的也是为了选择动作。我们可以将增加学习的问题简化为选择动作的问题。那么我们可否使用深度学习直接做出动作选择呢？显">
-<meta property="og:image" content="http://guileen.github.io/img/rl-5/1.png">
-<meta property="article:published_time" content="2019-12-30T06:37:07.000Z">
-<meta property="article:modified_time" content="2020-01-03T07:54:44.667Z">
+<meta property="og:description" content="和第四节DQN的实例一样，我们依然使用CartPole-v1来作为训练环境。策略梯度的网络和DQN的网络结构是类似的，只是在输出层需要做Softmax处理，因为策略梯度的输出本质上是一个分类问题——将某一个状态分类到某一个动作的概率。而DQN网络则是一个回归问题——某一个网络在各个动作的Q值是多少。 1234567891011class PolicyNet(nn.Module):    def _">
+<meta property="og:image" content="http://guileen.github.io/files/cart-pg.png">
+<meta property="article:published_time" content="2020-01-03T06:40:51.000Z">
+<meta property="article:modified_time" content="2020-01-03T08:09:29.661Z">
 <meta property="article:author" content="桂糊涂">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://guileen.github.io/img/rl-5/1.png">
+<meta name="twitter:image" content="http://guileen.github.io/files/cart-pg.png">
   
     <link rel="alternative" href="/atom.xml" title="桂糊涂的博客" type="application/atom+xml">
   
@@ -146,7 +146,7 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-introduce-reinforcement-learning-5" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-introduce-reinforcement-learning-6" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -156,7 +156,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      增强学习简介（五）：策略梯度Policy Gradient
+      增强学习简介（六）：策略梯度实例
     </h1>
   
 
@@ -164,44 +164,46 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>DQN证明了深度学习在增强学习中的可行性。深度学习可以将复杂的概念隐含在网络之中。但是DQN并没有将所有的概念都隐含在网络之中，只是把Q值的计算放在了网络之中，比如`epsilon-greedy`动作选择策略。因为如何选择动作和如何通过Q值计算出目标值，都是DQN所面临的问题，而Q值的目的也是为了选择动作。我们可以将增加学习的问题简化为选择动作的问题。那么我们可否使用深度学习直接做出动作选择呢？显然，我们可以定义一个网络`pi_theta`，其中输入为状态`s`，输出为每个动作`a`的概率。</p>
-<p><img src="/img/rl-5/1.png" alt="策略梯度"></p>
-<p>因为这个网络与策略函数的定义一样，所以被称为策略网络。`pi_theta(a|s)`，表示在`s`状态下选择动作`a`的概率。只要这个网络能够收敛，我们就可以直接得到最佳策略。这个网络的奖励函数也就是最终游戏的总奖励。</p>
-<p>`J(theta) = sum_(s in S)d^pi(s)V^pi(s) = sum_(s in S)d^pi(s)sum_(a in A)pi_theta(a|s)Q^pi(s, a)`</p>
-<p>`d^pi(s)`指状态`s`在马尔科夫链上的稳定分布，`d^pi(s) = lim_(t-&gt;oo)P(s_t=s|s_0,pi_theta)`。</p>
-<p>但是这个表达式看上去是不可能计算的，因为状态的分布和Q值都是随着策略的更新而不断变化的。但是我们并不需要计算`J(theta)`，在梯度下降法中我们只需要计算梯度`grad_(theta)J(theta)`即可</p>
-<p>`grad_(theta)V^pi(s)`<br>`= grad_(theta)(sum_(a in A)pi_theta(a|s)Q^pi(s, a))`<br>根据导数乘法规则<br>`= sum_(a in A)(grad_(theta)pi_(theta)Q^pi(s, a)+pi_(theta)(a|s)grad_thetaQ^pi(s, a))`<br>展开`Q^pi(s,a)`为各各种可能的下一状态奖励之和<br>`= sum_(a in A)(grad_(theta)pi_(theta)Q^pi(s, a)+pi_(theta)(a|s)grad_(theta)sum_(s’,r)P(s’,r|s,a)(r+V^pi(s’)))`<br>而其中状态转移函数`P(s’,r|s,a)`、奖励`r`由环境决定，与`grad_theta`无关，所以<br>`= sum_(a in A)(grad_(theta)pi_(theta)Q^pi(s, a)+pi_(theta)(a|s)sum_(s’,r)P(s’,r|s,a)grad_(theta)V^pi(s’))`<br>`= sum_(a in A)(grad_(theta)pi_(theta)Q^pi(s, a)+pi_(theta)(a|s)sum_(s’)P(s’|s,a)grad_(theta)V^pi(s’))`</p>
-<p>现在我们有了一个形式非常好的递归表达式：<br>`grad_(theta)V^pi(s) = sum_(a in A)(grad_(theta)pi_(theta)Q^pi(s, a)+pi_(theta)(a|s)sum_(s’)P(s’|s,a)grad_(theta)V^pi(s’))`</p>
-<p>设 `rho^pi(s-&gt;x, k)` 表示在策略`pi^theta`下，`k`步以后状态`s`转移到状态`x`的概率。有：</p>
+        <p>和第四节DQN的实例一样，我们依然使用CartPole-v1来作为训练环境。策略梯度的网络和DQN的网络结构是类似的，只是在输出层需要做Softmax处理，因为策略梯度的输出本质上是一个分类问题——将某一个状态分类到某一个动作的概率。而DQN网络则是一个回归问题——某一个网络在各个动作的Q值是多少。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PolicyNet</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, input_size, hidden, outputs)</span>:</span></span><br><span class="line">        super(PolicyNet, self).__init__()</span><br><span class="line">        self.fc1 = nn.Linear(input_size, hidden)</span><br><span class="line">        self.fc2 = nn.Linear(hidden, outputs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        x = F.relu(F.dropout(self.fc1(x), <span class="number">0.1</span>))</span><br><span class="line">        x = self.fc2(x)</span><br><span class="line">        <span class="comment"># 输出层需要使用softmax</span></span><br><span class="line">        <span class="keyword">return</span> F.softmax(x, dim=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>不要忘了输出层的SoftMax。</p>
+<h2 id="初始化参数"><a href="#初始化参数" class="headerlink" title="初始化参数"></a>初始化参数</h2><p>相对于DQN，我们也不需要额外的目标网络和参数复制操作，只需要一个策略网络即可。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">BATCH_SIZE = <span class="number">256</span></span><br><span class="line">GAMMA = <span class="number">0.99</span></span><br><span class="line">HIDDEN_SIZE = <span class="number">15</span></span><br><span class="line">LR = <span class="number">0.005</span></span><br><span class="line"></span><br><span class="line">n_actions = env.action_space.n</span><br><span class="line">input_size = env.observation_space.shape[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">policy_net = PolicyNet(input_size, HIDDEN_SIZE, n_actions)</span><br><span class="line">optimizer = optim.Adam(policy_net.parameters(), lr=LR)</span><br><span class="line"></span><br><span class="line">steps_done = <span class="number">0</span></span><br></pre></td></tr></table></figure>
+
+<h2 id="选择动作"><a href="#选择动作" class="headerlink" title="选择动作"></a>选择动作</h2><p>在选择动作时，我们不再需要特地设置探索概率，因为输出结果就是各个动作的概率分布。我们使用<code>torch.distributions.categorical.Categorical</code> 来进行取样。在每次选择动作时，我们同时记录对应的概率，以便后续使用。这个概率就是 `ln pi_theta(S_t,A_t)`</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">log_probs = []</span><br><span class="line">rewards = []</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">select_action</span><span class="params">(state)</span>:</span></span><br><span class="line">    x = torch.unsqueeze(torch.FloatTensor(state),<span class="number">0</span>)</span><br><span class="line">    probs = policy_net(x)</span><br><span class="line">    c = Categorical(probs)</span><br><span class="line">    action = c.sample()</span><br><span class="line">    <span class="comment"># log action probs to plt</span></span><br><span class="line">    prob = c.log_prob(action)</span><br><span class="line">    log_probs.append(prob)</span><br><span class="line">    <span class="keyword">return</span> action</span><br></pre></td></tr></table></figure>
+
+<h2 id="优化模型"><a href="#优化模型" class="headerlink" title="优化模型"></a>优化模型</h2><p>为了更新参数，我们首先需要计算`v_t`，这在后续参数迭代中需要用到。</p>
 <ul>
-<li>`rho^pi(s-&gt;s, k=0)=1`</li>
-<li>`rho^pi(s-&gt;s’, k=1)=sum_(a)pi_(theta)(a|s)P(s’|s,a)`</li>
-<li>`rho^pi(s-&gt;x, k+1) = sum_(s’)rho^pi(s-&gt;s’, k)rho^pi(s’-&gt;x, 1)`</li>
+<li>` v_t = r_(t+1) + gamma * v_(t+1) `</li>
 </ul>
-<p>为了简化计算，令 `phi(s)=sum_(a in A)grad_(theta)pi_theta(a|s)Q^pi(s,a)`</p>
-<p>`grad_(theta)V^pi(s)`<br>`= phi(s) + sum_(a in A)pi_(theta)(a|s)sum_(s’)P(s’|s,a)grad_(theta)V^pi(s’) `<br>`= phi(s) + sum_(s’)sum_(a in A)pi_(theta)(a|s)P(s’|s,a)grad_(theta)V^pi(s’) `<br>`= phi(s) + sum_(s’)rho^pi(s-&gt;s’,1)grad_(theta)V^pi(s’) `<br>`= phi(s) + sum_(s’)rho^pi(s-&gt;s’,1)(phi(s’) + sum_(s’’)rho^pi(s’-&gt;s’’,1)grad_(theta)V^pi(s’’)) `<br>`= phi(s) + sum_(s’)rho^pi(s-&gt;s’,1)phi(s’) + sum_(s’’)rho^pi(s-&gt;s’’,2)grad_(theta)V^pi(s’’) `<br>`= phi(s) + sum_(s’)rho^pi(s-&gt;s’,1)phi(s’) + sum_(s’’)rho^pi(s-&gt;s’’,2)phi(s’’) + sum_(s’’’)rho^pi(s-&gt;s’’’,3)grad_(theta)V^pi(s’’’) `<br>`= …`<br>`= sum_(x in S)sum_(k=0)^(oo)rho^pi(s-&gt;x, k)phi(x)`</p>
-<p>令 `eta(s)=sum_(k=0)^(oo)rho^pi(s_0-&gt;s, k)`</p>
-<p>`grad_(theta)J(theta)=grad_(theta)V^pi(s_0)`<br>`= sum_(s)sum_(k=0)^(oo)rho^pi(s_0-&gt;s,k)phi(s)`<br>`= sum_(s)eta(s)phi(s)`<br>`= (sum_(s)eta(s))sum_(s)((eta(s))/(sum_(s)eta(s)))phi(s)`<br>因 `sum_(s)eta(s)` 属于常数，对于求梯度而言常数可以忽略。<br>`prop sum_(s)((eta(s))/(sum_(s)eta(s)))phi(s)`<br>因 `eta(s)/(sum_(s)eta(s))`表示`s`的稳定分布<br>`= sum_(s)d^pi(s)sum_a grad_(theta)pi_(theta)(a|s)Q^pi(s,a)`<br>`= sum_(s)d^pi(s)sum_a pi_(theta)(a|s)Q^pi(s,a)(grad_(theta)pi_(theta)(a|s))/(pi_(theta)(a|s))`<br>因 ` (ln x)’ = 1/x `<br>`= Err_pi[Q^pi(s,a)grad_theta ln pi_theta(a|s)]`</p>
-<p>所以得出策略梯度最重要的定理：</p>
-<p>` grad_(theta)J(theta)=Err_pi[Q^pi(s,a)grad_theta ln pi_theta(a|s)] `</p>
-<p>其中的`Q^pi(s,a)`也就是状态s的累计收益，可以在一次完整的动作轨迹中累计计算得出。</p>
-<h2 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h2><ul>
-<li>随机初始化`theta`</li>
-<li>生成一个完整的策略`pi_theta`的轨迹: `S1,A1,R2,S2,A2,…,ST`。</li>
-<li>For t=1, 2, … , T:<ul>
-<li>` v_t = sum_(i=0)^(oo) gamma^i R_(t+i+1) `</li>
+<p>在模拟执行的时候，我们记录了每一步的reward，我们需要计算每一步的`v_t`，其顺序与执行顺序一致。根据公式我们需要倒序的计算`v_t`，然后将计算好的结果倒序排列，就形成了`v_1,v_2…v_t`的序列。最后我们需要将数据标准化。(TODO: 这里可能存在一个序列对应的问题，其中每一个状态的累计收益，是后续状态收益之和，不包含本轮收益)</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">values = []</span><br><span class="line">v = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> reward <span class="keyword">in</span> reversed(rewards):</span><br><span class="line">    v = v * GAMMA + reward</span><br><span class="line">    values.insert(<span class="number">0</span>, v)</span><br><span class="line">mean = np.mean(values)</span><br><span class="line">std = np.std(values)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(size):</span><br><span class="line">    values[i] = (values[i] - mean) / std</span><br></pre></td></tr></table></figure>
+
+<p>接下来我们需要更新参数，参数更新的公式为：</p>
+<ul>
 <li>` theta larr theta + alpha v_t ln pi_theta (A_t|S_t) `</li>
 </ul>
-</li>
+<p>我们将其转换为损失函数形式:</p>
+<ul>
+<li>` L(theta) = - v_t ln pi_theta(A_t|S_t) `</li>
 </ul>
-<p>参考：<br><a href="https://lilianweng.github.io/lil-log/2018/04/08/policy-gradient-algorithms.html" target="_blank" rel="noopener">Lilian Weng:Policy Gradient Algorithms</a></p>
+<p>这个损失函数的形式可以帮助我们更好的理解策略梯度的原理。如果一个动作价值为负值，但是其选择概率为正，则损失较大。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">loss = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> np.random.choice(size, n):</span><br><span class="line">    loss.append(- values[i] * log_probs[i])</span><br><span class="line">loss = torch.cat(loss).sum()</span><br><span class="line"></span><br><span class="line">optimizer.zero_grad()</span><br><span class="line">loss.backward()</span><br><span class="line"><span class="keyword">for</span> param <span class="keyword">in</span> policy_net.parameters():</span><br><span class="line">    param.grad.data.clamp_(<span class="number">-1</span>, <span class="number">1</span>)</span><br><span class="line">optimizer.step()</span><br></pre></td></tr></table></figure>
+
+<h2 id="训练循环"><a href="#训练循环" class="headerlink" title="训练循环"></a>训练循环</h2><p>训练循环需要在一局结束之后进行。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">num_episodes = <span class="number">5000</span></span><br><span class="line"><span class="keyword">for</span> i_episode <span class="keyword">in</span> range(num_episodes):</span><br><span class="line">    state = env.reset()</span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> count():</span><br><span class="line">        action = select_action(state)</span><br><span class="line">        <span class="keyword">if</span> i_episode % <span class="number">2000</span> == <span class="number">0</span>:</span><br><span class="line">            env.render()</span><br><span class="line">        next_state, reward, done,_ = env.step(action.item())</span><br><span class="line">        <span class="keyword">if</span> done:</span><br><span class="line">            reward = <span class="number">-100</span></span><br><span class="line">        rewards.append(reward)</span><br><span class="line">        state = next_state</span><br><span class="line">        <span class="keyword">if</span> done <span class="keyword">or</span> t &gt;= <span class="number">2500</span>:</span><br><span class="line">            optimize_model()</span><br><span class="line">            print(<span class="string">'EP'</span>, i_episode)</span><br><span class="line">            episode_durations.append(t+<span class="number">1</span>)</span><br><span class="line">            plot_durations()</span><br><span class="line">            rewards = []</span><br><span class="line">            log_probs = []</span><br><span class="line">            <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
+
+<p><img src="/files/cart-pg.png" alt="Clamp"></p>
+<p><a href="/files/demo_dqn.py">完整代码</a></p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2019/12/30/introduce-reinforcement-learning-5/" class="archive-article-date">
-  	<time datetime="2019-12-30T06:37:07.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-30</time>
+      <a href="/2020/01/03/introduce-reinforcement-learning-6/" class="archive-article-date">
+  	<time datetime="2020-01-03T06:40:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-01-03</time>
 </a>
       
       
@@ -219,18 +221,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/01/03/introduce-reinforcement-learning-6/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          增强学习简介（六）：策略梯度实例
-        
-      </div>
-    </a>
   
-  
-    <a href="/2019/12/30/introduce-reinforcement-learning-4/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">增强学习简介（四）：DQN实战</div>
+    <a href="/2019/12/30/introduce-reinforcement-learning-5/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">增强学习简介（五）：策略梯度Policy Gradient</div>
       <i class="icon-circle-right"></i>
     </a>
   

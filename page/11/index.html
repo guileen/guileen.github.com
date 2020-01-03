@@ -144,6 +144,85 @@
       <div class="body-wrap">
         
   
+    <article id="post-for-each-file-in-makefile" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/09/30/for-each-file-in-makefile/">For each files in the Makefile</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在构建项目时，时常需要遍历某个文件夹下的文件，按特定的方式将其预处理，变为一个新文件。</p>
+<p>我们可以为此写一个脚本，负责遍历文件夹，处理文件内容，输出文件内容。</p>
+<p>可以看到stackoverflow上的这个<a href="http://stackoverflow.com/questions/2706064/compile-all-c-files-in-a-directory-into-separate-programs" target="_blank" rel="noopener">问题</a>很好的解释了这个问题的应用场景。</p>
+<p>希望将某个目录下的每个c文件编译成一一对应的执行文件，x.c 编译成 x， y.c 编译成 y。</p>
+<pre><code>SRCS = $(wildcard *.c)
+PROGS = $(patsubst %.c,%,$(SRCS))
+
+all: $(PROGS)
+
+%: %.c
+        $(CC) $(CFLAGS)  -o $@ $&lt;</code></pre><p>如果没明白发生了什么，通过下面的例子大家应该可以明白。</p>
+<p>Makefile:</p>
+<pre><code>SRCS = $(wildcard a.txt)
+DESTS = $(patsubst %.txt, %.json, $(SRCS))
+
+all: $(DESTS)
+
+%: *.txt
+    @echo $@
+    @echo $&lt;</code></pre><p>在命令行下执行</p>
+<pre><code>touch a.txt b.txt c.txt
+make</code></pre><p>将会输出</p>
+<pre><code>a.txt
+a.json
+b.txt
+b.json
+c.txt
+c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个目录下的 .csv 文件编译成 .json, 这一方法不仅能简化csv to json 脚本，还可以实现类似，仅当csv文件比json文件更新的情况下才需要编译。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/09/30/for-each-file-in-makefile/" class="archive-article-date">
+  	<time datetime="2013-09-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-09-30</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CI/" rel="tag">CI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/makefile/" rel="tag">makefile</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-something-about-reliable-udp" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -646,75 +725,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/" rel="tag">game-dev</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-how-to-enable-fenced-code-block-on-github-pages" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/17/how-to-enable-fenced-code-block-on-github-pages/">How to enable fenced code block in github pages</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://github.com/blog/1366-github-pages-updated-to-jekyll-0-12-0" target="_blank" rel="noopener">Github pages最近升级了jekyll 0.12.0</a>, 这一版本支持fenced code block.</p>
-<p>in your _config.yml</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">markdown:</span> <span class="string">redcarpet</span></span><br></pre></td></tr></table></figure>
-
-<pre><code><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span></span></span><br><span class="line">  puts <span class="string">'foo'</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></code></pre><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span></span></span><br><span class="line">    puts <span class="string">'foo'</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; &quot;&#123;%&quot; &#125;&#125; highlight ruby linenos&#x3D;table %&#125;</span><br><span class="line">def foo</span><br><span class="line">  puts &#39;foo&#39;</span><br><span class="line">end</span><br><span class="line">&#123;&#123; &quot;&#123;%&quot; &#125;&#125; endhighlight %&#125;</span><br></pre></td></tr></table></figure>
-<p>to:</p>
-
-{% highlight ruby linenos=table %}
-def foo
-  puts 'foo'
-end
-{% endhighlight %}
-
-
-<p>如你所见，鄙人想增加行号，但是失败了。</p>
-<p>非常遗憾的是，tag pages依然不被支持</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/17/how-to-enable-fenced-code-block-on-github-pages/" class="archive-article-date">
-  	<time datetime="2013-03-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-17</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/generator/" rel="tag">generator</a></li></ul>
 	</div>
 
       

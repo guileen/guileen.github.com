@@ -144,6 +144,70 @@
       <div class="body-wrap">
         
   
+    <article id="post-redis-transaction" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/04/10/redis-transaction/">Redis事务</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Redis不支持Rollback，但是redis有更轻量的方法满足常见的我们对事务需求。</p>
+<p>我们有时需要对数据同时进行一批修改，这些操作应该同时被修改成功。Redis提供了Multi和Exec来实现批量操作。</p>
+<p>比如，点赞这个操作，需要在文章点赞用户列表中增加一个用户，同时要给文章点赞数加1，可以用如下命令来完成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">MULTI</span><br><span class="line">SADD user:tom:vote:posts 123    &#x2F;&#x2F; TOM 赞了123</span><br><span class="line">SADD post:123:voters tom   &#x2F;&#x2F; 123 被 TOM赞了</span><br><span class="line">INCR post:123:votecount  &#x2F;&#x2F; 123 点赞数＋1</span><br><span class="line">EXEC</span><br></pre></td></tr></table></figure>
+
+<p>如果我们要求一人只能对一篇文章赞一次，那我们必须在客户端增加一个判断。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">if SISMEMBER user:tom:vote:posts 123 </span><br><span class="line">MULTI</span><br><span class="line">SADD user:tom:vote:posts 123 </span><br><span class="line">SADD post:123:voters tom</span><br><span class="line">INCR post:123:votecount</span><br><span class="line">EXEC</span><br><span class="line">endif</span><br></pre></td></tr></table></figure>
+
+<p>但上面但代码存在着一个bug，假设tom非常快连续两次对同一文章点赞，两次 SISMEMBER 都判断为false，则这篇文章会被tom赞两次。redis提供了WATCH命令来实现这个功能。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">WATCH user:tom:vote:posts</span><br><span class="line">if SISMEMBER user:tom:vote:posts 123 </span><br><span class="line">MULTI</span><br><span class="line">SADD user:tom:vote:posts 123 </span><br><span class="line">SADD post:123:voters tom</span><br><span class="line">INCR post:123:votecount</span><br><span class="line">EXEC</span><br><span class="line">endif</span><br></pre></td></tr></table></figure>
+
+<p>在 WATCH和EXEC之间，被WATCH的key如果发生了修改，那么EXEC将会自动放弃。WATCH user:tom:vote:posts 表示，tom如果同一时刻又赞了一篇文章，那么本次操作将失败。</p>
+<p>除此之外，Redis的lua script也是事务性的。更详细的资料可以参考<a href="http://redis.io/topics/transactions" target="_blank" rel="noopener">这里</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/04/10/redis-transaction/" class="archive-article-date">
+  	<time datetime="2015-04-09T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-04-10</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-idempotent-rpc" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -768,66 +832,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data-format/" rel="tag">data-format</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-architect-for-testing" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/02/10/architect-for-testing/">为测试而架构</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>软件架构的目标是什么？为了解耦？解耦的目标是为了什么？为了测试！</p>
-<p>所以我意识到软件架构的根本目标是为了测试。如果代码是可测试的，那么这个软件架构就是好的，如果这个软件架构是难以测试的，那么就是垃圾。</p>
-<p>定理：软件架构质量=最大测试覆盖率</p>
-<p>一个不健壮的难以维护的软件架构，也必然是难以测试的，他所能达到的最大测试覆盖率必然是很低的。</p>
-<p>一个测试覆盖率高的软件架构，其模块必然是解耦的，因此也必然是灵活的，必然是一个高质量的软件架构。</p>
-<h2 id="常见架构"><a href="#常见架构" class="headerlink" title="常见架构"></a>常见架构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">--------------------------</span><br><span class="line">* APP UI, API </span><br><span class="line">-------------------|------</span><br><span class="line">Service       |         |</span><br><span class="line">Facility      - Context |</span><br><span class="line">ORM           |         |</span><br><span class="line">--------------|         |</span><br><span class="line">* 配置        |         |</span><br><span class="line">--------------------------</span><br></pre></td></tr></table></figure>
-
-
-
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/02/10/architect-for-testing/" class="archive-article-date">
-  	<time datetime="2015-02-09T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-02-10</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li></ul>
 	</div>
 
       
