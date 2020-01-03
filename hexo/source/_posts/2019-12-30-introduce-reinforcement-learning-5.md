@@ -72,8 +72,8 @@ DQN证明了深度学习在增强学习中的可行性。深度学习可以将�
 - 随机初始化\`theta\`
 - 生成一个完整的策略\`pi_theta\`的轨迹: \`S1,A1,R2,S2,A2,…,ST\`。
 - For t=1, 2, … , T:
-  - \` G_t = sum_(i=0)^(oo) gamma^i R_(t+i+1) \`
-  - \` theta larr theta + alpha gamma^t G_t ln pi_theta (A_t|S_t) \`
+  - \` v_t = sum_(i=0)^(oo) gamma^i R_(t+i+1) \`
+  - \` theta larr theta + alpha v_t ln pi_theta (A_t|S_t) \`
 
 参考：
 [Lilian Weng:Policy Gradient Algorithms](https://lilianweng.github.io/lil-log/2018/04/08/policy-gradient-algorithms.html)
