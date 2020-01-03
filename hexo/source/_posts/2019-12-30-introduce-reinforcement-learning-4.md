@@ -2,6 +2,7 @@
 title: 增强学习简介（四）：DQN实战
 date: 2019-12-30 14:37:03
 tags:
+categories: AI
 ---
 
 我们在上文简述了DQN算法。此文以PyTorch来实现一个DQN的例子。我们的环境选用[CartPole-v1](https://gym.openai.com/envs/CartPole-v1/)。我们的输入是一幅图片，动作是施加一个向左向右的力量，我们需要尽可能的保持木棍的平衡。
