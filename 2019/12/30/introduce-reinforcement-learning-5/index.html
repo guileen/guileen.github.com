@@ -16,7 +16,7 @@
 <meta property="og:description" content="DQN证明了深度学习在增强学习中的可行性。深度学习可以将复杂的概念隐含在网络之中。但是DQN并没有将所有的概念都隐含在网络之中，只是把Q值的计算放在了网络之中，比如&#96;epsilon-greedy&#96;动作选择策略。因为如何选择动作和如何通过Q值计算出目标值，都是DQN所面临的问题，而Q值的目的也是为了选择动作。我们可以将增加学习的问题简化为选择动作的问题。那么我们可否使用深度学习直接做出动作选择呢？显">
 <meta property="og:image" content="http://guileen.github.io/img/rl-5/1.png">
 <meta property="article:published_time" content="2019-12-30T06:37:07.000Z">
-<meta property="article:modified_time" content="2019-12-30T11:10:46.905Z">
+<meta property="article:modified_time" content="2020-01-02T03:19:37.515Z">
 <meta property="article:author" content="桂糊涂">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://guileen.github.io/img/rl-5/1.png">
@@ -189,8 +189,8 @@
 <li>随机初始化`theta`</li>
 <li>生成一个完整的策略`pi_theta`的轨迹: `S1,A1,R2,S2,A2,…,ST`。</li>
 <li>For t=1, 2, … , T:<ul>
-<li>` G_t = sum_(i=0)^(oo) gamma^i R_(t+i+1) `</li>
-<li>` theta larr theta + alpha gamma^t G_t ln pi_theta (A_t|S_t) `</li>
+<li>` v_t = sum_(i=0)^(oo) gamma^i R_(t+i+1) `</li>
+<li>` theta larr theta + alpha v_t ln pi_theta (A_t|S_t) `</li>
 </ul>
 </li>
 </ul>
