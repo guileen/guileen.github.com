@@ -2,23 +2,30 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
-    <loc>http://guileen.github.io/2020/01/03/introduce-reinforcement-learning-6/</loc>
+    <loc>http://guileen.github.io/2019/12/27/introduce-reinforcement-learning-1/</loc>
     
-    <lastmod>2020-01-03T08:09:29.661Z</lastmod>
+    <lastmod>2020-01-03T15:38:11.056Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://guileen.github.io/2019/12/30/introduce-reinforcement-learning-5/</loc>
     
-    <lastmod>2020-01-03T07:54:44.667Z</lastmod>
+    <lastmod>2020-01-03T09:32:49.981Z</lastmod>
     
   </url>
   
   <url>
     <loc>http://guileen.github.io/2019/12/30/introduce-reinforcement-learning-4/</loc>
     
-    <lastmod>2020-01-03T06:40:08.156Z</lastmod>
+    <lastmod>2020-01-03T09:26:21.490Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2020/01/03/introduce-reinforcement-learning-6/</loc>
+    
+    <lastmod>2020-01-03T09:26:04.672Z</lastmod>
     
   </url>
   
@@ -33,13 +40,6 @@
     <loc>http://guileen.github.io/2019/12/27/introduce-reinforcement-learning-2/</loc>
     
     <lastmod>2019-12-27T10:37:57.211Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://guileen.github.io/2019/12/27/introduce-reinforcement-learning-1/</loc>
-    
-    <lastmod>2019-12-27T09:57:48.329Z</lastmod>
     
   </url>
   

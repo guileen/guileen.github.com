@@ -154,7 +154,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2020/01/03/introduce-reinforcement-learning-6/">增强学习简介（六）：策略梯度实例</a>
+      <a class="article-title" href="/2020/01/03/introduce-reinforcement-learning-6/">强化学习简介（六）：策略梯度实例</a>
     </h1>
   
 
@@ -190,7 +190,7 @@
 <p>这个损失函数的形式可以帮助我们更好的理解策略梯度的原理。如果一个动作价值为负值，但是其选择概率为正，则损失较大。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">loss = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> np.random.choice(size, n):</span><br><span class="line">    loss.append(- values[i] * log_probs[i])</span><br><span class="line">loss = torch.cat(loss).sum()</span><br><span class="line"></span><br><span class="line">optimizer.zero_grad()</span><br><span class="line">loss.backward()</span><br><span class="line"><span class="keyword">for</span> param <span class="keyword">in</span> policy_net.parameters():</span><br><span class="line">    param.grad.data.clamp_(<span class="number">-1</span>, <span class="number">1</span>)</span><br><span class="line">optimizer.step()</span><br></pre></td></tr></table></figure>
 
-<h2 id="训练循环"><a href="#训练循环" class="headerlink" title="训练循环"></a>训练循环</h2><p>训练循环需要在一局结束之后进行。</p>
+<h2 id="训练循环"><a href="#训练循环" class="headerlink" title="训练循环"></a>训练循环</h2><p>训练循环需要在一局结束之后进行。并清除rewards、log_probs缓存。对于cartpole-v1环境，要注意他的每一步奖励都是1，很显然在最后一步代表着游戏失败，我们需要施加一定的惩罚，我们将最后一步的奖励设为-100。</p>
 <figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">num_episodes = <span class="number">5000</span></span><br><span class="line"><span class="keyword">for</span> i_episode <span class="keyword">in</span> range(num_episodes):</span><br><span class="line">    state = env.reset()</span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> count():</span><br><span class="line">        action = select_action(state)</span><br><span class="line">        <span class="keyword">if</span> i_episode % <span class="number">2000</span> == <span class="number">0</span>:</span><br><span class="line">            env.render()</span><br><span class="line">        next_state, reward, done,_ = env.step(action.item())</span><br><span class="line">        <span class="keyword">if</span> done:</span><br><span class="line">            reward = <span class="number">-100</span></span><br><span class="line">        rewards.append(reward)</span><br><span class="line">        state = next_state</span><br><span class="line">        <span class="keyword">if</span> done <span class="keyword">or</span> t &gt;= <span class="number">2500</span>:</span><br><span class="line">            optimize_model()</span><br><span class="line">            print(<span class="string">'EP'</span>, i_episode)</span><br><span class="line">            episode_durations.append(t+<span class="number">1</span>)</span><br><span class="line">            plot_durations()</span><br><span class="line">            rewards = []</span><br><span class="line">            log_probs = []</span><br><span class="line">            <span class="keyword">break</span></span><br></pre></td></tr></table></figure>
 
 <p><img src="/files/cart-pg.png" alt="Clamp"></p>
@@ -238,7 +238,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/30/introduce-reinforcement-learning-5/">增强学习简介（五）：策略梯度Policy Gradient</a>
+      <a class="article-title" href="/2019/12/30/introduce-reinforcement-learning-5/">强化学习简介（五）：策略梯度Policy Gradient</a>
     </h1>
   
 
@@ -267,10 +267,11 @@
 <p>所以得出策略梯度最重要的定理：</p>
 <p>` grad_(theta)J(theta)=Err_pi[Q^pi(s,a)grad_theta ln pi_theta(a|s)] `</p>
 <p>其中的`Q^pi(s,a)`也就是状态s的累计收益，可以在一次完整的动作轨迹中累计计算得出。</p>
-<h2 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h2><ul>
+<h2 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h2><p>该算法被称为 REINFORCE</p>
+<ul>
 <li>随机初始化`theta`</li>
 <li>生成一个完整的策略`pi_theta`的轨迹: `S1,A1,R2,S2,A2,…,ST`。</li>
-<li>For t=1, 2, … , T:<ul>
+<li>For t=1, 2, … , T-1:<ul>
 <li>` v_t = sum_(i=0)^(oo) gamma^i R_(t+i+1) `</li>
 <li>` theta larr theta + alpha v_t ln pi_theta (A_t|S_t) `</li>
 </ul>
@@ -320,7 +321,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/30/introduce-reinforcement-learning-4/">增强学习简介（四）：DQN实战</a>
+      <a class="article-title" href="/2019/12/30/introduce-reinforcement-learning-4/">强化学习简介（四）：DQN实战</a>
     </h1>
   
 
@@ -554,7 +555,7 @@
     <div class="article-entry" itemprop="articleBody">
       
         <p>完成图像分类之类的监督学习任务，已经没有特别大的难度。我们希望AI能够帮助我们处理一些更加复杂的任务，比如：下棋、玩游戏、自动驾驶、行走等。这一类的学习任务被称为强化学习。</p>
-<p><img src="/img/rl-1/1.png" alt="强化学习图示"></p>
+<p><img src="/img/rl-1/4.png" alt="强化学习图示"></p>
 <h2 id="K摇臂赌博机"><a href="#K摇臂赌博机" class="headerlink" title="K摇臂赌博机"></a>K摇臂赌博机</h2><p>我们可以考虑一个最简单的环境：一个动作可立刻获得奖励，目标是使每一个动作的奖励最大化。对这种单步强化学习任务，可以设计一个理论模型——“K-摇臂赌博机”。这个赌博机有K个摇臂，赌徒在投入一个硬币后可一选择按下一个摇臂，每个摇臂以一定概率吐出硬币，但这个概率赌徒并不知道。赌徒的目标是通过一定的策略最大化自己的奖赏，即获得最多的硬币。最终所获得的总奖励被称为累计奖励。</p>
 <p><img src="/img/rl-1/2.jpg" alt="K摇臂赌博机"></p>
 <p>对于这个简单模型，若要知道每个摇臂的概率，我们只需要进行足够多的尝试即可，这是“仅探索”策略；若要奖励最大化，则需要执行奖赏概率最大的动作即可，这是“仅利用”策略。但在更复杂的环境中，我们不可能对每一个状态的每个动作都进行足够多的探索。比如围棋，我们后续的探索是需要依赖于之前的探索的。因此我们需要在探索和利用之间进行平衡。我们在学习的过程中，必须要保持一定的概率`epsilon`进行探索，其余时候则执行学习到的策略。</p>
