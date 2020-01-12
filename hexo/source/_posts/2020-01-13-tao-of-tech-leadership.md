@@ -1,7 +1,7 @@
 ---
 title: 关于领导力的一些思考
 date: 2020-01-13 00:19:58
-categories: [领导力,随笔]
+categories: 领导力
 ---
 
 
