@@ -84,6 +84,7 @@ theme_config:
 # Header
   menu:
     主页: /
+    领导力: /categories/领导力
     AI: /categories/AI
     随笔: /categories/随笔
 
