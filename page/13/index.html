@@ -148,67 +148,6 @@
       <div class="body-wrap">
         
   
-    <article id="post-install-gitlab" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/04/install-gitlab/">安装gitlab</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>跟着安装文档一步步的安装，但是遇到了几个坑。</p>
-<ol>
-<li><p>文档中给的 ruby 安装脚本有问题，要安装最新版的ruby。</p>
-</li>
-<li><p>nginx 安装好后，要删掉site-enabled/default.<br>第一次可能会有 502 bad gameway，多试两次，多等一会就好。</p>
-</li>
-<li><p>修改 <code>/home/git/.gitolite.rc</code> 的 <code>GIT_CONFIG_KEYS</code>, 从 <code>&#39;&#39;</code> 改为 <code>&#39;.*&#39;</code>，否则无法创建新项目。</p>
-<p> GIT_CONFIG_KEYS             =&gt;  ‘.*’,</p>
-</li>
-</ol>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/04/install-gitlab/" class="archive-article-date">
-  	<time datetime="2013-03-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-04</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
     <article id="post-lua-tools" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
