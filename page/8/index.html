@@ -148,60 +148,6 @@
       <div class="body-wrap">
         
   
-    <article id="post-use-protobuf-on-unity3d" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/10/use-protobuf-on-unity3d/">use-protobuf-on-unity3d</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在Mac下编译protobuf-net遇到了很多问题，最终还是选择了下载预编译好的版本。</p>
-<p><a href="http://guileen.github.io/upload/protobuf-net-r668.zip">protobuf-net下载</a></p>
-<p>下一次再介绍我是如何用protobuf编写RPC的。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/03/10/use-protobuf-on-unity3d/" class="archive-article-date">
-  	<time datetime="2015-03-09T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-10</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data-format/" rel="tag">data-format</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
     <article id="post-architect-for-testing" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -785,6 +731,86 @@
 	<a class="article-category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
 	</div>
 
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-web-front-end-is-a-mess" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/07/25/web-front-end-is-a-mess/">web前端脏乱差及其解决之道</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="这是一个软件工程问题"><a href="#这是一个软件工程问题" class="headerlink" title="这是一个软件工程问题"></a>这是一个软件工程问题</h2><p>先吐槽一下，遇到许多所谓“软件工程师”，根本没有“软件工程”的概念，make，ant，持续集成，自动化测试，一概无视，这样的人只能称码农，不能叫软件工程师。<br>很多牛逼的软件工程师喜欢自称程序员，导致很多菜鸟认为会写程序就足够了，殊不知“programmer”、“coder”是牛人们的谦称————不懂软件工程之人不足与之论代码。</p>
+<h2 id="Web前端脏乱差"><a href="#Web前端脏乱差" class="headerlink" title="Web前端脏乱差"></a>Web前端脏乱差</h2><p>Web前端长期以来很混乱，虽然不断的有人用各种框架，工具来改善前端开发过程，web前端依然让人感觉脏乱差。究其原因有三：</p>
+<ul>
+<li>javascript语言层面缺乏包机制。这是requirejs之类所试图解决的问题</li>
+<li>web前端包管理机制问题复杂，不仅需要考虑js，还要考虑css和html。这是bower试图解决的问题</li>
+<li>有合并、压缩的需求，虽然有很多工具很好的完成了压缩的工作，但合并一直缺乏优雅的方案。</li>
+</ul>
+<h2 id="前端社区割裂"><a href="#前端社区割裂" class="headerlink" title="前端社区割裂"></a>前端社区割裂</h2><p>基于前面说到的一些问题，导致社区产生了大量风格迥异的js代码。这些代码也许可以一起很好的工作，但将错就错的行为让社区更加混乱。</p>
+<p>这过程中产生了一些子社区，比如jquery，这导致了javascript社区的分裂。<br>Argular试图重新定义前端开发的整个流程，google一直在尝试让web前端的开发过程变得像传统软件开发一样清晰，比如GWT和Dart。<br>Argular取得了一定的成功，但依然有不少web工程师对Argular比较抵触。<br>所有试图以框架来解决web开发问题的，最终的结局要么是消亡，要么是割裂。</p>
+<h2 id="解决之道"><a href="#解决之道" class="headerlink" title="解决之道"></a>解决之道</h2><p>正确的选择只有一条，就像其他编程语言一样：</p>
+<ul>
+<li>统一社区风格, 利用社区的力量。</li>
+<li>不应该让整个社区依赖某一个框架，我们只需要制定行业标准。</li>
+</ul>
+<p>目前有些工具在解决这些问题：</p>
+<ul>
+<li><a href="http://bower.io/" target="_blank" rel="noopener">Bower</a> 是包管理工具</li>
+<li><a href="http://gruntjs.com/" target="_blank" rel="noopener">grunt</a>是构建工具</li>
+<li>CMD, AMD的一堆工具</li>
+<li><a href="https://github.com/component/component" target="_blank" rel="noopener">component</a>则是既包含包管理，也包含简单的构建，同时component还是一个CMD工具。</li>
+</ul>
+<p>我个人认为component是目前最好的解决方案。因为 component 包含了 bower + grunt + requirejs 的主要功能，而我们没空去学那么多乱七八糟的工具。</p>
+<p>有人可能会问，component的存在是否也会造成前端社区的割裂？component要做的不是框架，而是社区标准，所以component的存在不会造成社区的割裂，只会让社区更加繁荣。</p>
+<p>component 社区虽然也可以兼容jquery这样的框架，但这不是component所推荐的做法。component的风格是大量的小型的库，比如superagent, eacape-html, dom，每个库只做一件明确的事情。</p>
+<h2 id="后记"><a href="#后记" class="headerlink" title="后记"></a>后记</h2><p>感谢TJ holowaychuk，给我们带来了太多美好的东西。不过自从TJ转投Go语言社区后，似乎是被Go社区”从语言层面解决软件工程问题”的哲学所感染，给component的发展带来了一些不确定性。目前component的官方网站<a href="http://component.io" target="_blank" rel="noopener">component.io</a>已经无法访问。TJ 在component的<a href="https://github.com/component/component/issues/587" target="_blank" rel="noopener">一条issue</a>中表达了自己的一些观点：“遗留的npm/browserify是最坏的东西，说实在的Go的方法好多了，只要ES6的module loaders可以玩了。Browserify最终会玩完，所有的都会哈哈，长期来看，他们都不管用，构建一点都不好玩”</p>
+<p>原文</p>
+<blockquote>
+<p>The rest of npm/browserify is mostly bad stuff, a Go approach would be much better IMO, once ES6 module loaders are in play. Browserify will eventually die out too, they all will haha, long-term none of them make sense, builds are no fun</p>
+</blockquote>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/07/25/web-front-end-is-a-mess/" class="archive-article-date">
+  	<time datetime="2014-07-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-07-25</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/engineering/" rel="tag">engineering</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
+	</div>
+
+      
 
       <div class="clearfix"></div>
     </div>

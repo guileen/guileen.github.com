@@ -148,62 +148,6 @@
       <div class="body-wrap">
         
   
-    <article id="post-etag-vs-lastmodified-vs-expire" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/01/28/etag-vs-lastmodified-vs-expire/">Etag与Last-Modified以及浏览器永久缓存的比较</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Etag 和 Last-Modified 的功效类似，但是Etag出现较晚。</p>
-<p>Last-Modified 适合静态文件。</p>
-<p>Etag 适合动态内容的变更。</p>
-<p>永久缓存。。。这只适合类似图片、视频等内容。对js，css等静态文件可以通过加版本号的方式来永久缓存之。</p>
-<p>xxx.js?etag=12345 这种方式来永久缓存</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2014/01/28/etag-vs-lastmodified-vs-expire/" class="archive-article-date">
-  	<time datetime="2014-01-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-01-28</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
     <article id="post-for-each-file-in-makefile" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -717,6 +661,69 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
       
       <a href="/2013/03/23/game-gambling-design/" class="archive-article-date">
   	<time datetime="2013-03-22T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-23</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/" rel="tag">game-dev</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-game-server-architecture" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/17/game-server-architecture/">Game server architecture</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>✓ Router</li>
+<li>✓ SessionContext </li>
+<li>✓ AppContext</li>
+<li>SuperManager - load player(from online, pool or db), create player</li>
+<li>SessionManager - player online, player offline, send message to other player</li>
+<li>WorldManager - A whole world controller (get player ? find player, get clans)</li>
+<li>✕ RoomManager sub world?</li>
+<li>✕ RoomNodeManager Room is tree?</li>
+<li>✓ PlayerWritePool -<br>PlayerCache - </li>
+<li>✓ PlayerStore - </li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/17/game-server-architecture/" class="archive-article-date">
+  	<time datetime="2013-03-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-17</time>
 </a>
       
 	<div class="article-tag tagcloud">
