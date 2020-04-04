@@ -1,11 +1,16 @@
 import env
 import random
 from util import getch
-game = env.Game2048(4,4)
+game = env.Game2048(8,8)
+
+for i in range(8):
+  for j in range(8):
+    game.map[i][j] = 2**(i*8+ (i%2==0 and j+1 or 8-j) -1)
+game.map[0][0] = 2
 game.render()
 i=0
 t=0
-while True:
+while False:
   # for i in range(32):
   #   print(fmtnum(pow(2, i)))
   # break

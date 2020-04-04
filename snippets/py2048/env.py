@@ -53,9 +53,18 @@ def fmtnum(n, is_new=False):
   elif n < 1000000000:
     unit = 'M'
     n //= 0x100000
-  else:
+  elif n < 1000000000000:
     unit = 'G'
     n //= 0x40000000
+  elif n < 1000000000000000:
+    unit = 'T'
+    n //= 0x10000000000
+  elif n < 1000000000000000000:
+    unit = 'P'
+    n //= 0x4000000000000
+  else:
+    unit = 'Z'
+    n //= 0x100000000000000
   s = '%d' % n
   l = (3-len(s))//2
   s = ' ' * (3 - len(s)-l) + s + unit + ' ' * l
@@ -166,13 +175,16 @@ class Game2048:
     return [math.log(self.map[i][j] or 1, 2) for j in range(self.w) for i in range(self.h)]
 
   def reset(self):
+    self.moved_step = 0
     self.map = [[0 for j in range(self.w)] for i in range(self.h)]
     self.randnum()
     return self.get_state()
 
   def randnum(self):
+    self.moved_step += 1
     self.new_pos.clear()
     empty = []
+    total = 0
     for i in range(self.h):
       for j in range(self.w):
         if self.map[i][j] == 0:
@@ -182,7 +194,10 @@ class Game2048:
         n = random.randint(0, len(empty) - 1)
         pt = empty.pop(n)
         self.new_pos.append(pt)
-        self.map[pt[0]][pt[1]] = random.random() > 0.1 and 2 or 4
+        num = random.random() > 0.1 and 2 or 4
+        self.map[pt[0]][pt[1]] = num
+        total += num
+    return total
 
   def is_done(self):
     for i in range(self.h):
@@ -198,9 +213,10 @@ class Game2048:
 
   def step(self, a):
     moved = self.move(a)
+    add_num = 0
     if moved:
-      self.randnum()
-    return self.get_state(), moved and 1 or 0, self.is_done(), 0
+      add_num = self.randnum()
+    return self.get_state(), moved and add_num or 0, self.is_done(), 0
 
   def render(self):
     pos = self.new_pos

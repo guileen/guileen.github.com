@@ -1,4 +1,5 @@
 from collections import namedtuple
+from os import path
 import random
 import math
 import numpy as np
@@ -16,7 +17,7 @@ from torch.distributions.categorical import Categorical
 
 from env import Game2048
 
-env = Game2048(4,4)
+env = Game2048(8,8)
 
 class PolicyNet(nn.Module):
     def __init__(self, input_size, h1, h2, outputs):
@@ -46,6 +47,11 @@ steps_done = 0
 
 log_probs = []
 rewards = []
+
+PKL_FILE = 'pg_param.pkl'
+
+if path.exists(PKL_FILE):
+  policy_net.load_state_dict(torch.load(PKL_FILE))
 
 def select_action(state):
     x = torch.unsqueeze(torch.FloatTensor(state),0)
@@ -109,15 +115,15 @@ for i_episode in range(num_episodes):
     for t in count():
         action = select_action(state)
         next_state, reward, done,_ = env.step(action.item()+1)
-        if sub_episode % 10 == 0:
+        if t%100 == 0:
             env.render()
         if done:
           reward = -1000+t
         elif reward==0:
           # 非法移动，视同失败
           reward = -1000
-        else:
-          reward = math.log(t+1,2)
+        # else:
+        #   reward = math.log(t+1,2)
         # for num in next_state:
         #   if num != 0:
         #     reward += 0.1
@@ -126,6 +132,7 @@ for i_episode in range(num_episodes):
         # if done or (t>=1000 and t % 1000 == 0) and len(rewards)>1:
         if done:
             optimize_model()
+            torch.save(policy_net.state_dict(), PKL_FILE)
             sub_episode += 1
             print('EP', i_episode, sub_episode)
             # episode_durations.append(t+1)
