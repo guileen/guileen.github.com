@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://guileen.github.io/2020/04/05/limitation-of-rl-in-long-term/</loc>
+    
+    <lastmod>2020-04-04T16:43:34.648Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://guileen.github.io/2019/12/27/introduce-reinforcement-learning-1/</loc>
     
     <lastmod>2020-01-03T15:38:11.056Z</lastmod>

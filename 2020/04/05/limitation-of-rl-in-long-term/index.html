@@ -6,16 +6,21 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://guileen.github.io">
-  <title>Archives | 桂糊涂的博客</title>
+  <title>强化学习在长时间运行系统中的限制 | 桂糊涂的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="桂糊涂的博客">
-<meta property="og:url" content="http://guileen.github.io/archives/page/10/index.html">
+  <meta name="description" content="近日尝试使用强化学习解决8x8大小的2048游戏。游戏环境是一个8x8的方格，环境每回合随机生成2个方块，方块的值为2或4，AI的决策空间是上、下、左、右四个操作，所有方块都将向所指示的方向堆叠，如果两个相邻的值相同方块在堆叠方向挤压，则这两个方块合并为1个方块，值是两个方块值的和。如果任何方向都无法移动方块，则游戏结束。游戏的目标是尽可能久的玩下去，合并出最大的方块。 最初我尝试用PG来训练这个">
+<meta property="og:type" content="article">
+<meta property="og:title" content="强化学习在长时间运行系统中的限制">
+<meta property="og:url" content="http://guileen.github.io/2020/04/05/limitation-of-rl-in-long-term/index.html">
 <meta property="og:site_name" content="桂糊涂的博客">
-<meta property="og:description" content="Description">
+<meta property="og:description" content="近日尝试使用强化学习解决8x8大小的2048游戏。游戏环境是一个8x8的方格，环境每回合随机生成2个方块，方块的值为2或4，AI的决策空间是上、下、左、右四个操作，所有方块都将向所指示的方向堆叠，如果两个相邻的值相同方块在堆叠方向挤压，则这两个方块合并为1个方块，值是两个方块值的和。如果任何方向都无法移动方块，则游戏结束。游戏的目标是尽可能久的玩下去，合并出最大的方块。 最初我尝试用PG来训练这个">
+<meta property="og:image" content="http://guileen.github.io/img/2048/pg.gif">
+<meta property="og:image" content="http://guileen.github.io/img/2048/perfect.png">
+<meta property="article:published_time" content="2020-04-04T16:43:34.000Z">
+<meta property="article:modified_time" content="2020-04-04T16:43:34.648Z">
 <meta property="article:author" content="桂糊涂">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://guileen.github.io/img/2048/pg.gif">
   
     <link rel="alternative" href="/atom.xml" title="桂糊涂的博客" type="application/atom+xml">
   
@@ -146,346 +151,108 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-limitation-of-rl-in-long-term" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
+    <h1 class="article-title" itemprop="name">
+      强化学习在长时间运行系统中的限制
+    </h1>
   
+
+      </header>
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>近日尝试使用强化学习解决8x8大小的2048游戏。游戏环境是一个8x8的方格，环境每回合随机生成2个方块，方块的值为2或4，AI的决策空间是上、下、左、右四个操作，所有方块都将向所指示的方向堆叠，如果两个相邻的值相同方块在堆叠方向挤压，则这两个方块合并为1个方块，值是两个方块值的和。如果任何方向都无法移动方块，则游戏结束。游戏的目标是尽可能久的玩下去，合并出最大的方块。</p>
+<p>最初我尝试用PG来训练这个看似简单的游戏。每一步，都视为1点奖励，如果失败则给予-1000惩罚。算法很快习得了一个偷懒的方法，每一步都进行无效的移动，以此来苟延残喘。于是将无效的移动操作，视为重大的失误，也同样给予-1000的惩罚。算法很快学会了在一个局面下的有效移动操作。但这个游戏，哪怕只是随机的移动也能够取得一个普通的结果，如果要突破极限，则需要使用一些特殊的策略，我期待算法是否能在训练中学会这些策略。</p>
+<p><img src="/img/2048/pg.gif" alt="初次训练，类似随机运动"></p>
+<p>对于这个游戏，达到2048，需要大约500次移动，达到4096，则需要1000，达到1M，也就大约需要20多万次移动，达到4M，则需要上百万次移动。每到达一个新的难度，面临的局面都不同，之前所习得的经验就不一定继续有效了。2048游戏是一个比围棋要简单很多的游戏，围棋拥有更多的选点，2048只有4个操作选择。他们的主要区别在于围棋一般在100多手内结束，而2048的游戏时间则近乎无限长。理想的游戏结果如下图所示：</p>
+<p><img src="/img/2048/perfect.png" alt=""></p>
+<p>这一游戏是存在理想玩法的，经过很多局的游戏，我已总结出一些经验。但是这些经验是感性的，很难使用逻辑规则表达出来，很多时候是凭直觉的。我手段操作达到了512K的结果，虽然我依然可以挑战更高的游戏记录，但显然我不能将如此多的时间浪费在滑动手指上。这也是我要编程解决这个问题的初衷，但是强化学习算法，只能在一次次的失败中得到教训，可是这个游戏的特点是，训练的越好，游戏时间越长，获得失败经验的成本就越大。所以无论该算法在理论上是多么的正确，但在实际操作过程中已经变得不可行了。</p>
+<p>DQN、PG等强化学习算法的基本过程是根据系统给予的奖励，努力最大化收益。但是对于一个没有明确获胜终点的系统，如果验证训练结果的有效性却是一个非常大的问题。由于强化学习本质上是通过过往的经验来调整自己的策略的，如果有明显的获胜路径，则算法可以有充分的胜利经验可供借鉴。但如果目标是永远安全的运行下去，没有获胜的路径，只有失败的惩罚，那么算法只能在有限的教训中得到学习。假设我们正在训练一个自动飞行系统，获取每一个经验教训的成本都非常巨大，强化学习在这一方面的应用，必须要搭配一些人类的理性评估作为辅助，但是将人类的意识转化为可以实施的程序逻辑又是非常复杂的事情。</p>
+<p>如果我们训练的是一个自动驾驶系统呢？在未来无人驾驶会应用的越来越多。无人驾驶的安全性会很快超越人类，随即人们期望可以进一步提升驾驶的平均速度或其他一些智能驾驶的指标。因为无人驾驶的安全性已经超越了人类，所以无法再依赖于人类的驾驶经验给予其帮助，只能依赖于自身驾驶中的经验（尤其是事故）作为训练依据。那么这时这个系统还可能是安全的吗？</p>
+<p>在未来的相关强化学习领域，一个好的环境模拟系统、事故全息信息的采集和共享系统，才是提升人工智能的关键，而不是算法。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2020/04/05/limitation-of-rl-in-long-term/" class="archive-article-date">
+  	<time datetime="2020-04-04T16:43:34.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-04-05</time>
+</a>
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2014" class="archive-year">2014</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/03/25/about-apk/" class="archive-article-date">
-  	<time datetime="2014-03-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/03/25/about-apk/">About APK</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/" rel="tag">android</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/03/19/karam-multi-browser-test-runner/" class="archive-article-date">
-  	<time datetime="2014-03-18T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/03/19/karam-multi-browser-test-runner/">Karam：多瀏覽器平臺的測試工具</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2020/01/03/introduce-reinforcement-learning-6/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">强化学习简介（六）：策略梯度实例</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/03/18/f-shaped-pattern-reading-web-content/" class="archive-article-date">
-  	<time datetime="2014-03-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/03/18/f-shaped-pattern-reading-web-content/">尼爾森F模型</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/marketing/" rel="tag">marketing</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/03/18/write-atom-package/" class="archive-article-date">
-  	<time datetime="2014-03-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/03/18/write-atom-package/">编写atom插件</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/editor/" rel="tag">editor</a></li></ul>
-	</div>
+<div class="duoshuo">
 
-          
+<script type="text/javascript">
+(function(){
+var url = "http://widget.weibo.com/distribution/comments.php?width=0&url=auto&brandline=y&fontsize=12&skin=9&ralateuid=1751113432&appkey=3729652156&iframskin=9&dpc=1";
+url = url.replace("url=auto", "url=" + encodeURIComponent(document.URL));
+document.write('<iframe id="WBCommentFrame" src="' + url + '" scrolling="no" frameborder="0" style="width:100%"></iframe>');
+})();
+</script>
+<script src="http://tjs.sjs.sinajs.cn/open/widget/js/widget/comment.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.WBComment.init({
+    "id": "WBCommentFrame"
+});
+</script>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/03/18/static-site-generator/" class="archive-article-date">
-  	<time datetime="2014-03-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/03/18/static-site-generator/">靜態網站生成器</a>
-    </h1>
-  
+</div>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/03/16/open-source-speech-api/" class="archive-article-date">
-  	<time datetime="2014-03-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-16</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/03/16/open-source-speech-api/">开源语音识别引擎</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/editor/" rel="tag">editor</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/machine-learning/" rel="tag">machine-learning</a></li></ul>
-	</div>
 
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/02/27/svn-migrate-to-git/" class="archive-article-date">
-  	<time datetime="2014-02-26T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-02-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/02/27/svn-migrate-to-git/">遷移svn代碼到git</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svn/" rel="tag">svn</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/02/25/common-app-folders/" class="archive-article-date">
-  	<time datetime="2014-02-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-02-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/02/25/common-app-folders/">通用的項目文件結構</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/" rel="tag">node.js</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/02/25/localstorage-errors/" class="archive-article-date">
-  	<time datetime="2014-02-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-02-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/02/25/localstorage-errors/">LocalStorage的异常处理</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/02/25/linux-commands-you-should-know/" class="archive-article-date">
-  	<time datetime="2014-02-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-02-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/02/25/linux-commands-you-should-know/">你需要知道的Linux命令</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/9/">&amp;laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/8/">8</a><a class="page-number" href="/archives/page/9/">9</a><span class="page-number current">10</span><a class="page-number" href="/archives/page/11/">11</a><a class="page-number" href="/archives/page/12/">12</a><a class="page-number" href="/archives/page/13/">13</a><a class="extend next" rel="next" href="/archives/page/11/">Next &amp;raquo;</a>
-    </nav>
-  
 
 
       </div>
@@ -508,8 +275,8 @@
 		mathjax: true,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
