@@ -14,7 +14,6 @@
 <meta property="og:url" content="http://guileen.github.io/2020/01/03/introduce-reinforcement-learning-6/index.html">
 <meta property="og:site_name" content="桂糊涂的博客">
 <meta property="og:description" content="和第四节DQN的实例一样，我们依然使用CartPole-v1来作为训练环境。策略梯度的网络和DQN的网络结构是类似的，只是在输出层需要做Softmax处理，因为策略梯度的输出本质上是一个分类问题——将某一个状态分类到某一个动作的概率。而DQN网络则是一个回归问题——某一个网络在各个动作的Q值是多少。 1234567891011class PolicyNet(nn.Module):    def _">
-<meta property="og:locale">
 <meta property="og:image" content="http://guileen.github.io/files/cart-pg.png">
 <meta property="article:published_time" content="2020-01-03T06:40:51.000Z">
 <meta property="article:modified_time" content="2020-08-31T07:01:49.034Z">
@@ -32,7 +31,7 @@
 
   
 
-<meta name="generator" content="Hexo 5.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
   <div id="container">
@@ -47,9 +46,11 @@
 		</a>
 
 		<hgroup>
-		  <h1 class="header-author"><a href="/">undefined</a></h1>
+		  <h1 class="header-author"><a href="/">桂糊涂</a></h1>
 		</hgroup>
 
+		
+		<p class="header-subtitle">代码杂记</p>
 		
 
 		<nav class="header-menu">
@@ -105,7 +106,7 @@
       <nav id="mobile-nav">
   	<div class="overlay">
   		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">undefined</h1>
+  		<h1 class="header-author js-mobile-header hide">桂糊涂</h1>
   	</div>
 	<div class="intrude-less">
 		<header id="header" class="inner">
@@ -115,8 +116,10 @@
 				
 			</div>
 			<hgroup>
-			  <h1 class="header-author">undefined</h1>
+			  <h1 class="header-author">桂糊涂</h1>
 			</hgroup>
+			
+			<p class="header-subtitle">代码杂记</p>
 			
 			<nav class="header-menu">
 				<ul>

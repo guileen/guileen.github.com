@@ -14,7 +14,6 @@
 <meta property="og:url" content="http://guileen.github.io/2019/11/01/promise-in-cache-crash/index.html">
 <meta property="og:site_name" content="桂糊涂的博客">
 <meta property="og:description" content="对大多数高并发架构而言，缓存是不可或缺的。在数据持久化层，其核心是保证数据一致性，而吞吐能力往往较弱。而在缓存层，因其逻辑简单，则具备较高的吞吐能力，但为了保证数据的时效性，则必须设置缓存的过期时间。在缓存过期后，程序会从持久化层读取数据，填充缓存。我们通常称这种缓存加载方式为懒加载（lazy load）。 在缓存失效的瞬间，如果突然爆发大量缓存请求，则会导致所有请求穿透至持久化层，给持久化层带来">
-<meta property="og:locale">
 <meta property="og:image" content="http://guileen.github.io/img/promise/1.png">
 <meta property="og:image" content="http://guileen.github.io/img/promise/2.png">
 <meta property="og:image" content="http://guileen.github.io/img/promise/3.png">
@@ -34,7 +33,7 @@
 
   
 
-<meta name="generator" content="Hexo 5.2.0"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
   <div id="container">
@@ -49,9 +48,11 @@
 		</a>
 
 		<hgroup>
-		  <h1 class="header-author"><a href="/">undefined</a></h1>
+		  <h1 class="header-author"><a href="/">桂糊涂</a></h1>
 		</hgroup>
 
+		
+		<p class="header-subtitle">代码杂记</p>
 		
 
 		<nav class="header-menu">
@@ -107,7 +108,7 @@
       <nav id="mobile-nav">
   	<div class="overlay">
   		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">undefined</h1>
+  		<h1 class="header-author js-mobile-header hide">桂糊涂</h1>
   	</div>
 	<div class="intrude-less">
 		<header id="header" class="inner">
@@ -117,8 +118,10 @@
 				
 			</div>
 			<hgroup>
-			  <h1 class="header-author">undefined</h1>
+			  <h1 class="header-author">桂糊涂</h1>
 			</hgroup>
+			
+			<p class="header-subtitle">代码杂记</p>
 			
 			<nav class="header-menu">
 				<ul>
