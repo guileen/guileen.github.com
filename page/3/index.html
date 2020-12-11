@@ -1,0 +1,1116 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://guileen.github.io">
+  <title>桂糊涂的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="桂糊涂的博客">
+<meta property="og:url" content="http://guileen.github.io/page/3/index.html">
+<meta property="og:site_name" content="桂糊涂的博客">
+<meta property="og:description" content="Description">
+<meta property="og:locale">
+<meta property="article:author" content="桂糊涂">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternative" href="/atom.xml" title="桂糊涂的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/avatar.jpg">
+  
+  
+<link rel="stylesheet" href="/main.css">
+
+  
+
+<meta name="generator" content="Hexo 5.2.0"></head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">undefined</a></h1>
+		</hgroup>
+
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+	        
+				<li><a href="/categories/AI">AI</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/guileen" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="https://weibo.com/guileen" title="weibo">weibo</a>
+		        
+					<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+		        
+					<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">undefined</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">undefined</h1>
+			</hgroup>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+		        
+					<li><a href="/categories/AI">AI</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/guileen" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="https://weibo.com/guileen" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-architect-problems" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/24/architect-problems/">问题汇总</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>负责某公司技术以来，遇到了一些问题，汇总一下：</p>
+<ol>
+<li>接口设计问题，错误的接口设计将导致难以避免的问题</li>
+<li>DNS劫持问题，用户网络问题定位困难</li>
+<li>苹果IAP漏单问题</li>
+<li>缓存时间、状态不一致、压力太大、崩溃重启、启动慢问题</li>
+<li>NoSQL选型问题</li>
+<li>数据库负载问题，主从同步问题</li>
+<li>日志监控问题</li>
+<li>服务自动扩容，全球部署问题</li>
+<li>垃圾信息、僵尸账号问题</li>
+<li>IM丢消息，收不到消息问题。</li>
+<li>IM、群聊问题定位、测试困难</li>
+<li>聊天信息存储问题</li>
+</ol>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/24/architect-problems/" class="archive-article-date">
+  	<time datetime="2016-11-24T06:55:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-24</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-bimozhishang" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/24/bimozhishang/">笔墨之殇</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>说点什么好呢？这两天我开始，翻阅以前我读过的书，我发现，有很多的书，只是草草看过，还有一些书，根本没有看过。原来自己有做读书笔记的习惯，可是当我把阅读的时间放到地铁上之后，这个习惯，也随之消失了。以至于我根本不知道这本书，有没有读过。纸质书，可以有记录笔记的空间，而电子书，阅读起来比较方便，我想这就是纸质书和电子书的区别吧！</p>
+<p>以前我总想写点文字。可是我发现自己，写作的速度越来越慢了，也找不到合适的输入法。拼音输入法，当你想打一些，书面语，或者是文言文的时候，就很难输入。而，五笔输入法或者其他的字型输入法，都有一个问题，就是，学起来太麻烦了，我根本记不住那些字码表，而且，当我，去回忆那些字码的时候，我的思路已经被打断了。</p>
+<p>我还是喜欢拿着笔在纸上写字的感觉。在这种状态下，我的思路是最流畅的。</p>
+<p>一直以来，我都想写一两本小说，可是构思了很久，却迟迟没有动笔。自己内心真正想表达的东西，和整个故事的结构，往往存在冲突。我不愿意写一些，没有人想看的东西，但我也不想，完全是为了迎合别人的口味，而写作。</p>
+<p>其实，这并不是什么文章，我这是在测试一种新的输入法，一种，新的写作方式，那就是，直接把我想写的，念出来。你所看到的一切，都是我通过语音输入的。好吧，今天就说到这里，我的脚也泡好了。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/24/bimozhishang/" class="archive-article-date">
+  	<time datetime="2016-11-23T16:16:01.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-24</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gossip/" rel="tag">gossip</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-how-to-learn-computer-sciense" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/21/how-to-learn-computer-sciense/">如何学习编程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="编程入门"><a href="#编程入门" class="headerlink" title="编程入门"></a>编程入门</h2><p>大部分人都是通过某一个原因，喜欢上了编程。同样，你也需要一个理由。也许只是走在路上，忽然有人对你说：“年轻人，我看你天赋异禀，骨骼惊奇，我这里有一套编程秘笈，你想不想学啊”</p>
+<p>入门编程语言，有很多选择，你可以选择python、JS，也可以选择C。比如我自己，是通过Basic语言入门的，也是因为它喜欢上了编程。</p>
+<p>…</p>
+<p>在这一阶段，最容易出现的问题是：Compiler Error，Syntax Error。你还不习惯和计算机进行沟通，你们之间的语言不够顺畅。它听不懂你说什么，当它说Error，你也听不懂它在说什么。你总是很抓狂的问，What’s the Error，一定是计算机出了什么问题，而不是我的代码有任何问题。直到你意识到，计算机没有任何问题，有问题的一定是我的代码，你能够检查你的代码，修复语法错误，恭喜你，你已经入门了。</p>
+<p>这一阶段，你对编程有了感性的认识。你为自己写出来的东西感到骄傲，完全不会注意到其实那些代码其实只是piece of shit。你也会遇到很多的问题，即使你已经查阅到了所需要的知识点，还是无法实现你要的功能。就好像已经把所需要的材料全部交给了你，你却无法用这些材料造出你想造的东西。</p>
+<p>这一段时间，你的灵感泉涌，有很多的想法想要去做，但却又感觉力不从心。你需要开始补充一些基础知识了，难度也要开始增加。</p>
+<h2 id="计算机科学基础"><a href="#计算机科学基础" class="headerlink" title="计算机科学基础"></a>计算机科学基础</h2><p>这是一个非常重要的阶段，这一阶段的学习效果，直接决定了你的技术实力。有些知识，并不会立刻用得上，但是，这些知识，已经潜移默化的影响了你的思维方式。你的任督二脉将在这一阶段打开。</p>
+<h3 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h3><p>算法和数据结构 这是一切程序的基础，你需要恰当的使用这些数据结构，你无法绕开它们。有一些算法，你需要知道它们的原理，这有助于你理解你的代码最终在计算机上是如何运行的。你可能并不需要掌握算法设计的机巧，也不需要去参加一个算法比赛。但你需要理解这些经典算法，记住它们的名字，在你遇到问题时，第一时间想到它们。最终，你可能不需要自己去实现它们，但你需要恰当的使用现有的算法代码。</p>
+<h3 id="设计模式"><a href="#设计模式" class="headerlink" title="设计模式"></a>设计模式</h3><p>函数式编程、面向对象编程，设计模式。这些方面的知识，你也需要掌握，你需要了解如何将自己的代码组织在一起。这就像你拥有了一些积木，你需要了解玩积木的常用技巧。阅读一些书籍或者阅读他人的代码，都是非常好的途径。学习这些知识，就像是学习作画。这些技巧你一看就会明白，但却不能熟练的使用。这里是考验你艺术天分的地方。</p>
+<p>在拥有了以上这些技能后，你已经可以算是一个不错的程序员了。但这些知识可以让你写出很棒的代码，却无法使你的程序有任何的功能。你必须要让你的程序和外界进行交互，它才有存在的价值。</p>
+<h3 id="运行环境"><a href="#运行环境" class="headerlink" title="运行环境"></a>运行环境</h3><p>你的程序如何和外界进行交互？你的程序是运行在一个封闭的环境之中的。想象一下，一只猴子被关进了一个房间中，房间中有一个操作面板，当它按下某个按钮，外界就会发生某件事情，比如说在你的电脑上打开一个新网页。你的程序就是这只猴子，你必须熟悉你的操作面板，有些时候面对一些奇怪的面板故障，你甚至需要了解它的工作原理，以避免发生那些故障。</p>
+<p>网络基础, TCP/IP 协议，HTTP协议，如果你要开发网络应用，这些都是非常重要的基础知识。</p>
+<p>操作系统原理，无论你开发桌面应用、移动应用、嵌入式应用、网络应用、服务器端应用，你都应该对你的程序所运行的环境有足够了解。</p>
+<p>如果你开发的是Web应用，也许你不需要了解操作系统，但你需要了解你的浏览器，它是你的运行环境。</p>
+<p>计算机架构，这个你可以不必知道。但如果你要开发一个操作系统，那么你必须对计算机架构有所了解，还是那句话，你需要了解你的程序所运行的环境。而操作系统所运行的环境就是计算机硬件的体系架构。</p>
+<h2 id="交流"><a href="#交流" class="headerlink" title="交流"></a>交流</h2><p>你需要一个目标，你定下的这个目标可能就是下一个facebook。带着目标学习，这是我所推崇的方式。对于还处于学习阶段的你来说，这是一段幸福的时光。你不必为了生计而学习，你可以纯粹的为了爱好而学习。</p>
+<p>你需要加入开发者交流的社区，加入论坛、QQ群、讨论组、邮件列表。与别人分享你的收获与挫折，社区的氛围也是你继续学习的动力之一。当你遇到难题，可以在社区里提问。但是你应该学习一些提问的智慧，不要做伸手党，这对你的学习不会有任何帮助。你应该至少已经阅读了相关的书籍、资料，并借助搜索引擎（不要使用baidu，中国可以用bing）来寻求答案。记住一点：社区不能给你想要的东西，但社区可以解答你的疑惑。社区是用来交流的，你也可以通过回答别人的问题来提高自己的知识。</p>
+<p>开源社区，也是你获取知识技能的主要来源之一。当你需要某个功能，有人可能已经实现了他，并将他开源在了github（目前最大的开源社区）之类的地方。这些开源项目可以帮助你解决某些细节问题，使你可以更专注在你的主要目标上。对于优秀的开源项目，你可以阅读他们的代码，学习他们的机巧。</p>
+<h2 id="再论运行环境"><a href="#再论运行环境" class="headerlink" title="再论运行环境"></a>再论运行环境</h2><p>如果你仔细体会的话，你会发现，编写代码只占到你学习编程中的很少的一部分时间，而大部分时间，你是在查阅资料。你需要花大量的时间在学习程序的运行环境上，而不是学习编程语言上。运行环境会提供给你很多的编程接口，一般被称之为API。</p>
+<p>我这里所说的运行环境，并不是仅仅指操作系统运行环境，它也可以是浏览器，Java运行环境，Sevlet容器，node.js，unity3D运行环境，flash运行环境，directX，OpenGL，cocos2d游戏开发框架。</p>
+<p>你可能注意到了一点，我将开发框架，视作了一种运行环境。为什么这么说呢？因为框架是对运行环境的再次封装，在框架之上，你将看到更加易用，更加人性化的接口。有一些框架，还额外提供了很多辅助的库，甚至插件机制，让你可以直接使用整个社区贡献的插件。你只需要面对框架编程，借来几个插件，再搭配几个辅助库，就可以完成一个作品。</p>
+<p>你明白了吗？编程就是这么简单！这也是为什么有那么多平庸的程序员的主要原因————他们只懂得在框架之上编程，使用别人写好的现成的代码。<em>可是一旦他所赖以生存的框架或插件或库，出现了任何问题，他们的平庸就会显现</em>。</p>
+<p>如果你是初次接触编程，还不知道什么是开发框架（framework）什么是库（library）的话，没关系，你只需要记住一点：Library决定了你能做什么，framework决定了你不能做什么。如果有一个新的框架，让你眼前一亮，蠢蠢欲动，请保持冷静，先想一想，如果你用了这个框架，你将失去哪些能力，是否是可以接受的？我看过太多的项目因为框架的限制，而不得不使用一些旁门左道来突破框架的限制，从而失去了代码的美感。抑或是自己动手，将框架改的面目全非，完全失去了框架的意义。</p>
+<p>对于初学者，我强烈建议远离框架。框架是一种捷径，但对于一个以学习阶段的人来说，捷径是并不是什么好事。如果你已经有了足够的经验，对你的运行环境足够了解了之后，你应该在你的运行环境之上，寻找一个优秀的框架，学习它的设计思想。更进一步的，你可以搭建一个你自己的框架。我并不反对使用框架，但我反对不求甚解的使用框架。</p>
+<p>修炼是一个长期的过程，即使你已经成为了一名优秀的程序员，你依然需要不断的修炼。记住一点：<em>修炼的捷径就是不走捷径</em>。</p>
+<h2 id="Hack"><a href="#Hack" class="headerlink" title="Hack"></a>Hack</h2><p>你可能想要做一些看起来不可能的事情，这通常是从某个夸张的想法而引起的。Hook、反射，这些略有些高级的技巧。</p>
+<h2 id="软件工程"><a href="#软件工程" class="headerlink" title="软件工程"></a>软件工程</h2><p>你已经找到了你的第一份工作，你加入了一个团队，经过一段时间，你又被提升为了项目组长。你需要开始考虑一些团队管理问题、系统架构问题</p>
+<h2 id="专业方向"><a href="#专业方向" class="headerlink" title="专业方向"></a>专业方向</h2><h2 id="一些资源："><a href="#一些资源：" class="headerlink" title="一些资源："></a>一些资源：</h2><p><a href="https://pdos.csail.mit.edu/6.828/2014/" target="_blank" rel="noopener">MIT 6.828 操作系统工程</a><br><a href="github.com">github.com</a><br><a href="stackshare.io">stackshare.io</a><br><a href="stackoverflow.com">stackoverflow.com</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/21/how-to-learn-computer-sciense/" class="archive-article-date">
+  	<time datetime="2016-11-21T06:35:31.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/education/" rel="tag">education</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-game-development-books" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/20/game-development-books/">游戏开发书籍</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h1 id="设计"><a href="#设计" class="headerlink" title="设计"></a>设计</h1><p>(2015) Prototyping(21st Century Skills Innovation Library: Makers as Innovators)<br>(2015) Spelunky (Boss Fight Books #11)<br>(1988) The Design of Everyday Things<br>(2008) The Art of Game Design: A Book of Lenses</p>
+<h1 id="数学"><a href="#数学" class="headerlink" title="数学"></a>数学</h1><p>(2001) Mathematics for 3D Game Programming and Computer Graphics<br>(2002) 3D Math Primer for Graphics and Game Development</p>
+<h1 id="图形学"><a href="#图形学" class="headerlink" title="图形学"></a>图形学</h1><p>Computer Graphics: Principles and Practice<br>(1999) Real-Time Rendering<br>Physically Based Rendering: From Theory to Implementation</p>
+<h1 id="语言"><a href="#语言" class="headerlink" title="语言"></a>语言</h1><p>Modern C++ Design: Generic Programming and Design Patterns Applied<br>More Effective C++<br>(1999) C++ Standard Library: A Tutorial and Reference</p>
+<h1 id="引擎"><a href="#引擎" class="headerlink" title="引擎"></a>引擎</h1><p>(2009) Game Engine Architecture<br>(2011) Game Programming Patterns<br>(2003) Game Coding Complete<br>Game Physics Engine Development: How to Build a Robust Commercial-Grade Physics Engine for Your Game</p>
+<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><p>(1st 2004) Real-Time Collision Detection (The Morgan Kaufmann Series in Interactive 3d Technology)<br>Game Programming Algorithms and Techniques: A Platform-Agnostic Approach</p>
+<h1 id="AI"><a href="#AI" class="headerlink" title="AI"></a>AI</h1><p>Programming Game AI by Example<br>Artificial Intelligence for Games</p>
+<h1 id="MMO"><a href="#MMO" class="headerlink" title="MMO"></a>MMO</h1><p>(2015) Multiplayer Game Programming: Architecting Networked Games (Game Design)</p>
+<h1 id="Unity-不推荐"><a href="#Unity-不推荐" class="headerlink" title="Unity (不推荐)"></a>Unity (不推荐)</h1><p>Unity in Action</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/20/game-development-books/" class="archive-article-date">
+  	<time datetime="2016-11-20T14:35:28.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-20</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev-books/" rel="tag">game-dev, books</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-fix-too-many-open-files" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/14/fix-too-many-open-files/">Too many open files 的解决办法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在开发TCP网络应用的过程中，我们经常会遇到“Too many open files”这个问题。这说明你的程序以达到Linux所允许的打开文件数上限。你需要按照以下方式来提升：</p>
+<h3 id="每用户上限："><a href="#每用户上限：" class="headerlink" title="每用户上限："></a>每用户上限：</h3><p>打开 <code>/etc/security/limits.conf</code><br>在末尾添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">*         hard    nofile      500000</span><br><span class="line">*         soft    nofile      500000</span><br><span class="line">root      hard    nofile      500000</span><br><span class="line">root      soft    nofile      500000</span><br></pre></td></tr></table></figure>
+
+<p>修改后，你需要logout并重新login。</p>
+<h4 id="pam-limits"><a href="#pam-limits" class="headerlink" title="pam-limits"></a>pam-limits</h4><p>据说对于Daemon进程需要额外的步骤，但目前我并不需要。如果以上改动不能对你有所帮助，可能需要以下步骤。</p>
+<p>打开 <code>/etc/pam.d/common-session</code></p>
+<p>添加以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">session required pam_limits.so</span><br></pre></td></tr></table></figure>
+
+<h3 id="系统级限制"><a href="#系统级限制" class="headerlink" title="系统级限制"></a>系统级限制</h3><p>这项设置应该大于没用户限制。</p>
+<p>打开 <code>/etc/sysctl.conf</code></p>
+<p>添加以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fs.file-max &#x3D; 2097152</span><br></pre></td></tr></table></figure>
+
+<p>运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
+
+<p>这会增加系统级的最大打开文件数。</p>
+<h2 id="验证效果"><a href="#验证效果" class="headerlink" title="验证效果"></a>验证效果</h2><p>使用以下命令验证系统级最大打开文件数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat &#x2F;proc&#x2F;sys&#x2F;fs&#x2F;file-max</span><br></pre></td></tr></table></figure>
+
+<p>Hard Limit</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -Hn</span><br></pre></td></tr></table></figure>
+
+<p>Soft Limit</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -Sn</span><br></pre></td></tr></table></figure>
+
+<h3 id="检测用户限制"><a href="#检测用户限制" class="headerlink" title="检测用户限制"></a>检测用户限制</h3><p>将<code>www-data</code>替换为你希望检测的用户。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su - www-data -c &#39;ulimit -aHS&#39; -s &#39;&#x2F;bin&#x2F;bash&#39;</span><br></pre></td></tr></table></figure>
+
+<h3 id="检测运行中的进程限制"><a href="#检测运行中的进程限制" class="headerlink" title="检测运行中的进程限制"></a>检测运行中的进程限制</h3><p>将<code>XXX</code>替换为PID</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat &#x2F;proc&#x2F;XXX&#x2F;limits</span><br></pre></td></tr></table></figure>
+
+<p>今日在一台新启动的服务器上，系统级、用户级配置都正常，唯独进程的limits仅为默认1024。进程使用的是supervisor守护启动，使用supervisor restart进程后，limits依然为1024，后重启了supervisor服务，limits恢复所设定数值。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/14/fix-too-many-open-files/" class="archive-article-date">
+  	<time datetime="2016-11-14T14:26:31.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/network/" rel="tag">network</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tcp/" rel="tag">tcp</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-static-site-generators" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/08/static-site-generators/">开源静态网站生成工具</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>有博客订阅者反馈我的博客ATOM输出有问题，总有两篇已unpublish的博客出来诈尸。这个是个老问题，当时也是因为总是有这两篇博客捣乱所以unpublish了，但完全无效。</p>
+<p>自己的博客一直没有认真维护，只是偶尔随手记录，更没有想到有人订阅了，闻之顿感责任重大。计划认真整理一下自己的博客。</p>
+<p>那两篇诈尸的博客，或是github的bug，或是jekyll的bug，未能验证。细思之，将博客系统完全交予github管理，的确不够合理，于是考虑使用本地生成静态文件再行push的方式，代替先push再由github jekyll生成静态文件的方式。顺便也更新一下自己博客的样式。</p>
+<p>关于jekyll，也有不少问题，比如不能生存tag page等，也考虑更换一下生成器。奈何目前的静态网站生成器着实太多，无从选择。幸有有心人整理了一个列表，<a href="https://www.staticgen.com/" target="_blank" rel="noopener">staticgen.com</a>，包含了github的关注数、项目使用的语言，模版语言等信息，选择方便了许多。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/08/static-site-generators/" class="archive-article-date">
+  	<time datetime="2016-11-07T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-08</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/generator/" rel="tag">generator</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-classic-computer-sciense-books" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/17/classic-computer-sciense-books/">计算机科学经典书籍</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在我学习编程的过程中，看过很多的书籍，大部分的书籍只能提供很有限的知识，有的甚至不能提供真正的“知识，充其量只是某个软件产品的使用手册而已，而且这类手册极易过时。现在，因为工作的需要，我依然会偶尔阅读这类“手册”。但我渐渐体会到了有些计算机知识是永恒的，如果从一开始我所阅读的，都是这些永恒的知识，而不是那些短暂的技能，我的知识体系会比现在更加的完整。</p>
+<p>所以，我整理了这个列表。我希望他能涵盖目前已知的计算机科学体系，并且尽可能的在每个领域都提供一两本经典书籍。我会优先选取发布时间较早的书籍，因为那代表着它经得起时间的考验，同时我会参考Amazon和豆瓣的评分，以及维基百科等网站的引用和评价。我希望所提供的这个列表是“相对权威”的列表。</p>
+<p>我会尽可能的包含中文译名和英文原版书名。</p>
+<p>我会尽可能按照权威的学科分类对书籍进行划分，如果在分类上有错误，希望各位指出。</p>
+<p>我也希望能够对学科间的依赖关系明确描述，默认是无依赖，当我发现了某个学科需要依赖于一些前置知识的时候，我会注明。如有遗漏，希望指出。</p>
+<p>在列表中，也会包含部分非“计算机科学”方面的书籍，比如游戏开发，互联网相关的书籍。这些书籍入选的条件时，他是适合程序员阅读的，并且同样符合经典、权威的要求的。</p>
+<h2 id="科普"><a href="#科普" class="headerlink" title="科普"></a>科普</h2><ul>
+<li>1985 计算机科学概论 Computer Science: An Overview</li>
+<li>1999 编码 Code</li>
+</ul>
+<h2 id="计算历史"><a href="#计算历史" class="headerlink" title="计算历史"></a>计算历史</h2><ul>
+<li>The Computer from Pascal to von Neumann</li>
+<li>A History of Computing in the Twentieth Century</li>
+</ul>
+<h2 id="Mathematics-数学"><a href="#Mathematics-数学" class="headerlink" title="Mathematics 数学"></a>Mathematics 数学</h2><ul>
+<li>300 BC 几何原本 Elements</li>
+<li>1687 自然哲学的数学原理 Philosophiae Naturalis Principia Mathematica</li>
+<li>1965 微积分和数学分析引论 Introduction to Calculus and Analysis (Richard Courant / Fritz John)</li>
+<li>1976 线性代数及其应用（侯自新 译）Linear Algebra and Its Applications (Gilbert Strang)</li>
+<li>1988 具体数学 Concrete Mathematics</li>
+<li>1995 线性代数应该这样学 Linear Algebra Done Right</li>
+<li>(当下流行) 托马斯微积分 Thomas calculus</li>
+<li>(当下流行) 初等概率论</li>
+</ul>
+<h2 id="Computability-计算理论"><a href="#Computability-计算理论" class="headerlink" title="Computability 计算理论"></a>Computability 计算理论</h2><ul>
+<li>Alan Turing (1937) “On computable numbers, with an application to the Entscheidungsproblem”</li>
+<li>(1979) 自动机理论、语言和计算导论  Introduction to Automata Theory, Languages, and Computation</li>
+</ul>
+<p>本书建议看原版</p>
+<ul>
+<li>1996 计算理论导论 Introduction to the Theory of Computation</li>
+</ul>
+<h2 id="Information-theory-信息论"><a href="#Information-theory-信息论" class="headerlink" title="Information theory 信息论"></a>Information theory 信息论</h2><ul>
+<li>Shannon, C.E. (1948)  “A mathematical theory of communication”</li>
+<li>Hamming, Richard (1950) “Error detecting and error correcting codes”</li>
+<li>Huffman, D. (1952). “A Method for the Construction of Minimum-Redundancy Codes”</li>
+<li>Ziv, J.; Lempel, A. (1977). “A universal algorithm for sequential data compression”</li>
+<li>1991 Elements of Information Theory</li>
+</ul>
+<h2 id="Computer-Architecture-计算机架构"><a href="#Computer-Architecture-计算机架构" class="headerlink" title="Computer Architecture 计算机架构"></a>Computer Architecture 计算机架构</h2><ul>
+<li>1990 Computer Architecture: A Quantitative Approach</li>
+</ul>
+<h2 id="Operating-System-操作系统"><a href="#Operating-System-操作系统" class="headerlink" title="Operating System 操作系统"></a>Operating System 操作系统</h2><ul>
+<li>1974 操作系统设计与实现 Operating Systems Design and Implementation</li>
+<li>1992 UNIX环境高级编程 Advanced Programming in the UNIX Environment</li>
+<li>1992 现代操作系统 Modern Operating Systems</li>
+<li>2002 深入理解计算机系统 Computer Systems:A Programmer’s Perspective</li>
+</ul>
+<h2 id="Compilers-编译原理"><a href="#Compilers-编译原理" class="headerlink" title="Compilers 编译原理"></a>Compilers 编译原理</h2><ul>
+<li>1986 Compilers: Principles, Techniques and Tools</li>
+</ul>
+<p>在封面变成一条龙后，被称为 dragon book.</p>
+<p><img src="http://images.gr-assets.com/books/1387666736l/703102.jpg" alt="img"></p>
+<h2 id="Programming-Languages"><a href="#Programming-Languages" class="headerlink" title="Programming Languages"></a>Programming Languages</h2><ul>
+<li>1978 C程序设计语言 The C programming Language</li>
+</ul>
+<h2 id="Programming-not-science"><a href="#Programming-not-science" class="headerlink" title="Programming ?? (not science)"></a>Programming ?? (not science)</h2><ul>
+<li>1984 计算机程序的构造和解释 Structure and Interpretation of Computer Programs</li>
+<li>1986 编程珠玑 Programming pearls</li>
+<li>1993 代码大全 Code Complete</li>
+</ul>
+<h2 id="Algorithms-算法"><a href="#Algorithms-算法" class="headerlink" title="Algorithms 算法"></a>Algorithms 算法</h2><ul>
+<li>1968 The Art of Computer Programming</li>
+<li>1974 The Design and Analysis of Computer Algorithms</li>
+<li>1983 Data Structures and Algorithms</li>
+<li>1983 Algorithms</li>
+<li>1990 Introduction to Algorithms</li>
+<li>1996 Data Structures and Algorithm Analysis in C</li>
+</ul>
+<h2 id="Computational-complexity-theory-计算复杂度理论"><a href="#Computational-complexity-theory-计算复杂度理论" class="headerlink" title="Computational complexity theory 计算复杂度理论"></a>Computational complexity theory 计算复杂度理论</h2><ul>
+<li>1979 Computers and Intractability: A Guide to the Theory of NP-Completeness</li>
+<li>1994 Computational Complexity</li>
+</ul>
+<h2 id="Networking-网络"><a href="#Networking-网络" class="headerlink" title="Networking 网络"></a>Networking 网络</h2><ul>
+<li>TCP/IP详解 卷1：协议</li>
+<li>UNIX网络编程</li>
+</ul>
+<h2 id="Database-数据库"><a href="#Database-数据库" class="headerlink" title="Database 数据库"></a>Database 数据库</h2><ul>
+<li>1980 Principles of Database &amp; Knowledge-Base Systems, Vol. 1: Classical Database Systems</li>
+<li>1987 Database System Concepts</li>
+<li>2001 数据库系统全书 Database Systems: The Complete Book</li>
+</ul>
+<h2 id="Software-engineering-软件工程"><a href="#Software-engineering-软件工程" class="headerlink" title="Software engineering 软件工程"></a>Software engineering 软件工程</h2><ul>
+<li>1975 人月神话 The Mythical Man-Month: Essays on Software Engineering</li>
+<li>1994 设计模式 Design Patterns: Elements of Reusable Object-Oriented Software</li>
+<li>1999 程序员修炼之道 The Pragmatic Programmer: From Journeyman to Master</li>
+</ul>
+<p>面向对象程序设计的经典。但当你使用动态语言时，会发现部分模式是不必要的</p>
+<ul>
+<li>2004 软件随想录 Joe on software</li>
+<li>重构：既有代码的改善 Refactoring: Improving the Design of Existing Code</li>
+<li>人件</li>
+<li>Rework</li>
+</ul>
+<h2 id="Artificial-Intelligence"><a href="#Artificial-Intelligence" class="headerlink" title="Artificial Intelligence"></a>Artificial Intelligence</h2><ul>
+<li>1994 人工智能：一种现代方法 Artificial Intelligence: A modern approach</li>
+</ul>
+<h3 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h3><ul>
+<li><p>Probability Theory: The Logic of Science</p>
+</li>
+<li><p>The Elements of Statistical Learning: Data Mining, Inference, and Prediction</p>
+</li>
+<li><p>Information Theory, Inference and Learning Algorithms</p>
+</li>
+<li><p>Learning From Data: A Short Course</p>
+</li>
+<li><p>Pattern Recognition and Machine Learning</p>
+</li>
+<li><p>Probabilistic Graphical Models: Principles and Techniques</p>
+</li>
+<li><p>Mining of Massive Datasets</p>
+</li>
+<li><p>经典 <a href="http://www-bcf.usc.edu/~gareth/ISL/" target="_blank" rel="noopener">An Introduction to Statistical Learning with Applications in R</a></p>
+</li>
+<li><p><a href="http://www.cs.ubc.ca/~murphyk/MLbook/index.html" target="_blank" rel="noopener">Machine Learning: a Probabilistic Perspective</a> 学习曲线平滑</p>
+</li>
+<li><p>2016 <a href="http://www.deeplearningbook.org/" target="_blank" rel="noopener">Deep Learning(Free HTML)</a> <a href="https://github.com/HFTrader/DeepLearningBook" target="_blank" rel="noopener">pdf</a> Ian Goodfellow and Yoshua Bengio and Aaron Courville</p>
+</li>
+<li><p><a href="http://www.youtube.com/view_play_list?p=A89DCFA6ADACE599" target="_blank" rel="noopener">http://www.youtube.com/view_play_list?p=A89DCFA6ADACE599</a></p>
+</li>
+<li><p>[深度学习论文]<a href="https://github.com/HFTrader/DeepLearningBook/blob/master/DeepLearningPapers.md" target="_blank" rel="noopener">https://github.com/HFTrader/DeepLearningBook/blob/master/DeepLearningPapers.md</a></p>
+</li>
+<li><p><a href="https://github.com/josephmisiti/awesome-machine-learning/blob/master/books.md" target="_blank" rel="noopener">Awesome machine learning books list</a></p>
+</li>
+<li><p><a href="http://learningtensorflow.com/index.html" target="_blank" rel="noopener">learning tensorflow</a></p>
+</li>
+</ul>
+<h2 id="膜计算-Membrane-Computing-这是什么？"><a href="#膜计算-Membrane-Computing-这是什么？" class="headerlink" title="膜计算 Membrane Computing ??? 这是什么？"></a>膜计算 Membrane Computing ??? 这是什么？</h2><ul>
+<li>2002 膜计算导论 Membrane Computing - An Introduction</li>
+</ul>
+<p>参考:<br><a href="http://dl.acm.org/classics.cfm" target="_blank" rel="noopener">ACM: 经典出版物</a><br><a href="https://en.wikipedia.org/wiki/List_of_important_publications_in_computer_science" target="_blank" rel="noopener">维基百科：计算机科学重要出版物</a><br><a href="https://en.wikipedia.org/wiki/List_of_important_publications_in_theoretical_computer_science" target="_blank" rel="noopener">维基百科：理论计算机科学重要出版物</a><br><a href="http://www.goodreads.com/list/show/2205.Essential_Books_of_Computer_Science" target="_blank" rel="noopener">Goodreads: 必备计算机科学书籍列表</a><br><a href="https://www.goodreads.com/shelf/show/game-development" target="_blank" rel="noopener">Goodreads: 游戏开发</a><br><a href="https://zh.wikipedia.org/wiki/数学著作列表" target="_blank" rel="noopener">维基百科：数学著作列表</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/10/17/classic-computer-sciense-books/" class="archive-article-date">
+  	<time datetime="2016-10-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-17</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/books/" rel="tag">books</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-kingshard-read-log" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/16/kingshard-read-log/">Kingshard阅读笔记</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>KingShard 是 mysql 代理，可实现分库分表等功能。但因业务复杂，无法使用，故阅读其源码，以便修改。</p>
+<p>代码版本：<br>2016-09-12<br>3c4a1db63226cb1384047a3f915d10e0594228d1</p>
+<p>入口: cmd/</p>
+<p>服务启动： proxy/server/server.go</p>
+<p>Server.Run()<br>服务逻辑</p>
+<p>Server.onConn(net.Conn)<br>客户端连接逻辑</p>
+<ul>
+<li>Server.newClientConn(net.Conn)<br>客户端连接初始化</li>
+</ul>
+<p>客户端连接：proxy/server/conn.go</p>
+<p>ClientConn.IsAllowConnect()<br>判断客户端IP是否合法</p>
+<p>ClientConn.Handshake()<br>握手</p>
+<p>ClientConn.Run()<br>客户端逻辑</p>
+<p>ClientConn.readPacket()<br>PacketIO.ReadPacket()<br>拆包逻辑</p>
+<p>ClientConn.dispatch(data)<br>包分发逻辑<br>data[0] mysql命令</p>
+<ul>
+<li>QUIT  c.handleRollback() c.Close()</li>
+<li>QUERY c.handleQuery(string(data))</li>
+<li>PING</li>
+<li>INIT_DB c.handleUseDB 分配后端节点 backend.Node</li>
+<li>FIELD_LIST</li>
+<li>STMT_PREPARE</li>
+<li>STMT_EXECUTE</li>
+<li>STMT_CLOSE</li>
+<li>STMT_SEND_LONG_DATA</li>
+<li>STMT_RESET</li>
+<li>SET_OPTION<br>其它命令不支持,log</li>
+</ul>
+<p>命令执行成功后，写结果给客户端，某些命令只需 ClientConn.writeOK</p>
+<p>执行查询 ClientConn.handleQuery<br>ClientConn.preHanleShard 不确定什么时候会用<br>解析sql<br>handleSelect<br>handleExec<br>handleBegin<br>handleCommit<br>handleRollback</p>
+<p>后端节点: backend/node.go backend.Node<br>GetSlaveConn<br>GetMasterConn</p>
+<p>后端连接：<br>基类 backend/backend_conn.go backend.Conn<br>子类 backend/db.go backend.BackendConn</p>
+<p>写入命令，读取返回<br>writeCommandStr<br>readOK</p>
+<p>SQL 语法解析<br>sqlparser<br>需要执行 make，通过yacc编译</p>
+<p>其它<br>Counter  计数器</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/09/16/kingshard-read-log/" class="archive-article-date">
+  	<time datetime="2016-09-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-16</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/mysql/">mysql</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-employee-with-employer" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/28/employee-with-employer/">雇主与雇员的关系</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>  通常，我们认为雇主与雇员之间的关系是一种管理者和被管理者的关系，但在作者看来，雇主与雇员之间的关系并非如此，在很多时候雇员往往拥有更多的主动权。</p>
+<p>  在法制社会中，当我们成立一家公司时，股东之间通过契约联系在了一起，向同一个目标共同努力，同时实现股东个体的成功。可以说，契约精神是公司赖以存在的基础。</p>
+<p>  在公司与员工的关系上，契约精神同样是重要的基础。在公司与员工形成雇佣关系，这种契约关系就建立了。</p>
+<p>  在一个人成为管理者之前，应该对这一事实有充分的认识。你与下属是平等的，你只有一种权利那就是聘用和解聘的权利。如果公司没有赋予管理者这种权利，本质上，管理者只是个为员工提供服务的人员。员工会向你索取各种资源配合他们的工作，而你提供资源的过程和服务人员递上餐具和食物的过程并没有太大区别。</p>
+<p>  人事部门应该按市场规则与员工进行互动，本质上就和买菜时侃价行为类似。是一种交易行为。如果你要对其进行职位和薪资的调整，本质上是一种内部重新聘用的过程，即使是升职加薪，也需要征得员工的同意，然后才可执行。如果要进行合理的避税，这些事项必须在签订契约（也就是聘用）之前达成共识。对于辞退员工，各种处理方法亦必须要按照契约精神进行，无论是劝退或是辞退，本质上就是一种公司违约行为，理应给予赔偿。对于一些曾经有过突出贡献的员工，在辞退时不仅要给予法律内规定的赔偿，甚至要给予更多的“补偿”。这种补偿本质上也是基于一条根本契约：员工向公司提供劳动，公司为这种劳动支付报酬。违反这种契约，或许不会受到法律的惩罚，但会使某一方丧失在市场上的信用，无论是公司方还是员工方。</p>
+<p>  No Blame Culture，它的基础在于，人和人之间是平等。人们通过不同的分工在一起协作，人们不应因理念、方法的差别而受到羞辱或讽刺。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/08/28/employee-with-employer/" class="archive-article-date">
+  	<time datetime="2016-08-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-08-28</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-what-a-cto-should-be" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/28/what-a-cto-should-be/">CTO应该是一个什么样的角色</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>首席技术官（英语：Chief Technology Officer，英文缩写：CTO，又常称为技术官、技术总监）是企业团体里的高阶主管职位之一，是企业内负责技术的最高负责人。这个名称是在1980年代时从美国开始兴起，起源于一些有大规模投资在研究与发展（R&amp;D）项目的大型公司，如通用电气（General Electric, GE），美国电话电报（AT&amp;T）与美国铝业（ALCOA），主要责任是将科学研究成果转为营利项目。</p>
+<p>1990年代，因计算机和软件公司热门，很多公司把CTO的名称给予管理计算机系统和软件的负责人。有时CTO和CIO（Chief Information Officer，是信息管理最高负责人）是同一个人（尤其在软件公司），有时CTO会归于比较精通科学技术的CIO手下。在不同领域的公司，CTO工作性质不同；即使在同一领域，工作性质也可能大不相同。一般CTO会有以下责任：</p>
+<ul>
+<li>长期技术方向（战略性）</li>
+<li>短期技术方向（战术性）</li>
+<li>管理研究对公司经营活动和营利的影响</li>
+<li>公司中使用的软件</li>
+</ul>
+<p>——维基百科</p>
+<p>不负责直接管理任何人的技术合伙人</p>
+<p>国外CTO的职能，除取决于公司规模外，还与高科技企业的发展模式相关联。硅谷很多公司创始人都是技术出身，但公司做大之后并不想转为技术团队管理者，所以除了从外面请来专业经理人担任CEO外，还有可能聘请专门负责研发管理的VP，这样创始人就可以把自己定为CTO角色，以便脱离管理中的琐事，专心研究技术走向。例如，Google的创始人之一Sergey Brin就专门负责研究技术的走向。</p>
+<hr>
+<p>更新：2019-12-25</p>
+<p>CTO在计划经济时代，有的类似于总工程师之类的角色，也有可能类似于科学院院长这样的角色。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/08/28/what-a-cto-should-be/" class="archive-article-date">
+  	<time datetime="2016-08-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-08-28</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2020 桂糊涂
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+
+<script src="/./main.js"></script>
+
+
+
+<script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
+    			</div>
+    	</section>
+    
+
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">联系我：&lt;br&gt; guileen AT qq DOT com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
