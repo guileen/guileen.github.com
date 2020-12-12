@@ -72,14 +72,14 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2019/12/30/introduce-reinforcement-learning-5/</loc>
+    <loc>http://guileen.github.io/2019/12/30/introduce-reinforcement-learning-4/</loc>
     
     <lastmod>2020-08-31T07:01:49.033Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2019/12/30/introduce-reinforcement-learning-4/</loc>
+    <loc>http://guileen.github.io/2019/12/30/introduce-reinforcement-learning-5/</loc>
     
     <lastmod>2020-08-31T07:01:49.033Z</lastmod>
     
@@ -100,14 +100,14 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2019/11/01/alpha-go-zero/</loc>
+    <loc>http://guileen.github.io/2019/03/29/setup-gogs-with-docker-compose/</loc>
     
     <lastmod>2020-08-31T07:01:49.032Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2019/03/29/setup-gogs-with-docker-compose/</loc>
+    <loc>http://guileen.github.io/2019/11/01/alpha-go-zero/</loc>
     
     <lastmod>2020-08-31T07:01:49.032Z</lastmod>
     
@@ -184,7 +184,7 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2016/11/14/fix-too-many-open-files/</loc>
+    <loc>http://guileen.github.io/2016/10/17/classic-computer-sciense-books/</loc>
     
     <lastmod>2020-08-31T07:01:49.030Z</lastmod>
     
@@ -198,7 +198,7 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2016/10/17/classic-computer-sciense-books/</loc>
+    <loc>http://guileen.github.io/2016/11/14/fix-too-many-open-files/</loc>
     
     <lastmod>2020-08-31T07:01:49.030Z</lastmod>
     
@@ -219,13 +219,6 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2016/01/28/react-pit-notes/</loc>
-    
-    <lastmod>2020-08-31T07:01:49.029Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://guileen.github.io/2016/08/28/employee-with-employer/</loc>
     
     <lastmod>2020-08-31T07:01:49.029Z</lastmod>
@@ -234,6 +227,13 @@
   
   <url>
     <loc>http://guileen.github.io/2016/08/28/what-a-cto-should-be/</loc>
+    
+    <lastmod>2020-08-31T07:01:49.029Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2016/01/28/react-pit-notes/</loc>
     
     <lastmod>2020-08-31T07:01:49.029Z</lastmod>
     
@@ -268,21 +268,7 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2015/12/18/content-marketing-handbook-notes/</loc>
-    
-    <lastmod>2020-08-31T07:01:49.027Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://guileen.github.io/2015/12/07/ranking-algorithms/</loc>
-    
-    <lastmod>2020-08-31T07:01:49.027Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://guileen.github.io/2016/01/11/js-the-future/</loc>
     
     <lastmod>2020-08-31T07:01:49.027Z</lastmod>
     
@@ -296,14 +282,21 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2015/10/06/android-reverse-engineering-with-apktool/</loc>
+    <loc>http://guileen.github.io/2015/12/18/content-marketing-handbook-notes/</loc>
     
-    <lastmod>2020-08-31T07:01:49.026Z</lastmod>
+    <lastmod>2020-08-31T07:01:49.027Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2015/10/18/mac-greek-input-on-qwerty/</loc>
+    <loc>http://guileen.github.io/2016/01/11/js-the-future/</loc>
+    
+    <lastmod>2020-08-31T07:01:49.027Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2015/10/06/android-reverse-engineering-with-apktool/</loc>
     
     <lastmod>2020-08-31T07:01:49.026Z</lastmod>
     
@@ -317,13 +310,6 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2015/11/20/rtmp-research/</loc>
-    
-    <lastmod>2020-08-31T07:01:49.026Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://guileen.github.io/2015/10/09/tcp-connection-optimization/</loc>
     
     <lastmod>2020-08-31T07:01:49.026Z</lastmod>
@@ -331,7 +317,28 @@
   </url>
   
   <url>
+    <loc>http://guileen.github.io/2015/10/18/mac-greek-input-on-qwerty/</loc>
+    
+    <lastmod>2020-08-31T07:01:49.026Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2015/11/20/rtmp-research/</loc>
+    
+    <lastmod>2020-08-31T07:01:49.026Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://guileen.github.io/2015/09/18/cloud-services-list-for-startups/</loc>
+    
+    <lastmod>2020-08-31T07:01:49.025Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2015/09/28/scheme-base-object-notation-language/</loc>
     
     <lastmod>2020-08-31T07:01:49.025Z</lastmod>
     
@@ -352,13 +359,6 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2015/09/28/scheme-base-object-notation-language/</loc>
-    
-    <lastmod>2020-08-31T07:01:49.025Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://guileen.github.io/2015/07/15/well-nginx-log/</loc>
     
     <lastmod>2020-08-31T07:01:49.024Z</lastmod>
@@ -373,14 +373,14 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2015/08/20/cursor-vs-page/</loc>
+    <loc>http://guileen.github.io/2015/08/31/nginx-cors/</loc>
     
     <lastmod>2020-08-31T07:01:49.024Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2015/08/31/nginx-cors/</loc>
+    <loc>http://guileen.github.io/2015/08/26/golang-work-with-cpp/</loc>
     
     <lastmod>2020-08-31T07:01:49.024Z</lastmod>
     
@@ -394,7 +394,7 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2015/08/26/golang-work-with-cpp/</loc>
+    <loc>http://guileen.github.io/2015/08/20/cursor-vs-page/</loc>
     
     <lastmod>2020-08-31T07:01:49.024Z</lastmod>
     
@@ -429,20 +429,6 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2015/04/01/idempotent-rpc/</loc>
-    
-    <lastmod>2020-08-31T07:01:49.022Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://guileen.github.io/2015/04/10/redis-transaction/</loc>
-    
-    <lastmod>2020-08-31T07:01:49.022Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://guileen.github.io/2015/03/26/what-is-CRDT/</loc>
     
     <lastmod>2020-08-31T07:01:49.022Z</lastmod>
@@ -450,7 +436,7 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2015/04/19/flyrpc-spec/</loc>
+    <loc>http://guileen.github.io/2015/04/01/idempotent-rpc/</loc>
     
     <lastmod>2020-08-31T07:01:49.022Z</lastmod>
     
@@ -464,16 +450,23 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2015/04/30/abstract-data-layer-design/</loc>
+    <loc>http://guileen.github.io/2015/04/10/redis-transaction/</loc>
     
     <lastmod>2020-08-31T07:01:49.022Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2015/03/15/global-deployment-keynote/</loc>
+    <loc>http://guileen.github.io/2015/04/19/flyrpc-spec/</loc>
     
-    <lastmod>2020-08-31T07:01:49.021Z</lastmod>
+    <lastmod>2020-08-31T07:01:49.022Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2015/04/30/abstract-data-layer-design/</loc>
+    
+    <lastmod>2020-08-31T07:01:49.022Z</lastmod>
     
   </url>
   
@@ -485,7 +478,7 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2015/03/16/game-server-design/</loc>
+    <loc>http://guileen.github.io/2015/03/15/global-deployment-keynote/</loc>
     
     <lastmod>2020-08-31T07:01:49.021Z</lastmod>
     
@@ -499,9 +492,23 @@
   </url>
   
   <url>
+    <loc>http://guileen.github.io/2015/03/16/game-server-design/</loc>
+    
+    <lastmod>2020-08-31T07:01:49.021Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://guileen.github.io/2015/03/26/network-tools/</loc>
     
     <lastmod>2020-08-31T07:01:49.021Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2015/01/19/guileen-texasholdem-ai/</loc>
+    
+    <lastmod>2020-08-31T07:01:49.020Z</lastmod>
     
   </url>
   
@@ -513,7 +520,14 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2015/01/19/guileen-texasholdem-ai/</loc>
+    <loc>http://guileen.github.io/2015/02/09/compile-vim-and-setup/</loc>
+    
+    <lastmod>2020-08-31T07:01:49.020Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2015/02/10/architect-for-testing/</loc>
     
     <lastmod>2020-08-31T07:01:49.020Z</lastmod>
     
@@ -534,20 +548,6 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2015/02/10/architect-for-testing/</loc>
-    
-    <lastmod>2020-08-31T07:01:49.020Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://guileen.github.io/2015/02/09/compile-vim-and-setup/</loc>
-    
-    <lastmod>2020-08-31T07:01:49.020Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://guileen.github.io/2014/08/05/everything-is-fate/</loc>
     
     <lastmod>2020-08-31T07:01:49.019Z</lastmod>
@@ -562,14 +562,14 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2015/01/17/mathematics-vs-experience/</loc>
+    <loc>http://guileen.github.io/2015/01/15/setup-vpn-and-git-server-on-vps/</loc>
     
     <lastmod>2020-08-31T07:01:49.019Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2015/01/15/setup-vpn-and-git-server-on-vps/</loc>
+    <loc>http://guileen.github.io/2015/01/17/mathematics-vs-experience/</loc>
     
     <lastmod>2020-08-31T07:01:49.019Z</lastmod>
     
@@ -618,6 +618,13 @@
   </url>
   
   <url>
+    <loc>http://guileen.github.io/2014/03/26/java-package-manager-and-build-tools/</loc>
+    
+    <lastmod>2020-08-31T07:01:49.017Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://guileen.github.io/2014/03/27/android-ui-animations/</loc>
     
     <lastmod>2020-08-31T07:01:49.017Z</lastmod>
@@ -626,13 +633,6 @@
   
   <url>
     <loc>http://guileen.github.io/2014/03/27/foreign-vps-for-chinese-developer/</loc>
-    
-    <lastmod>2020-08-31T07:01:49.017Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://guileen.github.io/2014/03/26/java-package-manager-and-build-tools/</loc>
     
     <lastmod>2020-08-31T07:01:49.017Z</lastmod>
     
@@ -653,13 +653,6 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2014/03/18/f-shaped-pattern-reading-web-content/</loc>
-    
-    <lastmod>2020-08-31T07:01:49.016Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://guileen.github.io/2014/03/18/static-site-generator/</loc>
     
     <lastmod>2020-08-31T07:01:49.016Z</lastmod>
@@ -667,7 +660,7 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2014/03/18/write-atom-package/</loc>
+    <loc>http://guileen.github.io/2014/03/18/f-shaped-pattern-reading-web-content/</loc>
     
     <lastmod>2020-08-31T07:01:49.016Z</lastmod>
     
@@ -681,16 +674,16 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2014/03/25/about-apk/</loc>
+    <loc>http://guileen.github.io/2014/03/18/write-atom-package/</loc>
     
     <lastmod>2020-08-31T07:01:49.016Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2014/02/27/svn-migrate-to-git/</loc>
+    <loc>http://guileen.github.io/2014/03/25/about-apk/</loc>
     
-    <lastmod>2020-08-31T07:01:49.015Z</lastmod>
+    <lastmod>2020-08-31T07:01:49.016Z</lastmod>
     
   </url>
   
@@ -709,6 +702,13 @@
   </url>
   
   <url>
+    <loc>http://guileen.github.io/2014/02/27/svn-migrate-to-git/</loc>
+    
+    <lastmod>2020-08-31T07:01:49.015Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://guileen.github.io/2014/03/16/open-source-speech-api/</loc>
     
     <lastmod>2020-08-31T07:01:49.015Z</lastmod>
@@ -716,14 +716,14 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2014/01/28/etag-vs-lastmodified-vs-expire/</loc>
+    <loc>http://guileen.github.io/2014/02/25/common-app-folders/</loc>
     
     <lastmod>2020-08-31T07:01:49.014Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2014/02/25/common-app-folders/</loc>
+    <loc>http://guileen.github.io/2014/01/28/etag-vs-lastmodified-vs-expire/</loc>
     
     <lastmod>2020-08-31T07:01:49.014Z</lastmod>
     
@@ -737,14 +737,14 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2013/03/28/use-varnish/</loc>
+    <loc>http://guileen.github.io/2013/03/28/how-to-learn-linear-algebra/</loc>
     
     <lastmod>2020-08-31T07:01:49.013Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2013/03/28/how-to-learn-linear-algebra/</loc>
+    <loc>http://guileen.github.io/2013/03/28/use-varnish/</loc>
     
     <lastmod>2020-08-31T07:01:49.013Z</lastmod>
     
@@ -786,7 +786,7 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2013/03/17/how-to-enable-fenced-code-block-on-github-pages/</loc>
+    <loc>http://guileen.github.io/2013/03/16/unix-signals/</loc>
     
     <lastmod>2020-08-31T07:01:49.012Z</lastmod>
     
@@ -800,13 +800,6 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2013/03/16/unix-signals/</loc>
-    
-    <lastmod>2020-08-31T07:01:49.012Z</lastmod>
-    
-  </url>
-  
-  <url>
     <loc>http://guileen.github.io/2013/03/17/redis-leveldb/</loc>
     
     <lastmod>2020-08-31T07:01:49.012Z</lastmod>
@@ -814,7 +807,7 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2013/03/26/wow-design/</loc>
+    <loc>http://guileen.github.io/2013/03/17/how-to-enable-fenced-code-block-on-github-pages/</loc>
     
     <lastmod>2020-08-31T07:01:49.012Z</lastmod>
     
@@ -828,21 +821,14 @@
   </url>
   
   <url>
+    <loc>http://guileen.github.io/2013/03/26/wow-design/</loc>
+    
+    <lastmod>2020-08-31T07:01:49.012Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://guileen.github.io/2013/03/04/install-gitlab/</loc>
-    
-    <lastmod>2020-08-31T07:01:49.011Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://guileen.github.io/2013/03/05/game-object-properties-adapter/</loc>
-    
-    <lastmod>2020-08-31T07:01:49.011Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>http://guileen.github.io/2013/03/14/redis-extras-and-redis-lua-test/</loc>
     
     <lastmod>2020-08-31T07:01:49.011Z</lastmod>
     
@@ -863,7 +849,21 @@
   </url>
   
   <url>
+    <loc>http://guileen.github.io/2013/03/05/game-object-properties-adapter/</loc>
+    
+    <lastmod>2020-08-31T07:01:49.011Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://guileen.github.io/2013/03/15/node-events-scope/</loc>
+    
+    <lastmod>2020-08-31T07:01:49.011Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2013/03/14/redis-extras-and-redis-lua-test/</loc>
     
     <lastmod>2020-08-31T07:01:49.011Z</lastmod>
     
@@ -905,14 +905,14 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2012/09/19/professional-github-blog-hosting-guide/</loc>
+    <loc>http://guileen.github.io/2012/10/08/notes-of-hackers-and-painters/</loc>
     
     <lastmod>2020-08-31T07:01:49.009Z</lastmod>
     
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2012/10/08/notes-of-hackers-and-painters/</loc>
+    <loc>http://guileen.github.io/2012/09/19/professional-github-blog-hosting-guide/</loc>
     
     <lastmod>2020-08-31T07:01:49.009Z</lastmod>
     
