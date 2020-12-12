@@ -75,6 +75,7 @@ deploy:
 - type: rsync
   host: hk.ipub.io
   user: ubuntu
+  port: 4021
   root: /home/ubuntu/leengui.com
   delete: true
   verbose: true
@@ -84,7 +85,6 @@ theme_config:
 # Header
   menu:
     主页: /
-    领导力: /categories/领导力
     AI: /categories/AI
     随笔: /categories/随笔
 
