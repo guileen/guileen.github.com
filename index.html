@@ -172,6 +172,10 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">go get github.com&#x2F;ericchiang&#x2F;pup</span><br><span class="line"></span><br><span class="line">curl -s https:&#x2F;&#x2F;news.ycombinator.com&#x2F; | pup &#39;table table tr:nth-last-of-type(n+2) td.title a json&#123;&#125;&#39;</span><br></pre></td></tr></table></figure>
 
 
+<p>以上解析可以用于命令行的分析，但若要生成更精简的数据结构，可以用下面的结构。</p>
+<p>const { parse } = require(‘node-html-parser’)<br>const fs = require(‘fs’)</p>
+<p>var dom = parse(fs.readFileSync(“./test_list.xml”, “utf8”))<br>var res = dom.querySelectorAll(‘li’).map(el=&gt; {<br>     return {<br>         src: el.querySelector(“img”).getAttribute(“src”),<br>         title: el.querySelector(“a.tit”).innerText,<br>         href: el.querySelector(“a.tit”).getAttribute(“href”),<br>         cnt: el.querySelector(“span.nb”).innerText,<br>     }<br> })<br>console.log(JSON.stringify(res,null,’  ‘))</p>
+
       
     </div>
     <div class="article-info article-info-index">
