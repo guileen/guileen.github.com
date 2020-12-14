@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://guileen.github.io/"/>
-  <updated>2020-10-29T07:30:57.402Z</updated>
+  <updated>2020-12-14T09:07:11.062Z</updated>
   <id>http://guileen.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>在命令行解析HTML</title>
+    <link href="http://guileen.github.io/2020/12/14/parse-html-in-command-line/"/>
+    <id>http://guileen.github.io/2020/12/14/parse-html-in-command-line/</id>
+    <published>2020-12-14T09:02:32.000Z</published>
+    <updated>2020-12-14T09:07:11.062Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近要做音乐app，但没有素材。 一个音乐爬虫</p><p><a href="https://github.com/BeanWei/MusicSpider" target="_blank" rel="noopener">https://github.com/BeanWei/MusicSpider</a></p><p>网页版的内容比较容易解析，为了快速了解数据结构，需要一个好工具。于是找到了pup</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">go get github.com&#x2F;ericchiang&#x2F;pup</span><br><span class="line"></span><br><span class="line">curl -s https:&#x2F;&#x2F;news.ycombinator.com&#x2F; | pup &#39;table table tr:nth-last-of-type(n+2) td.title a json&#123;&#125;&#39;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;最近要做音乐app，但没有素材。 一个音乐爬虫&lt;/p&gt;
+&lt;p&gt;&lt;a href=&quot;https://github.com/BeanWei/MusicSpider&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;https://github.com/BeanWei
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>太初有道</title>
@@ -455,34 +477,6 @@
     
       <category term="随笔" scheme="http://guileen.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
     
-    
-  </entry>
-  
-  <entry>
-    <title>Python数据分析笔记</title>
-    <link href="http://guileen.github.io/2016/12/15/python-data-analysis-note/"/>
-    <id>http://guileen.github.io/2016/12/15/python-data-analysis-note/</id>
-    <published>2016-12-15T13:51:36.000Z</published>
-    <updated>2020-08-31T07:01:49.031Z</updated>
-    
-    <content type="html"><![CDATA[<h1 id="可选"><a href="#可选" class="headerlink" title="[可选]"></a>[可选]</h1><p>install python</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">pip install -U pip</span><br><span class="line"></span><br><span class="line">pip install &lt;something&gt;</span><br><span class="line">pip uninstall &lt;something&gt;</span><br></pre></td></tr></table></figure><p>pip support virtualenv</p><h1 id="Anaconda"><a href="#Anaconda" class="headerlink" title="[Anaconda]"></a>[Anaconda]</h1><p><a href="https://www.continuum.io/downloads" target="_blank" rel="noopener">Install anaconda</a></p><p>国内可从清华镜像下载，并设置镜像</p><p><a href="https://mirror.tuna.tsinghua.edu.cn/help/anaconda/" target="_blank" rel="noopener">清华镜像源</a></p><p>MacOS:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;anaconda&#x2F;archive&#x2F;Anaconda2-x.x.x-MacOSX-x86_64.sh&#96;</span><br><span class="line">bash Anaconda2-x.x.x-MacOS-x86_64.sh</span><br></pre></td></tr></table></figure><p>会安装到~/anaconda2下，默认会将PATH设置在 bash_profile中，根据你自己的shell设置，加入</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">export PATH&#x3D;&quot;&#x2F;home&#x2F;xx&#x2F;anaconda2&#x2F;bin:$PATH&quot;</span><br></pre></td></tr></table></figure><p>重新打开你的shell，执行<code>conda</code>命令测试。</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda config --add channels https:&#x2F;&#x2F;mirrors.tuna.tsinghua.edu.cn&#x2F;anaconda&#x2F;pkgs&#x2F;free&#x2F;</span><br><span class="line">conda config --set show_channel_urls yes</span><br></pre></td></tr></table></figure><p>Python环境管理:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda create --name py27 python&#x3D;2.7</span><br><span class="line">activate py27</span><br></pre></td></tr></table></figure><p>包管理:</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">conda list</span><br><span class="line">conda install numpy</span><br></pre></td></tr></table></figure><p>(conda install 会安装或更新依赖库，pip install则不会)</p><h1 id="安装工具包"><a href="#安装工具包" class="headerlink" title="[安装工具包]"></a>[安装工具包]</h1><p>conda install numpy scipy pandas matplotlib</p><h1 id="IDE"><a href="#IDE" class="headerlink" title="[IDE]"></a>[IDE]</h1><p>spyder, pycharm, sublime text, vim</p><h1 id="Jupyter"><a href="#Jupyter" class="headerlink" title="[Jupyter]"></a>[Jupyter]</h1><p><code>ipython</code> 一个更好的python交互命令</p><p><code>jupyter notebook</code> Web记事本，可以将交互过程记录并分享。</p><p>后续使用 jupyter 记录。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h1 id=&quot;可选&quot;&gt;&lt;a href=&quot;#可选&quot; class=&quot;headerlink&quot; title=&quot;[可选]&quot;&gt;&lt;/a&gt;[可选]&lt;/h1&gt;&lt;p&gt;install python&lt;/p&gt;
-&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td 
-      
-    
-    </summary>
-    
-    
-      <category term="machine-learning" scheme="http://guileen.github.io/tags/machine-learning/"/>
-    
-      <category term="python" scheme="http://guileen.github.io/tags/python/"/>
-    
-      <category term="data" scheme="http://guileen.github.io/tags/data/"/>
     
   </entry>
   

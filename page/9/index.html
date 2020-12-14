@@ -148,6 +148,76 @@
       <div class="body-wrap">
         
   
+    <article id="post-setup-vpn-and-git-server-on-vps" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/15/setup-vpn-and-git-server-on-vps/">自己动手搭建VPN和Git仓库</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>工作中是否想过自己动手搭建VPN服务？如果你是码农，是否想过顺便搭建个git私有仓库？</p>
+<p>自己搭建VPN和Git仓库，贵不贵？github个人版私有仓库7美元一个月，5个私有仓库。不过，读完本文，你将以5美元/月的成本，收获一个VPN，一个SSH Tunnel，以及一个不限数量的git私有仓库。</p>
+<h2 id="需要准备什么？"><a href="#需要准备什么？" class="headerlink" title="需要准备什么？"></a>需要准备什么？</h2><p>需要有一个VPS了。一个安装了ubuntu操作系统的VPS。最低配置的就行。当然得在外面的机房，你懂的。<br>为什么选ubuntu？因为我懒，谢谢。</p>
+<p>推荐<a href="https://www.digitalocean.com/?refcode=6c7bd4a13044" target="_blank" rel="noopener">DigitalOcean</a>，或者<a href="https://www.linode.com/?r=94d2619aa76f5ffbd8d0869d575829f311322f69" target="_blank" rel="noopener">Linode</a></p>
+<h2 id="到底选什么VPN协议？"><a href="#到底选什么VPN协议？" class="headerlink" title="到底选什么VPN协议？"></a>到底选什么VPN协议？</h2><p>VPN主要有L2TP，PPTP，以及IPsec三种。本文不打算详细讲解VPN的协议原理，也不讲如何选择，只讲答案：选PPTP，因为搭建简单。如果你的目的和我一样，只是为了能够方便工作，那么就选PPTP吧，至于什么加密啥啥的，我不是太care。</p>
+<h2 id="如何搭建PPTP服务"><a href="#如何搭建PPTP服务" class="headerlink" title="如何搭建PPTP服务"></a>如何搭建PPTP服务</h2><p>搭建PPTP服务这一步有点麻烦，我曾经踩了不少坑，花了一整天的时间才网vpn网络连通。你需要知道如何设置iptables，ppp，pptpd。</p>
+<p>不过别怕，懒人们有福了！我知道iptables，ppp，pptpd的设置你都不想关心，你只关心把服务run起来然后设置用户名密码。<br>一键脚本：<a href="https://github.com/nowall/setup-simple-pptp-vpn/blob/master/setup.sh" target="_blank" rel="noopener">github.com/nowall/setup-simple-pptp-vpn</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;nowall&#x2F;setup-simple-pptp-vpn&#x2F;master&#x2F;setup.sh</span><br><span class="line">sh setup.sh</span><br></pre></td></tr></table></figure>
+
+<p>执行完后，控制台会提示你用户名密码（随机生成）。编辑/etc/ppp/chap-secrets 可以修改用户名密码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">用户名 pptpd 密码 *</span><br></pre></td></tr></table></figure>
+
+<h2 id="如何安装git服务"><a href="#如何安装git服务" class="headerlink" title="如何安装git服务"></a>如何安装git服务</h2><p>你一定听过gitlab，不过这货占用内存太大，另外配置复杂，维护困难，不适合在VPS上用。今天给大家介绍一个利器，<a href="gogs.io">gogs</a>，用go语言开发，内存占用小的git服务。<br><a href="http://gogs.io/docs/installation/install_from_binary.html" target="_blank" rel="noopener">下载gogs</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo useradd -m git</span><br><span class="line">sudo su git</span><br><span class="line">wget http:&#x2F;&#x2F;gogs.dn.qbox.me&#x2F;gogs-xxx.zip</span><br><span class="line">unzip gogs-xxx.zip</span><br><span class="line">cd gogs-xxx</span><br><span class="line">nohup scripts&#x2F;start.sh&amp;</span><br></pre></td></tr></table></figure>
+
+<p>浏览器访问 http://你的ip:3000 。第一步要进行设置，建议选择，sqlite数据库，因为省事。</p>
+<h2 id="VPS选择哪个机房？"><a href="#VPS选择哪个机房？" class="headerlink" title="VPS选择哪个机房？"></a>VPS选择哪个机房？</h2><p>如果选择<a href="https://www.linode.com/?r=94d2619aa76f5ffbd8d0869d575829f311322f69" target="_blank" rel="noopener">Linode</a>，建议选用Tokoy（东京）机房，速度很快。</p>
+<p>DigitalOcean的价格更便宜，并且支持按小时付费，而且他的快照服务是免费的。机房建议选择<a href="https://www.digitalocean.com/?refcode=6c7bd4a13044" target="_blank" rel="noopener">DigitalOcean SFO数据中心</a>，虽然在某些网络中SGP（新加坡）速度很快，但是本人在电信网络中实测，SGP机房非常不稳定。SFO（旧金山）机房综合比较是个不错的选择。</p>
+<h2 id="如何给你的VPS提供商汇报问题？"><a href="#如何给你的VPS提供商汇报问题？" class="headerlink" title="如何给你的VPS提供商汇报问题？"></a>如何给你的VPS提供商汇报问题？</h2><p>网络不通，速度慢的时候，你需要把你的问题反馈给你的VPS提供商，最好提供一些数据。<br>ping ip 日志<br>traceroute ip 日志<br>mtr日志<br>mtr -rwc 100 112.64.205.210<br>最好还有从远程主机的控制台 mtr -rwc 100 本地外网ip（通过很多网站可以查到自己的外网ip）</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/01/15/setup-vpn-and-git-server-on-vps/" class="archive-article-date">
+  	<time datetime="2015-01-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-01-15</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-nginx-http-limit-request-frequency" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -791,91 +861,9 @@
 
 
   
-    <article id="post-foreign-vps-for-chinese-developer" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/03/27/foreign-vps-for-chinese-developer/">適合中國開發者的國外VPS</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="爲什麼我們需要一個國外VPS"><a href="#爲什麼我們需要一個國外VPS" class="headerlink" title="爲什麼我們需要一個國外VPS"></a>爲什麼我們需要一個國外VPS</h3><ul>
-<li>翻牆</li>
-<li>不想備案</li>
-<li>服務好</li>
-</ul>
-<p>缺點</p>
-<ul>
-<li>速度慢</li>
-<li>價格高</li>
-</ul>
-<p>可以用GAE嗎？諸多不便，限制你的開發環境，而且不能ssh。此前使用的是Linode，但是一直速度比較慢。現在福音來了</p>
-<h2>吐血推薦<a href="https://www.digitalocean.com/?refcode=6c7bd4a13044" target="_blank" rel="noopener">Digital Ocean</a></h2>
-
-<p>優點</p>
-<ul>
-<li>簡便易用，界面非常的清爽。</li>
-<li>全SSD硬盤，速度快。</li>
-<li>流量足。</li>
-<li>按小時計費，不需要包月，用多少扣多少。</li>
-<li>隨時可以備份你的系統，甚至可以跨機房傳輸你的備份。手動備份是免費的。你可以隨時恢復你的備份。</li>
-<li>價格便宜，最低每月只需要5美元。</li>
-<li>多種操作系統可供選擇。</li>
-<li>最近新增了新加坡機房，國內訪問速度很快，只有100多毫秒的延遲。</li>
-</ul>
-<h3 id="省錢技巧"><a href="#省錢技巧" class="headerlink" title="省錢技巧"></a>省錢技巧</h3><p>請按照如下順序操作</p>
-<ul>
-<li>第一步 <a href="https://www.digitalocean.com/?refcode=6c7bd4a13044" target="_blank" rel="noopener">點擊這裏</a>進入digitalocean註冊帳號</li>
-<li>第二步 使用你的信用卡或Paypal完成至少10美元的支付。</li>
-<li>第三步 搜素 <code>digital ocean promo code 2014</code> 找到一個推廣碼</li>
-<li>第四步 在Billing中的最下方輸入推廣碼，可以額外獲得10美元。</li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2014/03/27/foreign-vps-for-chinese-developer/" class="archive-article-date">
-  	<time datetime="2014-03-26T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-27</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/" rel="tag">VPS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/8/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/10/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/8/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="page-number current">9</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/10/">Next &amp;raquo;</a>
     </nav>
   
 
