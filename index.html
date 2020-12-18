@@ -148,6 +148,79 @@
       <div class="body-wrap">
         
   
+    <article id="post-setup-ikev2-vpn-server-on-ubuntu-16-04" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/12/18/setup-ikev2-vpn-server-on-ubuntu-16-04/">Ubuntu 16 安装 IKEV2 VPN SERVER</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-ikev2-vpn-server-with-strongswan-on-ubuntu-16-04" target="_blank" rel="noopener">https://www.digitalocean.com/community/tutorials/how-to-set-up-an-ikev2-vpn-server-with-strongswan-on-ubuntu-16-04</a></p>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><p>注意替换 server_name_or_ip 为服务器地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install strongswan strongswan-plugin-eap-mschapv2 moreutils iptables-persistent</span><br><span class="line"></span><br><span class="line">mkdir vpn-certs</span><br><span class="line">cd vpn-certs</span><br><span class="line"></span><br><span class="line">ipsec pki --gen --type rsa --size 4096 --outform pem &gt; server-root-key.pem</span><br><span class="line">chmod 600 server-root-key.pem</span><br><span class="line">ipsec pki --self --ca --lifetime 3650 \</span><br><span class="line">--in server-root-key.pem \</span><br><span class="line">--type rsa --dn &quot;C&#x3D;US, O&#x3D;VPN Server, CN&#x3D;VPN Server Root CA&quot; \</span><br><span class="line">--outform pem &gt; server-root-ca.pem</span><br><span class="line"></span><br><span class="line">ipsec pki --gen --type rsa --size 4096 --outform pem &gt; vpn-server-key.pem</span><br><span class="line"></span><br><span class="line">ipsec pki --pub --in vpn-server-key.pem \</span><br><span class="line">--type rsa | ipsec pki --issue --lifetime 1825 \</span><br><span class="line">--cacert server-root-ca.pem \</span><br><span class="line">--cakey server-root-key.pem \</span><br><span class="line">--dn &quot;C&#x3D;US, O&#x3D;VPN Server, CN&#x3D;server_name_or_ip&quot; \</span><br><span class="line">--san server_name_or_ip \</span><br><span class="line">--flag serverAuth --flag ikeIntermediate \</span><br><span class="line">--outform pem &gt; vpn-server-cert.pem</span><br><span class="line"></span><br><span class="line">sudo cp .&#x2F;vpn-server-cert.pem &#x2F;etc&#x2F;ipsec.d&#x2F;certs&#x2F;vpn-server-cert.pem</span><br><span class="line">sudo cp .&#x2F;vpn-server-key.pem &#x2F;etc&#x2F;ipsec.d&#x2F;private&#x2F;vpn-server-key.pem</span><br><span class="line"></span><br><span class="line">sudo chown root &#x2F;etc&#x2F;ipsec.d&#x2F;private&#x2F;vpn-server-key.pem</span><br><span class="line">sudo chgrp root &#x2F;etc&#x2F;ipsec.d&#x2F;private&#x2F;vpn-server-key.pem</span><br><span class="line">sudo chmod 600 &#x2F;etc&#x2F;ipsec.d&#x2F;private&#x2F;vpn-server-key.pem</span><br><span class="line"></span><br><span class="line">sudo cp &#x2F;etc&#x2F;ipsec.conf &#x2F;etc&#x2F;ipsec.conf.original</span><br><span class="line">echo &#39;&#39; | sudo tee &#x2F;etc&#x2F;ipsec.conf</span><br><span class="line"></span><br><span class="line">sudo vim &#x2F;etc&#x2F;ipsec.conf</span><br></pre></td></tr></table></figure>
+
+<h3 id="etc-ipsec-conf"><a href="#etc-ipsec-conf" class="headerlink" title="/etc/ipsec.conf"></a>/etc/ipsec.conf</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">config setup</span><br><span class="line">    charondebug&#x3D;&quot;ike 1, knl 1, cfg 0&quot;</span><br><span class="line">    uniqueids&#x3D;no</span><br><span class="line"></span><br><span class="line">conn ikev2-vpn</span><br><span class="line">    auto&#x3D;add</span><br><span class="line">    compress&#x3D;no</span><br><span class="line">    type&#x3D;tunnel</span><br><span class="line">    keyexchange&#x3D;ikev2</span><br><span class="line">    fragmentation&#x3D;yes</span><br><span class="line">    forceencaps&#x3D;yes</span><br><span class="line">    ike&#x3D;aes256-sha1-modp1024,3des-sha1-modp1024!</span><br><span class="line">    esp&#x3D;aes256-sha1,3des-sha1!</span><br><span class="line">    dpdaction&#x3D;clear</span><br><span class="line">    dpddelay&#x3D;300s</span><br><span class="line">    rekey&#x3D;no</span><br><span class="line">    left&#x3D;%any</span><br><span class="line">    leftid&#x3D;@server_name_or_ip</span><br><span class="line">    leftcert&#x3D;&#x2F;etc&#x2F;ipsec.d&#x2F;certs&#x2F;vpn-server-cert.pem</span><br><span class="line">    leftsendcert&#x3D;always</span><br><span class="line">    leftsubnet&#x3D;0.0.0.0&#x2F;0</span><br><span class="line">    right&#x3D;%any</span><br><span class="line">    rightid&#x3D;%any</span><br><span class="line">    rightauth&#x3D;eap-mschapv2</span><br><span class="line">    rightdns&#x3D;8.8.8.8,8.8.4.4</span><br><span class="line">    rightsourceip&#x3D;10.10.10.0&#x2F;24</span><br><span class="line">    rightsendcert&#x3D;never</span><br><span class="line">    eap_identity&#x3D;%identity</span><br></pre></td></tr></table></figure>
+
+<h2 id="防火墙设置"><a href="#防火墙设置" class="headerlink" title="防火墙设置"></a>防火墙设置</h2><p>可选</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw disable</span><br><span class="line">iptables -P INPUT ACCEPT</span><br><span class="line">iptables -P FORWARD ACCEPT</span><br><span class="line">iptables -F</span><br><span class="line">iptables -Z</span><br></pre></td></tr></table></figure>
+
+<p>默认保持</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT</span><br><span class="line">sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT</span><br><span class="line">sudo iptables -A INPUT -i lo -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<p>VPN端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables -A INPUT -p udp --dport  500 -j ACCEPT</span><br><span class="line">sudo iptables -A INPUT -p udp --dport 4500 -j ACCEPT</span><br><span class="line">sudo iptables -A FORWARD --match policy --pol ipsec --dir in  --proto esp -s 10.10.10.10&#x2F;24 -j ACCEPT</span><br><span class="line">sudo iptables -A FORWARD --match policy --pol ipsec --dir out --proto esp -d 10.10.10.10&#x2F;24 -j ACCEPT</span><br><span class="line">sudo iptables -t nat -A POSTROUTING -s 10.10.10.10&#x2F;24 -o eth0 -m policy --pol ipsec --dir out -j ACCEPT</span><br><span class="line">sudo iptables -t nat -A POSTROUTING -s 10.10.10.10&#x2F;24 -o eth0 -j MASQUERADE</span><br><span class="line">sudo iptables -t mangle -A FORWARD --match policy --pol ipsec --dir in -s 10.10.10.10&#x2F;24 -o eth0 -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss --mss 1361:1536 -j TCPMSS --set-mss 1360</span><br></pre></td></tr></table></figure>
+
+<p>可选，禁用其他</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables -A INPUT -j DROP</span><br><span class="line">sudo iptables -A FORWARD -j DROP</span><br></pre></td></tr></table></figure>
+
+<p>重启防火墙</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo netfilter-persistent save</span><br><span class="line">sudo netfilter-persistent reload</span><br></pre></td></tr></table></figure>
+
+<h2 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h2><p>sudo vim /etc/sysctl.conf</p>
+<h3 id="etc-sysctl-conf"><a href="#etc-sysctl-conf" class="headerlink" title="/etc/sysctl.conf"></a>/etc/sysctl.conf</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">. . .</span><br><span class="line"></span><br><span class="line"># Uncomment the next line to enable packet forwarding for IPv4</span><br><span class="line">net.ipv4.ip_forward&#x3D;1</span><br><span class="line"></span><br><span class="line">. . .</span><br><span class="line"></span><br><span class="line"># Do not accept ICMP redirects (prevent MITM attacks)</span><br><span class="line">net.ipv4.conf.all.accept_redirects &#x3D; 0</span><br><span class="line"># Do not send ICMP redirects (we are not a router)</span><br><span class="line">net.ipv4.conf.all.send_redirects &#x3D; 0</span><br><span class="line"></span><br><span class="line">. . .</span><br><span class="line"></span><br><span class="line">net.ipv4.ip_no_pmtu_disc &#x3D; 1</span><br></pre></td></tr></table></figure>
+
+<h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><p><code>sudo reboot</code></p>
+<h2 id="客户端测试"><a href="#客户端测试" class="headerlink" title="客户端测试"></a>客户端测试</h2><p><code>scp hk:~/vpn-certs/server-root-ca.pem ./</code></p>
+<p>安装并信任证书，测试</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2020/12/18/setup-ikev2-vpn-server-on-ubuntu-16-04/" class="archive-article-date">
+  	<time datetime="2020-12-18T02:50:16.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-12-18</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-parse-html-in-command-line" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -733,98 +806,6 @@
       
       <a href="/2019/12/27/introduce-reinforcement-learning-2/" class="archive-article-date">
   	<time datetime="2019-12-27T08:02:19.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-27</time>
-</a>
-      
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/AI/">AI</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-introduce-reinforcement-learning-1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/27/introduce-reinforcement-learning-1/">强化学习简介（一）：Q-learning</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>完成图像分类之类的监督学习任务，已经没有特别大的难度。我们希望AI能够帮助我们处理一些更加复杂的任务，比如：下棋、玩游戏、自动驾驶、行走等。这一类的学习任务被称为强化学习。</p>
-<p><img src="/img/rl-1/4.png" alt="强化学习图示"></p>
-<h2 id="K摇臂赌博机"><a href="#K摇臂赌博机" class="headerlink" title="K摇臂赌博机"></a>K摇臂赌博机</h2><p>我们可以考虑一个最简单的环境：一个动作可立刻获得奖励，目标是使每一个动作的奖励最大化。对这种单步强化学习任务，可以设计一个理论模型——“K-摇臂赌博机”。这个赌博机有K个摇臂，赌徒在投入一个硬币后可一选择按下一个摇臂，每个摇臂以一定概率吐出硬币，但这个概率赌徒并不知道。赌徒的目标是通过一定的策略最大化自己的奖赏，即获得最多的硬币。最终所获得的总奖励被称为累计奖励。</p>
-<p><img src="/img/rl-1/2.jpg" alt="K摇臂赌博机"></p>
-<p>对于这个简单模型，若要知道每个摇臂的概率，我们只需要进行足够多的尝试即可，这是“仅探索”策略；若要奖励最大化，则需要执行奖赏概率最大的动作即可，这是“仅利用”策略。但在更复杂的环境中，我们不可能对每一个状态的每个动作都进行足够多的探索。比如围棋，我们后续的探索是需要依赖于之前的探索的。因此我们需要在探索和利用之间进行平衡。我们在学习的过程中，必须要保持一定的概率`epsilon`进行探索，其余时候则执行学习到的策略。</p>
-<h2 id="基本概念术语"><a href="#基本概念术语" class="headerlink" title="基本概念术语"></a>基本概念术语</h2><p>为了便于分析讨论，我们定义一些术语。</p>
-<ul>
-<li><p>机器agent处于环境`E`中。</p>
-</li>
-<li><p>状态空间为`S`，每个状态`s in S`是机器感知到的环境描述。</p>
-</li>
-<li><p>机器能够采取的可采取的动作a的集合即动作空间`A`，`a in A`。</p>
-</li>
-<li><p>转移函数`P`表示：当机器执行了一个动作`a`后，环境有一定概率从状态`s`改变为新的状态`s’`。即：`s’=P(s, a)`</p>
-</li>
-<li><p>奖赏函数`R`则表示了执行动作可能获得的奖赏`r`。即：`r=R(s,a)`。</p>
-</li>
-<li><p>环境可以描述为`E=&lt;&lt;S, A, P, R&gt;&gt;`。</p>
-</li>
-<li><p>强化学习的任务是习得一个策略（policy）`pi`，使机器在状态`s`下选择到最佳的`a`。策略有两种描述方法：</p>
-<ol>
-<li>`a=pi(s)` 表示状态`s`下将执行动作`a`，是一种确定性的表示法。</li>
-<li>`pi(s, a)` 表示状态`s`下执行动作`a`的概率。这里有 `sum_a pi(s,a)=1`</li>
-</ol>
-</li>
-<li><p>累计奖励指连续的执行一串动作之后的奖励总和。</p>
-</li>
-<li><p>`Q^(pi)(s, a)`表示在状态`s`下，执行动作`a`，再策略`pi`的累计奖励。为方便讨论后续直接写为`Q(s,a)`。</p>
-</li>
-<li><p>`V^(pi)(s)` 表示在状态`s`下，使用策略`pi`的累计奖励。为方便讨论后续直接写为`V(s)`。</p>
-</li>
-</ul>
-<p>强化学习往往不会立刻得到奖励，而是在很多步之后才能得到一个诸如成功/失败的奖励，这是我们的算法需要反思之前所有的动作来学习。所以强化学习可以视作一种延迟标记的监督学习。</p>
-<h2 id="Q-learning"><a href="#Q-learning" class="headerlink" title="Q-learning"></a>Q-learning</h2><p>对于我们要学习的`Q(s,a)`函数，我们可以使用一个Q-table来表示。Q-table是一个二维表，记录每个状态`s in S, a in A`的`Q`值。Q表被初始化为0的状态。在状态`s`执行了动作`a`之后，得到状态`s’`，奖励`r`。我们将潜在的`Q`函数记为`Q_(real)`，其值为当前奖励r与后续状态`s’`的最佳累计奖励之和。则有：</p>
-<p>` Q_(real)(s, a) = r + gamma * argmax_aQ(s’, a) `<br>` err = Q_(real)(s, a) - Q(s, a) `</p>
-<p>其中`gamma`为`Q`函数的偏差，`err`为误差，`alpha`为学习率。 可得出更新公式为：</p>
-<p>` Q(s, a) leftarrow Q(s, a) + alpha*err `<br>即：<br>` Q(s,a) leftarrow (1-alpha)Q(s,a) + alpha(r + gamma * argmax_aQ(s’, a)) `</p>
-<p>以上公式即为Q-learning的关键</p>
-<h3 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 初始化Q表</span></span><br><span class="line"><span class="keyword">for</span> s <span class="keyword">in</span> S:</span><br><span class="line">  <span class="keyword">for</span> a <span class="keyword">in</span> A:</span><br><span class="line">    Q(s, a) = <span class="number">0</span></span><br><span class="line"><span class="comment"># 训练过程</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(N):</span><br><span class="line">  <span class="keyword">if</span> rand() &lt; epsilon:</span><br><span class="line">    a = 从 A 中随机选取一个动作</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    a = 从 A 中选取使 Q(a) 最大的a</span><br><span class="line">  <span class="comment"># 从环境中获得反馈</span></span><br><span class="line">  r = R(s, a)</span><br><span class="line">  s1 = P(s, a)</span><br><span class="line">  <span class="comment"># 更新Q表</span></span><br><span class="line">  Q(s,a) = (<span class="number">1</span>-alpha)*Q(s,a) + alpha * (r + gamma * argmax Q(s1, a) - Q(s, a))</span><br><span class="line">  s = s1</span><br></pre></td></tr></table></figure>
-
-<p>下图是一个Q表内存结构，在经过一定的学习后，Q表的内容将能够不断逼近每个状态的每个动作的累计收益。<br><img src="/img/rl-1/3.png" alt="Q-table"></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2019/12/27/introduce-reinforcement-learning-1/" class="archive-article-date">
-  	<time datetime="2019-12-27T03:28:16.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-27</time>
 </a>
       
       

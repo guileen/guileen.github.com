@@ -148,6 +148,62 @@
       <div class="body-wrap">
         
   
+    <article id="post-use-iterm2-monitor-errors" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/05/21/use-iterm2-monitor-errors/">使用iterm监控错误</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Install terminal-notifier</p>
+<p><code>brew install terminal-notifier</code></p>
+<p><code>Cmd+,</code> -&gt; Prefrences -&gt; Advanced -&gt; Triggers</p>
+<p>Add new trigger</p>
+<p>Regular Expression: <code>.*ERRO.*</code><br>Action: <code>Run Command</code><br>Parameters: <code>/usr/local/bin/terminal-notifier -message &quot;\0&quot; -title Error</code></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/05/21/use-iterm2-monitor-errors/" class="archive-article-date">
+  	<time datetime="2015-05-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-05-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/terminal/" rel="tag">terminal</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tools/" rel="tag">tools</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-mysql-cluster" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -884,92 +940,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game/" rel="tag">game</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/" rel="tag">game-dev</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-get-isp-ip-blocks" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/15/get-isp-ip-blocks/">获取运营商IP段</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>转载，整理</p>
-<h1 id="过滤法"><a href="#过滤法" class="headerlink" title="过滤法"></a>过滤法</h1><p>apnic.sh</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;bash</span><br><span class="line">FILE&#x3D;.&#x2F;ip_apnic</span><br><span class="line">rm -f $FILE</span><br><span class="line">wget http:&#x2F;&#x2F;ftp.apnic.net&#x2F;apnic&#x2F;stats&#x2F;apnic&#x2F;delegated-apnic-latest -O $FILE</span><br><span class="line">grep &#39;apnic|CN|ipv4|&#39; $FILE | cut -f 4,5 -d&#39;|&#39;|sed -e &#39;s&#x2F;|&#x2F; &#x2F;g&#39; | while read ip cnt</span><br><span class="line">do</span><br><span class="line">        echo $ip:$cnt</span><br><span class="line">        mask&#x3D;$(cat &lt;&lt; EOF | bc | tail -1</span><br><span class="line">        pow&#x3D;32;</span><br><span class="line">        define log2(x) &#123;</span><br><span class="line">        if (x&lt;&#x3D;1) return (pow);</span><br><span class="line">                pow--;</span><br><span class="line">                return(log2(x&#x2F;2));</span><br><span class="line">        &#125;</span><br><span class="line">        log2($cnt)</span><br><span class="line">EOF)</span><br><span class="line">        echo $ip&#x2F;$mask&gt;&gt; cn.net</span><br><span class="line">        NETNAME&#x3D;&#96;whois $ip@whois.apnic.net | sed -e &#39;&#x2F;.&#x2F;&#123;H;$!d;&#125;&#39; -e &#39;x;&#x2F;netnum&#x2F;!d&#39; |grep ^netname | sed -e &#39;s&#x2F;.*: \(.*\)&#x2F;\1&#x2F;g&#39; | sed -e &#39;s&#x2F;-.*&#x2F;&#x2F;g&#39;&#96;</span><br><span class="line">        NETNAME&#x3D;&#96;echo $NETNAME | sed -e &#39;s&#x2F;cJ&#x2F; &#x2F;g&#39; | awk -F&#39; &#39; &#39;&#123; printf $1; &#125;&#39;&#96;</span><br><span class="line">       case $NETNAME in</span><br><span class="line">       CNC)</span><br><span class="line">               echo $ip&#x2F;$mask &gt;&gt; CNCGROUP</span><br><span class="line">       ;;</span><br><span class="line">       CHINANET|CNCGROUP)</span><br><span class="line">               echo $ip&#x2F;$mask &gt;&gt; $NETNAME</span><br><span class="line">       ;;</span><br><span class="line">       CHINATELECOM)</span><br><span class="line">               echo $ip&#x2F;$mask &gt;&gt; CHINANET</span><br><span class="line">       ;;</span><br><span class="line">       *)</span><br><span class="line">               echo $ip&#x2F;$mask $NETNAME &gt;&gt; OTHER</span><br><span class="line">       ;;</span><br><span class="line">       esac</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-
-<h1 id="whois3"><a href="#whois3" class="headerlink" title="whois3"></a>whois3</h1><p>从apnic获取电信 网通 铁通等ip的办法<br>　　APNIC是管理亚太地区IP地址分配的机构，它有着丰富准确的IP地址分配库，同时这些信息也是对外公开的！下面就让我们看看如何在Linux下获得一些电信运营商的IP地址分配情况：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; wget http:&#x2F;&#x2F;ftp.apnic.net&#x2F;apnic&#x2F;dbase&#x2F;tools&#x2F;ripe-dbase-client-v3.tar.gz</span><br><span class="line">shell&gt; tar xzvf ripe-dbase-client-v3.tar.gz</span><br><span class="line">shell&gt; cd whois-3.1</span><br><span class="line">shell&gt; .&#x2F;configure</span><br><span class="line">shell&gt; make</span><br></pre></td></tr></table></figure>
-
-<p>中国网通：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; .&#x2F;whois3 -h whois.apnic.net -l -i mb MAINT-CNCGROUP &gt; &#x2F;var&#x2F;cnc</span><br></pre></td></tr></table></figure>
-
-<p>中国电信：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; .&#x2F;whois3 -h whois.apnic.net -l -i mb MAINT-CHINANET &gt; &#x2F;var&#x2F;chinanet</span><br></pre></td></tr></table></figure>
-
-
-<p>中国铁通：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">shell&gt; .&#x2F;whois3 -h whois.apnic.net -l -i mb MAINT-CN-CRTC &gt; &#x2F;var&#x2F;crtc</span><br></pre></td></tr></table></figure>
-
-<p>　　打开获取后的文件可以看到里面的信息非常详细，甚至可以看到各个分公司的负责人、电话、电子邮件等等信息。如果想得到一份整齐干净的IP地址段文件，只要用grep和awk简单过滤就可以了：）</p>
-<p>　　使用ripe-whois3获得电信，网通等运营商的ip地址<br>Linux中下载安装</p>
-<p>  <a href="http://ftp.apnic.net/apnic/dbase/tools/" target="_blank" rel="noopener">http://ftp.apnic.net/apnic/dbase/tools/</a></p>
-<p>ripe-whois-tools-2.3.tar.gz  tar xzvf </p>
-<p>ripe-whois-tools-2.3.tar.gz  cd /usr/ports/net/ripe-whois3</p>
-<p>  make install clean  rehash</p>
-<p>查询：<br>中国网通: whois3 -h whois.apnic.net -l -i mb MAINT-CNCGROUP</p>
-<p>中国电信: whois3 -h whois.apnic.net -l -i mb MAINT-CHINANET</p>
-<p>中国铁通: whois3 -h whois.apnic.net -l -i mb MAINT-CNC-CRTC</p>
-<h1 id="在线列表"><a href="#在线列表" class="headerlink" title="在线列表"></a>在线列表</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br></pre></td><td class="code"><pre><span class="line">#!&#x2F;bin&#x2F;sh</span><br><span class="line">FILE&#x3D;&#x2F;home&#x2F;ip_apnic</span><br><span class="line">rm -f $FILE</span><br><span class="line">rm -f CNC</span><br><span class="line">rm -f OTHER</span><br><span class="line">rm -f CHINANET</span><br><span class="line">rm -f CRTC</span><br><span class="line">wget http:&#x2F;&#x2F;ftp.apnic.net&#x2F;apnic&#x2F;stats&#x2F;apnic&#x2F;delegated-apnic-latest -O $FILE</span><br><span class="line">grep &#39;apnic|CN|ipv4|&#39; $FILE | cut -f 4,5 -d&#39;|&#39;|sed -e &#39;s&#x2F;|&#x2F; &#x2F;g&#39; | while read ip cnt</span><br><span class="line">do</span><br><span class="line">    mask&#x3D;$(cat &lt;&lt; EOF | bc | tail -1</span><br><span class="line">pow&#x3D;32;</span><br><span class="line">define log2(x) &#123;</span><br><span class="line">if (x&lt;&#x3D;1) return (pow);</span><br><span class="line">pow--;</span><br><span class="line">return(log2(x&#x2F;2));</span><br><span class="line">&#125;</span><br><span class="line">log2($cnt)</span><br><span class="line">EOF)</span><br><span class="line">        echo $ip&#x2F;$mask</span><br><span class="line">        echo $ip&#x2F;$mask&gt;&gt; cn.net</span><br><span class="line">        NETNAME&#x3D;&#96;whois $ip | grep ^netname | sed -e &#39;s&#x2F;.*:      (.*)&#x2F;1&#x2F;g&#39; | sed -e &#39;s&#x2F;-.*&#x2F;&#x2F;g&#39;&#96;</span><br><span class="line">echo $NETNAME;</span><br><span class="line">        case $NETNAME in</span><br><span class="line">        CNC)</span><br><span class="line">                echo $ip&#x2F;$mask &gt;&gt; CNC</span><br><span class="line">        ;;</span><br><span class="line">        CNCGROUP)</span><br><span class="line">                echo $ip&#x2F;$mask &gt;&gt; CNC</span><br><span class="line">        ;;</span><br><span class="line">        CHINANET)</span><br><span class="line">                echo $ip&#x2F;$mask &gt;&gt; CHINANET</span><br><span class="line">        ;;</span><br><span class="line">        CHINATELECOM)</span><br><span class="line">                echo $ip&#x2F;$mask &gt;&gt; CHINANET</span><br><span class="line">        ;;</span><br><span class="line">        CRTC)</span><br><span class="line">                echo $ip&#x2F;$mask &gt;&gt; CRTC</span><br><span class="line">        ;;</span><br><span class="line">        *)</span><br><span class="line">                echo $ip&#x2F;$mask &gt;&gt; OTHER</span><br><span class="line">        ;;</span><br><span class="line">        esac</span><br><span class="line">done</span><br></pre></td></tr></table></figure>
-
-<p>中国电信 IP地址段：<br><a href="http://ispip.clangcn.com/chinatelecom.html" target="_blank" rel="noopener">http://ispip.clangcn.com/chinatelecom.html</a></p>
-<p>中国联通（网通）IP地址段：<br><a href="http://ispip.clangcn.com/unicom_cnc.html" target="_blank" rel="noopener">http://ispip.clangcn.com/unicom_cnc.html</a></p>
-<p>中国移动 IP地址段：<br><a href="http://ispip.clangcn.com/cmcc.html" target="_blank" rel="noopener">http://ispip.clangcn.com/cmcc.html</a></p>
-<p>中国铁通 IP地址段：<br><a href="http://ispip.clangcn.com/crtc.html" target="_blank" rel="noopener">http://ispip.clangcn.com/crtc.html</a></p>
-<p>中国教育网 IP地址段：<br><a href="http://ispip.clangcn.com/cernet.html" target="_blank" rel="noopener">http://ispip.clangcn.com/cernet.html</a></p>
-<p>中国其他ISP IP地址段：<br><a href="http://ispip.clangcn.com/othernet.html" target="_blank" rel="noopener">http://ispip.clangcn.com/othernet.html</a></p>
-<p>本博缓存 uploads/2015</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/03/15/get-isp-ip-blocks/" class="archive-article-date">
-  	<time datetime="2015-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-15</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hack/" rel="tag">hack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/network/" rel="tag">network</a></li></ul>
 	</div>
 
       

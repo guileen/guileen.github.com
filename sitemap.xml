@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://guileen.github.io/2020/12/18/setup-ikev2-vpn-server-on-ubuntu-16-04/</loc>
+    
+    <lastmod>2020-12-18T03:00:58.932Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://guileen.github.io/2020/12/14/parse-html-in-command-line/</loc>
     
     <lastmod>2020-12-14T09:44:16.415Z</lastmod>

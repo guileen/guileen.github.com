@@ -6,16 +6,16 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://guileen.github.io">
-  <title>在命令行解析HTML | 桂糊涂的博客</title>
+  <title>Ubuntu 16 安装 IKEV2 VPN SERVER | 桂糊涂的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近要做音乐app，但没有素材。 一个音乐爬虫 https:&#x2F;&#x2F;github.com&#x2F;BeanWei&#x2F;MusicSpider 网页版的内容比较容易解析，为了快速了解数据结构，需要一个好工具。于是找到了pup 123go get github.com&#x2F;ericchiang&#x2F;pupcurl -s https:&#x2F;&#x2F;news.ycombinator.com&amp;#x2F">
+  <meta name="description" content="https:&#x2F;&#x2F;www.digitalocean.com&#x2F;community&#x2F;tutorials&#x2F;how-to-set-up-an-ikev2-vpn-server-with-strongswan-on-ubuntu-16-04 命令注意替换 server_name_or_ip 为服务器地址 12345678910111213141516171819202122232425262728293031">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在命令行解析HTML">
-<meta property="og:url" content="http://guileen.github.io/2020/12/14/parse-html-in-command-line/index.html">
+<meta property="og:title" content="Ubuntu 16 安装 IKEV2 VPN SERVER">
+<meta property="og:url" content="http://guileen.github.io/2020/12/18/setup-ikev2-vpn-server-on-ubuntu-16-04/index.html">
 <meta property="og:site_name" content="桂糊涂的博客">
-<meta property="og:description" content="最近要做音乐app，但没有素材。 一个音乐爬虫 https:&#x2F;&#x2F;github.com&#x2F;BeanWei&#x2F;MusicSpider 网页版的内容比较容易解析，为了快速了解数据结构，需要一个好工具。于是找到了pup 123go get github.com&#x2F;ericchiang&#x2F;pupcurl -s https:&#x2F;&#x2F;news.ycombinator.com&amp;#x2F">
-<meta property="article:published_time" content="2020-12-14T09:02:32.000Z">
-<meta property="article:modified_time" content="2020-12-14T09:44:16.415Z">
+<meta property="og:description" content="https:&#x2F;&#x2F;www.digitalocean.com&#x2F;community&#x2F;tutorials&#x2F;how-to-set-up-an-ikev2-vpn-server-with-strongswan-on-ubuntu-16-04 命令注意替换 server_name_or_ip 为服务器地址 12345678910111213141516171819202122232425262728293031">
+<meta property="article:published_time" content="2020-12-18T02:50:16.000Z">
+<meta property="article:modified_time" content="2020-12-18T03:00:58.932Z">
 <meta property="article:author" content="桂糊涂">
 <meta name="twitter:card" content="summary">
   
@@ -148,7 +148,7 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-parse-html-in-command-line" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-setup-ikev2-vpn-server-on-ubuntu-16-04" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -158,7 +158,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      在命令行解析HTML
+      Ubuntu 16 安装 IKEV2 VPN SERVER
     </h1>
   
 
@@ -166,22 +166,40 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近要做音乐app，但没有素材。 一个音乐爬虫</p>
-<p><a href="https://github.com/BeanWei/MusicSpider" target="_blank" rel="noopener">https://github.com/BeanWei/MusicSpider</a></p>
-<p>网页版的内容比较容易解析，为了快速了解数据结构，需要一个好工具。于是找到了pup</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">go get github.com&#x2F;ericchiang&#x2F;pup</span><br><span class="line"></span><br><span class="line">curl -s https:&#x2F;&#x2F;news.ycombinator.com&#x2F; | pup &#39;table table tr:nth-last-of-type(n+2) td.title a json&#123;&#125;&#39;</span><br></pre></td></tr></table></figure>
+        <p><a href="https://www.digitalocean.com/community/tutorials/how-to-set-up-an-ikev2-vpn-server-with-strongswan-on-ubuntu-16-04" target="_blank" rel="noopener">https://www.digitalocean.com/community/tutorials/how-to-set-up-an-ikev2-vpn-server-with-strongswan-on-ubuntu-16-04</a></p>
+<h2 id="命令"><a href="#命令" class="headerlink" title="命令"></a>命令</h2><p>注意替换 server_name_or_ip 为服务器地址</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install strongswan strongswan-plugin-eap-mschapv2 moreutils iptables-persistent</span><br><span class="line"></span><br><span class="line">mkdir vpn-certs</span><br><span class="line">cd vpn-certs</span><br><span class="line"></span><br><span class="line">ipsec pki --gen --type rsa --size 4096 --outform pem &gt; server-root-key.pem</span><br><span class="line">chmod 600 server-root-key.pem</span><br><span class="line">ipsec pki --self --ca --lifetime 3650 \</span><br><span class="line">--in server-root-key.pem \</span><br><span class="line">--type rsa --dn &quot;C&#x3D;US, O&#x3D;VPN Server, CN&#x3D;VPN Server Root CA&quot; \</span><br><span class="line">--outform pem &gt; server-root-ca.pem</span><br><span class="line"></span><br><span class="line">ipsec pki --gen --type rsa --size 4096 --outform pem &gt; vpn-server-key.pem</span><br><span class="line"></span><br><span class="line">ipsec pki --pub --in vpn-server-key.pem \</span><br><span class="line">--type rsa | ipsec pki --issue --lifetime 1825 \</span><br><span class="line">--cacert server-root-ca.pem \</span><br><span class="line">--cakey server-root-key.pem \</span><br><span class="line">--dn &quot;C&#x3D;US, O&#x3D;VPN Server, CN&#x3D;server_name_or_ip&quot; \</span><br><span class="line">--san server_name_or_ip \</span><br><span class="line">--flag serverAuth --flag ikeIntermediate \</span><br><span class="line">--outform pem &gt; vpn-server-cert.pem</span><br><span class="line"></span><br><span class="line">sudo cp .&#x2F;vpn-server-cert.pem &#x2F;etc&#x2F;ipsec.d&#x2F;certs&#x2F;vpn-server-cert.pem</span><br><span class="line">sudo cp .&#x2F;vpn-server-key.pem &#x2F;etc&#x2F;ipsec.d&#x2F;private&#x2F;vpn-server-key.pem</span><br><span class="line"></span><br><span class="line">sudo chown root &#x2F;etc&#x2F;ipsec.d&#x2F;private&#x2F;vpn-server-key.pem</span><br><span class="line">sudo chgrp root &#x2F;etc&#x2F;ipsec.d&#x2F;private&#x2F;vpn-server-key.pem</span><br><span class="line">sudo chmod 600 &#x2F;etc&#x2F;ipsec.d&#x2F;private&#x2F;vpn-server-key.pem</span><br><span class="line"></span><br><span class="line">sudo cp &#x2F;etc&#x2F;ipsec.conf &#x2F;etc&#x2F;ipsec.conf.original</span><br><span class="line">echo &#39;&#39; | sudo tee &#x2F;etc&#x2F;ipsec.conf</span><br><span class="line"></span><br><span class="line">sudo vim &#x2F;etc&#x2F;ipsec.conf</span><br></pre></td></tr></table></figure>
 
+<h3 id="etc-ipsec-conf"><a href="#etc-ipsec-conf" class="headerlink" title="/etc/ipsec.conf"></a>/etc/ipsec.conf</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br></pre></td><td class="code"><pre><span class="line">config setup</span><br><span class="line">    charondebug&#x3D;&quot;ike 1, knl 1, cfg 0&quot;</span><br><span class="line">    uniqueids&#x3D;no</span><br><span class="line"></span><br><span class="line">conn ikev2-vpn</span><br><span class="line">    auto&#x3D;add</span><br><span class="line">    compress&#x3D;no</span><br><span class="line">    type&#x3D;tunnel</span><br><span class="line">    keyexchange&#x3D;ikev2</span><br><span class="line">    fragmentation&#x3D;yes</span><br><span class="line">    forceencaps&#x3D;yes</span><br><span class="line">    ike&#x3D;aes256-sha1-modp1024,3des-sha1-modp1024!</span><br><span class="line">    esp&#x3D;aes256-sha1,3des-sha1!</span><br><span class="line">    dpdaction&#x3D;clear</span><br><span class="line">    dpddelay&#x3D;300s</span><br><span class="line">    rekey&#x3D;no</span><br><span class="line">    left&#x3D;%any</span><br><span class="line">    leftid&#x3D;@server_name_or_ip</span><br><span class="line">    leftcert&#x3D;&#x2F;etc&#x2F;ipsec.d&#x2F;certs&#x2F;vpn-server-cert.pem</span><br><span class="line">    leftsendcert&#x3D;always</span><br><span class="line">    leftsubnet&#x3D;0.0.0.0&#x2F;0</span><br><span class="line">    right&#x3D;%any</span><br><span class="line">    rightid&#x3D;%any</span><br><span class="line">    rightauth&#x3D;eap-mschapv2</span><br><span class="line">    rightdns&#x3D;8.8.8.8,8.8.4.4</span><br><span class="line">    rightsourceip&#x3D;10.10.10.0&#x2F;24</span><br><span class="line">    rightsendcert&#x3D;never</span><br><span class="line">    eap_identity&#x3D;%identity</span><br></pre></td></tr></table></figure>
 
-<p>以上解析可以用于命令行的分析，但若要生成更精简的数据结构，可以用下面的结构。</p>
-<p>const { parse } = require(‘node-html-parser’)<br>const fs = require(‘fs’)</p>
-<p>var dom = parse(fs.readFileSync(“./test_list.xml”, “utf8”))<br>var res = dom.querySelectorAll(‘li’).map(el=&gt; {<br>     return {<br>         src: el.querySelector(“img”).getAttribute(“src”),<br>         title: el.querySelector(“a.tit”).innerText,<br>         href: el.querySelector(“a.tit”).getAttribute(“href”),<br>         cnt: el.querySelector(“span.nb”).innerText,<br>     }<br> })<br>console.log(JSON.stringify(res,null,’  ‘))</p>
+<h2 id="防火墙设置"><a href="#防火墙设置" class="headerlink" title="防火墙设置"></a>防火墙设置</h2><p>可选</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo ufw disable</span><br><span class="line">iptables -P INPUT ACCEPT</span><br><span class="line">iptables -P FORWARD ACCEPT</span><br><span class="line">iptables -F</span><br><span class="line">iptables -Z</span><br></pre></td></tr></table></figure>
+
+<p>默认保持</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables -A INPUT -m state --state ESTABLISHED,RELATED -j ACCEPT</span><br><span class="line">sudo iptables -A INPUT -p tcp --dport 22 -j ACCEPT</span><br><span class="line">sudo iptables -A INPUT -i lo -j ACCEPT</span><br></pre></td></tr></table></figure>
+
+<p>VPN端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables -A INPUT -p udp --dport  500 -j ACCEPT</span><br><span class="line">sudo iptables -A INPUT -p udp --dport 4500 -j ACCEPT</span><br><span class="line">sudo iptables -A FORWARD --match policy --pol ipsec --dir in  --proto esp -s 10.10.10.10&#x2F;24 -j ACCEPT</span><br><span class="line">sudo iptables -A FORWARD --match policy --pol ipsec --dir out --proto esp -d 10.10.10.10&#x2F;24 -j ACCEPT</span><br><span class="line">sudo iptables -t nat -A POSTROUTING -s 10.10.10.10&#x2F;24 -o eth0 -m policy --pol ipsec --dir out -j ACCEPT</span><br><span class="line">sudo iptables -t nat -A POSTROUTING -s 10.10.10.10&#x2F;24 -o eth0 -j MASQUERADE</span><br><span class="line">sudo iptables -t mangle -A FORWARD --match policy --pol ipsec --dir in -s 10.10.10.10&#x2F;24 -o eth0 -p tcp -m tcp --tcp-flags SYN,RST SYN -m tcpmss --mss 1361:1536 -j TCPMSS --set-mss 1360</span><br></pre></td></tr></table></figure>
+
+<p>可选，禁用其他</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables -A INPUT -j DROP</span><br><span class="line">sudo iptables -A FORWARD -j DROP</span><br></pre></td></tr></table></figure>
+
+<p>重启防火墙</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo netfilter-persistent save</span><br><span class="line">sudo netfilter-persistent reload</span><br></pre></td></tr></table></figure>
+
+<h2 id="网络配置"><a href="#网络配置" class="headerlink" title="网络配置"></a>网络配置</h2><p>sudo vim /etc/sysctl.conf</p>
+<h3 id="etc-sysctl-conf"><a href="#etc-sysctl-conf" class="headerlink" title="/etc/sysctl.conf"></a>/etc/sysctl.conf</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">. . .</span><br><span class="line"></span><br><span class="line"># Uncomment the next line to enable packet forwarding for IPv4</span><br><span class="line">net.ipv4.ip_forward&#x3D;1</span><br><span class="line"></span><br><span class="line">. . .</span><br><span class="line"></span><br><span class="line"># Do not accept ICMP redirects (prevent MITM attacks)</span><br><span class="line">net.ipv4.conf.all.accept_redirects &#x3D; 0</span><br><span class="line"># Do not send ICMP redirects (we are not a router)</span><br><span class="line">net.ipv4.conf.all.send_redirects &#x3D; 0</span><br><span class="line"></span><br><span class="line">. . .</span><br><span class="line"></span><br><span class="line">net.ipv4.ip_no_pmtu_disc &#x3D; 1</span><br></pre></td></tr></table></figure>
+
+<h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><p><code>sudo reboot</code></p>
+<h2 id="客户端测试"><a href="#客户端测试" class="headerlink" title="客户端测试"></a>客户端测试</h2><p><code>scp hk:~/vpn-certs/server-root-ca.pem ./</code></p>
+<p>安装并信任证书，测试</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2020/12/14/parse-html-in-command-line/" class="archive-article-date">
-  	<time datetime="2020-12-14T09:02:32.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-12-14</time>
+      <a href="/2020/12/18/setup-ikev2-vpn-server-on-ubuntu-16-04/" class="archive-article-date">
+  	<time datetime="2020-12-18T02:50:16.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-12-18</time>
 </a>
       
       
@@ -194,18 +212,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/12/18/setup-ikev2-vpn-server-on-ubuntu-16-04/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Ubuntu 16 安装 IKEV2 VPN SERVER
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/10/29/tao-at-the-very-begining/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">太初有道</div>
+    <a href="/2020/12/14/parse-html-in-command-line/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">在命令行解析HTML</div>
       <i class="icon-circle-right"></i>
     </a>
   
