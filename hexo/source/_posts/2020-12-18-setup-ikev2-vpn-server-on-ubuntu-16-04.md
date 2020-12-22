@@ -154,3 +154,10 @@ net.ipv4.ip_no_pmtu_disc = 1
 `scp hk:~/vpn-certs/server-root-ca.pem ./`
 
 安装并信任证书，测试
+
+## Relay server 
+
+```
+brook relay -f :500 -t 1.2.3.4:500 &
+brook relay -f :4500 -t 1.2.3.4:4500 &
+```
