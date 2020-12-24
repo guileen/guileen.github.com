@@ -6,14 +6,16 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://guileen.github.io">
-  <title>Archives: 2020/12 | 桂糊涂的博客</title>
+  <title>脚本控制Mac通知栏 | 桂糊涂的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="桂糊涂的博客">
-<meta property="og:url" content="http://guileen.github.io/archives/2020/12/index.html">
+  <meta name="description" content="bitbar 可以让你使用任何脚本来控制Mac的菜单栏。你只需要写一个向控制台输出的脚本即可。使你在菜单栏可以轻松的切换ssh tunnel，显示BTC价格等。只需要将脚本放置在 bitbar plugin 目录中，文件名中可指定刷新频率。如：ssh-tunnel.1s.sh 编辑 ssh config 包含 DynamicForward 的配置，将自动出现在菜单中。 1234567891011H">
+<meta property="og:type" content="article">
+<meta property="og:title" content="脚本控制Mac通知栏">
+<meta property="og:url" content="http://guileen.github.io/2020/12/22/bitbar/index.html">
 <meta property="og:site_name" content="桂糊涂的博客">
-<meta property="og:description" content="Description">
+<meta property="og:description" content="bitbar 可以让你使用任何脚本来控制Mac的菜单栏。你只需要写一个向控制台输出的脚本即可。使你在菜单栏可以轻松的切换ssh tunnel，显示BTC价格等。只需要将脚本放置在 bitbar plugin 目录中，文件名中可指定刷新频率。如：ssh-tunnel.1s.sh 编辑 ssh config 包含 DynamicForward 的配置，将自动出现在菜单中。 1234567891011H">
+<meta property="article:published_time" content="2020-12-22T10:02:06.000Z">
+<meta property="article:modified_time" content="2020-12-22T10:13:24.151Z">
 <meta property="article:author" content="桂糊涂">
 <meta name="twitter:card" content="summary">
   
@@ -146,157 +148,112 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-bitbar" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2020" class="archive-year">2020</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/12/22/iptables/" class="archive-article-date">
-  	<time datetime="2020-12-22T13:01:52.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-12-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/12/22/iptables/">iptables从入门到放弃(设置NAT)</a>
+    <h1 class="article-title" itemprop="name">
+      脚本控制Mac通知栏
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
-          
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/matryer/bitbar" target="_blank" rel="noopener">bitbar</a> 可以让你使用任何脚本来控制Mac的菜单栏。你只需要写一个向控制台输出的脚本即可。使你在菜单栏可以轻松的切换ssh tunnel，显示BTC价格等。只需要将脚本放置在 bitbar plugin 目录中，文件名中可指定刷新频率。如：<a href="https://github.com/matryer/bitbar-plugins/blob/master/Network/ssh-tunnel.1s.sh" target="_blank" rel="noopener">ssh-tunnel.1s.sh</a></p>
+<p>编辑 ssh config 包含 DynamicForward 的配置，将自动出现在菜单中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Host gz</span><br><span class="line">        HostName your_jump_ip</span><br><span class="line">        User ubuntu</span><br><span class="line"></span><br><span class="line">Host gzhk</span><br><span class="line">        HostName your_final_ip</span><br><span class="line">        User ubuntu</span><br><span class="line">        Port 22</span><br><span class="line">        Compression yes</span><br><span class="line">        DynamicForward 10088</span><br><span class="line">        ProxyJump gz</span><br></pre></td></tr></table></figure>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/12/22/bitbar/" class="archive-article-date">
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2020/12/22/bitbar/" class="archive-article-date">
   	<time datetime="2020-12-22T10:02:06.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-12-22</time>
 </a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/12/22/bitbar/">脚本控制Mac通知栏</a>
-    </h1>
-  
+      
+      
 
-        <div class="article-info info-on-right">
-          
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/12/18/image-replacer/" class="archive-article-date">
-  	<time datetime="2020-12-18T07:39:30.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-12-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/12/18/image-replacer/">替代图</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-          
+  
+<nav id="article-nav">
+  
+    <a href="/2020/12/22/iptables/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          iptables从入门到放弃(设置NAT)
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/12/18/image-replacer/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">替代图</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/12/18/setup-ikev2-vpn-server-on-ubuntu-16-04/" class="archive-article-date">
-  	<time datetime="2020-12-18T02:50:16.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-12-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/12/18/setup-ikev2-vpn-server-on-ubuntu-16-04/">Ubuntu 16 安装 IKEV2 VPN SERVER</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2020/12/14/parse-html-in-command-line/" class="archive-article-date">
-  	<time datetime="2020-12-14T09:02:32.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-12-14</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2020/12/14/parse-html-in-command-line/">在命令行解析HTML</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-          
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
-    
+
+
+
+
+<div class="duoshuo">
+
+<script type="text/javascript">
+(function(){
+var url = "http://widget.weibo.com/distribution/comments.php?width=0&url=auto&brandline=y&fontsize=12&skin=9&ralateuid=1751113432&appkey=3729652156&iframskin=9&dpc=1";
+url = url.replace("url=auto", "url=" + encodeURIComponent(document.URL));
+document.write('<iframe id="WBCommentFrame" src="' + url + '" scrolling="no" frameborder="0" style="width:100%"></iframe>');
+})();
+</script>
+<script src="http://tjs.sjs.sinajs.cn/open/widget/js/widget/comment.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.WBComment.init({
+    "id": "WBCommentFrame"
+});
+</script>
+
+</div>
+
+
+
+
+
 
 
       </div>
@@ -319,8 +276,8 @@
 		mathjax: true,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
