@@ -148,6 +148,360 @@
       <div class="body-wrap">
         
   
+    <article id="post-iptables" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/12/22/iptables/">iptables从入门到放弃(设置NAT)</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>iptables 的工作流程</p>
+<p><img src="/img/iptables/iptables-1.jpeg" alt="iptables flow"></p>
+<p>数据包在不同层间的时序</p>
+<p><img src="/img/iptables/netpacketflow.svg" alt="packet flow"></p>
+<p>基本语法：iptables [-t 表] [操作命令] [链][规则匹配器][-j 目标动作]</p>
+<h3 id="表"><a href="#表" class="headerlink" title="表"></a>表</h3><table>
+<thead>
+<tr>
+<th>表名</th>
+<th>说明</th>
+<th>支持的链</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>filter</td>
+<td>默认。用于过滤。</td>
+<td>INPUT、FORWARD、OUTPUT</td>
+</tr>
+<tr>
+<td>nat</td>
+<td>用于地址转换</td>
+<td>PREROUTING，INPUT，OUTPUT，POSTROUTING</td>
+</tr>
+<tr>
+<td>mangle</td>
+<td>用于修改包</td>
+<td>PREROUTING，INPUT，FORWARD，OUTPUT，POSTROUTING</td>
+</tr>
+<tr>
+<td>raw</td>
+<td>主要用于让iptables不再跟踪包以提高性能</td>
+<td>PREROUTING，OUTPUT</td>
+</tr>
+<tr>
+<td>security</td>
+<td>用于MAC地址相关的控制</td>
+<td>INPUT、FORWARD、OUTPUT</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>常用操作命令</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-A</td>
+<td>在指定链尾部添加规则</td>
+</tr>
+<tr>
+<td>-D</td>
+<td>删除匹配的规则</td>
+</tr>
+<tr>
+<td>-R</td>
+<td>替换匹配的规则</td>
+</tr>
+<tr>
+<td>-I</td>
+<td>在指定位置插入规则例：iptables -I INPUT 1 –dport 80 -j ACCEPT（将规则插入到filter表INPUT链中的第一位上）</td>
+</tr>
+<tr>
+<td>-L/S</td>
+<td>列出指定链或所有链的规则</td>
+</tr>
+<tr>
+<td>-F</td>
+<td>删除指定链或所有链的规则</td>
+</tr>
+<tr>
+<td>-N</td>
+<td>创建用户自定义链例：iptables -N allowed</td>
+</tr>
+<tr>
+<td>-X</td>
+<td>删除指定的用户自定义链</td>
+</tr>
+<tr>
+<td>-P</td>
+<td>为指定链设置默认规则策略，对自定义链不起作用例：iptables -P OUTPUT DROP</td>
+</tr>
+<tr>
+<td>-Z</td>
+<td>将指定链或所有链的计数器清零</td>
+</tr>
+<tr>
+<td>-E</td>
+<td>更改自定义链的名称例：iptables -E allowed disallowed</td>
+</tr>
+<tr>
+<td>-n</td>
+<td>ip地址和端口号以数字方式显示例：iptables -Ln</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>常见规则匹配器</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>-p tcp|udp|icmp|all</td>
+<td>匹配协议，all会匹配所有协议</td>
+</tr>
+<tr>
+<td>-s addr[/mask]</td>
+<td>匹配源地址</td>
+</tr>
+<tr>
+<td>-d addr[/mask]</td>
+<td>匹配目标地址</td>
+</tr>
+<tr>
+<td>–sport port1[:port2]</td>
+<td>匹配源端口(可指定连续的端口）</td>
+</tr>
+<tr>
+<td>–dport port1[:port2]</td>
+<td>匹配目的端口(可指定连续的端口）</td>
+</tr>
+<tr>
+<td>-o interface</td>
+<td>匹配出口网卡，只适用FORWARD、POSTROUTING、OUTPUT。例：iptables -A FORWARD -o eth0</td>
+</tr>
+<tr>
+<td>-i interface</td>
+<td>匹配入口网卡，只使用PREROUTING、INPUT、FORWARD。</td>
+</tr>
+<tr>
+<td>–icmp-type</td>
+<td>匹配icmp类型（使用iptables -p icmp -h可查看可用的ICMP类型）</td>
+</tr>
+<tr>
+<td>–tcp-flags mask comp</td>
+<td>匹配TCP标记，mask表示检查范围，comp表示匹配mask中的哪些标记。例：iptables -A FORWARD -p tcp –tcp-flags ALL SYN，ACK -j ACCEPT（表示匹配SYN和ACK标记的数据包）</td>
+</tr>
+</tbody></table>
+<table>
+<thead>
+<tr>
+<th>目标动作</th>
+<th>说明</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ACCEPT</td>
+<td>允许数据包通过</td>
+</tr>
+<tr>
+<td>DROP</td>
+<td>丢弃数据包</td>
+</tr>
+<tr>
+<td>REJECT</td>
+<td>丢弃数据包，并且将拒绝信息发送给发送方</td>
+</tr>
+<tr>
+<td>SNAT</td>
+<td>源地址转换（在nat表上）例：iptables -t nat -A POSTROUTING -d 192.168.0.102 -j SNAT –to 192.168.0.1</td>
+</tr>
+<tr>
+<td>DNAT</td>
+<td>目标地址转换（在nat表上）例：iptables -t nat -A PREROUTING -d 202.202.202.2 -j DNAT –to-destination 192.168.0.102</td>
+</tr>
+<tr>
+<td>REDIRECT</td>
+<td>目标端口转换（在nat表上）例：iptables -t nat -D PREROUTING -p tcp –dport 8080 -i eth2.2 -j REDIRECT –to 80</td>
+</tr>
+<tr>
+<td>MARK</td>
+<td>将数据包打上标记例：iptables -t mangle -A PREROUTING -s 192.168.1.3 -j MARK –set-mark 60</td>
+</tr>
+</tbody></table>
+<p>注意要点：</p>
+<p>  1、目标地址转换一般在PREROUTING链上操作</p>
+<p>  2、源地址转换一般在POSTROUTING链上操作</p>
+<p><strong>保存和恢复iptables规则</strong></p>
+<p>  使用iptables-save可以保存到特定文件中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables-save &gt; &#x2F;etc&#x2F;sysconfig&#x2F;iptables_save</span><br></pre></td></tr></table></figure>
+
+<p>  使用iptables-restore可以恢复规则</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables-restore&lt; &#x2F;etc&#x2F;sysconfig&#x2F;iptables_save</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="配置VPN-NAT"><a href="#配置VPN-NAT" class="headerlink" title="配置VPN NAT"></a>配置VPN NAT</h3><p><strong>/etc/sysctl.conf</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net.ipv4.ip_forward&#x3D;1</span><br></pre></td></tr></table></figure>
+
+<p>重启网络</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo sysctl -p</span><br></pre></td></tr></table></figure>
+
+<h3 id="同端口-端口转发"><a href="#同端口-端口转发" class="headerlink" title="同端口 端口转发"></a>同端口 端口转发</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -p tcp --dport [本地端口] -j DNAT --to-destination [目标IP:目标端口]</span><br><span class="line">iptables -t nat -A PREROUTING -p udp --dport [本地端口] -j DNAT --to-destination [目标IP:目标端口]</span><br><span class="line">iptables -t nat -A POSTROUTING -p tcp -d [目标IP] --dport [目标端口] -j SNAT --to-source [本地服务器主网卡绑定IP]</span><br><span class="line">iptables -t nat -A POSTROUTING -p udp -d [目标IP] --dport [目标端口] -j SNAT --to-source [本地服务器主网卡绑定IP]</span><br></pre></td></tr></table></figure>
+
+<hr>
+<p>以下示例，假设你的国外服务器（被中转服务器）是<code>1.1.1.1</code>，你的SS端口是<code>10000</code>，而你这台正在操作的VPS的主网卡绑定IP（中转服务器）是<code>2.2.2.2</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -p tcp -m tcp --dport 10000 -j DNAT --to-destination 1.1.1.1:10000</span><br><span class="line">iptables -t nat -A PREROUTING -p udp -m udp --dport 10000 -j DNAT --to-destination 1.1.1.1:10000</span><br><span class="line">iptables -t nat -A POSTROUTING -d 1.1.1.1 -p tcp -m tcp --dport 10000 -j SNAT --to-source 2.2.2.2</span><br><span class="line">iptables -t nat -A POSTROUTING -d 1.1.1.1 -p udp -m udp --dport 10000 -j SNAT --to-source 2.2.2.2</span><br></pre></td></tr></table></figure>
+
+<h3 id="不同端口-端口转发"><a href="#不同端口-端口转发" class="headerlink" title="不同端口 端口转发"></a><strong>不同端口</strong> 端口转发</h3><p>将<strong>本地服务器(中转服务器<code>2.2.2.2</code>)</strong>的<code>10000~20000</code>端口转发至<strong>目标IP(被中转服务器)</strong>为<code>1.1.1.1</code>的<code>30000~40000</code>端口</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -p tcp -m tcp --dport 10000:20000 -j DNAT --to-destination 1.1.1.1:30000-40000</span><br><span class="line">iptables -t nat -A PREROUTING -p udp -m udp --dport 10000:20000 -j DNAT --to-destination 1.1.1.1:30000-40000</span><br><span class="line">iptables -t nat -A POSTROUTING -d 1.1.1.1 -p tcp -m tcp --dport 30000:40000 -j SNAT --to-source 2.2.2.2</span><br><span class="line">iptables -t nat -A POSTROUTING -d 1.1.1.1 -p udp -m udp --dport 30000:40000 -j SNAT --to-source 2.2.2.2</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+<h2 id="以上尝试以失败告终，最终采用了brook"><a href="#以上尝试以失败告终，最终采用了brook" class="headerlink" title="以上尝试以失败告终，最终采用了brook"></a>以上尝试以失败告终，最终采用了brook</h2><p><a href="https://github.com/txthinking/brook" target="_blank" rel="noopener">brook</a> 非常强大，不仅能作中继，还可以在手机上安装。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nohup brook relay -f :4500 -t 1.2.3.4:4500 &amp;</span><br><span class="line">nohup brook relay -f :500 -t 1.2.3.4:500 &amp;</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2020/12/22/iptables/" class="archive-article-date">
+  	<time datetime="2020-12-22T13:01:52.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-12-22</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-bitbar" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/12/22/bitbar/">脚本控制Mac通知栏</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/matryer/bitbar" target="_blank" rel="noopener">bitbar</a> 可以让你使用任何脚本来控制Mac的菜单栏。你只需要写一个向控制台输出的脚本即可。使你在菜单栏可以轻松的切换ssh tunnel，显示BTC价格等。只需要将脚本放置在 bitbar plugin 目录中，文件名中可指定刷新频率。如：<a href="https://github.com/matryer/bitbar-plugins/blob/master/Network/ssh-tunnel.1s.sh" target="_blank" rel="noopener">ssh-tunnel.1s.sh</a></p>
+<p>编辑 ssh config 包含 DynamicForward 的配置，将自动出现在菜单中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">Host gz</span><br><span class="line">        HostName your_jump_ip</span><br><span class="line">        User ubuntu</span><br><span class="line"></span><br><span class="line">Host gzhk</span><br><span class="line">        HostName your_final_ip</span><br><span class="line">        User ubuntu</span><br><span class="line">        Port 22</span><br><span class="line">        Compression yes</span><br><span class="line">        DynamicForward 10088</span><br><span class="line">        ProxyJump gz</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2020/12/22/bitbar/" class="archive-article-date">
+  	<time datetime="2020-12-22T10:02:06.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-12-22</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-image-replacer" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/12/18/image-replacer/">替代图</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://picsum.photos/" target="_blank" rel="noopener">https://picsum.photos/</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2020/12/18/image-replacer/" class="archive-article-date">
+  	<time datetime="2020-12-18T07:39:30.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-12-18</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-setup-ikev2-vpn-server-on-ubuntu-16-04" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -193,7 +547,7 @@
 <h2 id="重启"><a href="#重启" class="headerlink" title="重启"></a>重启</h2><p><code>sudo reboot</code></p>
 <h2 id="客户端测试"><a href="#客户端测试" class="headerlink" title="客户端测试"></a>客户端测试</h2><p><code>scp hk:~/vpn-certs/server-root-ca.pem ./</code></p>
 <p>安装并信任证书，测试</p>
-
+<h2 id="Relay-server"><a href="#Relay-server" class="headerlink" title="Relay server"></a>Relay server</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">brook relay -f :500 -t 1.2.3.4:500 &amp;</span><br><span class="line">brook relay -f :4500 -t 1.2.3.4:4500 &amp;</span><br></pre></td></tr></table></figure>
       
     </div>
     <div class="article-info article-info-index">
@@ -581,231 +935,6 @@
       
       <a href="/2019/12/30/introduce-reinforcement-learning-5/" class="archive-article-date">
   	<time datetime="2019-12-30T06:37:07.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-30</time>
-</a>
-      
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/AI/">AI</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-introduce-reinforcement-learning-4" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/30/introduce-reinforcement-learning-4/">强化学习简介（四）：DQN实战</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我们在上文简述了DQN算法。此文以PyTorch来实现一个DQN的例子。我们的环境选用<a href="https://gym.openai.com/envs/CartPole-v1/" target="_blank" rel="noopener">CartPole-v1</a>。我们的输入是一幅图片，动作是施加一个向左向右的力量，我们需要尽可能的保持木棍的平衡。</p>
-<p><img src="/files/cartpole-v1.gif" alt="CartPole-v1"></p>
-<p>对于这个环境，尝试了很多次，总是不能达到很好的效果，一度怀疑自己的代码写的有问题。后来仔细看了这个环境的奖励，是每一帧返回奖励1，哪怕是最后一帧也是返回1 的奖励。这里很明显是不合理的俄。我们需要重新定义这个奖励函数，也就是在游戏结束的时候，给一个比较大的惩罚，r=-100。很快可以达到收敛。</p>
-<h2 id="Replay-Memory"><a href="#Replay-Memory" class="headerlink" title="Replay Memory"></a>Replay Memory</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Transition = namedtuple(<span class="string">'Transition'</span>, (<span class="string">'state'</span>, <span class="string">'action'</span>, <span class="string">'next_state'</span>, <span class="string">'reward'</span>))</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ReplayMemory</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, capacity)</span>:</span></span><br><span class="line">        self.cap = capacity</span><br><span class="line">        self.mem = []</span><br><span class="line">        self.pos = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">push</span><span class="params">(self, *args)</span>:</span></span><br><span class="line">        <span class="string">"""Save a transition."""</span></span><br><span class="line">        <span class="keyword">if</span> len(self.mem) &lt; self.cap:</span><br><span class="line">            self.mem.append(<span class="keyword">None</span>)</span><br><span class="line">        self.mem[self.pos] = Transition(*args)</span><br><span class="line">        self.pos = (self.pos + <span class="number">1</span>) % self.cap</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sample</span><span class="params">(self, batch_size)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> random.sample(self.mem, batch_size)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> len(self.mem)</span><br></pre></td></tr></table></figure>
-
-<h2 id="Q网络"><a href="#Q网络" class="headerlink" title="Q网络"></a>Q网络</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DQN</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, input_size, hidden, outputs)</span>:</span></span><br><span class="line">        super(DQN, self).__init__()</span><br><span class="line">        self.fc1 = nn.Linear(input_size, hidden)</span><br><span class="line">        self.fc2 = nn.Linear(hidden, outputs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        x = F.relu(self.fc1(x))</span><br><span class="line">        x = self.fc2(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure>
-
-<h2 id="初始化参数和状态"><a href="#初始化参数和状态" class="headerlink" title="初始化参数和状态"></a>初始化参数和状态</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gym</span><br><span class="line"></span><br><span class="line">env = gym.make(<span class="string">'CartPole-v0'</span>).unwrapped</span><br><span class="line"></span><br><span class="line">BATCH_SIZE = <span class="number">128</span></span><br><span class="line">GAMMA = <span class="number">0.9</span></span><br><span class="line">EPS_START = <span class="number">0.9</span></span><br><span class="line">EPS_END = <span class="number">0.05</span></span><br><span class="line">EPS_DECAY = <span class="number">200</span></span><br><span class="line">TARGET_UPDATE = <span class="number">10</span></span><br><span class="line">LR = <span class="number">0.01</span></span><br><span class="line"></span><br><span class="line">n_actions = env.action_space.n</span><br><span class="line">input_size = env.observation_space.shape[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 策略网络</span></span><br><span class="line">policy_net = DQN(input_size, <span class="number">10</span>, n_actions)</span><br><span class="line"><span class="comment"># 目标网络</span></span><br><span class="line">target_net = DQN(input_size, <span class="number">10</span>, n_actions)</span><br><span class="line"><span class="comment"># 目标网络从策略网络复制参数</span></span><br><span class="line">target_net.load_state_dict(policy_net.state_dict())</span><br><span class="line">target_net.eval()</span><br><span class="line"></span><br><span class="line">optimizer = optim.Adam(policy_net.parameters(), lr=LR)</span><br><span class="line">memory = ReplayMemory(<span class="number">10000</span>)</span><br></pre></td></tr></table></figure>
-
-<h2 id="探索和选择最佳动作"><a href="#探索和选择最佳动作" class="headerlink" title="探索和选择最佳动作"></a>探索和选择最佳动作</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">steps_done = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">select_action</span><span class="params">(state, no_explore=False)</span>:</span></span><br><span class="line">    x = torch.unsqueeze(torch.FloatTensor(state), <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">global</span> steps_done</span><br><span class="line">    sample = random.random()</span><br><span class="line">    eps_threshold = EPS_END + (EPS_START - EPS_END) * math.exp(<span class="number">-1.</span> * steps_done / EPS_DECAY)</span><br><span class="line">    steps_done += <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> sample &gt; eps_threshold <span class="keyword">or</span> no_explore:</span><br><span class="line">        <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">            <span class="comment"># t.max(1) will return largest column value of each row.</span></span><br><span class="line">            <span class="comment"># second column on max result is index of where max element was</span></span><br><span class="line">            <span class="comment"># found, so we pick action with the larger expected reward.</span></span><br><span class="line">            <span class="keyword">return</span> policy_net(x).max(<span class="number">1</span>)[<span class="number">1</span>].view(<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> torch.tensor([[random.randrange(n_actions)]], dtype=torch.long)</span><br></pre></td></tr></table></figure>
-
-<h2 id="优化模型-关键代码"><a href="#优化模型-关键代码" class="headerlink" title="优化模型(关键代码)"></a>优化模型(关键代码)</h2><p>这里主要是抽样、目标值计算、损失计算的部分。损失计算采用Huber loss。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">optimize_model</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">if</span> len(memory) &lt; BATCH_SIZE:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    transitions = memory.sample(BATCH_SIZE)</span><br><span class="line">    batch = Transition(*zip(*transitions))</span><br><span class="line">    non_final_mask = torch.tensor(tuple(map(<span class="keyword">lambda</span>  s: s <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>,</span><br><span class="line">                        batch.next_state)), dtype=torch.uint8)</span><br><span class="line">    non_final_next_states = torch.FloatTensor([s <span class="keyword">for</span> s <span class="keyword">in</span> batch.next_state <span class="keyword">if</span> s <span class="keyword">is</span> <span class="keyword">not</span> <span class="keyword">None</span>])</span><br><span class="line">    state_batch = torch.FloatTensor(batch.state)</span><br><span class="line">    action_batch = torch.cat(batch.action)</span><br><span class="line">    reward_batch = torch.FloatTensor(batch.reward)</span><br><span class="line">    state_action_values = policy_net(state_batch).gather(<span class="number">1</span>, action_batch)</span><br><span class="line">    next_state_values = torch.zeros(BATCH_SIZE)</span><br><span class="line">    next_state_values[non_final_mask] = target_net(non_final_next_states).max(<span class="number">1</span>)[<span class="number">0</span>].detach()</span><br><span class="line">    expected_state_action_values = (next_state_values * GAMMA) + reward_batch</span><br><span class="line"></span><br><span class="line">    loss = F.mse_loss(state_action_values, expected_state_action_values.unsqueeze(<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">    optimizer.zero_grad()</span><br><span class="line">    loss.backward()</span><br><span class="line">    <span class="comment"># 限制网络更新的幅度，可以大幅提升训练的效果。</span></span><br><span class="line">    <span class="keyword">for</span> param <span class="keyword">in</span> policy_net.parameters():</span><br><span class="line">        param.grad.data.clamp_(<span class="number">-1</span>, <span class="number">1</span>)</span><br><span class="line">    optimizer.step()</span><br></pre></td></tr></table></figure>
-
-<h2 id="训练循环"><a href="#训练循环" class="headerlink" title="训练循环"></a>训练循环</h2><p>这里主要有主循环、获取输入、记录回放、训练、复制参数等环节。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">num_episodes = <span class="number">1000</span></span><br><span class="line"><span class="keyword">for</span> i_episode <span class="keyword">in</span> range(num_episodes):</span><br><span class="line">    state = env.reset()</span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> count():</span><br><span class="line">        action = select_action(state, i_episode%<span class="number">50</span>==<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">if</span>(i_episode%<span class="number">50</span>==<span class="number">0</span>):</span><br><span class="line">            env.render()</span><br><span class="line">        next_state, reward,done,_ = env.step(action.item())</span><br><span class="line">        <span class="comment"># reward = torch.tensor([reward])</span></span><br><span class="line">        <span class="keyword">if</span> done:</span><br><span class="line">            reward = <span class="number">-100</span></span><br><span class="line">        memory.push(state, action, next_state, reward)</span><br><span class="line">        state = next_state</span><br><span class="line">        <span class="keyword">if</span> done <span class="keyword">or</span> t &gt; <span class="number">2500</span>:</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">                optimize_model()</span><br><span class="line">            episode_durations.append(t+<span class="number">1</span>)</span><br><span class="line">            plot_durations()</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">if</span> i_episode % TARGET_UPDATE == <span class="number">0</span>:</span><br><span class="line">        target_net.load_state_dict(policy_net.state_dict())</span><br></pre></td></tr></table></figure>
-
-<p><img src="/files/dqn2.png" alt="Clamp"></p>
-<p><a href="/files/demo_dqn.py">完整代码</a></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2019/12/30/introduce-reinforcement-learning-4/" class="archive-article-date">
-  	<time datetime="2019-12-30T06:37:03.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-30</time>
-</a>
-      
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/AI/">AI</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-introduce-reinforcement-learning-3" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/28/introduce-reinforcement-learning-3/">强化学习简介（三）：DQN</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>上一个例子中我们使用了冰面滑行的游戏环境，这是一个有限状态空间的环境。如果我们现在面对的是一个接近无限的状态空间呢？比如围棋，比如非离散型的问题。我们无法使用一个有限的Q表来存储所有Q值，即使有足够的存储空间，也没有足够的计算资源来遍历所有的状态空间。对于这一类问题，深度学习就有了施展的空间了。</p>
-<p>Q表存储着状态s和动作a、奖励r的信息。我们知道深度神经网络，也具有存储信息的能力。DQN算法就是将Q-table存储结构替换为神经网络来存储信息。我们定义神经网络`f(s, w) ~~ Q(s)`，输出为一个向量`[Q(s, a_1), Q(s, a_2), Q(s, a_3), …, Q(s, a_n)]`。经过这样的改造，我们就可以用Q-learing的算法思路来解决更复杂的状态空间的问题了。我们可以通过下面两张图来对比Q-learning和DQN的异同。</p>
-<p><img src="/img/rl-3/1.png" alt="Q-learning"></p>
-<p><img src="/img/rl-3/2.png" alt="Deep-Q-learning"></p>
-<p>网络结构要根据具体问题来设计。在神经网络训练的过程中，损失函数是关键。我们采用MSE来计算error。</p>
-<p>`L(w) = (ubrace(r + argmax_aQ(s’, a’))_(目标值) - ubrace(Q(s, a))_(预测值))^2`</p>
-<h2 id="基本算法描述"><a href="#基本算法描述" class="headerlink" title="基本算法描述"></a>基本算法描述</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">使用随机参数初始化网络Q</span><br><span class="line"><span class="keyword">while</span> 未收敛:</span><br><span class="line">  action 按一定概率随机选取，其余使用argmax Q(s)选取</span><br><span class="line">  模拟执行 action 获取 状态 s_, 奖励 r, 是否完成 done</span><br><span class="line">  <span class="keyword">if</span> done:</span><br><span class="line">    target = r</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    target = r + gamma * argmax Q(s_)</span><br><span class="line">  loss = MSE(target, Q(s, a))</span><br><span class="line">  使用loss更新网络Q</span><br><span class="line">  s = s_</span><br></pre></td></tr></table></figure>
-
-<p>但是，通过实验我们会发现，训练过程非常的不稳定。稳定性是强化学习所面临的主要问题之一，为了达到稳定的训练我们需要运用一些优化的手段。</p>
-<h2 id="环境的稳定性"><a href="#环境的稳定性" class="headerlink" title="环境的稳定性"></a>环境的稳定性</h2><p>Agent生活在环境之中，并根据环境的反馈进行学习，但环境是否是稳定的呢？假设agent在学习出门穿衣的技能，它需要学会在冬天多穿，夏天少穿。但是这个agent只会根据当天的反馈来修正自己的行为，也就是说这个agent是没有记忆的。那么这个agent就会在多次失败后终于在冬天学会了多穿衣，但转眼之间到了夏天他又会陷入不断的失败，最终他在夏天学会了少穿衣之后，又会在冬天陷入失败，如此循环不断，永远不会收敛。如果要能够很好的训练，这个agent至少要有一整年的记忆空间，每一批都要从过去的记忆中抽取记忆来进行训练，就可以避免遗忘过去的教训。</p>
-<p>在DeepMind的Atari 论文中提到</p>
-<blockquote>
-<p>First, we used a biologically inspired mechanism termed experience replay that randomizes over the data, thereby removing correlations in the observation sequence and smoothing over changes in the data distribution.</p>
-</blockquote>
-<p>意思是，受生物学启发，他们采用了一种叫做经验回放（experience replay）的机制，随机抽取数据来到达“移除观察序列的相关性，平滑数据分布的改变”的目的。<br><img src="/img/rl-3/4.png" alt="DQN with Atari"></p>
-<p>我们已经理解了要有经验回放的记忆，但是为什么一定要随机抽取呢？对此论文认为这个随机抽取可以移除序列相关性、平滑分布中的改变。当如何理解呢？简单的说就是在我们不清楚合理的周期的情况下，能够保证采样的合理性。我们仍然以四季穿衣举例，假设我们不使用随机采样，我们必须在每次训练中都采用365天左右的数据，才能使我们的数据样本分布合理。可是agent并不清楚一年365天这个规律，这恰恰是我们所要学习的内容。采用随机采用，就可以自然的做到数据的分布合理，而且只需要使用记忆中的部分数据，减少单次迭代的计算量。</p>
-<p>在这个记忆里，我们并不记录当时的网络参数（分析过程），我们只记录（状态s，动作a，新状态s’, 单步奖励r)。显然，记忆的尺寸不可能无限大。当记忆体增大到一定程度之后，我们采用滚动的方式用最新的记忆替换掉最老的记忆。就像在学习围棋的过程中，有初学者阶段的对局记忆，也有高手阶段的对局记忆，在提升棋艺的角度来看，高手阶段的记忆显然比初学者阶段的记忆更有价值。</p>
-<p>说句题外话，其实对于一个民族而言也是一样的。我们这个民族拥有一个非常好的传统，就是记述历史，也就是等于我们这个民族拥有足够大的记忆量，这是我们胜于其他民族的。但是这个历史记录中，掺杂了历史上不同阶段的评价，这些评价是根据当时的经验得出的。而根据DQN的算法描述来看，对我们最有价值的部分其实是原始信息，而不是那些附加在之上的评价，这些评价有正确的部分，也有错误的部分，我们不用去过多关心。我们只需要在今天的认知（也就是最新的训练结果）基础上，对历史原始信息（旧状态、动作、新状态、单步奖励）进行随机的抽样分析即可。</p>
-<h2 id="网络稳定性"><a href="#网络稳定性" class="headerlink" title="网络稳定性"></a>网络稳定性</h2><p>DQN另一个稳定性问题与目标值计算有关。因为`target = r + gamma * argmax Q(s’)`，所以目标值与网络参数本身是相关，而参数在训练中是不断变化的，所以这会造成训练中的不稳定。一个神经网络可以自动收敛，取决于存在一个稳定的目标，如果目标本身在不断的游移变动，那么想要达到稳定就比较困难。这就像站在平地上的人很容易平衡，但如果让人站在一个不断晃动的木板上，就很难达到平衡。为了解决这个问题，我们需要构建一个稳定的目标函数。</p>
-<p>解决的方法是采用两个网络代替一个网络。一个网络用于训练调整参数，称之为策略网络，另一个专门用于计算目标，称之为目标网络。目标网络与策略网络拥有完全一样的网络结构，在训练的过程中目标网络的参数是固定的。执行一小批训练之后，将策略网络最新的参数复制到目标网络中。</p>
-<p><img src="/img/rl-3/3.png" alt="目标网络"></p>
-<p>经验回放和目标网络的效果见下表（引用自Nature 论文）：<br><img src="/img/rl-3/5.png" alt="优化对比"></p>
-<h2 id="其他DQN优化"><a href="#其他DQN优化" class="headerlink" title="其他DQN优化"></a>其他DQN优化</h2><p>关于DQN的优化，这篇文章描述的比较全面 <a href="https://zhuanlan.zhihu.com/p/21547911" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/21547911</a>。在之后的实践中考虑是否进一步深入。主要介绍3个改进：</p>
-<p><img src="/img/rl-3/6.png" alt="DQN优化"></p>
-<ul>
-<li>Double DQN：对目标值计算的优化，a’使用策略网络选择的动作来代替目标网络选择的动作。</li>
-<li>Prioritised replay：使用优先队列（priority queue）来存储经验，避免丢弃早期的重要经验。使用error作为优先级，仿生学技巧，类似于生物对可怕往事的记忆。</li>
-<li>Dueling Network：将Q网络分成两个通道，一个输出V，一个输出A，最后再合起来得到Q。如下图所示（引用自Dueling Network论文）。这个方法主要是idea很简单但是很难想到，然后效果一级棒，因此也成为了ICML的best paper。</li>
-</ul>
-<p><img src="/img/rl-3/7.png" alt="Dueling Network"></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2019/12/28/introduce-reinforcement-learning-3/" class="archive-article-date">
-  	<time datetime="2019-12-28T03:53:37.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-28</time>
-</a>
-      
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/AI/">AI</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-introduce-reinforcement-learning-2" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/27/introduce-reinforcement-learning-2/">强化学习简介（二）：Q-learning实战</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我们现在通过一个例子来演练Q-learning算法。在练习强化学习之前，我们需要拥有一个模拟器环境。我们主要的目的是学习编写机器人算法，所以对模拟器环境部分不推荐自己写。直接使用<code>gym</code>来作为我们对实验环境。安装方法：</p>
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install gym</span><br></pre></td></tr></table></figure>
-
-<h2 id="初识环境"><a href="#初识环境" class="headerlink" title="初识环境"></a>初识环境</h2><p>我们的实验环境是一个冰湖滑行游戏，你将控制一个agent在冰面到达目标终点，前进方向并不总受你的控制，你还需要躲过冰窟。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gym</span><br><span class="line"><span class="comment"># 构造游戏环境</span></span><br><span class="line">env = gym.make(<span class="string">'FrozenLake-v0'</span>)</span><br><span class="line"><span class="comment"># 动作空间-&gt; Discrete(4)</span></span><br><span class="line">print(env.action_space)</span><br><span class="line"><span class="comment"># 状态空间-&gt; Discrete(16)</span></span><br><span class="line">print(env.observation_space)</span><br><span class="line"><span class="comment"># 初始化游戏环境，并得到状态s</span></span><br><span class="line">s = env.reset()</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    <span class="comment"># 渲染游戏画面</span></span><br><span class="line">    env.render()</span><br><span class="line">    <span class="comment"># 从动作空间中随机选择一个动作a</span></span><br><span class="line">    a = env.action_space.sample()</span><br><span class="line">    <span class="comment"># 执行动作a，得到新状态s，奖励r，是否完成done</span></span><br><span class="line">    s, r, done, info = env.step(a) <span class="comment"># take a random action</span></span><br><span class="line">    print(s, r, done, info)</span><br><span class="line"><span class="comment"># 关闭环境</span></span><br><span class="line">env.close()</span><br></pre></td></tr></table></figure>
-
-<p>游戏画面示意如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SFFF       (S: 起点，安全)</span><br><span class="line">FHFH       (F: 冰面，安全)</span><br><span class="line">FFFH       (H: 冰窟，进入则失败)</span><br><span class="line">HFFG       (G: 终点，到达则成功)</span><br></pre></td></tr></table></figure>
-
-<h2 id="Agent结构"><a href="#Agent结构" class="headerlink" title="Agent结构"></a>Agent结构</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> gym</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">QLAgent</span><span class="params">()</span>:</span></span><br><span class="line">    q = <span class="keyword">None</span></span><br><span class="line">    action_space = <span class="keyword">None</span></span><br><span class="line">    epsilon = <span class="number">0.1</span> <span class="comment"># 探索率</span></span><br><span class="line">    gamma = <span class="number">0.99</span>  <span class="comment"># 衰减率</span></span><br><span class="line">    lr = <span class="number">0.1</span> <span class="comment"># 学习率</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, action_space, state_count, epsilon=<span class="number">0.1</span>, lr=<span class="number">0.1</span>, gamma=<span class="number">0.99</span>)</span>:</span></span><br><span class="line">        self.q = [[<span class="number">0.</span> <span class="keyword">for</span> a <span class="keyword">in</span> range(action_space.n)] <span class="keyword">for</span> s <span class="keyword">in</span> range(state_count)]</span><br><span class="line">        self.action_space = action_space</span><br><span class="line">        self.epsilon = epsilon</span><br><span class="line">        self.lr = lr</span><br><span class="line">        self.gamma = gamma</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 根据状态s，选择动作a</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">choose_action</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 更新状态变化并学习，状态s执行了a动作，得到了奖励r，状态转移到了s_</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">update_transition</span><span class="params">(self, s, a, r, s_)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
-
-<p>这是一个Agent的一般结构，主要由初始化、选择动作、更新状态变化，三个方法构成。后续的其他算法将依然采用该结构。q表数据使用一个二维数组表示，其大小为 state_count action_count，对于这个项目而言是一个 `16*4` 的大小。</p>
-<h2 id="添加Q-table的辅助方法"><a href="#添加Q-table的辅助方法" class="headerlink" title="添加Q-table的辅助方法"></a>添加Q-table的辅助方法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 返回状态s的最佳动作a、及其r值。</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">argmax</span><span class="params">(self, s)</span>:</span></span><br><span class="line">    max_r = -math.inf</span><br><span class="line">    max_a = <span class="keyword">None</span></span><br><span class="line">    <span class="keyword">for</span> a <span class="keyword">in</span> range(self.action_space.n):</span><br><span class="line">        r = self.q_get(s, a)</span><br><span class="line">        <span class="keyword">if</span> r &gt; max_r:</span><br><span class="line">            max_a = a</span><br><span class="line">            max_r = r</span><br><span class="line">    <span class="keyword">return</span> max_a, max_r</span><br><span class="line"><span class="comment"># 获得 状态s，动作a 对应的r值</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">q_get</span><span class="params">(self, s, a)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> self.q[s][a]</span><br><span class="line"><span class="comment"># 更新 状态s 动作a 对应的r值</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">q_put</span><span class="params">(self, s, a, v)</span>:</span></span><br><span class="line">    self.q[s][a] = v</span><br></pre></td></tr></table></figure>
-
-<h2 id="Q-learning的关键步骤"><a href="#Q-learning的关键步骤" class="headerlink" title="Q-learning的关键步骤"></a>Q-learning的关键步骤</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">choose_action</span><span class="params">(self, s)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> random.random() &lt; self.epsilon:</span><br><span class="line">        <span class="comment"># 按一定概率进行随机探索</span></span><br><span class="line">        <span class="keyword">return</span> self.action_space.sample()</span><br><span class="line">    <span class="comment"># 返回最佳动作</span></span><br><span class="line">    a, _ = self.argmax(s)</span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">update_transition</span><span class="params">(self, s, a, r, s_)</span>:</span></span><br><span class="line">    q = self.q_get(s, a)</span><br><span class="line">    _, r_ = self.argmax(s_)</span><br><span class="line">    <span class="comment"># Q &lt;- Q + a(Q' - Q)</span></span><br><span class="line">    <span class="comment"># &lt;=&gt; Q &lt;- (1-a)Q + a(Q')</span></span><br><span class="line">    q = (<span class="number">1</span>-self.lr) * q + self.lr * (r + self.gamma * r_)</span><br><span class="line">    self.q_put(s, a, q)</span><br></pre></td></tr></table></figure>
-
-<h2 id="训练主循环"><a href="#训练主循环" class="headerlink" title="训练主循环"></a>训练主循环</h2><p>我们进行10000局游戏的训练，每局游戏执行直到完成。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">env = gym.make(<span class="string">'FrozenLake-v0'</span>)</span><br><span class="line">agent = QLAgent(env.action_space, env.observation_space.n)</span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(<span class="number">10000</span>):</span><br><span class="line">    s = env.reset()</span><br><span class="line">    done = <span class="keyword">False</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> done:</span><br><span class="line">        <span class="comment"># env.render()  # 训练过程不需要渲染</span></span><br><span class="line">        a = agent.choose_action(s) <span class="comment"># 选择动作</span></span><br><span class="line">        s_, r, done, info = env.step(a) <span class="comment"># 执行动作</span></span><br><span class="line">        agent.update_transition(s, a, r, s_) <span class="comment"># 更新状态变化</span></span><br><span class="line">        s = s_</span><br><span class="line"><span class="comment"># 显示训练后的Q表</span></span><br><span class="line">print(agent.q)</span><br></pre></td></tr></table></figure>
-
-<h2 id="测试效果"><a href="#测试效果" class="headerlink" title="测试效果"></a>测试效果</h2><p>在测试中，我们只选择最佳策略，不再探索，也不再更新Q表。</p>
-<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获胜次数</span></span><br><span class="line">total_win = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10000</span>):</span><br><span class="line">    s = env.reset()</span><br><span class="line">    done = <span class="keyword">False</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> done:</span><br><span class="line">        <span class="comment"># 选择最佳策略</span></span><br><span class="line">        a, _ = agent.argmax(s)</span><br><span class="line">        <span class="comment"># 执行动作 a</span></span><br><span class="line">        s_, r, done, info = env.step(a)</span><br><span class="line">        <span class="keyword">if</span> done <span class="keyword">and</span> r == <span class="number">1</span>:</span><br><span class="line">            total_win += <span class="number">1</span></span><br><span class="line">        s = s_</span><br><span class="line">print(<span class="string">'Total win='</span>, total_win)</span><br><span class="line">env.close()</span><br></pre></td></tr></table></figure>
-
-<p>最终测试的效果是在1万局中获胜了7284次，说明达到了不错的实验效果。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2019/12/27/introduce-reinforcement-learning-2/" class="archive-article-date">
-  	<time datetime="2019-12-27T08:02:19.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-27</time>
 </a>
       
       

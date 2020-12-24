@@ -148,6 +148,275 @@
       <div class="body-wrap">
         
   
+    <article id="post-functional-sprite-system" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/04/22/functional-sprite-system/">functional programming and sprite system</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>How to make a sprite system with functional programming.</p>
+<p>function + data.</p>
+<p>数据+实现，配置+接口，是一种编程模型。OO在某种形式上，也是一种数据+实现的编程模式，但他将2者耦合在一起。而模板+数据，则是一种更加解耦的模式。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    img: img,</span><br><span class="line">    rect:&#123;x,y,w,h&#125;</span><br><span class="line">    screenRect: &#123;x,y,w,h&#125;</span><br><span class="line">    children: [</span><br><span class="line">        &#123;</span><br><span class="line">            rect:&#123;x,y,w,h&#125;</span><br><span class="line">            img: img,</span><br><span class="line">        &#125;</span><br><span class="line">        &#123;</span><br><span class="line">            rect:&#123;x,y,w,h&#125;</span><br><span class="line">            screenRect:&#123;x,y,w,h&#125;</span><br><span class="line">            frame: <span class="number">0</span></span><br><span class="line">            frames: [</span><br><span class="line">                &#123;<span class="attr">img</span>: img1&#125;,</span><br><span class="line">                &#123;<span class="attr">img</span>: img2&#125;,</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>render</p>
+<p>scale</p>
+<p>animation</p>
+<p>tween:<br>    action:<br>        move<br>        rotate<br>        scale</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/04/22/functional-sprite-system/" class="archive-article-date">
+  	<time datetime="2014-04-21T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-04-22</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game/" rel="tag">game</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-mathematical-model-of-1024-game" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/04/21/mathematical-model-of-1024-game/">小游戏1024的AI数学模型</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="游戏规则"><a href="#游戏规则" class="headerlink" title="游戏规则"></a>游戏规则</h2><p>1024 是一个近期比较流行的小游戏，也有称之为2048。游戏在一个4x4的方格(grid)中进行，方格中会在随机的一个空白位置填上一个数字2，玩家可以选择将所有数字向上、向下、向左、或向右的某一方向移动，所有数字将往这一方向移动，如果数字碰到了边界或一个不相同的数字，则停止移动，如果碰到了相同的数字则这两个数字将会合并为两数之和。如果移动之后局面未有任何改变，则此方向禁止移动。在玩家进行了一次移动后，方格中会再随机的产生一个数字，如此循环，直到4个方向都不可以移动则游戏结束。玩家的目标是尽可能的合成更大的数字。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">2 2 0 0           4 0 0 0</span><br><span class="line">4 0 0 0           4 0 0 0</span><br><span class="line">0 0 0 0  向左移动 0 0 0 0</span><br><span class="line">0 0 0 0           0 0 0 0</span><br><span class="line"></span><br><span class="line">2 2 0 0           0 0 0 4</span><br><span class="line">4 0 0 0           0 0 0 4</span><br><span class="line">0 0 0 0  向右移动 0 0 0 0</span><br><span class="line">0 0 0 0           0 0 0 0</span><br><span class="line"></span><br><span class="line">2 2 0 0           0 0 0 0</span><br><span class="line">4 0 0 0           0 0 0 0</span><br><span class="line">0 0 0 0  向下移动 2 0 0 0</span><br><span class="line">0 0 0 0           4 2 0 0</span><br><span class="line"></span><br><span class="line">2 2 0 0           2 2 0 0</span><br><span class="line">4 0 0 0           4 0 0 0</span><br><span class="line">0 0 0 0  向上移动 0 0 0 0  局面未改变，禁止此方向</span><br><span class="line">0 0 0 0           0 0 0 0</span><br><span class="line"></span><br><span class="line">   2    4    8   16</span><br><span class="line">  32   64  128  256</span><br><span class="line">  64    2    8 1024  任何方向都无法移动，终局。</span><br><span class="line">   2    4   16    8</span><br></pre></td></tr></table></figure>
+
+<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>笔者尝试通过AI来解决这个问题以得出尽可能大的数字。在开发过程中设计了多种数学模型来求解这一问题，希望借本文与大家分享数学建模的一些思路。</p>
+<p>我的AI算法使用的是<a href="http://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning" target="_blank" rel="noopener">alpha-beta pruning</a>。Alpha-beta pruning算法常用于博弈程序的AI，比如象棋、国际象棋、五子棋等。其基本思路与<a href="http://en.wikipedia.org/wiki/Minimax" target="_blank" rel="noopener">Minimax search</a>相似，通过对当前局面及其分支的评分，得出最优解的算法，只是通过剪枝的算法大大降低了算法的复杂度。1024这个游戏也可以理解为一个博弈游戏，玩家向某方向移动，电脑落下一个数字，这是一个玩家与电脑博弈的过程，玩家希望得出最大数字，电脑则是尽可能的让这个数字出现在玩家最不希望它出现的位置（实际游戏过程中，这个数字的出现位置是随机的）。</p>
+<p>Alpha-beta pruning算法是非常依赖于启发函数（Heuristic）的，启发函数是对于一个局面G的优劣的评估值，记为h(G)，h(G)越大，代表局面越好，h(G)越小代表局面越坏。Alpha-beta pruning的目标是做出当前局面G下的最佳决策，依据于一定深度的子分支的评价结果。因为深度有限且部分分支被抛弃，所以alpha-beta不能保证搜索到的结果是最优的，所以启发函数h(G)不仅用来评价局面的好坏，也用于引导搜索的过程。</p>
+<p>本文要讨论的即是关于1024游戏的启发函数h(G)的设计。</p>
+<h2 id="数学模型"><a href="#数学模型" class="headerlink" title="数学模型"></a>数学模型</h2><p>我们都知道数学是什么，但什么是数学模型？我们说铁比棉花“重”，这不是数学模型，而我们说铁的密度更大，而密度=质量/体积，这就是数学模型。我们说某个人速度很快，这不是数学模型，速度=距离/时间，他的速度是10米每秒，这就是数学模型。我们说今天阴天，可能会下雨，这不是数学模型，而我们说今天下雨的概率是P(下雨|阴天)，这就是数学模型。</p>
+<p>当先贤们创造经典力学的时候，他们是在对我们的日常知识建立数学模型。比如你说推一个轻的车比推一个重的车更容易，但如果你说，F=ma，那么你就是牛顿。</p>
+<p>顺便说一句，我认为数学教育的目标应该是建立数学模型，而不是解题。</p>
+<p>关于1024这个游戏，我们说局面A比局面B更好，那么怎么样对一个局面的好坏建立数学模型呢？<code>h(G_A) &lt; h(G_B)</code> 则认为局面B比局面A更好。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2 4 2 8     2 4 8 16</span><br><span class="line">4 2 4 4     2 2 4 8</span><br><span class="line">2 4 2 4     4 4 8 4</span><br><span class="line">4 2 0 0     0 0 4 8</span><br><span class="line">   A           B</span><br></pre></td></tr></table></figure>
+
+<h2 id="最大值模型"><a href="#最大值模型" class="headerlink" title="最大值模型"></a>最大值模型</h2><p>基于游戏的基本目标，我们希望尽可能的合成更大的数字，我们可以很显然得出一个数学模型：当局面G里出现的最大数字越大，则代表局面越好。即：</p>
+<p>h(G) = Max(G)</p>
+<p>假设G中目前的最大数字是256，基于此模型，AI将会尽可能的将这个数字合成到512，然后将512合成1024，然后是2048。看起来是很合理的。但实际测试中发现了如下的局面：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">4   2   4   8</span><br><span class="line">2   512 16  2</span><br><span class="line">64  2   32  4</span><br><span class="line">2   8   4   2</span><br></pre></td></tr></table></figure>
+
+<p>为什么发生这种局面？因为我们的AI过于急功近利了，因为最大值模型。就像我们设计了一个象棋程序，直接吃掉对方老将。。。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/04/21/mathematical-model-of-1024-game/" class="archive-article-date">
+  	<time datetime="2014-04-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-04-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mathematics/" rel="tag">mathematics</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/AI/">AI</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-programmer-self-management" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/30/programmer-self-management/">程序員的自我管理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>一位39歲的程序員在<a href="http://programmers.stackexchange.com/questions/213708/overcoming-slow-problem-solving-due-to-increased-knowledge-of-what-might-go-wron" target="_blank" rel="noopener">Stackexchange</a><br>上自爆隨著自己經驗的豐富，自己完成項目和任務的時間反而越來越長。<br>這引起了許多程序員的共鳴。</p>
+<p>他描述了一些自己遇到的狀況。當他決定開始著手寫一段代碼的時候，他會開始考慮很多問題。<br>諸如：權限、鎖、併發、框架，等等。</p>
+<p>有許多人和我有相同的體會，編程中我們有大量的時間花在了變量名的選擇，甚至項目名稱的確定上。</p>
+<p>此外還有許多人有這樣的怪癖——他們始終對IDE不滿意。他們花費大量的時間選擇他們順手的IDE。<br>甚至自己動手編寫插件。（比如我，時常折騰我的Vim配置，花去了大量的時間，最近考慮轉向Atom。）</p>
+<p>此外關於程序員的TODO管理，也是是一個很大的問題。</p>
+<blockquote>
+<p>A：請說一個關於程序員的笑話。B：TODO。</p>
+</blockquote>
+<blockquote>
+<p>程序員最大的謊言——TODO。</p>
+</blockquote>
+<p>總之，程序員除了真正的思考和動手去實現自己的項目外，還需要花費大量的時間在各種瑣事的管理上。<br>這些瑣事主要是代碼質量控制、實現方式的選擇、工具和框架的選擇、功能和bug以及重構等任務的管理。</p>
+<h3 id="一個重要的客觀現象！"><a href="#一個重要的客觀現象！" class="headerlink" title="一個重要的客觀現象！"></a>一個重要的客觀現象！</h3><p>當我們說到程序員任務delay的問題時，有一個重要的現象：</p>
+<blockquote>
+<p>一個優秀的程序員在按照產品經理的要求下進行工作的時候可以按時完成任務。<br>他們甚至在完成工作之餘還有時間做點自己的事情。</p>
+</blockquote>
+<blockquote>
+<p>但當他們想做點自己的事情時。他們往往會delay，甚至無法完成自己設定的任務。<br>他們的吸引力往往會轉移到其他的事情上。</p>
+</blockquote>
+<blockquote>
+<p>這種delay和fail的情況有時也會發生在那些由優秀程序員擔當管理者的項目上。<br>這些程序員往往在他們擔任管理者的同時，也同時從事編碼工作。</p>
+</blockquote>
+<p>（我無法提供數據來證明以上的普遍性。這只是一種基於自身和觀察的經驗。<br>希望有人可以告訴我一些證據以上現象是非常少的個案。）</p>
+<p>以上現象<strong>似乎</strong>說明程序員缺乏足夠好的自我管理能力。但這在邏輯上是說不通的，<br>程序員們是不會相信項目管理比編寫程序更加複雜這種事的。從某種意義上說，<strong>編程<br>本身就是非常複雜的管理工作</strong>。</p>
+<h3 id="可能的原因"><a href="#可能的原因" class="headerlink" title="可能的原因"></a>可能的原因</h3><ol>
+<li><p>程序員實在是太忙了。他們沒時間做任務管理。</p>
+<p>對於一個——剛打開編輯器就發現了一些不順手的地方，於是著手去編寫一個插件來滿足自己的需求。<br>隨後將自己的插件發佈到網絡與大家共享——順便看到了他人的貼子，於是有了一些感慨——<br>決定寫一篇博客記錄自己想法——的人來說，你覺得他還會有多少時間來做別的事情呢？</p>
+</li>
+<li><p>程序員是興趣驅動的，而不是目標驅動的。</p>
+<p>這是很普遍的一點，大多數的程序員選擇編程這份工作是因為愛好。<br>對於一個非目標驅動的人來說，無法完成目標就再好理解不過了。</p>
+</li>
+<li><p>程序員過於追求完美。</p>
+<p>這一次，程序員決定改過自新，不再東搞西搞，專心的完成目標。但他發現問題比他想象的複雜。<br>他無法接受那些產品經理們所建議的“設計上的臨時解決方案”代替“技術上的徹底的解決方案”。</p>
+<p>沒有階梯我們無法攀登，而沒有產品的過渡，我們甚至無法生存。</p>
+<blockquote>
+<p>done is better than perfect</p>
+</blockquote>
+</li>
+</ol>
+<h3 id="解決之道"><a href="#解決之道" class="headerlink" title="解決之道"></a>解決之道</h3><p>如何解決這個問題，每個人可能有不同的見解。</p>
+<ol>
+<li><p>目標驅動，平衡興趣，制定時間分配計劃。</p>
+<p>目標與興趣之間需要平衡，他們是相互裨益的。單純的為完成目標而工作，工作會變得乏味。<br>只是追求興趣，也並不能學以致用。</p>
+</li>
+<li><p>Push。</p>
+<p>只是制定計劃是沒用的。程序員必須要有人Push，這個人可以是你的夥伴，也可以是你的用戶。<br>他們的要求，會對你有很大的推動力。如果都沒有，我們可以創造一個工具來Push自己，它可以<br>用消息、統計等方式來強化你的目標概念。</p>
+</li>
+<li><p>始終以里程碑版本為目標。</p>
+</li>
+</ol>
+<h3 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h3><ul>
+<li><p>自动化番茄钟</p>
+<ul>
+<li>编辑代码，开始计时</li>
+<li>离开编辑器，AFK</li>
+<li>提交代码，计时完成</li>
+<li>统计<ul>
+<li>工作时间（使用编辑器的时间）</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>可以被版本控制的目标</p>
+<ul>
+<li>非excel</li>
+<li>非online數據</li>
+<li>文本存儲</li>
+</ul>
+</li>
+<li><p>腦圖</p>
+<ul>
+<li>Tree map</li>
+<li>TXT or MarkDown</li>
+</ul>
+</li>
+<li><p>TODO</p>
+</li>
+<li><p>里程碑</p>
+<ul>
+<li>分支開發</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/03/30/programmer-self-management/" class="archive-article-date">
+  	<time datetime="2014-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-30</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-history-of-full-stack-web-developer" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -607,206 +876,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/marketing/" rel="tag">marketing</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-static-site-generator" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/03/18/static-site-generator/">靜態網站生成器</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>靜態網頁依然應用的很廣，但是開發一個靜態網站並不像想象的那麼簡單，快速，易於維護。</p>
-<p>搭建慢。首先我們需要搭建項目的結構，引入我們需要的js，css，layout文件。</p>
-<p>復用難。也許同樣的網頁我們之前已經做過一個，但當我們需要再做一個的時候，我們還需要從頭再做一次。如果我們直接複製粘貼此前的代碼到新項目中，<br>對代碼的合併，網站名稱，logo等信息的修改，刪除不需要的代碼，要花去我們很多的時間。一個網站下的多個頁面在結構上應該是復用的。</p>
-<p>維護繁。對於一個已經完成的靜態網站，當我們想要修改它的時候，也並不是那麼簡單。比如我們要修改一個樣式，運氣好的話我們只需要修改一兩處css即可，<br>運氣差的話我們可能要修改DOM結構，但同一類頁面元素的DOM結構是分散在很多地方的，比如contact頁面，about頁面，某個landing page。<br>這就讓我們的代碼變得難以維護。</p>
-<p>如果我們對靜態網站做一個總結的話，一般來說包含以下內容。</p>
-<ul>
-<li>lyaout<br>網站的基本外觀框架。</li>
-<li>partial<br>網站的常用局部組件。</li>
-<li>data<br>網站基本配置，如標題，logo，base url，等。</li>
-<li>pages<br>幾個頁面，比如about，contact。</li>
-<li>posts<br>很多文章。</li>
-</ul>
-<p>於是靜態網站生成器（static site generator）產生了。</p>
-<p>現在比較常見的靜態網站生成器：</p>
-<ul>
-<li><p>jekyll Ruby 實現，github支持，插件豐富，支持諸如tag，分類，本博客使用的就是jekyll。</p>
-</li>
-<li><p>harp <a href="http://harpjs.com" target="_blank" rel="noopener">http://harpjs.com</a></p>
-</li>
-<li><p>hexo <a href="http://zespia.tw/hexo" target="_blank" rel="noopener">http://zespia.tw/hexo</a></p>
-</li>
-<li><p>docpad docpad.org 基於coffeescript</p>
-</li>
-<li><p>assemble assemble.io</p>
-</li>
-<li><p>cabin] cabinjs.com</p>
-</li>
-<li><p>Yeoman yeoman.io nodejs環境。yeoman不能算是一個靜態網站生成器，你可以叫它項目生成器。它可以生成諸如webapp，argularjs，assemble的东西。</p>
-</li>
-</ul>
-<p>我的選擇 Yeoman + x，Yeoman 的設計是面向開發者的。</p>
-<p>對於x的選擇，必須是nodejs的，從github關注量來看，docpad最多。但hexo和assemble产生较新，hexo关注人相对更多，看上去不错。</p>
-<p>yeoman + hexo 計劃用這種方式來實現項目主頁，Landing Page。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2014/03/18/static-site-generator/" class="archive-article-date">
-  	<time datetime="2014-03-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-18</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-write-atom-package" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/03/18/write-atom-package/">编写atom插件</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Atom 是github开发的编辑器，号称21世纪hackable编辑器。近日对其hack了一下，增加了一个命令行。</p>
-<p>Atom的View系统很不错。</p>
-<p>顺便学会使用licecap录了个屏。<a href="http://www.cockos.com/licecap/" target="_blank" rel="noopener">http://www.cockos.com/licecap/</a></p>
-<p>接下来的目标是可以打开多终端。</p>
-<p><img src="http://guileen.github.io/img/terminal-status/screenshot-0.2.0.gif" alt=""></p>
-<h2 id="UPDATE：-2014-03-22"><a href="#UPDATE：-2014-03-22" class="headerlink" title="UPDATE： 2014-03-22"></a>UPDATE： 2014-03-22</h2><p>多终端已实现，apm操作不慎，版本号bump到了1.1.0</p>
-<p><img src="http://guileen.github.io/img/terminal-status/screenshot-1.1.0.gif" alt=""></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2014/03/18/write-atom-package/" class="archive-article-date">
-  	<time datetime="2014-03-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-18</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/editor/" rel="tag">editor</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-open-source-speech-api" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/03/16/open-source-speech-api/">开源语音识别引擎</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>大部分的语音识别引擎是收费的，或者是闭源的。google speech API不适合做语音控制系统，只适合识别日常语言。julius是一个日本人开发的语音识别引擎，GPL协议，看起来不错，决定研究一下。</p>
-<p>今天花了很多时间折腾atom，是github推出的编辑器，可以方便灵活的编写插件。非常希望可以用说话来编程。折腾了一些，接触了如下东西。</p>
-<ul>
-<li>sox (with flac format) 一个CLI程序可以录音。</li>
-<li>node-speakable  录音并调用google speech API。</li>
-<li>node-julius  顾名思义，node调用julius API。还没有使用。</li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2014/03/16/open-source-speech-api/" class="archive-article-date">
-  	<time datetime="2014-03-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-16</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/editor/" rel="tag">editor</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/machine-learning/" rel="tag">machine-learning</a></li></ul>
 	</div>
 
       

@@ -148,6 +148,184 @@
       <div class="body-wrap">
         
   
+    <article id="post-message-server-cluster-configuration" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/08/12/message-server-cluster-configuration/">消息服务器集群的管理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>N台服务器，N &gt; 10，相互之间会有通信，每台服务器都会开启数个进程监听数个端口用于接收来自其他服务器的消息。每个进程都必须设置一个id，其他服务器发送消息时需要根据目标服务器的id获取该id对应的进程ip和port。</p>
+<h2 id="静态配置"><a href="#静态配置" class="headerlink" title="静态配置"></a>静态配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">all_server_ids[id] &#x3D; &#123;host: &#39;xxx&#39;, port: 1234&#125;;</span><br></pre></td></tr></table></figure>
+<p>启动每个进程时，用参数指定id，如 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;run-server --id 123，</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">host, port &#x3D; all_server_ids[id]</span><br></pre></td></tr></table></figure>
+<p>缺点：配置繁琐，服务器多的时候容易出错。</p>
+<h2 id="用KeyValue数据库注册，"><a href="#用KeyValue数据库注册，" class="headerlink" title="用KeyValue数据库注册，"></a>用KeyValue数据库注册，</h2><p>在进程启动后， </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">id &#x3D; db.incr(&#39;server-id&#39;);</span><br><span class="line">db.set(&#39;sid:&#39;+id, &#39;host:port&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>在发送消息时，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">host, port &#x3D; db.get(&#39;sid&#39; + id)</span><br></pre></td></tr></table></figure>
+<p>缺点：获取host,port的操作会很频繁，无法根据消息接收人id做hash来得知目标服务器id。</p>
+<h2 id="中央服务器"><a href="#中央服务器" class="headerlink" title="中央服务器"></a>中央服务器</h2><p>所有消息都通过一个中央服务器转发。所有节点服务器只与中央服务器通讯。所有节点服务器使用统一的配置连接中央服务器。消息发送至中央服务器。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/08/12/message-server-cluster-configuration/" class="archive-article-date">
+  	<time datetime="2013-08-11T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-08-12</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IM/" rel="tag">IM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cluster/" rel="tag">cluster</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-about-3d" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/29/about-3d/">About 3D</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>ray-trace 光线跟踪，镜面<br>radiosity 辐射光照<br>rasterizing 光栅化，scan line</p>
+<p>你的引擎需要提供的包括：曲面(curved surfaces)、动态光线(dynamic lighting)、体雾(volumetric fog)、镜面(mirrors)、入口(portals)、天空体(skyboxes)、节点阴影(vertex shaders)、粒子系统(particle systems)、静态网格模型(static mesh models)、网格模型动画(animated mesh models)。</p>
+<p>Renderer/Engine Core （渲染/引擎 内核）<br>哈~是呀，所有的人都热爱3D图象渲染！因为这边有着非常多的不同种类的3D世界渲染方式，可要为各类拥有不同工作方式的3D图形管道做出一个概要描述也是几乎不可能的。<br>不管你的渲染器如何工作，最重要的是将你的渲染器组件制作得基化（based）与干净（clean）。<br>首先可以确定的是你将拥有不同的模块来完成不同的任务，我将渲染器拆分为以下几个部份：可见裁减（Visibility）、碰撞检测与反馈（Collision Detection and Response）、摄像器（Camera）、静态几何体（Static Geometry）、动态几何体（Dynamic Geometry）、粒子系统（Particle Systems）、布告板（Billboarding）、网格（Meshes）、天空体（Skybox）、光线（Lighting）、雾（Fogging）、节点阴影（Vertex Shading）和输出（Output）。<br>其中每一个部分都得需要一个接口来方便地实现改变设置（settings）、位置（position）、方向（orientation）、以及其他可能与系统相关的属性配置。<br>即将显露出来的一个主要缺陷便是“特性臃肿”，这将取决于设计期间你想实现什么样的特性。但如不把新特色置入引擎的话，你就会发觉一切都将变的很困难，解决问题的方式也显得特别逊色。<br>还有一件有意义的事便是让所有的三角形[triangles]（或是面[faces]）最终在渲染管道里经过同一点。（并非每次的每个三角形，这里讨论的是三角形列表[triangle lists]、扇形[fans]、带形[strips]、等） 多花一些工作让所有物体的格式都能经过相同的光线、雾、以及阴影代码，这样就能非常便利地仅通过切换材质与纹理id就使任何多边形具有不同的渲染效果。<br>这不会伤及到被大量被渲染绘出的点，但是一旦你不当心，它可能会导致大量的冗余代码。<br>你也许最终便能发现，实现所有这些你所需的极酷效果可能只占了所有的15%左右的代码量甚至更少。这是当然的，因为大多数游戏引擎并不只是图形表现。</p>
+<p>3D繪圖(3D Graphics Pipeline ) <a href="http://www.ategpu.com/2009/06/04/3d%E7%B9%AA%E5%9C%963d-graphics-pipeline.html" target="_blank" rel="noopener">http://www.ategpu.com/2009/06/04/3d%E7%B9%AA%E5%9C%963d-graphics-pipeline.html</a></p>
+<p>3.1 Transformation &amp; Lighting<br>ModelTransformation,  View Transformation, 视点坐标系 HomogeneousCoordinate System , 4x4 Transformation Matrix</p>
+<p>3.2 Viewport Transformation &amp; Clipping &amp; Culling<br>Clip coordinate是將視點座標進行投影(Projection)，在Eye coordinate上，我們的原點就是攝影機，視線方向是-Z軸，加上視角與遠近平面，我們創建了一個梯形體的三維空間，近平面(也就是投影平面)是梯形體較小的矩形，遠平面是梯形體較大的矩形，而所有在這個梯形體的內的Vertex，就是我們在螢幕上會看見的Vertex。因此超出這個梯形體的場景，都被視點去除(Frustum Culling)掉了。 </p>
+<p>為什麼我們在投影完之後還要留下Z座標的值呢？這是因為「Vertex離投影面的距離」可以用來處理三角面間相互遮蓋的情形，也就是哪個三角面在前，哪個三角面在後。這個稱作Z-buffer的技術會在之後提到。 </p>
+<p>3.3 Primitive Assembly ＆ Triangle Setup<br>進行背面去除(Back-face Culling)。 </p>
+<p>3.4 Rasterization</p>
+<p>3.5 Pixel Operation<br>Texture operation<br>紋理操作，也就是根據Pixel的紋理座標，查詢相應的紋理(Texture)，來計算Pixel該有的顏色。<br>.<br>Blending<br>混色，根據目前已經畫好的顏色，與現在正在算的顏色的透明度(Alpha)，混合兩種顏色，當作新的顏色輸出。<br>.<br>Filtering<br>將正在算的顏色經過某種濾鏡(Filtering)後輸出。關於filtering的理論牽涉到數位訊號學，請暫時理解為，經過一種數學運算之後變成了新的顏色。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/29/about-3d/" class="archive-article-date">
+  	<time datetime="2013-03-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-29</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/3D/" rel="tag">3D</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/" rel="tag">game-dev</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-use-varnish" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/28/use-varnish/">Use varnish</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Varnish 是一个反向代理服务器，并且只能作为反向代理。可编程式的配置。性能很好。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/28/use-varnish/" class="archive-article-date">
+  	<time datetime="2013-03-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-28</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-how-to-learn-linear-algebra" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -532,234 +710,6 @@ end
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-git-activity-report-by-git-stats" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/16/git-activity-report-by-git-stats/">使用GitStats了解项目活动情况</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://github.com/trybeee/GitStats" target="_blank" rel="noopener">GitStats</a></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/16/git-activity-report-by-git-stats/" class="archive-article-date">
-  	<time datetime="2013-03-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-16</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-unix-signals" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/16/unix-signals/">Unix signals</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>转载: <a href="http://blog.csdn.net/ljx0305/article/details/2904056" target="_blank" rel="noopener">http://blog.csdn.net/ljx0305/article/details/2904056</a></p>
-<pre><code>SIGHUP    终止进程    终端线路挂断
-SIGINT    终止进程    中断进程
-SIGQUIT   建立CORE文件终止进程，并且生成core文件
-SIGILL   建立CORE文件      非法指令
-SIGTRAP  建立CORE文件      跟踪自陷
-SIGBUS   建立CORE文件      总线错误
-SIGSEGV  建立CORE文件      段非法错误
-SIGFPE   建立CORE文件      浮点异常
-SIGIOT   建立CORE文件      执行I/O自陷
-SIGKILL  终止进程    杀死进程
-SIGPIPE  终止进程    向一个没有读进程的管道写数据
-SIGALARM  终止进程    计时器到时
-SIGTERM  终止进程    软件终止信号
-SIGSTOP  停止进程    非终端来的停止信号
-SIGTSTP  停止进程    终端来的停止信号
-SIGCONT  忽略信号    继续执行一个停止的进程
-SIGURG   忽略信号    I/O紧急信号
-SIGIO    忽略信号    描述符上可以进行I/O
-SIGCHLD  忽略信号    当子进程停止或退出时通知父进程
-SIGTTOU  停止进程    后台进程写终端
-SIGTTIN  停止进程    后台进程读终端
-SIGXGPU  终止进程    CPU时限超时
-SIGXFSZ  终止进程    文件长度过长
-SIGWINCH  忽略信号    窗口大小发生变化
-SIGPROF  终止进程    统计分布图用计时器到时
-SIGUSR1  终止进程    用户定义信号1
-SIGUSR2  终止进程    用户定义信号2
-SIGVTALRM 终止进程    虚拟计时器到时</code></pre><p>1) SIGHUP 本信号在用户终端连接(正常或非正常)结束时发出, 通常是在终端的控<br>制进程结束时, 通知同一session内的各个作业, 这时它们与控制终端<br>不再关联.</p>
-<p>2) SIGINT 程序终止(interrupt)信号, 在用户键入INTR字符(通常是Ctrl-C)时发出</p>
-<p>3) SIGQUIT 和SIGINT类似, 但由QUIT字符(通常是Ctrl-)来控制. 进程在因收到<br>SIGQUIT退出时会产生core文件, 在这个意义上类似于一个程序错误信<br>号.</p>
-<p>4) SIGILL 执行了非法指令. 通常是因为可执行文件本身出现错误, 或者试图执行<br>数据段. 堆栈溢出时也有可能产生这个信号.</p>
-<p>5) SIGTRAP 由断点指令或其它trap指令产生. 由debugger使用.</p>
-<p>6) SIGABRT 程序自己发现错误并调用abort时产生.</p>
-<p>6) SIGIOT 在PDP-11上由iot指令产生, 在其它机器上和SIGABRT一样.</p>
-<p>7) SIGBUS 非法地址, 包括内存地址对齐(alignment)出错. eg: 访问一个四个字长<br>的整数, 但其地址不是4的倍数.</p>
-<p>8) SIGFPE 在发生致命的算术运算错误时发出. 不仅包括浮点运算错误, 还包括溢<br>出及除数为0等其它所有的算术的错误.</p>
-<p>9) SIGKILL 用来立即结束程序的运行. 本信号不能被阻塞, 处理和忽略.</p>
-<p>10) SIGUSR1 留给用户使用</p>
-<p>11) SIGSEGV 试图访问未分配给自己的内存, 或试图往没有写权限的内存地址写数据.</p>
-<p>12) SIGUSR2 留给用户使用</p>
-<p>13) SIGPIPE Broken pipe</p>
-<p>14) SIGALRM 时钟定时信号, 计算的是实际的时间或时钟时间. alarm函数使用该<br>信号.</p>
-<p>15) SIGTERM 程序结束(terminate)信号, 与SIGKILL不同的是该信号可以被阻塞和<br>处理. 通常用来要求程序自己正常退出. shell命令kill缺省产生这<br>个信号.</p>
-<p>17) SIGCHLD 子进程结束时, 父进程会收到这个信号.</p>
-<p>18) SIGCONT 让一个停止(stopped)的进程继续执行. 本信号不能被阻塞. 可以用<br>一个handler来让程序在由stopped状态变为继续执行时完成特定的<br>工作. 例如, 重新显示提示符</p>
-<p>19) SIGSTOP 停止(stopped)进程的执行. 注意它和terminate以及interrupt的区别:<br>该进程还未结束, 只是暂停执行. 本信号不能被阻塞, 处理或忽略.</p>
-<p>20) SIGTSTP 停止进程的运行, 但该信号可以被处理和忽略. 用户键入SUSP字符时<br>(通常是Ctrl-Z)发出这个信号</p>
-<p>21) SIGTTIN 当后台作业要从用户终端读数据时, 该作业中的所有进程会收到SIGTTIN<br>信号. 缺省时这些进程会停止执行.</p>
-<p>22) SIGTTOU 类似于SIGTTIN, 但在写终端(或修改终端模式)时收到.</p>
-<p>23) SIGURG 有”紧急”数据或out-of-band数据到达socket时产生.</p>
-<p>24) SIGXCPU 超过CPU时间资源限制. 这个限制可以由getrlimit/setrlimit来读取/<br>改变</p>
-<p>25) SIGXFSZ 超过文件大小资源限制.</p>
-<p>26) SIGVTALRM 虚拟时钟信号. 类似于SIGALRM, 但是计算的是该进程占用的CPU时间.</p>
-<p>27) SIGPROF 类似于SIGALRM/SIGVTALRM, 但包括该进程用的CPU时间以及系统调用的<br>时间.</p>
-<p>28) SIGWINCH 窗口大小改变时发出.</p>
-<p>29) SIGIO 文件描述符准备就绪, 可以开始进行输入/输出操作.</p>
-<p>30) SIGPWR Power failure</p>
-<p>有两个信号可以停止进程:SIGTERM和SIGKILL。 SIGTERM比较友好，进程能捕捉这个信号，根据您的需要来关闭程序。在关闭程序之前，您可以结束打开的记录文件和完成正在做的任务。在某些情况下，假如进程正在进行作业而且不能中断，那么进程可以忽略这个SIGTERM信号。</p>
-<p>对于SIGKILL信号，进程是不能忽略的。这是一个 “我不管您在做什么,立刻停止”的信号。假如您发送SIGKILL信号给进程，Linux就将进程停止在那里。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/16/unix-signals/" class="archive-article-date">
-  	<time datetime="2013-03-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-16</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-chauvenet-criterion" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/15/chauvenet-criterion/">肖维勒准则</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>数据中并不总是合法数据，为了更好的完成统计，我们必须剔除异常的数据。</p>
-<p>如何剔除异常的实验数据(Outlier rejection)，有许多的方法。</p>
-<p>介绍一种易于实现的方法，叫做<a href="http://en.wikipedia.org/wiki/Chauvenet' target="_blank" rel="noopener"s_criterion">肖维勒准则(Chauvenet’s criterion)</a></p>
-<p>平均值</p>
-<pre><code>mean = sum(v) / n</code></pre><p>标准差</p>
-<pre><code>sd = sqrt(sum(v(i) * v(i) - mean * mean, i=1 to n) / (n - 1))</code></pre><p><a href="http://en.wikipedia.org/wiki/Chauvenet' target="_blank" rel="noopener"s_criterion">肖维勒准则(Chauvenet’s criterion)</a></p>
-<p>如果某样本数据d满足</p>
-<pre><code>|v(d)| &gt; w(n) * sd</code></pre><p>则认为v(d)是一个异常数据，将其剔除。</p>
-<p>W(n) 是一个常数，可以用查表法获得</p>
-<p>Table of Chauvenet’s Criterion for data rejection, with curve fit equation</p>
-<p>Chauvenet’s Criterion</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">--------------------------</span><br><span class="line">| n          | c         |</span><br><span class="line">--------------------------</span><br><span class="line">| 3          | 1.38      |</span><br><span class="line">| 4          | 1.54      |</span><br><span class="line">| 5          | 1.65      |</span><br><span class="line">| 6          | 1.73      |</span><br><span class="line">| 7          | 1.8       |</span><br><span class="line">| 10         | 1.96      |</span><br><span class="line">| 15         | 2.13      |</span><br><span class="line">| 25         | 2.33      |</span><br><span class="line">| 50         | 2.57      |</span><br><span class="line">| 100        | 2.81      |</span><br><span class="line">--------------------------</span><br><span class="line">|c &#x3D; 0.9969+0.4040*ln(n) |</span><br><span class="line">--------------------------</span><br></pre></td></tr></table></figure>
-
-<p>很奇怪，通过公式获得的结果和表上给的结果并不一致。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/15/chauvenet-criterion/" class="archive-article-date">
-  	<time datetime="2013-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-15</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li></ul>
 	</div>
 
       

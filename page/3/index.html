@@ -148,6 +148,203 @@
       <div class="body-wrap">
         
   
+    <article id="post-How-ssl-works-and-letscrypt" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/30/How-ssl-works-and-letscrypt/">How ssl works and Letscrypt</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="SSL-TLS-解决了什么问题？"><a href="#SSL-TLS-解决了什么问题？" class="headerlink" title="SSL/TLS 解决了什么问题？"></a>SSL/TLS 解决了什么问题？</h2><p>假设A给B发信息，直接明文发送，那么所有的中间传输节点，都可以截获明文，这种通信是不安全的，想象一下你的密码全部在网上明文传输，是不是很危险。</p>
+<p>现在A将信息加密后传输给B，B解密信息，加密密钥和解密密钥是相同，这种加密算法叫做对称加密算法。题是，A如何把密钥告诉B？如果依然通过同一个中间人告诉B，一旦中间人知道这个密钥，那么传输过程就依然是不安全的了。</p>
+<p>这时非对称加密算法出现了，非对称加密的加密解密需要两把钥匙，我们称之为公钥和私钥，所谓公钥就是可以公开的钥匙，可以安全的分享出去。使用公钥加密的数据必须用私钥解密，使用私钥加密的必须用公钥解密。如果A和B之间进行通信，那么AB双方首先交换各自的公钥，保留各自的私钥，这个过程是安全的。A要给B发信息则使用B的公钥加密，因为只有B自己拥有私钥，所以只有B可以解密信息，反之依然。这是非对称加密的第一个用途，防止中间人破译信息。非对称加密还有另一个用途————身份验证，如果A要向B表明身份证明自己的确是A，只需要按照B的要求加密一段随机字符串S即可，A使用自己的私钥加密S，将加密结果发送给B，B使用A提供的公钥进行解密，若结果为S，则证明对方的身份的确是A，这样就完成了认证过程，我们常用的ssh公钥登录，就是这个原理。</p>
+<p>一切看起来很完美，但是还有一个问题没有解决。假设A、B之间有一个中间人C，AB之间的所有消息都经过C传递。这是C在这个传输过程做了手脚，当AB交换公钥时，A把公钥发给C，希望C把A的公钥转交给B，可是这是C没有把A的公钥交给B，而是把C的公钥交给了B，B误以为C的公钥就是A的公钥。在B把公钥发给A的过程中，C做了同样的手脚。这时A、B手上都是C的公钥，而C手上也有A、B的公钥。这时A给B发消息时，会使用C的公钥加密，C则先用C的私钥解密得出原文完成信息窃取，再用B的公钥加密信息发给B。AB都认为自己进行了安全的传输，一切天衣无缝。更可怕的是C还可以直接篡改信息。谁有能力做这件事？你的网络提供商，你连接的免费wifi，网络上的交换节点，都有能力实施这个中间人攻击。那么问题来了，既然交换公钥这种非对称加密手段都无法奏效，还搞毛线呢？这时就需要CA上场了。</p>
+<pre><code>A  ---- A的公钥 ---&gt;  C  ---- C的公钥 ---&gt; B
+A  &lt;--- C的公钥 ----  C  &lt;--- B的公钥 ---- B
+A  --C公钥加密信息--&gt;  C  -- B公钥加密信息--&gt; B
+A  &lt;-C公钥加密信息---  C  &lt;- A公钥加密信息--- B</code></pre><p>CA的全称是Certificate Authority，即证书颁发机构。A为了保证自己的公钥不被中间人篡改，会先将自己的公钥交给CA，CA用自己的私钥教秘A的公钥，B使用CA的公钥解密A的公钥，只要CA的签名的公钥没有问题，则A的公钥也必然没有问题。那么又有一个新的问题来了，如果中间人C伪造CA的公钥怎么办？这个问题的解决方案比较粗暴，CA的公钥是直接写在浏览器里的。如果CA的公钥被篡改，浏览器会直接提示不安全的网络连接。因此我们也需要警惕一些山寨浏览器，如果没有道德底线的约束，他们完全可以篡改CA证书，为网络监听大开方便之门。</p>
+<p>因为CA需要各大浏览器厂商的共同认可，因此是个壁垒很高的生意。如果一个网站需要提供安全的网络连接，则需要将自己的网站公钥通过CA生成一个认证公钥，这个认证的公钥也就是证书，这个证书不便宜。想象一下，每一年你都需要付出两千块钱，就是为了证明你是你，这钱花的是不是挺冤枉。你说我的网站就不提供安全传输不就完了吗，反正我这信息也都是公开的，也没什么值得监听的。不行，因为很多业务场景，第三方接口，必须要求你提供安全的网络连接。这就增加了开设一个网络服务的成本，尤其是增加了玩票的成本，小微创新就会受影响。</p>
+<p><img src="/img/https_flowchart.jpg" alt=""></p>
+<p>现在就该今天的主角上场了，<a href="https://letsencrypt.org/" target="_blank" rel="noopener">Letsencrypt</a>，他是一个免费、自动化的证书颁发机构。今天就向大家安利一下Letsencrypt。 Letsencryt在web server上运行了一个证书管理代理（Certificate management agent）的程序。假设我们希望设置<code>https://example.com</code>的证书。那么一共有两个步骤，第一步，证明你拥有exmaple.com，第二步，代理程序可以请求（request）、更新（renew）以及废除（revoke）证书，</p>
+<p>Letsencrypt根据agent公钥来验证账号，agent第一次与Letsencrypt交互时，Letsencrypt会要求agent证明自己拥有某个域名。agent会询问需要自己做什么来证明自己拥有这个域名，这时Letsencrypt会下发一组任务，比如添加某个DNS记录，在网站下提供某个制定的资源。这和传统的CA证书机构类似。当agent完成操作后，CA就认为该agent已经拥有这个域名了，之后的域名更新都可以通过agent操作。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ sudo add-apt-repository ppa:certbot&#x2F;certbot</span><br><span class="line">$ sudo apt-get update</span><br><span class="line">$ sudo apt-get install certbot</span><br><span class="line">$ sudo certbot certonly -d ipub.io -d *.ipub.io --manual --preferred-challenges dns --server https:&#x2F;&#x2F;acme-v02.api.letsencrypt.org&#x2F;directory</span><br></pre></td></tr></table></figure>
+<p>跟着提示填写，其中一步要求在DNS记录中添加一个TXT，修改后继续，准确无误的话，证书会在/etc/letsencrypt/live/ipub.io/ 目录下, 修改nginx配置文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">  listen 443 ssl;</span><br><span class="line">  listen [::]:443 ssl;</span><br><span class="line">  keepalive_timeout 70;</span><br><span class="line"></span><br><span class="line">  root &#x2F;var&#x2F;www&#x2F;leen.ipub.io;</span><br><span class="line">  index index.html index.htm;</span><br><span class="line">  server_name leen.ipub.io;</span><br><span class="line">  ssl_certificate  &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;ipub.io&#x2F;fullchain.pem;</span><br><span class="line">  ssl_certificate_key  &#x2F;etc&#x2F;letsencrypt&#x2F;live&#x2F;ipub.io&#x2F;privkey.pem;</span><br><span class="line">  location &#x2F; &#123;</span><br><span class="line">    try_files $uri $uri&#x2F; &#x2F;index.html &#x3D;404;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/01/30/How-ssl-works-and-letscrypt/" class="archive-article-date">
+  	<time datetime="2019-01-30T12:49:39.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-01-30</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-set-up-a-mail-server" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/01/29/set-up-a-mail-server/">设置邮箱服务器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>发现自己已经有足足一年多没有更新任何博客了。过去的一年中，自己越来越多的在做管理型的工作，远离了一线开发，开发笔记类的东西也就少了。</p>
+<p>最近这段时间一直在整理自己的思路，希望能够做些能够触达用户的事情，比如搞一个公众号之类的。而各种自媒体号都需要邮箱，申请免费邮箱又是很麻烦的事，搞不好密码忘了，也很麻烦。既然自己有域名，为什么不自己搞一个企业邮箱呢。常用的是腾讯的免费企业邮箱，但是只能绑定一个域名，而我的账号下已经绑定了一个域名。于是想着自己动手搭建一个邮箱服务器。</p>
+<p>这个邮箱服务器的主要目标是接收各种注册邮件、验证码，并不要求完善的账号管理系统。备选方案有：</p>
+<ol>
+<li><a href="https://postal.atech.media/" target="_blank" rel="noopener">Postal</a>, write with ruby, MySQL</li>
+<li><a href="https://modoboa.org/en/" target="_blank" rel="noopener">Modoboa</a>, write with python.</li>
+<li>postfix</li>
+<li>dovecot</li>
+<li><a href="https://github.com/mailhog/MailHog" target="_blank" rel="noopener">MailHog</a></li>
+<li><a href="https://github.com/toorop/tmail" target="_blank" rel="noopener">tmail</a></li>
+<li><a href="https://mailinabox.email/" target="_blank" rel="noopener">Mail in a box</a></li>
+<li><a href="https://github.com/djfarrelly/MailDev" target="_blank" rel="noopener">MailDev</a></li>
+<li><a href="https://www.inbucket.org/" target="_blank" rel="noopener">Inbucket</a></li>
+</ol>
+<p>最终选择了maildev，安装简单方便</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm i -g maildev</span><br><span class="line">maildev --web-user xx --web-pass xx</span><br></pre></td></tr></table></figure>
+
+<p>使用supervisor，后台运行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># supervisor&#x2F;conf.d&#x2F;maildev.conf</span><br><span class="line">[program:maildev]</span><br><span class="line">command&#x3D;&#x2F;opt&#x2F;nodejs&#x2F;bin&#x2F;maildev --web-user&#x3D;xx --web-pass&#x3D;xx -s 25 -w 1080</span><br><span class="line">redirect_stderr&#x3D;true</span><br><span class="line">stdout_logfile&#x3D;&#x2F;var&#x2F;log&#x2F;maildev.log</span><br><span class="line">stdout_logfile_maxbytes&#x3D;10MB</span><br><span class="line">stdout_logfile_backups&#x3D;10</span><br><span class="line">stdout_capture_maxbytes&#x3D;100MB</span><br></pre></td></tr></table></figure>
+
+<p>修改DNS，添加MX记录为服务器IP。发邮件到<a href="mailto:test@example.com">test@example.com</a> 测试，打开 <code>http://example.com:1080/</code> ，可以看到自己刚发的邮件。说明已经可以有任意多的邮箱了。</p>
+<p>把他和brook科学上网服务放在同一台服务器上，充分利用资源。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/01/29/set-up-a-mail-server/" class="archive-article-date">
+  	<time datetime="2019-01-29T14:40:54.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-01-29</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-conscious-of-machine" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/01/conscious-of-machine/">机器的意识</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>机器学习当下是非常火热的课题，大量的模型被设计出来令人眼花缭乱。诸如SVM，随机森林，贝叶斯网络，神经网络只不过是这个领域的基础知识，在这些基础方法之上的各种优化分支方法更是数不胜数。大量的所谓机器学习的研究者，在某个问题上，通过对现有方法的小修小补，达到了一些微不足道的提升，或仅仅是对几种模型／优化方法／特征分析／问题领域进行一些常规的比较分析，便可以一本正经的发布一篇学术论文。为了这些方法应用到实际的工程中时，通常需要消耗大量的人力用于前期的数据分析和处理，这一过程被称为“特征工程”。对于此类人员的专业度要求非常高，需求量也非常大，因此这类人才的溢价也非常高，以致于一个刚刚毕业的研究生的薪酬可以轻松超越一个有多年经验的软件工程师。然而这类人力工作通常并没有太多的创新性可言。这是在当前的科技背景下产生的独特的现象——一大批资质平平的智力工作者受到了疯狂的追捧。这一现象必然在机器学习真正取得突破性进展后终结，本文将讨论突破性进展可能的方向。</p>
+<p>科技发展有两种驱动力，其一是资本对于更高生产力的追求，其二是纯粹的为了智力上的满足感或是对于某种超自然信仰而展开的对于真理本质的追求。前者更长于将科学成果转化为实际应用，而后者才是实现技术爆炸的真正内核。机器学习领域也是如此，目前正处于科学成果转化的高峰期，是基于前些年的一些基础研究进行的转化。但也是瓶颈期，因为我们感受到了现有方法的局限。目前人们对于人工智能的态度行业内外的看法截然相反：业外的人大部分担心人工智能将超越、统治甚至毁灭人类，业内大部分则恰恰相反。因为专业人士更加清楚，现有方法大多是非常愚蠢的，所谓智能不过是一种魔术。你一定体验过魔术被揭秘的感觉，这就是我兴致勃勃的了解了许多机器学习方法后的感受。可以很负责任的说，我们距离人工智能的本质还差的很远很远。大部分的人醉心于如何更好的表演魔术，只有很少的人去追求真正的本质，而这些追求本质的方法如果在魔术表演上不够精彩，是很容易被忽视的。</p>
+<p>人工智能概念最早由约翰·麦卡锡（John McCarthy，1927年9月4日－2011年10月24日）在1956年由他自己召集的达特矛斯会议上提出的：“人工智能就是要让机器的行为看起来就像是人所表现出的智能行为一样”。这是人工智能的早期定义，人们后来意识到这个定义忽略了强人工智能的可能性。所谓强人工智能是指机器拥有真正的智能而不仅仅是“看起来像”，与之相对的则被称为弱人工智能，而目前实现的都是弱人工智能。这引发了一系列的哲学问题——什么是智能？强人工智能是否有可能实现？强人工智能是不是人类的灾难？即便我们出于伦理和人类安全的考虑，不追求实现强人工智能，而只是追求弱人工智能的“看起来像”的目的，也不得不借鉴强人工智能的思路，也就不可避免的不断的朝着强人工智能方向前进。本文不讨论人工智能是否对人类构成威胁的问题，仅从方向和方法上讨论强人工智能的可行性。</p>
+<p>人工智能本质上属于仿生学范畴的。智能本身就是很复杂的，而人类仅能认识到自己的智能，不可能理解龙虾或者外星人的智能。所以对人工智能本质的追求，应该是对人类自身深入认识的过程。并且这种认识不能仅仅停留于哲学解构的层面，必须通过工程手段加以重新建构，我们用哲学上和工程上都能理解的语言进行表达，而这种语言我们称之为模型。</p>
+<p>人类智能可划分为一些层次，无意识的精神、意识、自我、逻辑、知识、表达、知觉、经验。这些划分并不存在清晰的界限。通过真正的智能与现有弱人工智能的比较，我们可以更好的理解这些概念。</p>
+<p>当AlphaGo轻松打败人类棋手时，人类棋手感到压力、恐惧、伤心、绝望。我们为AlphaGo的棋艺感到惊叹，但事实上二者在智能上相比，人类棋手的情绪反应才是真正令人惊叹的。AlphaGo不会为胜利而感到骄傲，也不会为失败而羞耻，他不会为存在而感到快乐，也不会为消失感到痛苦。他甚至根本没有想要胜利的欲望，更不会有人类各种复杂的情感。这些就是无意识的精神，精神在不自觉的驱动着我们的意识，或纵情声色，或知耻而勇，或趋利避害，或舍生忘死。虽然我们看起来是由理智所控制的动物，但精神不受理智的控制。这点在恋爱中的人身上尤为明显，即便他们的理智告诉他们不要对另一方过于依恋，但他们却无法控制自己所思所想。对于音乐的感受也是类似的，不过是不同频率的声波的组合，竟能使人不由自主的感到快乐或悲伤，多么的神奇。生物学家认为，当多巴胺分泌增加时，人就会感到快乐。多巴胺是一种神经传导物质，这就像是给神经系统的奖励，以刺激我们更加努力的工作。但这并不能解释快乐的本质，我们可以想象我们给车添加了燃油和润滑油，这相当于是给了车奖励，但是车并不会感到快乐。我们在训练AlphaGo时，每次他获胜，我们也会给他一个反馈，告诉他这次做的结果不错，他就会更加靠近这个结果，但他并不会感到快乐。那么为什么多巴胺分泌增加人就会感到快乐呢？显然多巴胺不是快乐的本质，只是快乐的使者而已。</p>
+<p>人类诸多行为有可能是后天习得的，但有些则是在被创造时就存在的。食欲、快乐、痛觉、饥饿感、自我、对母亲的依恋，这些都是与生俱来的。所以我们可以认为某种无意识的精神在母体中被创造时就存在了。但是从那一刻这种精神开始存在呢？我们很难想象单细胞状态的受精卵拥有这种精神。当基因代码一层层展开，从单细胞到多细胞，脊椎动物，鱼、两栖、哺乳类、灵长目、人科、智人属的基因片段开始逐步表达，胚胎的结构从简单到复杂，直到降生时我们依然没有发育完全，经历长时间的幼态持续，青春期，我们更多的情绪和欲望被展现出来。当我们回忆我们成长阶段的各种性格变化，这一切究竟是在哪一刻如何产生的呢？我们可以肯定这种精神不是来自于单一的细胞，而是来自大量脑细胞的集体创造。在我们大脑中有一个部分，是在基因中硬编码的部分，做出一些基本的身体机能感受判断、审美判断、情感判断。这部分不受理智控制的部分，我们称为精神。如果没有这种本能的精神，我们的智力也就没有了用武之地。我们可以设想任何的人工智能程序，必须拥有某个目标，这就是他的欲望，在欲望被满足时会得到某种激励。但人类的欲望是如此的不同，在欲望被满足时得到的奖励感受也是如此不同。他不是一个简单弱人工智能所能解释的，以梯度下降法举例：当错误率很高时，函数会修正自己的参数朝着错误率更低的方向前进一小步，直到错误率不再有明显下降。错误率最小是他的目标，但是这个函数是如此机械，我们不可能他是有精神的。</p>
+<p><em>精神是目标，但目标不一定是精神，精神本身就是复杂的，是在长期进化中形成的一种复杂的多细胞集体创造。</em></p>
+<p><em>人类的意识是一系列智能子系统的集合</em>。佛教所谓六根即：眼耳鼻舌身意，意识是起到总控的作用。意识可以连接我们的视觉、听觉、触觉、味觉、嗅觉，可以控制我们的肌肉，意识是用来做出决策的。精神是意识的内核，是引擎，为意识指出明确的方向。精神是底层的，意识是上层的。当我们在梦境时，我们的意识模糊，但是精神却是清醒的，梦境混乱无序，我们对身体的控制减弱，但我们对于快乐悲伤的感受依然真实。意识不仅仅是各个单元的连接器，其自身也是复杂的，可能是某种层垒的结构，最低级的意识就是对于感觉的条件反射，更高级的意识活动则包含知识、经验、逻辑。意识不等于记忆、知识、逻辑、推理的能力。草原上的野兽，尤其是那些捕猎者，它们都拥有很强的意识，但不等于他们拥有人类一样的高级智力活动。</p>
+<p>感觉系统大体是类似的，目前的人工智能在某种程度上已经能够做到一些感知能力，尤其是视觉、听觉方面。对于视觉而言，如果在你的周围空间随便选取一个点，那么通过这个点的只有一些杂乱的电磁波而已，我们称之为光线，但是当我们的眼睛置于这个点，我们能够从这堆杂乱的电磁波中提取出周围物体的信息，投射在我们的视网膜上，视网膜将这些刺激信号传递到我们的视觉处理系统，我们能够分辨“颜色”，“形状”，“材质”，“种类”，“运动”。听觉也是同样神奇，我们的双耳中的空气分子不过是在无序的震动，我们却能从中提取出音色、音高，如果有多种声音同时存在，我们也能很好的将这些声音分离。在一个混乱的环境下，如果我们想要看清或听清一些东西，我们必须付出更多的注意力，也就是我们需要投入更多的意识。这说明我们的感觉系统不仅仅是一个物理系统，更加是一个信息处理的系统。我们通过信息的时间变化，组合，特征分离和重新组合，得出结论。因此对于同一事物的感受，不同的个体是不一样的，这也就是我们说的主观感受。比如我们对于颜色的感受，在意识中的投射是不一样的，一个很明显的证据就是色盲。所以我们虽然都认同某个物体是红色的，红色在我的意识中与在你的意识中可能是完全不同的。在跨越物种之时，感受的区别必然更加明显。有些物种则拥有完全不同的感觉器官，比如可以看到地球磁场的知更鸟（引用）。感觉系统的模拟，首先需要有相应的仪器设备采集信号，信号必须经过无意识的处理，转化为抽象的特征，将抽象特征交给意识体来处理。</p>
+<p>假设我们已经能够创造出具有精神、意识、感觉的系统，我们可以开始讨论“自我”这个问题。这个问题看起来非常诡异，一个具有精神、意识、感觉的系统，难道会没有自我的概念吗？如果一个意识体就是整个世界的全部，除了自身之外再无其他，他还会有自我的概念存在吗？自我相对于非我而存在的，没有非我，也就没有自我。如果一个意识体置于一个容器之内，他对容器外的世界一无所知，在他看来他就是全部。当我们沉浸于某个目标时，我们也会忘记了自己的存在。当我们进入竞争环境，自我概念就会强化。自我与存在是同一个问题，保持自我存在是一个本能的精神元素之一。   。。。必须区分内外，头发是不是我，指甲是不是手臂是不是我？</p>
+<p>未完待续。。。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/06/01/conscious-of-machine/" class="archive-article-date">
+  	<time datetime="2018-06-01T03:49:41.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-06-01</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/AI/">AI</a><a class="article-category-link" href="/categories/AI/%E9%9A%8F%E7%AC%94/">随笔</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-public-avatar" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -622,334 +819,6 @@
 	</div>
 
       
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-static-site-generators" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/08/static-site-generators/">开源静态网站生成工具</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>有博客订阅者反馈我的博客ATOM输出有问题，总有两篇已unpublish的博客出来诈尸。这个是个老问题，当时也是因为总是有这两篇博客捣乱所以unpublish了，但完全无效。</p>
-<p>自己的博客一直没有认真维护，只是偶尔随手记录，更没有想到有人订阅了，闻之顿感责任重大。计划认真整理一下自己的博客。</p>
-<p>那两篇诈尸的博客，或是github的bug，或是jekyll的bug，未能验证。细思之，将博客系统完全交予github管理，的确不够合理，于是考虑使用本地生成静态文件再行push的方式，代替先push再由github jekyll生成静态文件的方式。顺便也更新一下自己博客的样式。</p>
-<p>关于jekyll，也有不少问题，比如不能生存tag page等，也考虑更换一下生成器。奈何目前的静态网站生成器着实太多，无从选择。幸有有心人整理了一个列表，<a href="https://www.staticgen.com/" target="_blank" rel="noopener">staticgen.com</a>，包含了github的关注数、项目使用的语言，模版语言等信息，选择方便了许多。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/08/static-site-generators/" class="archive-article-date">
-  	<time datetime="2016-11-07T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-08</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/generator/" rel="tag">generator</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-classic-computer-sciense-books" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/10/17/classic-computer-sciense-books/">计算机科学经典书籍</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在我学习编程的过程中，看过很多的书籍，大部分的书籍只能提供很有限的知识，有的甚至不能提供真正的“知识，充其量只是某个软件产品的使用手册而已，而且这类手册极易过时。现在，因为工作的需要，我依然会偶尔阅读这类“手册”。但我渐渐体会到了有些计算机知识是永恒的，如果从一开始我所阅读的，都是这些永恒的知识，而不是那些短暂的技能，我的知识体系会比现在更加的完整。</p>
-<p>所以，我整理了这个列表。我希望他能涵盖目前已知的计算机科学体系，并且尽可能的在每个领域都提供一两本经典书籍。我会优先选取发布时间较早的书籍，因为那代表着它经得起时间的考验，同时我会参考Amazon和豆瓣的评分，以及维基百科等网站的引用和评价。我希望所提供的这个列表是“相对权威”的列表。</p>
-<p>我会尽可能的包含中文译名和英文原版书名。</p>
-<p>我会尽可能按照权威的学科分类对书籍进行划分，如果在分类上有错误，希望各位指出。</p>
-<p>我也希望能够对学科间的依赖关系明确描述，默认是无依赖，当我发现了某个学科需要依赖于一些前置知识的时候，我会注明。如有遗漏，希望指出。</p>
-<p>在列表中，也会包含部分非“计算机科学”方面的书籍，比如游戏开发，互联网相关的书籍。这些书籍入选的条件时，他是适合程序员阅读的，并且同样符合经典、权威的要求的。</p>
-<h2 id="科普"><a href="#科普" class="headerlink" title="科普"></a>科普</h2><ul>
-<li>1985 计算机科学概论 Computer Science: An Overview</li>
-<li>1999 编码 Code</li>
-</ul>
-<h2 id="计算历史"><a href="#计算历史" class="headerlink" title="计算历史"></a>计算历史</h2><ul>
-<li>The Computer from Pascal to von Neumann</li>
-<li>A History of Computing in the Twentieth Century</li>
-</ul>
-<h2 id="Mathematics-数学"><a href="#Mathematics-数学" class="headerlink" title="Mathematics 数学"></a>Mathematics 数学</h2><ul>
-<li>300 BC 几何原本 Elements</li>
-<li>1687 自然哲学的数学原理 Philosophiae Naturalis Principia Mathematica</li>
-<li>1965 微积分和数学分析引论 Introduction to Calculus and Analysis (Richard Courant / Fritz John)</li>
-<li>1976 线性代数及其应用（侯自新 译）Linear Algebra and Its Applications (Gilbert Strang)</li>
-<li>1988 具体数学 Concrete Mathematics</li>
-<li>1995 线性代数应该这样学 Linear Algebra Done Right</li>
-<li>(当下流行) 托马斯微积分 Thomas calculus</li>
-<li>(当下流行) 初等概率论</li>
-</ul>
-<h2 id="Computability-计算理论"><a href="#Computability-计算理论" class="headerlink" title="Computability 计算理论"></a>Computability 计算理论</h2><ul>
-<li>Alan Turing (1937) “On computable numbers, with an application to the Entscheidungsproblem”</li>
-<li>(1979) 自动机理论、语言和计算导论  Introduction to Automata Theory, Languages, and Computation</li>
-</ul>
-<p>本书建议看原版</p>
-<ul>
-<li>1996 计算理论导论 Introduction to the Theory of Computation</li>
-</ul>
-<h2 id="Information-theory-信息论"><a href="#Information-theory-信息论" class="headerlink" title="Information theory 信息论"></a>Information theory 信息论</h2><ul>
-<li>Shannon, C.E. (1948)  “A mathematical theory of communication”</li>
-<li>Hamming, Richard (1950) “Error detecting and error correcting codes”</li>
-<li>Huffman, D. (1952). “A Method for the Construction of Minimum-Redundancy Codes”</li>
-<li>Ziv, J.; Lempel, A. (1977). “A universal algorithm for sequential data compression”</li>
-<li>1991 Elements of Information Theory</li>
-</ul>
-<h2 id="Computer-Architecture-计算机架构"><a href="#Computer-Architecture-计算机架构" class="headerlink" title="Computer Architecture 计算机架构"></a>Computer Architecture 计算机架构</h2><ul>
-<li>1990 Computer Architecture: A Quantitative Approach</li>
-</ul>
-<h2 id="Operating-System-操作系统"><a href="#Operating-System-操作系统" class="headerlink" title="Operating System 操作系统"></a>Operating System 操作系统</h2><ul>
-<li>1974 操作系统设计与实现 Operating Systems Design and Implementation</li>
-<li>1992 UNIX环境高级编程 Advanced Programming in the UNIX Environment</li>
-<li>1992 现代操作系统 Modern Operating Systems</li>
-<li>2002 深入理解计算机系统 Computer Systems:A Programmer’s Perspective</li>
-</ul>
-<h2 id="Compilers-编译原理"><a href="#Compilers-编译原理" class="headerlink" title="Compilers 编译原理"></a>Compilers 编译原理</h2><ul>
-<li>1986 Compilers: Principles, Techniques and Tools</li>
-</ul>
-<p>在封面变成一条龙后，被称为 dragon book.</p>
-<p><img src="http://images.gr-assets.com/books/1387666736l/703102.jpg" alt="img"></p>
-<h2 id="Programming-Languages"><a href="#Programming-Languages" class="headerlink" title="Programming Languages"></a>Programming Languages</h2><ul>
-<li>1978 C程序设计语言 The C programming Language</li>
-</ul>
-<h2 id="Programming-not-science"><a href="#Programming-not-science" class="headerlink" title="Programming ?? (not science)"></a>Programming ?? (not science)</h2><ul>
-<li>1984 计算机程序的构造和解释 Structure and Interpretation of Computer Programs</li>
-<li>1986 编程珠玑 Programming pearls</li>
-<li>1993 代码大全 Code Complete</li>
-</ul>
-<h2 id="Algorithms-算法"><a href="#Algorithms-算法" class="headerlink" title="Algorithms 算法"></a>Algorithms 算法</h2><ul>
-<li>1968 The Art of Computer Programming</li>
-<li>1974 The Design and Analysis of Computer Algorithms</li>
-<li>1983 Data Structures and Algorithms</li>
-<li>1983 Algorithms</li>
-<li>1990 Introduction to Algorithms</li>
-<li>1996 Data Structures and Algorithm Analysis in C</li>
-</ul>
-<h2 id="Computational-complexity-theory-计算复杂度理论"><a href="#Computational-complexity-theory-计算复杂度理论" class="headerlink" title="Computational complexity theory 计算复杂度理论"></a>Computational complexity theory 计算复杂度理论</h2><ul>
-<li>1979 Computers and Intractability: A Guide to the Theory of NP-Completeness</li>
-<li>1994 Computational Complexity</li>
-</ul>
-<h2 id="Networking-网络"><a href="#Networking-网络" class="headerlink" title="Networking 网络"></a>Networking 网络</h2><ul>
-<li>TCP/IP详解 卷1：协议</li>
-<li>UNIX网络编程</li>
-</ul>
-<h2 id="Database-数据库"><a href="#Database-数据库" class="headerlink" title="Database 数据库"></a>Database 数据库</h2><ul>
-<li>1980 Principles of Database &amp; Knowledge-Base Systems, Vol. 1: Classical Database Systems</li>
-<li>1987 Database System Concepts</li>
-<li>2001 数据库系统全书 Database Systems: The Complete Book</li>
-</ul>
-<h2 id="Software-engineering-软件工程"><a href="#Software-engineering-软件工程" class="headerlink" title="Software engineering 软件工程"></a>Software engineering 软件工程</h2><ul>
-<li>1975 人月神话 The Mythical Man-Month: Essays on Software Engineering</li>
-<li>1994 设计模式 Design Patterns: Elements of Reusable Object-Oriented Software</li>
-<li>1999 程序员修炼之道 The Pragmatic Programmer: From Journeyman to Master</li>
-</ul>
-<p>面向对象程序设计的经典。但当你使用动态语言时，会发现部分模式是不必要的</p>
-<ul>
-<li>2004 软件随想录 Joe on software</li>
-<li>重构：既有代码的改善 Refactoring: Improving the Design of Existing Code</li>
-<li>人件</li>
-<li>Rework</li>
-</ul>
-<h2 id="Artificial-Intelligence"><a href="#Artificial-Intelligence" class="headerlink" title="Artificial Intelligence"></a>Artificial Intelligence</h2><ul>
-<li>1994 人工智能：一种现代方法 Artificial Intelligence: A modern approach</li>
-</ul>
-<h3 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h3><ul>
-<li><p>Probability Theory: The Logic of Science</p>
-</li>
-<li><p>The Elements of Statistical Learning: Data Mining, Inference, and Prediction</p>
-</li>
-<li><p>Information Theory, Inference and Learning Algorithms</p>
-</li>
-<li><p>Learning From Data: A Short Course</p>
-</li>
-<li><p>Pattern Recognition and Machine Learning</p>
-</li>
-<li><p>Probabilistic Graphical Models: Principles and Techniques</p>
-</li>
-<li><p>Mining of Massive Datasets</p>
-</li>
-<li><p>经典 <a href="http://www-bcf.usc.edu/~gareth/ISL/" target="_blank" rel="noopener">An Introduction to Statistical Learning with Applications in R</a></p>
-</li>
-<li><p><a href="http://www.cs.ubc.ca/~murphyk/MLbook/index.html" target="_blank" rel="noopener">Machine Learning: a Probabilistic Perspective</a> 学习曲线平滑</p>
-</li>
-<li><p>2016 <a href="http://www.deeplearningbook.org/" target="_blank" rel="noopener">Deep Learning(Free HTML)</a> <a href="https://github.com/HFTrader/DeepLearningBook" target="_blank" rel="noopener">pdf</a> Ian Goodfellow and Yoshua Bengio and Aaron Courville</p>
-</li>
-<li><p><a href="http://www.youtube.com/view_play_list?p=A89DCFA6ADACE599" target="_blank" rel="noopener">http://www.youtube.com/view_play_list?p=A89DCFA6ADACE599</a></p>
-</li>
-<li><p>[深度学习论文]<a href="https://github.com/HFTrader/DeepLearningBook/blob/master/DeepLearningPapers.md" target="_blank" rel="noopener">https://github.com/HFTrader/DeepLearningBook/blob/master/DeepLearningPapers.md</a></p>
-</li>
-<li><p><a href="https://github.com/josephmisiti/awesome-machine-learning/blob/master/books.md" target="_blank" rel="noopener">Awesome machine learning books list</a></p>
-</li>
-<li><p><a href="http://learningtensorflow.com/index.html" target="_blank" rel="noopener">learning tensorflow</a></p>
-</li>
-</ul>
-<h2 id="膜计算-Membrane-Computing-这是什么？"><a href="#膜计算-Membrane-Computing-这是什么？" class="headerlink" title="膜计算 Membrane Computing ??? 这是什么？"></a>膜计算 Membrane Computing ??? 这是什么？</h2><ul>
-<li>2002 膜计算导论 Membrane Computing - An Introduction</li>
-</ul>
-<p>参考:<br><a href="http://dl.acm.org/classics.cfm" target="_blank" rel="noopener">ACM: 经典出版物</a><br><a href="https://en.wikipedia.org/wiki/List_of_important_publications_in_computer_science" target="_blank" rel="noopener">维基百科：计算机科学重要出版物</a><br><a href="https://en.wikipedia.org/wiki/List_of_important_publications_in_theoretical_computer_science" target="_blank" rel="noopener">维基百科：理论计算机科学重要出版物</a><br><a href="http://www.goodreads.com/list/show/2205.Essential_Books_of_Computer_Science" target="_blank" rel="noopener">Goodreads: 必备计算机科学书籍列表</a><br><a href="https://www.goodreads.com/shelf/show/game-development" target="_blank" rel="noopener">Goodreads: 游戏开发</a><br><a href="https://zh.wikipedia.org/wiki/数学著作列表" target="_blank" rel="noopener">维基百科：数学著作列表</a></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/10/17/classic-computer-sciense-books/" class="archive-article-date">
-  	<time datetime="2016-10-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-10-17</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/books/" rel="tag">books</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-kingshard-read-log" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/09/16/kingshard-read-log/">Kingshard阅读笔记</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>KingShard 是 mysql 代理，可实现分库分表等功能。但因业务复杂，无法使用，故阅读其源码，以便修改。</p>
-<p>代码版本：<br>2016-09-12<br>3c4a1db63226cb1384047a3f915d10e0594228d1</p>
-<p>入口: cmd/</p>
-<p>服务启动： proxy/server/server.go</p>
-<p>Server.Run()<br>服务逻辑</p>
-<p>Server.onConn(net.Conn)<br>客户端连接逻辑</p>
-<ul>
-<li>Server.newClientConn(net.Conn)<br>客户端连接初始化</li>
-</ul>
-<p>客户端连接：proxy/server/conn.go</p>
-<p>ClientConn.IsAllowConnect()<br>判断客户端IP是否合法</p>
-<p>ClientConn.Handshake()<br>握手</p>
-<p>ClientConn.Run()<br>客户端逻辑</p>
-<p>ClientConn.readPacket()<br>PacketIO.ReadPacket()<br>拆包逻辑</p>
-<p>ClientConn.dispatch(data)<br>包分发逻辑<br>data[0] mysql命令</p>
-<ul>
-<li>QUIT  c.handleRollback() c.Close()</li>
-<li>QUERY c.handleQuery(string(data))</li>
-<li>PING</li>
-<li>INIT_DB c.handleUseDB 分配后端节点 backend.Node</li>
-<li>FIELD_LIST</li>
-<li>STMT_PREPARE</li>
-<li>STMT_EXECUTE</li>
-<li>STMT_CLOSE</li>
-<li>STMT_SEND_LONG_DATA</li>
-<li>STMT_RESET</li>
-<li>SET_OPTION<br>其它命令不支持,log</li>
-</ul>
-<p>命令执行成功后，写结果给客户端，某些命令只需 ClientConn.writeOK</p>
-<p>执行查询 ClientConn.handleQuery<br>ClientConn.preHanleShard 不确定什么时候会用<br>解析sql<br>handleSelect<br>handleExec<br>handleBegin<br>handleCommit<br>handleRollback</p>
-<p>后端节点: backend/node.go backend.Node<br>GetSlaveConn<br>GetMasterConn</p>
-<p>后端连接：<br>基类 backend/backend_conn.go backend.Conn<br>子类 backend/db.go backend.BackendConn</p>
-<p>写入命令，读取返回<br>writeCommandStr<br>readOK</p>
-<p>SQL 语法解析<br>sqlparser<br>需要执行 make，通过yacc编译</p>
-<p>其它<br>Counter  计数器</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/09/16/kingshard-read-log/" class="archive-article-date">
-  	<time datetime="2016-09-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-09-16</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/mysql/">mysql</a>
-	</div>
-
 
       <div class="clearfix"></div>
     </div>
