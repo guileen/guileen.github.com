@@ -148,6 +148,64 @@
       <div class="body-wrap">
         
   
+    <article id="post-compile-vim-and-setup" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/02/09/compile-vim-and-setup/">编译vim</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>lua, python, ruby, perl 都必须支持</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">git clone git@github.com:vim&#x2F;vim.git --depth&#x3D;1</span><br><span class="line">.&#x2F;configure --with-features&#x3D;huge --with-luajit --enable-rubyinterp&#x3D;yes --enable-pythoninterp&#x3D;yes --enable-python3interp&#x3D;yes --enable-cscope --enable-luainterp&#x3D;yes --enable-luainterp&#x3D;yes --with-lua-prefix&#x3D;&#x2F;usr&#x2F;local --enable-perlinterp&#x3D;yes</span><br><span class="line">make</span><br><span class="line">make install</span><br></pre></td></tr></table></figure>
+
+<p>通用插件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">pathogen</span><br><span class="line">ack</span><br><span class="line">greplace</span><br><span class="line">neocomplete</span><br><span class="line">nerdtree</span><br><span class="line">tagbar</span><br><span class="line">molokai</span><br><span class="line">supertab</span><br><span class="line">command-t</span><br><span class="line">commentary</span><br><span class="line">vim-multiple-cursors</span><br><span class="line">vim-autoclose</span><br></pre></td></tr></table></figure>
+
+<p>其他每种语言还有各自的插件</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/02/09/compile-vim-and-setup/" class="archive-article-date">
+  	<time datetime="2015-02-08T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-02-09</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/editor/" rel="tag">editor</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/" rel="tag">vim</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-install-pptp-vpn-on-ubuntu" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -751,58 +809,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/" rel="tag">redis</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-fix-mysql-er-1449-no-such-user" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/05/17/fix-mysql-er-1449-no-such-user/">修复mysql 1449 NO_SUCH_USER 错误</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>权限一律正常。原来是trigger或view需要在分配好权限后，重新生成一遍，改DEFINER=username</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2014/05/17/fix-mysql-er-1449-no-such-user/" class="archive-article-date">
-  	<time datetime="2014-05-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-05-17</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
 	</div>
 
       

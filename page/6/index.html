@@ -148,6 +148,82 @@
       <div class="body-wrap">
         
   
+    <article id="post-android-reverse-engineering-with-apktool" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/06/android-reverse-engineering-with-apktool/">Android反向工程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://ibotpeaches.github.io/Apktool/" target="_blank" rel="noopener">https://ibotpeaches.github.io/Apktool/</a></p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux:"></a>Linux:</h2><ol>
+<li>Download Linux wrapper script (Right click, Save Link As apktool)</li>
+<li>Download apktool-2 (find newest here)</li>
+<li>Make sure you have the 32bit libraries (ia32-libs) downloaded and installed by your linux package manager, if you are on a 64bit unix system.</li>
+<li>(This helps provide support for the 32bit native binary aapt, which is required by apktool)</li>
+<li>Rename downloaded jar to apktool.jar</li>
+<li>Move both files (apktool.jar &amp; apktool) to /usr/local/bin (root needed)</li>
+<li>Make sure both files are executable (chmod +x)</li>
+<li>Try running apktool via cli</li>
+</ol>
+<h2 id="Mac-OS-X"><a href="#Mac-OS-X" class="headerlink" title="Mac OS X:"></a>Mac OS X:</h2><ol>
+<li>Download Mac wrapper script (Right click, Save Link As apktool)</li>
+<li>Download apktool-2 (find newest here)</li>
+<li>Rename downloaded jar to apktool.jar</li>
+<li>Move both files (apktool.jar &amp; apktool) to /usr/local/bin (root needed)</li>
+<li>Make sure both files are executable (chmod +x)</li>
+<li>Try running apktool via cli</li>
+</ol>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>apktool d test.apk</p>
+<p>apktool b test</p>
+<h1 id="使用-dex2jar"><a href="#使用-dex2jar" class="headerlink" title="使用 dex2jar"></a>使用 dex2jar</h1><p>unzip test.apk</p>
+<p>wget <a href="https://github.com/pxb1988/dex2jar/releases/download/2.0/dex-tools-2.0.zip" target="_blank" rel="noopener">https://github.com/pxb1988/dex2jar/releases/download/2.0/dex-tools-2.0.zip</a></p>
+<h1 id="JD-GUI"><a href="#JD-GUI" class="headerlink" title="JD-GUI"></a>JD-GUI</h1><p>可以搜索</p>
+<h1 id="jad"><a href="#jad" class="headerlink" title="jad"></a>jad</h1><p>../../jad -o -r -sjava -ddest tmp/<em>*/</em>.class</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/10/06/android-reverse-engineering-with-apktool/" class="archive-article-date">
+  	<time datetime="2015-10-05T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-10-06</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/" rel="tag">android</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-trace-https-requests" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -872,60 +948,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-rate-limiting-algorithm" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/18/rate-limiting-algorithm/">频率限制算法</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>实现接口访问频率限制并不难，只要一些计数器，计时器就可以了。但接口频率限制的目的是减少IO，所以，如果能够在不增加IO的情况下做到频率限制才是完美的，但在集群环境下，这一算法并不精确，但我认为这种损失是值得的。</p>
-<p><a href="http://stackoverflow.com/questions/667508/whats-a-good-rate-limiting-algorithm/668327#668327" target="_blank" rel="noopener">一个来自Stackoverflow的答案</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">rate &#x3D; 5.0; &#x2F;&#x2F; unit: messages</span><br><span class="line">per  &#x3D; 8.0; &#x2F;&#x2F; unit: seconds</span><br><span class="line">allowance &#x3D; rate; &#x2F;&#x2F; unit: messages</span><br><span class="line">last_check &#x3D; now(); &#x2F;&#x2F; floating-point, e.g. usec accuracy. Unit: seconds</span><br><span class="line"></span><br><span class="line">when (message_received):</span><br><span class="line">  current &#x3D; now();</span><br><span class="line">  time_passed &#x3D; current - last_check;</span><br><span class="line">  last_check &#x3D; current;</span><br><span class="line">  allowance +&#x3D; time_passed * (rate &#x2F; per);</span><br><span class="line">  if (allowance &gt; rate):</span><br><span class="line">    allowance &#x3D; rate; &#x2F;&#x2F; throttle</span><br><span class="line">  if (allowance &lt; 1.0):</span><br><span class="line">    discard_message();</span><br><span class="line">  else:</span><br><span class="line">    forward_message();</span><br><span class="line">    allowance -&#x3D; 1.0;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/08/18/rate-limiting-algorithm/" class="archive-article-date">
-  	<time datetime="2015-08-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-08-18</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithms/" rel="tag">algorithms</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li></ul>
 	</div>
 
       
