@@ -1,0 +1,254 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN"
+"http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>读心天平</title>
+<style type="text/css">
+<!--
+.style1 {color: #006699}
+.style2 {color: #FFFFFF}
+-->
+</style>
+</head>
+<script type="text/javascript" language="javascript" src="ajax.js"></script>
+<script type="text/javascript" language="javascript" src="balance.js"></script>
+<script type="text/javascript" language="javascript">
+	function createElement(tag,type,name,value){
+		var e=document.createElement(tag);
+		e.setAttribute("type",type);
+		e.setAttribute("name",name);
+		e.setAttribute("value",value);
+		return e;
+	}
+	function createEle(tag){
+		var e=document.createElement(tag);
+		return e;
+	}
+	function show(id){
+		var e=document.getElementById(id);
+		e.style.display="block";
+	}
+	function hide(id){
+		var e=document.getElementById(id);
+		e.style.display="none";	
+	}
+	function clear(id){
+		var e=document.getElementById(id);
+		while(e.hasChildNodes())
+			e.removeChild(e.childNodes[0]);	
+	}
+	function createLog(left,right,stat,r){
+
+		var e=createEle("td");
+		e.appendChild(document.createTextNode("第"+r+"次："+stat));
+		var t=createEle("p");
+		t.style.color="#006699";
+		t.appendChild(document.createTextNode("天平左侧:"));
+		e.appendChild(t);
+		t=createEle("small");
+		t.appendChild(document.createTextNode(left));
+		e.appendChild(t);
+//		e.appendChild(createEle("br"));
+		t=createEle("p");
+		t.style.color="#006699";
+		t.appendChild(document.createTextNode("天平右侧:"));
+		e.appendChild(t);
+		t=createEle("small");
+		t.appendChild(document.createTextNode(right));
+		e.appendChild(t);
+		t=createEle("tr");
+		t.appendChild(e);
+		e=createEle("tbody");
+		e.appendChild(t);
+		t=createEle("table");
+		t.setAttribute("border","0");
+		t.setAttribute("bgcolor","#C3D9FF");
+		t.setAttribute("width","800");
+		t.appendChild(e);
+e=document.getElementById("tianpinlog");
+if(e.hasChildNodes()){
+	e.insertBefore(t,e.childNodes[0]);
+	e.insertBefore(createEle("br"),e.childNodes[0]);
+}else {
+e.appendChild(createEle("br"));
+e.appendChild(t);
+}
+
+	}
+	function toggleStep(evt) {
+    	evt = (evt) ? evt : event;
+	    var target = (evt.target) ? evt.target : evt.srcElement;
+		var block;
+		if (target.name == "button1"){
+			hide("step1");
+			show("step2");
+		}
+		else if (target.name == "button2"){
+			hide("step2");
+			show("step3");
+		}
+		else if (target.name == "button3"){
+			hide("step3");
+			show("tianpin");
+		}else if(target.name=="playagain"){
+			hide("showanswer");
+			clear("tianpinlog");
+			show("step2");
+		}
+    }
+	function setCount(){
+			var e=document.getElementById("txtCount").value;
+		    var reg = /^[-]?\d*\.?\d*$/;
+		    e = e.toString( );
+			if(!e.match(reg)){
+				alert("你所输入的内容不是一个整数");
+				return;
+			}
+			var f=new Number(e);
+			if(f<3 || f> Number.MAX_VALUE ){
+				alert("你所输入的应该是一个大于3的数字");
+				return;
+			}
+			setBallsCount(f);
+			var txt="现在将球编号为：1,2,.."+f+"。请在心中选择其中一个球作为那颗质量不一样的球，并记住它的编号，以及他比其他的球重还是轻。"
+			replaceInnerHTML("step3_count",txt);
+			hide("step2");
+			show("step3");
+	}
+var round=0;
+	function onDecide(evt){
+	   	evt = (evt) ? evt : event;
+	    var target = (evt.target) ? evt.target : evt.srcElement;
+		if(target.id=="tianpinleft"){
+round++;
+createLog(getBallsAt(1),getBallsAt(2),"左重右轻",round);
+			tianpinStatus=1;
+			judge();
+		}else if(target.id=="tianpinright"){
+round++;
+createLog(getBallsAt(1),getBallsAt(2),"右重左轻",round);
+			tianpinStatus=2;
+			judge();
+		}else if(target.id=="tianpinpinhen"){
+round++;
+createLog(getBallsAt(1),getBallsAt(2),"平衡",round);
+
+			tianpinStatus=0;
+			judge();
+		}
+		else
+			round=0;
+		var r=decide();
+		var e;
+		if(-1==r){
+			replaceInnerHTML("theanswer","无解");
+			hide("tianpin");
+			hide("message");
+			show("showanswer");
+		}else if(1==r){
+			replaceInnerHTML("theanswer",getAnswer());
+			hide("tianpin");
+			hide("message");
+			show("showanswer");
+		}else{
+			replaceInnerHTML("onleft",getBallsAt(1))
+			replaceInnerHTML("onright",getBallsAt(2));
+			hide("step3");
+			show("tianpin");
+		}
+	}
+	function replaceInner(node,text){
+		if(node.hasChildNodes()){
+			node.removeChild(node.childNodes[0]);
+		}
+		var textnode = document.createTextNode(text);
+		node.appendChild(textnode);
+	}
+	
+	function replaceInnerHTML(id,text){
+		var node = document.getElementById(id);
+		replaceInner(node,text);
+	}
+	function tellFrieds(){
+		var e=document.getElementById("message");
+		if (e.style.display=="none"){
+			var s="读心天平。\n"+document.location.toString();
+			e.style.display="block";
+			e.value=s;
+			e.focus();
+			e.select();
+		}
+		hide("copied");
+		if(window.clipboardData.setData("Text",e.value)){
+			show("copied");
+		}
+	}
+</script>
+<body>
+<noscript>
+<p>
+<div align="center" style="color:red">本页面必须使用javascript才可以正确显示，但你目前的浏览器设置禁用或阻止了使用javascript</div>
+</p>
+</noscript>
+<div align="center" style="width:800px;margin:0 auto;">
+  <h1>读心天平</h1>
+    <div align="left">
+        <div id="step1" style="display:block ">
+        <p>在一堆大小相同的球之中，有一只球与其他的球重量不同，现有一只没有砝码的天平，现在由玩家来设定这些球，机器人将用天平判断出哪一只球是那只不一样的球。</p>
+        <div align="right">
+          <input type="button" name="button1" value="我明白了,开始玩吧" onClick="toggleStep(event)">
+        </div>
+	    </div>
+		  <div id="step2" style="display:none"><p align="left">请玩家来设定总球数(建议不要超过1500个球):
+            <input id="txtCount" name="textfield" type="text" size="5">
+          <input type="button" name="button2" value="OK"  style="width:80" onClick="setCount()"></p></div>
+	  <div id="step3" style="display:none">
+       <div id="step3_count"></div>
+  
+        <input type="button" name="button3" value="I am ready" onClick="onDecide(event)">
+  </div>
+    <div id="tianpin" style="display:none">
+      <p class="style1">天平左侧：      	
+      </p>
+      <small><div id="onleft">a</div></small>
+      <br>
+      <span class="style1">天平右侧：</span>		
+      <small><div id="onright">a</div></small>
+      <br> <div align="center">     
+    <input id="tianpinleft" type="button" name="Submit5" value="左重右轻" onClick="onDecide(event)">
+&nbsp;&nbsp;
+    <input id="tianpinpinhen" type="button" name="Submit6" value="平衡"  style="width:80" onClick="onDecide(event)">
+&nbsp;&nbsp;
+    <input id="tianpinright" type="button" name="Submit7" value="右重左轻" onClick="onDecide(event)">
+    </div>
+</div>
+    <div id="showanswer" style="display:none "><div id="theanswer" style="color:#006699 ">a</div><br>
+
+      <p align="center">
+            <input name="playagain" type="button" value="再整一局玩玩" onClick="toggleStep(event)"/>
+			   &nbsp;&nbsp;<input type="button" value="告诉朋友" onClick="tellFrieds()"></input>
+			    <br>
+      </p>
+      <div align="center"> 
+      <table id="copied" style="display:none " border="0">
+
+          <td bgcolor="#3399FF"><span class="style2">下面的文字已复制到剪切板</span></td>
+
+      </table>
+	  <br>
+          <textarea cols="50" rows="6" id="message" style="display:none"></textarea>
+      </div>
+    </div>
+<div id="tianpinlog" align="center">
+</div>
+  </div>
+  <br><br><br>
+  <div align="center">
+    <p><a href="http://github.com/guileen">桂林@github</a></p>
+    <p><a href="mailto:guileen&#64;gmail.com">guileen&#64;gmail.com</a></p>
+    <p>&copy; 2007 All rights reserved.</p>
+  </div>
+</div>
+</body>
+</html>
