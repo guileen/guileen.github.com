@@ -87,6 +87,7 @@ theme_config:
     主页: /
     AI: /categories/AI
     随笔: /categories/随笔
+    读心天平: /blance-bot/
 
 # SubNav
   subnav:
