@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://guileen.github.io/"/>
-  <updated>2021-01-04T03:54:32.599Z</updated>
+  <updated>2021-01-08T09:02:52.594Z</updated>
   <id>http://guileen.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>C++构建工具比较</title>
+    <link href="http://guileen.github.io/2021/01/08/cpp-build-systems/"/>
+    <id>http://guileen.github.io/2021/01/08/cpp-build-systems/</id>
+    <published>2021-01-08T08:26:33.000Z</published>
+    <updated>2021-01-08T09:02:52.594Z</updated>
+    
+    <content type="html"><![CDATA[<p>近日，又对C++产生了兴趣。</p><p>C++可以说是我内心的阴影，之所以是内心的阴影，倒不是C++的语言本身使我无法理解，或不喜欢C++的某些特性。相反我一直对C++怀有很高的敬意。之所以说C++是我的阴影，主要是因为C++的工具链实在是太长太杂了。我不介意多花点时间来学习C++的语言特性，但是我实在不想浪费时间在工具的学习上面。我屡屡在尝试用C++做点东西的时候，都被环境的配置而感到厌烦而放弃。</p><p>最近，感觉 <a href="https://github.com/ocornut/imgui" target="_blank" rel="noopener">Dear ImGui</a> 这个项目有点意思，可以用来做点有趣的事情。于是我想再次挑战一下C++的项目，顺便看看社区是否有新的构建工具出来简化我的工作。</p><p>此前的工具 Make 缺点是项目越大越复杂，需要学习很多东西。还有 autotools , scons，也有一定学习成本。</p><p>最近出现的 google的Bazel、facebook的Buck 两个build system都可以用来构建C++。看了些对比主要缺点是对原有的生态兼容性比较差，往往需要源码导入。</p><p>可以选择的有CMake和Meson。目前看来是比较合适的选择，我决定有空尝试一下meson。</p><p>找到两个template项目 <a href="https://github.com/tiernemi/meson-sample-project" target="_blank" rel="noopener">meson-sample-project</a>  、 <a href="https://github.com/kigster/cmake-project-template" target="_blank" rel="noopener">cmake-project-template</a> 。拿这个模板直接改一改就可以创建一个c++项目了，这样我内心的恐惧感减少了很多。 </p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;近日，又对C++产生了兴趣。&lt;/p&gt;
+&lt;p&gt;C++可以说是我内心的阴影，之所以是内心的阴影，倒不是C++的语言本身使我无法理解，或不喜欢C++的某些特性。相反我一直对C++怀有很高的敬意。之所以说C++是我的阴影，主要是因为C++的工具链实在是太长太杂了。我不介意多花点时间
+      
+    
+    </summary>
+    
+    
+      <category term="cpp" scheme="http://guileen.github.io/tags/cpp/"/>
+    
+  </entry>
   
   <entry>
     <title>2020回顾：天命</title>
@@ -451,27 +475,6 @@
     </summary>
     
       <category term="AI" scheme="http://guileen.github.io/categories/AI/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>Promise模式在防止缓存雪崩中的应用</title>
-    <link href="http://guileen.github.io/2019/11/01/promise-in-cache-crash/"/>
-    <id>http://guileen.github.io/2019/11/01/promise-in-cache-crash/</id>
-    <published>2019-10-31T16:00:00.000Z</published>
-    <updated>2020-08-31T07:01:49.032Z</updated>
-    
-    <content type="html"><![CDATA[<p>对大多数高并发架构而言，缓存是不可或缺的。在数据持久化层，其核心是保证数据一致性，而吞吐能力往往较弱。而在缓存层，因其逻辑简单，则具备较高的吞吐能力，但为了保证数据的时效性，则必须设置缓存的过期时间。在缓存过期后，程序会从持久化层读取数据，填充缓存。我们通常称这种缓存加载方式为懒加载（lazy load）。</p><p>在缓存失效的瞬间，如果突然爆发大量缓存请求，则会导致所有请求穿透至持久化层，给持久化层带来巨大压力，这种现象叫做缓存雪崩。</p><p><img src="/img/promise/1.png" alt="缓存雪崩"></p><h2 id="解决缓存雪崩的几种方案"><a href="#解决缓存雪崩的几种方案" class="headerlink" title="解决缓存雪崩的几种方案"></a>解决缓存雪崩的几种方案</h2><ol><li>在预加载时设置锁状态。后至的缓存请求，将获得锁状态，在一段时间后重试加载缓存。但这一方法不能保证第一时间返回数据。</li></ol><p><img src="/img/promise/2.png" alt="穿透锁"></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">def lazyload(key):</span><br><span class="line">    value &#x3D; cache.get(key)</span><br><span class="line">    if(!value):</span><br><span class="line">        cache.set(key, &#39;__lock__&#39;)</span><br><span class="line">        value &#x3D; db.get(key)</span><br><span class="line">        cache.set(key, value)</span><br><span class="line">    if(value &#x3D;&#x3D; &#39;__lock__&#39;):</span><br><span class="line">        sleep(100)</span><br><span class="line">        return lazyload(key)</span><br><span class="line">    return value</span><br></pre></td></tr></table></figure><ol start="2"><li>这里重点介绍的Promise解决缓存穿透的思路，这种方法将使同一进程内对同一缓存的访问进行汇总，不仅减少对持久层的缓存穿透，而且也可以降低对缓存层的请求量。拥有极强的汇聚效果。</li></ol><p><img src="/img/promise/3.png" alt="Promise解决缓存雪崩"></p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">def _lazyload(key):</span><br><span class="line">    value &#x3D; cache.get(key)</span><br><span class="line">    if(!value):</span><br><span class="line">        value &#x3D; db.get(key)</span><br><span class="line">        cache.set(key, value)</span><br><span class="line"></span><br><span class="line">promiseMap &#x3D; &#123;&#125;</span><br><span class="line">def lazyload(key):</span><br><span class="line">    def clearPromiseMap:</span><br><span class="line">        delete promiseMap[key]</span><br><span class="line">    promise &#x3D; promiseMap[key]</span><br><span class="line">    if(!promise):</span><br><span class="line">        promise &#x3D; Promise(_lazyload, key)</span><br><span class="line">        promise.then(clearPromiseMap)</span><br><span class="line">        promiseMap[key] &#x3D; promise</span><br><span class="line">    return promise.resolve()</span><br></pre></td></tr></table></figure><p>本文所有代码为伪代码！</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;对大多数高并发架构而言，缓存是不可或缺的。在数据持久化层，其核心是保证数据一致性，而吞吐能力往往较弱。而在缓存层，因其逻辑简单，则具备较高的吞吐能力，但为了保证数据的时效性，则必须设置缓存的过期时间。在缓存过期后，程序会从持久化层读取数据，填充缓存。我们通常称这种缓存加载方
-      
-    
-    </summary>
     
     
   </entry>
