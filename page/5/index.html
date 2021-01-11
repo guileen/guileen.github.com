@@ -152,6 +152,67 @@
       <div class="body-wrap">
         
   
+    <article id="post-sxx-input-method-design" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/21/sxx-input-method-design/">一种声形输入法设计</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="总体规则"><a href="#总体规则" class="headerlink" title="总体规则"></a>总体规则</h2><p>1码声母，2码主部，3码次部，4码取次次码或字形码, … 结束字型码。</p>
+<h2 id="特点："><a href="#特点：" class="headerlink" title="特点："></a>特点：</h2><p>音形合用，书写顺序无关，完全从汉字结构出发。</p>
+<h3 id="声母编码"><a href="#声母编码" class="headerlink" title="声母编码"></a>声母编码</h3><p>声母的，zh用v，ch用i，sh用u。第一码无需思考。</p>
+<h3 id="部首编码"><a href="#部首编码" class="headerlink" title="部首编码"></a>部首编码</h3><p>主部指主偏旁，不在于上下左右，比如桂，主部取木。剑，主部取立刀。这样规则虽然有时不严谨，但大部分情况易于辨识。基本可以在不需要思考的情况下输入第二码。如无主次之分，则从左到右，从上到下，如吉，取士。左右皆为部首，首先取含义最匹配的为部首，其次取不需拆解的。如果不易分辨，左右结构优先取笔画少的为部首，否则遵循从上到下，从左到右规则。</p>
+<p>次部取剩余部分的主码。依次类推。</p>
+<p>没有剩余部分，但依然需要进一步区分的，取自身所包含的次要部件。</p>
+<h3 id="字型编码"><a href="#字型编码" class="headerlink" title="字型编码"></a>字型编码</h3><p>结束字型码只会出现在结尾。你可以跳过中间的码直接输入结束字型码。结束字型码有3个，左右字，独体字和上下字，其他。你可以直接输入声母和结束字型码。</p>
+<p>三个码表，相互独立。用户可以选择性的配置是否包含“声码”，“韵码”，“部首码”，“字型码”。主要难度在于字根部首分布的设计和字符集的编码完善。</p>
+<p>工作方式可以采用分布式工作方式，将字符集分割为200个文件，开放的人工的方式对200个文件进行修改提交。</p>
+<p>为了避免字根表设计不合理，导致码表分布不均匀的情况。工作应采用，先进行部首拆解，再进行字根合并编码的过程。<br>比如：型，土，刀，开。避，之（辟左）辛。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/01/21/sxx-input-method-design/" class="archive-article-date">
+  	<time datetime="2016-01-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-01-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/input-methods/" rel="tag">input-methods</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-setting-up-vim-for-modern-js" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -867,69 +928,6 @@
 
 
   
-    <article id="post-mac-greek-input-on-qwerty" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/10/18/mac-greek-input-on-qwerty/">希腊字母在QWERTY键盘上的布局</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>在做数学学习时，有时需要输入希腊字母，熟练掌握希腊字母的输入法有利于提高效率。Mac内置了希腊输入法，以下是在qwerty键盘上的布局。</p>
-<p>小写：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">; ς ε ρ τ υ θ ι ο π [ ] \</span><br><span class="line"> α σ δ φ γ η ξ κ λ ΄ &#39; </span><br><span class="line">  ζ χ ψ ω β ν μ , . &#x2F;</span><br></pre></td></tr></table></figure>
-
-<p>大写：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">: Σ Ε Ρ Τ Υ Θ Ι Ο Π [ ] \</span><br><span class="line"> Α Σ Δ Φ Γ Η Ξ Κ Λ ¨ &quot; </span><br><span class="line">  Ζ Χ Ψ Ω Β Ν Μ &lt; &gt; ?</span><br></pre></td></tr></table></figure>
-
-<p>字母序:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">A B C D E F G</span><br><span class="line">α β ψ δ ε φ γ</span><br><span class="line">Α Β Ψ Δ Ε Φ Γ</span><br><span class="line"></span><br><span class="line">H I J K L M N</span><br><span class="line">η ι ξ κ λ μ ν</span><br><span class="line">Η Ι Ξ Κ Λ Μ Ν</span><br><span class="line"></span><br><span class="line">O P Q R S T</span><br><span class="line">ο π ; ρ σ τ</span><br><span class="line">Ο Π : Ρ Σ Τ</span><br><span class="line"></span><br><span class="line">U V W X Y Z</span><br><span class="line">θ ω ς χ υ ζ</span><br><span class="line">Θ Ω Σ Χ Υ Ζ</span><br></pre></td></tr></table></figure>
-
-<p>常用:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">α a  alpha</span><br><span class="line">β b  beta</span><br><span class="line">γ g  gamma   音近</span><br><span class="line">Γ G  gamma</span><br><span class="line">δ d  delta</span><br><span class="line">Δ D  delta</span><br><span class="line">ε e  epsilon</span><br><span class="line">ζ z  zeta</span><br><span class="line"></span><br><span class="line">η h  eta     形近 音艾塔</span><br><span class="line">θ u  theta  无规律</span><br><span class="line">ι i  iota</span><br><span class="line">κ k  kappa</span><br><span class="line">λ l  lambda 音近</span><br><span class="line">μ m  mu     音近 音谬</span><br><span class="line"></span><br><span class="line">ν n  nu     音近 音纽</span><br><span class="line">ξ j  xi      无规律 音zie</span><br><span class="line">ο o  omicron</span><br><span class="line">π p  pi     音</span><br><span class="line">Π P  pi</span><br><span class="line">ρ r  rho    音近 肉</span><br><span class="line">σ s  sigma  音近</span><br><span class="line">Σ S  sigma  音近</span><br><span class="line"></span><br><span class="line">τ t  tau</span><br><span class="line">υ y  upsilon</span><br><span class="line">φ f  phi     音fie</span><br><span class="line">Φ F  phi</span><br><span class="line">χ x  chi    音 kie</span><br><span class="line">ψ c  psi    音塞 sigh </span><br><span class="line">Ψ C  psi    音塞 sigh</span><br><span class="line">ω v  omega  无规律</span><br><span class="line">Ω V  omega  无规律</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/10/18/mac-greek-input-on-qwerty/" class="archive-article-date">
-  	<time datetime="2015-10-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-10-18</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/greek/" rel="tag">greek</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mathematics/" rel="tag">mathematics</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/4/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><span class="page-number current">5</span><a class="page-number" href="/page/6/">6</a><a class="page-number" href="/page/7/">7</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/6/">Next &amp;raquo;</a>
@@ -1016,7 +1014,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/cpp/" style="font-size: 10px;">cpp</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
+    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/cpp/" style="font-size: 11.25px;">cpp</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
     			</div>
     	</section>
     
