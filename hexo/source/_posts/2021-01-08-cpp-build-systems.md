@@ -18,3 +18,6 @@ C++可以说是我内心的阴影，之所以是内心的阴影，倒不是C++�
 
 找到两个template项目 [meson-sample-project](https://github.com/tiernemi/meson-sample-project)  、 [cmake-project-template](https://github.com/kigster/cmake-project-template) 。拿这个模板直接改一改就可以创建一个c++项目了，这样我内心的恐惧感减少了很多。 
 
+--- 2021-01-26 更新 ---
+最终我选择了 [cmake-project-template](https://github.com/kigster/cmake-project-template) 来作为当前的C++
+项目模板。今天github的发现页给我推荐了[cpp_starter_project](https://github.com/lefticus/cpp_starter_project) ，还能直接使用 github 的 use this template 功能，貌似不错，下次试试。
