@@ -148,7 +148,7 @@
       <div class="body-wrap">
         
   
-    <article id="post-linux-commands-you-should-know" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-localstorage-errors" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -158,7 +158,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/02/25/linux-commands-you-should-know/">你需要知道的Linux命令</a>
+      <a class="article-title" href="/2014/02/25/localstorage-errors/">LocalStorage的异常处理</a>
     </h1>
   
 
@@ -166,38 +166,21 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <ul>
-<li>grep</li>
-<li>find</li>
-<li>sed</li>
-<li>xargs</li>
-<li>awk</li>
-<li>tar</li>
-<li>vi</li>
-<li>shell and shell scripts</li>
-<li>top</li>
-<li>account and group management commands<ul>
-<li>/etc/passwd</li>
-<li>/etc/shadow</li>
-<li>/etc/group</li>
-<li>/etc/gshadow</li>
-<li>…</li>
-</ul>
-</li>
-</ul>
-<p><a href="http://blog.csdn.net/windone0109/article/details/2909565" target="_blank" rel="noopener">Linux高級命令詳解</a></p>
+        <p>当达到localStorage容量上限时，按照标准描述会抛出 <code>QUOTA_EXCEEDED_ERR</code>. 但这个 <code>QUOTA_EXCEEDED_ERR</code> 到底是什么？一个常量？一个字符串？<a href="http://chrisberkhout.com/blog/localstorage-errors/" target="_blank" rel="noopener">各浏览器的实现却不一样</a>.</p>
+<p>所以我使用了以下简单的方法来处理这个异常。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    localStorage.setItem(key, value);</span><br><span class="line">&#125;<span class="keyword">catch</span>(e) &#123;</span><br><span class="line">    localStorage.clear();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2014/02/25/linux-commands-you-should-know/" class="archive-article-date">
+      <a href="/2014/02/25/localstorage-errors/" class="archive-article-date">
   	<time datetime="2014-02-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-02-25</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
 	</div>
 
       
