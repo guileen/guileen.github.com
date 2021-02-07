@@ -13,17 +13,15 @@ $a^2+b^2=c^2$。下图是勾股定理的一个直观证明。
 
 ### 2. 余弦定理，角与边的关系
 
-我们有$cos$和$sin$的定义
-
- <img src="/img/math/cos-sin.png" width="30%">
-
 <img src="/img/math/q-cosine.svg.png" width="30%">
 
 <img src="/img/math/cosine-1.png" width="30%">
 
+ <img src="/img/math/cos-sin.png" width="30%">
+
 三条边可以确定一个三角形，已知三角形的三条边长，如何求出其角度呢？
 
-<p>由勾股定理可知<br>
+<p>由$cos,sin$定义可知<br>
   $$ c = a * cos beta + b * cos alpha $$<br>
   两边同乘c得：<br>
 $$ c^2 = ac * cos beta + bc * cos alpha $$<br>
@@ -34,9 +32,14 @@ $$ b^2 = bc cos alpha + ab cos gamma $$<br>
   可得：$$ c^2 = a^2 + b^2 - 2ab cos gamma $$<br>
 </p>
 
-### 3. 向量的定义（几何的代数表示）
 
-TODO，$$theta$$为$$vec a$$ $$vec b$$ 的夹角。余弦定理可以用向量形式写成 $$ | vec c |^2 = |vec a|^2 + |vec b|^2 -  2 |vec a| |vec b| cos theta $$ 
+### 3. 向量的定义（方向）
+
+<img src="/img/math/vector_subtraction.svg.png" width="45%">
+
+<img src="/img/math/vector_addition.svg.png" width="45%">
+
+$$令 vec c = vec a - vec b$$, $$theta$$为$$vec a$$ $$vec b$$ 的夹角。余弦定理可以用向量形式写成 $$ | vec c |^2 = |vec a|^2 + |vec b|^2 -  2 |vec a| |vec b| cos theta $$ 
 
 ### 4. 点积（dot product）的代数定义
 
@@ -53,7 +56,7 @@ TODO，$$theta$$为$$vec a$$ $$vec b$$ 的夹角。余弦定理可以用向量�
 
 ### 5. 点积的几何意义
 
-对于任何一个n维向量有 $|vec a|^2=a_1^2+a_2^+...+a_n^2$。根据勾股定理，这是很显然的。换个角度说如果没有勾股定理，这一步就不存在，后面的内容也不存在了。这就是勾股定理最神奇的地方。
+对于任何一个n维向量有 $|vec a|^2=a_1^2+a_2^2+...+a_n^2$。根据勾股定理，这是很显然的。换个角度**说如果没有勾股定理，这一步就不存在，后面的内容也不存在了。而勾股定理不是由代数方法证明的，而是独立于代数系统之外的空间基本性质。而空间和时间是宇宙最根本的本质。这就是勾股定理最神奇的地方**。
 
 我们根据点积的定义可知：$$ vec a * vec a = a_1 * a_1 + a_2 * a_2 + ... a_n * a_n = |vec a|^2$$ 即 $$ vec a * vec a == |vec a|^2$$
 
