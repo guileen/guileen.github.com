@@ -54,11 +54,11 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/categories/%E9%A2%86%E5%AF%BC%E5%8A%9B">领导力</a></li>
-	        
 				<li><a href="/categories/AI">AI</a></li>
 	        
 				<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+	        
+				<li><a href="/balance-bot/">读心天平</a></li>
 	        
 			</ul>
 		</nav>
@@ -122,11 +122,11 @@
 				
 					<li><a href="/">主页</a></li>
 		        
-					<li><a href="/categories/%E9%A2%86%E5%AF%BC%E5%8A%9B">领导力</a></li>
-		        
 					<li><a href="/categories/AI">AI</a></li>
 		        
 					<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+		        
+					<li><a href="/balance-bot/">读心天平</a></li>
 		        
 				</ul>
 			</nav>
@@ -148,7 +148,7 @@
       <div class="body-wrap">
         
   
-    <article id="post-golang-work-with-cpp" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-rtmp-research" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -158,7 +158,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/26/golang-work-with-cpp/">Golang与C++混合编译问题</a>
+      <a class="article-title" href="/2015/11/20/rtmp-research/">RTMP学习</a>
     </h1>
   
 
@@ -166,19 +166,19 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>use <a href="http://www.swig.org/Doc2.0/Go.html" target="_blank" rel="noopener">SWIG</a></p>
+        <p><a href="https://github.com/slavavdovichenko/MediaLibDemos3x" target="_blank" rel="noopener">iOS rtmp lib</a><br><a href="https://github.com/nareix/rtmp" target="_blank" rel="noopener">golang rtmp server</a><br><a href="https://github.com/iizukanao/node-rtsp-rtmp-server" target="_blank" rel="noopener">nodejs rtmp server</a><br><a href="https://github.com/arut/nginx-rtmp-module" target="_blank" rel="noopener">nginx rtmp module</a></p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2015/08/26/golang-work-with-cpp/" class="archive-article-date">
-  	<time datetime="2015-08-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-08-26</time>
+      <a href="/2015/11/20/rtmp-research/" class="archive-article-date">
+  	<time datetime="2015-11-19T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-11-20</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/live-dev/" rel="tag">live-dev</a></li></ul>
 	</div>
 
       
@@ -200,7 +200,7 @@
 
 
   
-    <article id="post-cursor-vs-page" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-mac-greek-input-on-qwerty" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -210,7 +210,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/20/cursor-vs-page/">Cursor 与 Page</a>
+      <a class="article-title" href="/2015/10/18/mac-greek-input-on-qwerty/">希腊字母在QWERTY键盘上的布局</a>
     </h1>
   
 
@@ -218,22 +218,30 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>分页是一个非常普通的业务需求。对于一个有大量数据的列表，我们必须分段查看数据。在API层面的设计上，一般会使用 page, limit 两个参数来控制分页。</p>
-<p>缺陷：page, limit 在性能上有问题，翻页时可能会有新插入的数据导致位置错乱。在数据过滤上有问题，在判断尾页上有问题。</p>
-<p>优势：可以准确的跳转到中间任意页。</p>
-<p>Cursor 是一种比较适合移动互联网的分页方式。它可以保证列表数据是连续的。</p>
+        <p>在做数学学习时，有时需要输入希腊字母，熟练掌握希腊字母的输入法有利于提高效率。Mac内置了希腊输入法，以下是在qwerty键盘上的布局。</p>
+<p>小写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">; ς ε ρ τ υ θ ι ο π [ ] \</span><br><span class="line"> α σ δ φ γ η ξ κ λ ΄ &#39; </span><br><span class="line">  ζ χ ψ ω β ν μ , . &#x2F;</span><br></pre></td></tr></table></figure>
+
+<p>大写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">: Σ Ε Ρ Τ Υ Θ Ι Ο Π [ ] \</span><br><span class="line"> Α Σ Δ Φ Γ Η Ξ Κ Λ ¨ &quot; </span><br><span class="line">  Ζ Χ Ψ Ω Β Ν Μ &lt; &gt; ?</span><br></pre></td></tr></table></figure>
+
+<p>字母序:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">A B C D E F G</span><br><span class="line">α β ψ δ ε φ γ</span><br><span class="line">Α Β Ψ Δ Ε Φ Γ</span><br><span class="line"></span><br><span class="line">H I J K L M N</span><br><span class="line">η ι ξ κ λ μ ν</span><br><span class="line">Η Ι Ξ Κ Λ Μ Ν</span><br><span class="line"></span><br><span class="line">O P Q R S T</span><br><span class="line">ο π ; ρ σ τ</span><br><span class="line">Ο Π : Ρ Σ Τ</span><br><span class="line"></span><br><span class="line">U V W X Y Z</span><br><span class="line">θ ω ς χ υ ζ</span><br><span class="line">Θ Ω Σ Χ Υ Ζ</span><br></pre></td></tr></table></figure>
+
+<p>常用:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br></pre></td><td class="code"><pre><span class="line">α a  alpha</span><br><span class="line">β b  beta</span><br><span class="line">γ g  gamma   音近</span><br><span class="line">Γ G  gamma</span><br><span class="line">δ d  delta</span><br><span class="line">Δ D  delta</span><br><span class="line">ε e  epsilon</span><br><span class="line">ζ z  zeta</span><br><span class="line"></span><br><span class="line">η h  eta     形近 音艾塔</span><br><span class="line">θ u  theta  无规律</span><br><span class="line">ι i  iota</span><br><span class="line">κ k  kappa</span><br><span class="line">λ l  lambda 音近</span><br><span class="line">μ m  mu     音近 音谬</span><br><span class="line"></span><br><span class="line">ν n  nu     音近 音纽</span><br><span class="line">ξ j  xi      无规律 音zie</span><br><span class="line">ο o  omicron</span><br><span class="line">π p  pi     音</span><br><span class="line">Π P  pi</span><br><span class="line">ρ r  rho    音近 肉</span><br><span class="line">σ s  sigma  音近</span><br><span class="line">Σ S  sigma  音近</span><br><span class="line"></span><br><span class="line">τ t  tau</span><br><span class="line">υ y  upsilon</span><br><span class="line">φ f  phi     音fie</span><br><span class="line">Φ F  phi</span><br><span class="line">χ x  chi    音 kie</span><br><span class="line">ψ c  psi    音塞 sigh </span><br><span class="line">Ψ C  psi    音塞 sigh</span><br><span class="line">ω v  omega  无规律</span><br><span class="line">Ω V  omega  无规律</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2015/08/20/cursor-vs-page/" class="archive-article-date">
-  	<time datetime="2015-08-19T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-08-20</time>
+      <a href="/2015/10/18/mac-greek-input-on-qwerty/" class="archive-article-date">
+  	<time datetime="2015-10-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-10-18</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li></ul>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/greek/" rel="tag">greek</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mathematics/" rel="tag">mathematics</a></li></ul>
 	</div>
 
       
@@ -255,7 +263,7 @@
 
 
   
-    <article id="post-rate-limiting-algorithm" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-tcp-connection-optimization" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -265,7 +273,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2015/08/18/rate-limiting-algorithm/">频率限制算法</a>
+      <a class="article-title" href="/2015/10/09/tcp-connection-optimization/">TCP 连接优化</a>
     </h1>
   
 
@@ -273,579 +281,17 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>实现接口访问频率限制并不难，只要一些计数器，计时器就可以了。但接口频率限制的目的是减少IO，所以，如果能够在不增加IO的情况下做到频率限制才是完美的，但在集群环境下，这一算法并不精确，但我认为这种损失是值得的。</p>
-<p><a href="http://stackoverflow.com/questions/667508/whats-a-good-rate-limiting-algorithm/668327#668327" target="_blank" rel="noopener">一个来自Stackoverflow的答案</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">rate &#x3D; 5.0; &#x2F;&#x2F; unit: messages</span><br><span class="line">per  &#x3D; 8.0; &#x2F;&#x2F; unit: seconds</span><br><span class="line">allowance &#x3D; rate; &#x2F;&#x2F; unit: messages</span><br><span class="line">last_check &#x3D; now(); &#x2F;&#x2F; floating-point, e.g. usec accuracy. Unit: seconds</span><br><span class="line"></span><br><span class="line">when (message_received):</span><br><span class="line">  current &#x3D; now();</span><br><span class="line">  time_passed &#x3D; current - last_check;</span><br><span class="line">  last_check &#x3D; current;</span><br><span class="line">  allowance +&#x3D; time_passed * (rate &#x2F; per);</span><br><span class="line">  if (allowance &gt; rate):</span><br><span class="line">    allowance &#x3D; rate; &#x2F;&#x2F; throttle</span><br><span class="line">  if (allowance &lt; 1.0):</span><br><span class="line">    discard_message();</span><br><span class="line">  else:</span><br><span class="line">    forward_message();</span><br><span class="line">    allowance -&#x3D; 1.0;</span><br></pre></td></tr></table></figure>
+        <p>see: <a href="http://www.cnblogs.com/fczjuever/archive/2013/04/17/3026694.html" target="_blank" rel="noopener">http://www.cnblogs.com/fczjuever/archive/2013/04/17/3026694.html</a></p>
+<p>/etc/sysctl.conf文件</p>
+<p>　　/etc/sysctl.conf是一个允许你改变正在运行中的Linux系统的接口。它包含一些TCP/IP堆栈和虚拟内存系统的高级选项，可用来控制Linux网络配置，由于/proc/sys/net目录内容的临时性，建议把TCPIP参数的修改添加到/etc/sysctl.conf文件, 然后保存文件，使用命令“/sbin/sysctl –p”使之立即生效。具体修改方案参照上文：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">net.core.rmem_default &#x3D; 256960</span><br><span class="line">net.core.rmem_max &#x3D; 513920</span><br><span class="line">net.core.wmem_default &#x3D; 256960</span><br><span class="line">net.core.wmem_max &#x3D; 513920</span><br><span class="line">net.core.netdev_max_backlog &#x3D; 2000</span><br><span class="line">net.core.somaxconn &#x3D; 2048</span><br><span class="line">net.core.optmem_max &#x3D; 81920</span><br><span class="line">net.ipv4.tcp_mem &#x3D; 131072  262144  524288</span><br><span class="line">net.ipv4.tcp_rmem &#x3D; 8760  256960  4088000</span><br><span class="line">net.ipv4.tcp_wmem &#x3D; 8760  256960  4088000</span><br><span class="line">net.ipv4.tcp_keepalive_time &#x3D; 1800</span><br><span class="line">net.ipv4.tcp_keepalive_intvl &#x3D; 30</span><br><span class="line">net.ipv4.tcp_keepalive_probes &#x3D; 3</span><br><span class="line">net.ipv4.tcp_sack &#x3D; 1</span><br><span class="line">net.ipv4.tcp_fack &#x3D; 1</span><br><span class="line">net.ipv4.tcp_timestamps &#x3D; 1</span><br><span class="line">net.ipv4.tcp_window_scaling &#x3D; 1</span><br><span class="line">net.ipv4.tcp_syncookies &#x3D; 1</span><br><span class="line">net.ipv4.tcp_tw_reuse &#x3D; 1</span><br><span class="line">net.ipv4.tcp_tw_recycle &#x3D; 1</span><br><span class="line">net.ipv4.tcp_fin_timeout &#x3D; 30</span><br><span class="line">net.ipv4.ip_local_port_range &#x3D; 1024  65000</span><br><span class="line">net.ipv4.tcp_max_syn_backlog &#x3D; 2048</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2015/08/18/rate-limiting-algorithm/" class="archive-article-date">
-  	<time datetime="2015-08-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-08-18</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithms/" rel="tag">algorithms</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-well-nginx-log" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/07/15/well-nginx-log/">Nginx log 模版</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>记录 <code>$upstream_addr</code> <code>$upstream_response_time</code> 有助于定位请求，定位延迟，定位问题。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">log_format  main  &#39;$remote_addr - $remote_user [$time_local] &quot;$request&quot; &#39;</span><br><span class="line">                  &#39;$status $body_bytes_sent $request_time $upstream_addr $upstream_response_time &quot;$http_referer&quot; &#39;</span><br><span class="line">                  &#39;&quot;$http_user_agent&quot; &quot;$http_x_forwarded_for&quot; &quot;$gzip_ratio&quot;&#39;;</span><br><span class="line">access_log  &#x2F;var&#x2F;logs&#x2F;nginx&#x2F;access.log main;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/07/15/well-nginx-log/" class="archive-article-date">
-  	<time datetime="2015-07-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-07-15</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nginx/" rel="tag">nginx</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-mysql-optimization" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/06/17/mysql-optimization/">MySQL 优化</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>近期mysql 主从同步延迟过高，依次进行了如下优化。</p>
-<ol>
-<li><p>增加从库，将应用负载分散到多个从库，以降低从库同步延迟。</p>
-</li>
-<li><p>查看slow query，优化慢查询，必要位置添加索引。</p>
-</li>
-<li><p>打印所有sql日志，搜集一段时间日志后，去掉条件，按语句合并，汇总执行次数并排序。定位执行次数最高的语句，然后进行代码层面的优化，降低IO。</p>
-</li>
-<li><p>READ IO已经被降低，但CPU使用量却居高不下。SHOW PROCESSLIST; 定位到一些慢查询（执行时间小于long_query_time 但执行次数很多的语句），对这类语句再进行优化。</p>
-</li>
-</ol>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/06/17/mysql-optimization/" class="archive-article-date">
-  	<time datetime="2015-06-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-06-17</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-objective-c-code-analytics" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/05/21/objective-c-code-analytics/">Objective-C 代码质量分析</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>install <a href="http://oclint.org/" target="_blank" rel="noopener">oclint</a></p>
-<p><code>brew install xctool</code></p>
-<p>install <a href="https://github.com/gcovr/gcovr" target="_blank" rel="noopener">gcovr</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;oclint&#x2F;oclint-xcodebuild&#x2F;master&#x2F;oclint-xcodebuild</span><br><span class="line">sudo mv oclint-xcodebuild &#x2F;usr&#x2F;local&#x2F;bin&#x2F;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/05/21/objective-c-code-analytics/" class="archive-article-date">
-  	<time datetime="2015-05-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-05-21</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CI/" rel="tag">CI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C/" rel="tag">Objective-C</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/" rel="tag">iOS</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-use-iterm2-monitor-errors" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/05/21/use-iterm2-monitor-errors/">使用iterm监控错误</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Install terminal-notifier</p>
-<p><code>brew install terminal-notifier</code></p>
-<p><code>Cmd+,</code> -&gt; Prefrences -&gt; Advanced -&gt; Triggers</p>
-<p>Add new trigger</p>
-<p>Regular Expression: <code>.*ERRO.*</code><br>Action: <code>Run Command</code><br>Parameters: <code>/usr/local/bin/terminal-notifier -message &quot;\0&quot; -title Error</code></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/05/21/use-iterm2-monitor-errors/" class="archive-article-date">
-  	<time datetime="2015-05-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-05-21</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/terminal/" rel="tag">terminal</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tools/" rel="tag">tools</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-mysql-cluster" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/05/18/mysql-cluster/">MySQL cluster proxy</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>MySQL 的中间件</p>
-<ul>
-<li>vitess Go语言实现, youtube 出品。考虑使用</li>
-<li>mysql-proxy MySQL 官方, 评价不佳</li>
-<li>Cobar 阿里出品，java</li>
-<li>Atlas 360 出品，基于mysql-proxy</li>
-<li>mixer 基于Go语言，简单的mysql中间件。<a href="https://github.com/siddontang/mixer" target="_blank" rel="noopener">https://github.com/siddontang/mixer</a></li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/05/18/mysql-cluster/" class="archive-article-date">
-  	<time datetime="2015-05-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-05-18</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mysql/" rel="tag">mysql</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-abstract-data-layer-design" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/04/30/abstract-data-layer-design/">数据抽象层设计</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>数据层的封装</p>
-<p>Data Layer must be split by <code>User Space</code>, each <code>User Space</code> should be monitored.<br>Space is vertical split to <code>Data Type</code>. Each <code>Data Type</code> has it’s own <code>Operations</code>.<br>Most <code>Operation</code> take <code>Id</code> as parameter or no parameter.<br>Some <code>Operation</code> take effect to <code>Rows</code> match some condition.</p>
-<h2 id="DataTypes"><a href="#DataTypes" class="headerlink" title="DataTypes"></a>DataTypes</h2><ul>
-<li>Object</li>
-<li>File</li>
-<li>User</li>
-<li>Message</li>
-<li>MQ</li>
-<li>Third-Service</li>
-</ul>
-<h2 id="Object"><a href="#Object" class="headerlink" title="Object"></a>Object</h2><h3 id="Goals"><a href="#Goals" class="headerlink" title="Goals"></a>Goals</h3><ul>
-<li>Auto caching and persistent.</li>
-<li>Fast and advance query.</li>
-<li>Schemeless.</li>
-<li>Full-text search.</li>
-<li>Geo-Search.</li>
-<li>Safe lock-column?</li>
-<li>Programable configuration.</li>
-<li>Lazy ensure index.</li>
-<li>Multi IDC distributed.</li>
-</ul>
-<p>Get/Set<br>Redis zset<br>Ardb<br>Mongodb<br>Hadoop MapReduce<br>Object {…}</p>
-<h2 id="SQL-Abstract-Layer"><a href="#SQL-Abstract-Layer" class="headerlink" title="SQL Abstract Layer"></a>SQL Abstract Layer</h2><p>Redis As SQL</p>
-<h2 id="MapReduce-Abstract-Layer"><a href="#MapReduce-Abstract-Layer" class="headerlink" title="MapReduce Abstract Layer"></a>MapReduce Abstract Layer</h2><p>Redis Lua As MapReduce</p>
-<h2 id="Redis-Abstract-Layer"><a href="#Redis-Abstract-Layer" class="headerlink" title="Redis Abstract Layer"></a>Redis Abstract Layer</h2><p>Massive Redis Storage and Cache</p>
-<h2 id="Mongodb-As-Storage-Layer"><a href="#Mongodb-As-Storage-Layer" class="headerlink" title="Mongodb As Storage Layer"></a>Mongodb As Storage Layer</h2><p>It’s OK, mongodb it self is an Abstract Layer.</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/04/30/abstract-data-layer-design/" class="archive-article-date">
-  	<time datetime="2015-04-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-04-30</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-flyrpc-spec" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/04/19/flyrpc-spec/">FlyRPC 协议设计</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>FlyRPC是适合高频率的通信框架。</p>
-<h1 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h1><h2 id="消息协议"><a href="#消息协议" class="headerlink" title="消息协议"></a>消息协议</h2><table>
-<thead>
-<tr>
-<th>Flag</th>
-<th align="center">Command</th>
-<th align="right">Sequence</th>
-<th align="center">Buffer Length</th>
-<th>Buffer</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1 byte</td>
-<td align="center">2 byte</td>
-<td align="right">2 byte</td>
-<td align="center">2 byte</td>
-<td>n byte</td>
-</tr>
-<tr>
-<td>标志位</td>
-<td align="center">命令ID</td>
-<td align="right">序列ID</td>
-<td align="center">消息长度</td>
-<td>消息体</td>
-</tr>
-</tbody></table>
-<h3 id="Flag说明"><a href="#Flag说明" class="headerlink" title="Flag说明"></a>Flag说明</h3><table>
-<thead>
-<tr>
-<th align="right">子协议</th>
-<th>控制位</th>
-</tr>
-</thead>
-<tbody><tr>
-<td align="right">2 bit</td>
-<td>6 bit</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>子协议</th>
-<th>1</th>
-<th>2</th>
-<th>3</th>
-<th>4</th>
-<th>5</th>
-<th>6</th>
-<th>7</th>
-<th>8</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>RPC</td>
-<td>1</td>
-<td>1</td>
-<td>?</td>
-<td>?</td>
-<td>?</td>
-<td>Buffer</td>
-<td>Error</td>
-<td>Resp</td>
-</tr>
-<tr>
-<td>Ping</td>
-<td>1</td>
-<td>0</td>
-<td>?</td>
-<td>?</td>
-<td>?</td>
-<td>?</td>
-<td>Pong</td>
-<td>Ping</td>
-</tr>
-<tr>
-<td>Helo</td>
-<td>0</td>
-<td>1</td>
-<td>?</td>
-<td>?</td>
-<td>?</td>
-<td>?</td>
-<td>?</td>
-<td>?</td>
-</tr>
-<tr>
-<td>MQ</td>
-<td>0</td>
-<td>0</td>
-<td>?</td>
-<td>?</td>
-<td>?</td>
-<td>?</td>
-<td>?</td>
-<td>?</td>
-</tr>
-</tbody></table>
-<h2 id="服务器内部多路复用协议"><a href="#服务器内部多路复用协议" class="headerlink" title="服务器内部多路复用协议"></a>服务器内部多路复用协议</h2><table>
-<thead>
-<tr>
-<th>Client count</th>
-<th align="center">Client Id 1</th>
-<th align="right">…</th>
-<th align="center">Client Id n</th>
-<th>Buffer Length</th>
-<th>Buffer</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>1 byte</td>
-<td align="center">2 byte</td>
-<td align="right">…</td>
-<td align="center">2 byte</td>
-<td>2byte</td>
-<td>n byte</td>
-</tr>
-</tbody></table>
-<h2 id="模式"><a href="#模式" class="headerlink" title="模式"></a>模式</h2><ul>
-<li>[OK]Send/Recv</li>
-<li>[OK]Req/Res</li>
-<li>Pub/Sub</li>
-</ul>
-<h2 id="网络协议"><a href="#网络协议" class="headerlink" title="网络协议"></a>网络协议</h2><ul>
-<li>[OK]TCP</li>
-<li>UDP</li>
-<li>Websocket</li>
-<li>P2P</li>
-</ul>
-<h2 id="序列化接口"><a href="#序列化接口" class="headerlink" title="序列化接口"></a>序列化接口</h2><ul>
-<li>数据压缩</li>
-<li>[OK]自定义</li>
-<li>[OK]json</li>
-<li>[OK]protobuf (proto3)</li>
-<li>[OK]msgpack</li>
-</ul>
-<h2 id="多路复用"><a href="#多路复用" class="headerlink" title="多路复用"></a>多路复用</h2><ul>
-<li>Gateway Node</li>
-<li>Backend Node</li>
-</ul>
-<h2 id="API"><a href="#API" class="headerlink" title="API"></a>API</h2><h4 id="type-MessageHandler"><a href="#type-MessageHandler" class="headerlink" title="type MessageHandler"></a>type MessageHandler</h4><p>MessageHandler 可以有以下几种形式</p>
-<figure class="highlight go"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 有返回值，用于处理Call</span></span><br><span class="line"><span class="function"><span class="keyword">func</span><span class="params">(*Context, in Message)</span> <span class="params">(out Message, err error)</span></span></span><br><span class="line"><span class="function"><span class="title">func</span><span class="params">(*Context, in Message)</span> <span class="title">out</span> <span class="title">Message</span></span></span><br><span class="line"><span class="function"></span></span><br><span class="line"><span class="function">// 无返回值，用于处理<span class="title">SendMessage</span></span></span><br><span class="line"><span class="function"><span class="title">func</span><span class="params">(*Context, in Message)</span> <span class="title">err</span> <span class="title">error</span></span></span><br><span class="line"><span class="function"><span class="title">func</span><span class="params">(*Context, in Message)</span></span></span><br></pre></td></tr></table></figure>
-
-<h4 id="Server-Listen-addr"><a href="#Server-Listen-addr" class="headerlink" title="Server.Listen(addr)"></a>Server.Listen(addr)</h4><h4 id="Server-OnMessage-cmd-MessageHandler"><a href="#Server-OnMessage-cmd-MessageHandler" class="headerlink" title="Server.OnMessage(cmd, MessageHandler)"></a>Server.OnMessage(cmd, MessageHandler)</h4><h4 id="Context-SendMessage-cmd-Message"><a href="#Context-SendMessage-cmd-Message" class="headerlink" title="Context.SendMessage(cmd, Message)"></a>Context.SendMessage(cmd, Message)</h4><h4 id="Context-Call-cmd-Message-Message-error"><a href="#Context-Call-cmd-Message-Message-error" class="headerlink" title="Context.Call(cmd, Message) (Message, error)"></a>Context.Call(cmd, Message) (Message, error)</h4><h4 id="Client-Connect-addr"><a href="#Client-Connect-addr" class="headerlink" title="Client.Connect(addr)"></a>Client.Connect(addr)</h4><h4 id="Client-OnMessage-cmd-MessageHandler"><a href="#Client-OnMessage-cmd-MessageHandler" class="headerlink" title="Client.OnMessage(cmd, MessageHandler)"></a>Client.OnMessage(cmd, MessageHandler)</h4><h4 id="Client-SendMessage-cmd-Message"><a href="#Client-SendMessage-cmd-Message" class="headerlink" title="Client.SendMessage(cmd, Message)"></a>Client.SendMessage(cmd, Message)</h4><h4 id="Client-Call-cmd-Message-Message-error"><a href="#Client-Call-cmd-Message-Message-error" class="headerlink" title="Client.Call(cmd, Message) (Message, error)"></a>Client.Call(cmd, Message) (Message, error)</h4><h4 id="Client-Ping-cmd-size"><a href="#Client-Ping-cmd-size" class="headerlink" title="Client.Ping(cmd, size)"></a>Client.Ping(cmd, size)</h4><h4 id="Client-OnPong-cmd-pongSize"><a href="#Client-OnPong-cmd-pongSize" class="headerlink" title="Client.OnPong(cmd, pongSize)"></a>Client.OnPong(cmd, pongSize)</h4><h2 id="待定"><a href="#待定" class="headerlink" title="待定"></a>待定</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">type ClientStub struct &#123;</span><br><span class="line">    foo func(a) b &#96;flyid:1&#96;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">rpc :&#x3D; &amp;ClientStub&#123;&#125;</span><br><span class="line">client.InjectService(rpc)</span><br><span class="line">b :&#x3D; rpc.foo(a)</span><br></pre></td></tr></table></figure>
-
-<h1 id="类关联结构"><a href="#类关联结构" class="headerlink" title="类关联结构"></a>类关联结构</h1><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">TCP&#x2F;UDP&#x2F;WS        Packet    json&#x2F;protobuf&#x2F;msgpack</span><br><span class="line"> |                + + +                   |</span><br><span class="line"> |                | | |                   |</span><br><span class="line"> --&gt;Protocol ------ | |      Serializer &lt;--</span><br><span class="line">      +       ------- |          +</span><br><span class="line">      |       | ----Route --------</span><br><span class="line">      |       | |     *+</span><br><span class="line">      |       | |     |</span><br><span class="line">      |       | |   Router</span><br><span class="line">      |       | |    + +</span><br><span class="line">      ------- | | ---- |</span><br><span class="line">          1*| | + |    |</span><br><span class="line">       ---&gt;Context     |</span><br><span class="line">       |transport+*    |</span><br><span class="line">       |        ------ |</span><br><span class="line">       |             | |</span><br><span class="line"> --&gt;Client          Server&lt;--   MultiplexedServer&lt;--</span><br><span class="line"> |                          |                      |</span><br><span class="line"> |                          |                      |</span><br><span class="line">TCP&#x2F;UDP&#x2F;WS            TCP&#x2F;UDP&#x2F;WS               TCP&#x2F;UDP&#x2F;WS</span><br></pre></td></tr></table></figure>
-<ul>
-<li><em>*</em> 多实例</li>
-<li><em>–&gt;</em> 继承或实现</li>
-<li><em>+</em>  被引用</li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/04/19/flyrpc-spec/" class="archive-article-date">
-  	<time datetime="2015-04-18T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-04-19</time>
+      <a href="/2015/10/09/tcp-connection-optimization/" class="archive-article-date">
+  	<time datetime="2015-10-08T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-10-09</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -872,9 +318,670 @@
 
 
   
+    <article id="post-android-reverse-engineering-with-apktool" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/06/android-reverse-engineering-with-apktool/">Android反向工程</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://ibotpeaches.github.io/Apktool/" target="_blank" rel="noopener">https://ibotpeaches.github.io/Apktool/</a></p>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><h2 id="Linux"><a href="#Linux" class="headerlink" title="Linux:"></a>Linux:</h2><ol>
+<li>Download Linux wrapper script (Right click, Save Link As apktool)</li>
+<li>Download apktool-2 (find newest here)</li>
+<li>Make sure you have the 32bit libraries (ia32-libs) downloaded and installed by your linux package manager, if you are on a 64bit unix system.</li>
+<li>(This helps provide support for the 32bit native binary aapt, which is required by apktool)</li>
+<li>Rename downloaded jar to apktool.jar</li>
+<li>Move both files (apktool.jar &amp; apktool) to /usr/local/bin (root needed)</li>
+<li>Make sure both files are executable (chmod +x)</li>
+<li>Try running apktool via cli</li>
+</ol>
+<h2 id="Mac-OS-X"><a href="#Mac-OS-X" class="headerlink" title="Mac OS X:"></a>Mac OS X:</h2><ol>
+<li>Download Mac wrapper script (Right click, Save Link As apktool)</li>
+<li>Download apktool-2 (find newest here)</li>
+<li>Rename downloaded jar to apktool.jar</li>
+<li>Move both files (apktool.jar &amp; apktool) to /usr/local/bin (root needed)</li>
+<li>Make sure both files are executable (chmod +x)</li>
+<li>Try running apktool via cli</li>
+</ol>
+<h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><p>apktool d test.apk</p>
+<p>apktool b test</p>
+<h1 id="使用-dex2jar"><a href="#使用-dex2jar" class="headerlink" title="使用 dex2jar"></a>使用 dex2jar</h1><p>unzip test.apk</p>
+<p>wget <a href="https://github.com/pxb1988/dex2jar/releases/download/2.0/dex-tools-2.0.zip" target="_blank" rel="noopener">https://github.com/pxb1988/dex2jar/releases/download/2.0/dex-tools-2.0.zip</a></p>
+<h1 id="JD-GUI"><a href="#JD-GUI" class="headerlink" title="JD-GUI"></a>JD-GUI</h1><p>可以搜索</p>
+<h1 id="jad"><a href="#jad" class="headerlink" title="jad"></a>jad</h1><p>../../jad -o -r -sjava -ddest tmp/<em>*/</em>.class</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/10/06/android-reverse-engineering-with-apktool/" class="archive-article-date">
+  	<time datetime="2015-10-05T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-10-06</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/" rel="tag">android</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-trace-https-requests" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/10/06/trace-https-requests/">How to trace http request</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>使用 mitmproxy <a href="https://mitmproxy.org/" target="_blank" rel="noopener">https://mitmproxy.org/</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install mitmproxy</span><br></pre></td></tr></table></figure>
+
+<p>mitmproxy </p>
+<p>有一个命令行工具，dump工具，</p>
+<p>一个更简单的代码 <a href="https://github.com/allfro/pymiproxy" target="_blank" rel="noopener">https://github.com/allfro/pymiproxy</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/10/06/trace-https-requests/" class="archive-article-date">
+  	<time datetime="2015-10-05T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-10-06</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hack/" rel="tag">hack</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/network/" rel="tag">network</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-ddzai-notes" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/29/ddzai-notes/">ddz AI notes</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>`C` is all cards.</p>
+<p>`p` is the part of playing cards.</p>
+<p>`C_1` is all cards after play `p`.</p>
+<p>求：</p>
+<p>`P_a(C) = P_”activeWin”`</p>
+<p>`P_p(C) = P_”passiveWin”`</p>
+<p>设：</p>
+<p>`P_d(p) = P_”dominate”`</p>
+<p>`P_”f”(p) = P_”follow”`</p>
+<p>`P_a(C) = max(P_a(p in C))`</p>
+<p>`P_p(C) = max(P_p(p in C))`</p>
+<p>`P_a(p,C) = P_d(p) * P_a(C_1) + (1-P_d(p)) * P_p(C_1)`</p>
+<p>`P_p(p,C) = P_”f”(p) * P_a(p, C)`</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/09/29/ddzai-notes/" class="archive-article-date">
+  	<time datetime="2015-09-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-09-29</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game/" rel="tag">game</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-scheme-base-object-notation-language" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/28/scheme-base-object-notation-language/">Scheme base notation language</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>We use XML, JSON, BSON, MsgPack, Protobuf to transfer structured data. They have issues with effeciant or readability. I always think about that are there any better way to describe structured data clearly and effeciant.</p>
+<p>We have primitive types: String, Number, Boolean, Date, Null. And combind types: Array, Object.</p>
+<p>In real world, a class of object always have same fields, JSON is kind of waste.</p>
+<p>For example, we have JSON of books</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    books:[</span><br><span class="line">        &#123;&quot;title&quot;:&quot;hello world&quot;, &quot;pages&quot;:100, &quot;author&quot;:&quot;Jack&quot;, published:1&#125;,</span><br><span class="line">        &#123;&quot;title&quot;:&quot;hello to programming 1&quot;, &quot;pages&quot;:50, &quot;author&quot;:&quot;Tom&quot;, published:1&#125;,</span><br><span class="line">        &#123;&quot;title&quot;:&quot;hello to programming 2&quot;, &quot;pages&quot;:50, &quot;author&quot;:&quot;Tom&quot;, published:1&#125;,</span><br><span class="line">        &#123;&quot;title&quot;:&quot;hello to programming 3&quot;, &quot;pages&quot;:50, &quot;author&quot;:&quot;Tom&quot;, published:0&#125;,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>So, protobuf need you define your scheme, and use you scheme code to compress field names.</p>
+<p>In my vison, protobuf is effeciant, but it is not a dynamic describe language, it is an static describe language. Which means, in many times, you need compile your client and server with a shared scheme definition file.</p>
+<p>Did you get it? Share scheme definition file, recompile client or server once scheme change, is lack of development effeciant.</p>
+<p>So, I design a scheme language like below. It define the scheme first, and use it.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">!book(title:s,pages:n,author:s,published:b);</span><br><span class="line">&#123;</span><br><span class="line">    books:[</span><br><span class="line">        book(&#39;hello world&#39;,100,&#39;Jack&#39;,1),</span><br><span class="line">        book(&#39;how to programming 1&#39;,50,&#39;Tom&#39;,1),</span><br><span class="line">        book(&#39;how to programming 2&#39;,50,&#39;Tom&#39;,1),</span><br><span class="line">        book(&#39;how to programming 3&#39;,50,&#39;Tom&#39;,0)</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The first line <code>!book(...);</code> define a scheme of book. Syntax is <code>!name(field:type, ...);</code>. </p>
+<p>The string after <code>;</code> is data body. <code>book(...)</code> use scheme to create a book object.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">!book(title:s,pages:n,author:s,published:b);</span><br><span class="line">&#123;</span><br><span class="line">    books:![book][</span><br><span class="line">        (&#39;hello world&#39;,100,&#39;Jack&#39;,1),</span><br><span class="line">        (&#39;how to programming 1&#39;,50,&#39;Tom&#39;,1),</span><br><span class="line">        (&#39;how to programming 2&#39;,50,&#39;Tom&#39;,1),</span><br><span class="line">        (&#39;how to programming 3&#39;,50,&#39;Tom&#39;,0)</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Also,</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    books:![(title,pages,author,published)][</span><br><span class="line">        (&#39;hello world&#39;,100,&#39;Jack&#39;,1),</span><br><span class="line">        (&#39;how to programming 1&#39;,50,&#39;Tom&#39;,1),</span><br><span class="line">        (&#39;how to programming 2&#39;,50,&#39;Tom&#39;,1),</span><br><span class="line">        (&#39;how to programming 3&#39;,50,&#39;Tom&#39;,0)</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>You can also seperate it to two part in communication.</p>
+<p>The head:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!book(title:s,pages:n,author:s,published:b);</span><br></pre></td></tr></table></figure>
+
+<p>The body:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    books:[</span><br><span class="line">        book(&#39;hello world&#39;,100,&#39;Jack&#39;,1),</span><br><span class="line">        book(&#39;how to programming 1&#39;,50,&#39;Tom&#39;,1),</span><br><span class="line">        book(&#39;how to programming 2&#39;,50,&#39;Tom&#39;,1),</span><br><span class="line">        book(&#39;how to programming 3&#39;,50,&#39;Tom&#39;,0)</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>On the client, you can download head once, and body multiple time.</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/09/28/scheme-base-object-notation-language/" class="archive-article-date">
+  	<time datetime="2015-09-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-09-28</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data-format/" rel="tag">data-format</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-use-ffmpeg" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/23/use-ffmpeg/">ffmpeg 视频转码</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>see <a href="https://www.virag.si/2012/01/web-video-encoding-tutorial-with-ffmpeg-0-9/" target="_blank" rel="noopener">https://www.virag.si/2012/01/web-video-encoding-tutorial-with-ffmpeg-0-9/</a><br>see <a href="https://www.virag.si/2012/01/webm-web-video-encoding-tutorial-with-ffmpeg-0-9/" target="_blank" rel="noopener">https://www.virag.si/2012/01/webm-web-video-encoding-tutorial-with-ffmpeg-0-9/</a></p>
+<h2 id="Mac-OSX安装"><a href="#Mac-OSX安装" class="headerlink" title="Mac OSX安装"></a>Mac OSX安装</h2><p><code>brew install ffmpeg --with-libvpx --with</code></p>
+<h2 id="生成-mp4"><a href="#生成-mp4" class="headerlink" title="生成 mp4"></a>生成 mp4</h2><h3 id="参数说明"><a href="#参数说明" class="headerlink" title="参数说明"></a>参数说明</h3><ul>
+<li>-i [input file] | this specifies the name of input file</li>
+<li>-codec:v libx264 | tells FFmpeg to encode video to H.264 using libx264 library</li>
+<li>-profile:v high | sets H.264 profile to “High” as per Step 2. Other valid options are baseline, main</li>
+<li>-preset slow | sets encoding preset for x264 – slower presets give more quality at same bitrate, but need more time to encode. “slow” is a good balance between encoding time and quality. Other valid options are: ultrafast, superfast, veryfast, faster, fast, medium, slow, slower, veryslow, placebo (never use this one)</li>
+<li>-b:v | sets video bitrate in bits/s</li>
+<li>-maxrate and -bufsize | forces libx264 to build video in a way, that it could be streamed over 500kbit/s line considering device buffer of 1000kbits. Very useful for web - setting this to bitrate and 2x bitrate gives good results.</li>
+<li>-vf scale | applies “scale” filter, which resizes video to desired resolution. “720:480” would resize video to 720x480, “-1” means “resize so the aspect ratio is same.” Usually you set only height of the video, so for 380p you set “scale=-1:380”, for 720p “scale=-1:720” etc.</li>
+<li>-threads 0 | tells libx264 to choose optimal number of threads to encode, which will make sure all your processor cores in the computer are used</li>
+<li>-codec:a libfdk_aac | tells FFmpeg to encode audio to AAC using libfdk-aac library</li>
+<li>-b:a | sets audio bitrate in bits/s</li>
+<li>-pass [1 2] | tells FFmpeg to process video in multiple passes and sets the current pass</li>
+<li>-an | disables audio, audio processing has no effect on first pass so it’s best to disable it to not waste CPU</li>
+</ul>
+<p>Standard web video (480p at 500kbit/s)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input_file.avi -codec:v libx264 -profile: high -preset slow -b:v 500k -maxrate 500k -bufsize 1000k -vf scale&#x3D;-1:480 -threads 0 -codec:a libfdk_aac -b:a 128k output_file.mp4</span><br></pre></td></tr></table></figure>
+
+<p>360p video for older mobile phones (360p at 250kbit/s in baseline profile)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i inputfile.avi -codec:v libx264 -profile:v baseline -preset slow -b:v 250k -maxrate 250k -bufsize 500k -vf scale&#x3D;-1:360 -threads 0 -codec:a libfdk_aac -b:a 96k output.mp4</span><br></pre></td></tr></table></figure>
+<p>480p video for iPads and tablets (480p at 400kbit/s in main profile):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i inputfile.avi -codec:v libx264 -profile:v main -preset slow -b:v 400k -maxrate 400k -bufsize 800k -vf scale&#x3D;-1:480 -threads 0 -codec:a libfdk_aac -b:a 128k output.mp4</span><br></pre></td></tr></table></figure>
+<p>High-quality SD video for archive/storage (PAL at 1Mbit/s in high profile):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i inputfile.avi -codec:v libx264 -profile:v high -preset slower -b:v 1000k -vf scale&#x3D;-1:576 -threads 0 -codec:a libfdk_aac -b:a 196k output.mp4</span><br></pre></td></tr></table></figure>
+
+<h2 id="生成-webm"><a href="#生成-webm" class="headerlink" title="生成 webm"></a>生成 webm</h2><h3 id="参数说明-1"><a href="#参数说明-1" class="headerlink" title="参数说明:"></a>参数说明:</h3><ul>
+<li>-codec:v    Specifies the video encoder to be used, in our case that is libvpx VP8 library</li>
+<li>-quality good   Sets encoding speed for the VP8 encoder. This works in concert with cpu-used parameter. Available values are best, good and realtime. The official libvpx documentation strongly advises against using best quality parameter, because good with cpu-used 0 offers almost identical quality for half the encoding time.</li>
+<li>-cpu-used [0-5] Sets “speed” of encoding “ lower value uses more CPU for processing and produces better quality. Larger values trade quality for faster encoding, with 4 and 5 enabling “rate distortion optimization”, which significantly speeds-up encoding with price of big quality hit.</li>
+<li>-b:v [bitrate]  Sets desired output video bitrate</li>
+<li>-maxrate/-bufsize   Set upper limits for stream bitrate, maxrate specifying maximum bitrate and bufsize specifying device buffer size. Buffer size tells the encoder how much it can overshoot the maximum bitrate when required. Good default is twice the maxrate for approx. 2sec of buffer.</li>
+<li>-qmin 10 -qmax 42   This sets minimum and maximum quantization values. Since as of 0.9, FFmpeg sets those values wrong by default, adding these is required for a a decent video quality. Omitting these will produce blocky broken video.</li>
+<li>-threads [num]  Sets number of encoding threads to use. Set to the number of your CPU cores available.</li>
+<li>-vf scale=[width:height]    Rescales video to a chosen resolution. Value of “-1″ means “size to keep aspect ratio”, e.g. setting this to “-1:720″ will produce a 720p output with same aspect ratio as input.</li>
+<li>-codec:a libvorbis  Sets output audio encoder to libvorbis to produce vorbis output. This is required for a valid WebM file.</li>
+<li>-b:a [bitrate]  Sets bitrate for encoded audio.</li>
+<li>-an disables audio, audio processing has no effect on first pass so itís best to disable it to not waste CPU.</li>
+<li>-f webm tells FFmpeg the output file format (required only if it cannot be inferred from output file extension).</li>
+<li>-pass [1 2] tells FFmpeg to process video in multiple passes and sets the current pass.</li>
+</ul>
+<p>Standardî web video (480p at 600kbit/s)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input_file.avi -codec:v libvpx -quality good -cpu-used 0 -b:v 600k -maxrate 600k -bufsize 1200k -qmin 10 -qmax 42 -vf scale&#x3D;-1:480 -threads 4 -codec:a vorbis -b:a 128k output_file.webm</span><br></pre></td></tr></table></figure>
+
+<p>High-quality SD video for archive/storage (PAL at 1.2Mbit/s):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ffmpeg -i input_file.avi -codec:v libvpx -quality good -cpu-used 0 -b:v 1200k -maxrate 1200k -bufsize 2400k -qmin 10 -qmax 42 -vf scale&#x3D;-1:480 -threads 4 -codec:a vorbis -b:a 128k output_file.webm</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/09/23/use-ffmpeg/" class="archive-article-date">
+  	<time datetime="2015-09-22T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-09-23</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ffmpeg/" rel="tag">ffmpeg</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tools/" rel="tag">tools</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/video/" rel="tag">video</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-cloud-services-list-for-startups" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/18/cloud-services-list-for-startups/">第三方服务列表</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="DNS"><a href="#DNS" class="headerlink" title="DNS"></a>DNS</h2><p>cloudxns.net 优势，免费<br>dnspod.cn    119.29.29.29 HTTPDNS</p>
+<h2 id="红包"><a href="#红包" class="headerlink" title="红包"></a>红包</h2><ul>
+<li>云账户  可绑银行卡，收发红包</li>
+<li>爱贝收银台</li>
+</ul>
+<h2 id="云计算"><a href="#云计算" class="headerlink" title="云计算"></a>云计算</h2><ul>
+<li>AWS     全面、专业、贵。</li>
+<li>UCloud  香港亮点。支持大陆、香港、北美。专线</li>
+<li>腾讯云  服务很多，除基础服务外，网络优化相关，短信、电话、验证码相关，以及大数据相关。看好</li>
+<li>青云    Spark亮点。出过一次严重故障。</li>
+<li>Linode  日本节点是神器</li>
+<li>阿里云  大厂。</li>
+<li>百度云  除基本服务外，也有客服系统。</li>
+<li>Daocloud</li>
+</ul>
+<h2 id="CDN"><a href="#CDN" class="headerlink" title="CDN"></a>CDN</h2><ul>
+<li>星域        便宜，大文件，尚不完善。摔</li>
+<li>百度云加速  免费</li>
+<li>蓝讯</li>
+<li>网宿</li>
+<li>Akamai</li>
+<li>PacketZoom</li>
+<li>白山云</li>
+</ul>
+<h2 id="云存储"><a href="#云存储" class="headerlink" title="云存储"></a>云存储</h2><ul>
+<li>七牛      云存储，图片预处理API</li>
+<li>又拍云</li>
+<li>百度</li>
+<li>S3 Upload Free</li>
+<li>DigetalOcean</li>
+</ul>
+<h2 id="发送"><a href="#发送" class="headerlink" title="发送"></a>发送</h2><ul>
+<li><a href="http://www.yunpian.com" target="_blank" rel="noopener">www.yunpian.com</a> 国内，国际，API规范，好</li>
+<li>mob.com    10000 免费, 全球</li>
+<li>sendcloud.sohu.com 发邮件</li>
+<li>luosimao.com 短信/邮件</li>
+<li>twillo</li>
+<li>cl2009.com  国内好</li>
+<li>nexmo.com   全球, 便宜</li>
+<li><a href="http://www.chanzor.com/" target="_blank" rel="noopener">http://www.chanzor.com/</a> 畅卓</li>
+<li><a href="http://emailcar.net/" target="_blank" rel="noopener">http://emailcar.net/</a>  EDM 邮件营销</li>
+<li>大汉三通</li>
+</ul>
+<h2 id="即时通讯"><a href="#即时通讯" class="headerlink" title="即时通讯"></a>即时通讯</h2><ul>
+<li>环信</li>
+<li>融云</li>
+</ul>
+<h2 id="云加速"><a href="#云加速" class="headerlink" title="云加速"></a>云加速</h2><p>cloudflare<br>云盾</p>
+<h2 id="监控"><a href="#监控" class="headerlink" title="监控"></a>监控</h2><ul>
+<li>OneAPM</li>
+<li>听云</li>
+<li>监控宝</li>
+<li>Fabric</li>
+<li>友盟</li>
+<li>LeakCanary  java内存泄露监测</li>
+</ul>
+<h2 id="统计-amp-崩溃收集"><a href="#统计-amp-崩溃收集" class="headerlink" title="统计 &amp; 崩溃收集"></a>统计 &amp; 崩溃收集</h2><ul>
+<li>Talkingdata</li>
+<li>GrowingIO</li>
+<li>Sensors Analytics</li>
+<li>诸葛io</li>
+<li>友盟</li>
+<li>fabric      错误统计</li>
+</ul>
+<h2 id="云后端"><a href="#云后端" class="headerlink" title="云后端"></a>云后端</h2><ul>
+<li>bmob.cn     (特色)无需第三方，快速申请支付渠道（5%费率）</li>
+<li>LeanCloud   无后端模式，存储，常用结构，短信，邮件</li>
+</ul>
+<h2 id="测试"><a href="#测试" class="headerlink" title="测试"></a>测试</h2><ul>
+<li>testin  众测</li>
+<li>pgyer   蒲公英</li>
+</ul>
+<h2 id="电商云"><a href="#电商云" class="headerlink" title="电商云"></a>电商云</h2><ul>
+<li>wemart 微猫</li>
+<li>微猫： <a href="http://www.wemart.cn，饿了么，暴走漫画在使用" target="_blank" rel="noopener">http://www.wemart.cn，饿了么，暴走漫画在使用</a> ，适合app开店</li>
+<li>淘宝客：<a href="http://ad.alimama.com/index.htm" target="_blank" rel="noopener">http://ad.alimama.com/index.htm</a> 陌陌早期过度</li>
+<li>有赞：<a href="https://open.youzan.com/sdk/home" target="_blank" rel="noopener">https://open.youzan.com/sdk/home</a>  玲珑在用，适合</li>
+<li>欧电云: <a href="http://odianyun.com/" target="_blank" rel="noopener">http://odianyun.com/</a> 1号店团队出来搞的一个云电商</li>
+</ul>
+<h2 id="客服软件"><a href="#客服软件" class="headerlink" title="客服软件"></a>客服软件</h2><ul>
+<li>美洽</li>
+<li>网易七鱼 <a href="http://qiyukf.com/" target="_blank" rel="noopener">http://qiyukf.com/</a></li>
+<li>UDesk</li>
+</ul>
+<h2 id="直播云"><a href="#直播云" class="headerlink" title="直播云"></a>直播云</h2><ul>
+<li>七牛</li>
+<li><a href="www.agora.io">声网</a></li>
+<li>乐视</li>
+<li>腾讯</li>
+<li>百度</li>
+<li>UCloud</li>
+<li>网宿</li>
+<li>金山 &amp; JSYLive_iOS</li>
+</ul>
+<h2 id="机器学习"><a href="#机器学习" class="headerlink" title="机器学习"></a>机器学习</h2><ul>
+<li>图普</li>
+<li>同盾</li>
+<li>达观数据</li>
+</ul>
+<h2 id="直播审核"><a href="#直播审核" class="headerlink" title="直播审核"></a>直播审核</h2><ul>
+<li>金山金睛 (弃)</li>
+</ul>
+<h2 id="短视频拍摄"><a href="#短视频拍摄" class="headerlink" title="短视频拍摄"></a>短视频拍摄</h2><ul>
+<li>趣拍</li>
+<li>七牛</li>
+<li>百度</li>
+</ul>
+<h2 id="工具"><a href="#工具" class="headerlink" title="工具"></a>工具</h2><ul>
+<li>直播流测试工具 <a href="http://www.cutv.com/demo/live_test.swf" target="_blank" rel="noopener">http://www.cutv.com/demo/live_test.swf</a></li>
+</ul>
+<h2 id="管理"><a href="#管理" class="headerlink" title="管理"></a>管理</h2><ul>
+<li>钉钉</li>
+<li>闪电报销</li>
+</ul>
+<h2 id="项目管理"><a href="#项目管理" class="headerlink" title="项目管理"></a>项目管理</h2><ul>
+<li>禅道 zentao</li>
+<li>OpenProject <a href="https://www.openproject.org/" target="_blank" rel="noopener">https://www.openproject.org/</a>  <a href="https://github.com/opf/openproject" target="_blank" rel="noopener">https://github.com/opf/openproject</a></li>
+</ul>
+<h2 id="Dropbox-替代"><a href="#Dropbox-替代" class="headerlink" title="Dropbox 替代"></a>Dropbox 替代</h2><ul>
+<li><a href="https://pydio.com" target="_blank" rel="noopener">pydio</a></li>
+<li><a href="https://seafile.com" target="_blank" rel="noopener">seafile</a></li>
+<li><a href="syncthing.net">syncthing</a> 开源, 部署略复杂</li>
+</ul>
+<h2 id="trello-开源替代"><a href="#trello-开源替代" class="headerlink" title="trello 开源替代"></a>trello 开源替代</h2><ul>
+<li><a href="https://github.com/wekan/wekan" target="_blank" rel="noopener">wekan</a></li>
+</ul>
+<h2 id="slack-开源替代"><a href="#slack-开源替代" class="headerlink" title="slack 开源替代"></a>slack 开源替代</h2><ul>
+<li><a href="https://rocket.chat" target="_blank" rel="noopener">https://rocket.chat</a> 工具丰富，社区活跃</li>
+<li><a href="https://github.com/zulip/zulip" target="_blank" rel="noopener">https://github.com/zulip/zulip</a></li>
+<li><a href="https://github.com/mattermost/platform" target="_blank" rel="noopener">https://github.com/mattermost/platform</a></li>
+<li><a href="https://github.com/sdelements/lets-chat" target="_blank" rel="noopener">https://github.com/sdelements/lets-chat</a></li>
+<li><a href="https://github.com/moose-team/friends" target="_blank" rel="noopener">https://github.com/moose-team/friends</a></li>
+</ul>
+<h2 id="github-开源替代"><a href="#github-开源替代" class="headerlink" title="github 开源替代"></a>github 开源替代</h2><ul>
+<li>gitlab</li>
+<li>gogs</li>
+</ul>
+<h2 id="桌面软件-amp-效率"><a href="#桌面软件-amp-效率" class="headerlink" title="桌面软件&amp;效率"></a>桌面软件&amp;效率</h2><ul>
+<li>Pomotodo</li>
+<li>RescueTime</li>
+<li>Teamviewer</li>
+<li>Bittorrent sync <a href="https://www.resilio.com/" target="_blank" rel="noopener">https://www.resilio.com/</a></li>
+</ul>
+<h2 id="运维部署"><a href="#运维部署" class="headerlink" title="运维部署"></a>运维部署</h2><ul>
+<li>jekins</li>
+<li><a href="http://www.ansible.com" target="_blank" rel="noopener">www.ansible.com</a></li>
+<li>grafna</li>
+<li>influxdb</li>
+<li>ELK Elastic Search, Logstash, Kibana</li>
+</ul>
+<p>##</p>
+<ul>
+<li>lottie Android iOS AE动画</li>
+<li>反向定位，reverse geocode <a href="https://github.com/kno10/reversegeocode" target="_blank" rel="noopener">https://github.com/kno10/reversegeocode</a>  java, openstreetmap data</li>
+<li>反向定位，reverse geocode <a href="https://github.com/thampiman/reverse-geocoder" target="_blank" rel="noopener">https://github.com/thampiman/reverse-geocoder</a> python</li>
+</ul>
+<p>[SEE]<br>    <a href="http://next.36kr.com/posts/collections/506?utm_source=wechat" target="_blank" rel="noopener">http://next.36kr.com/posts/collections/506?utm_source=wechat</a><br>    <a href="http://next.36kr.com/posts/collections/507?utm_source=wechat" target="_blank" rel="noopener">http://next.36kr.com/posts/collections/507?utm_source=wechat</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/09/18/cloud-services-list-for-startups/" class="archive-article-date">
+  	<time datetime="2015-09-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-09-18</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cloud-services/" rel="tag">cloud-services</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-use-asciimath" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/08/use-asciimath/">使用Asciimath来编辑数学公式</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="MathJax"><a href="#MathJax" class="headerlink" title="MathJax"></a>MathJax</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">When $a \ne 0$, there are two solutions to \(ax^2 + bx + c &#x3D; 0\) and they are</span><br><span class="line">$$x &#x3D; &#123;-b \pm \sqrt&#123;b^2-4ac&#125; \over 2a&#125;.$$</span><br></pre></td></tr></table></figure>
+
+<p>When $a \ne 0$, there are two solutions to (ax^2 + bx + c = 0) and they are<br>$$x = {-b \pm \sqrt{b^2-4ac} \over 2a}.$$</p>
+<h2 id="AsciiMath"><a href="#AsciiMath" class="headerlink" title="AsciiMath"></a>AsciiMath</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;a * b &#x3D; c   &#x3D;&gt; a &#x3D; c &#x2F; b &#x3D;&gt; b &#x3D; c &#x2F; a&#96;</span><br></pre></td></tr></table></figure>
+
+<p>` a * b = c   =&gt; a = c / b =&gt; b = c / a`</p>
+<p>` a / b = c  =&gt; a = b * c`</p>
+<p>` 1 / 2 = 0.5 =&gt;  1/0.5 = 2 `</p>
+<p>` 12 / 3 = 4 =&gt; 12 / 4 = 3 `</p>
+<p>` 18 / 3 = 6 =&gt; 18 / 6 = 3 `</p>
+<p>` 面积 = 长度 *  宽度 `</p>
+<p>` 长度 = (面积) / (宽度) `</p>
+<p><a href="http://asciimath.org" target="_blank" rel="noopener">asciimath</a> 在页面中加入下面这段代码</p>
+<figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">script</span> <span class="attr">src</span>=<span class="string">"http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=AM_HTMLorMML"</span>&gt;</span><span class="undefined"></span><span class="tag">&lt;/<span class="name">script</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<p>将公式用用`包含起来</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#96;sum_(i&#x3D;1)^n i^3&#x3D;((n(n+1))&#x2F;2)^2&#96;</span><br></pre></td></tr></table></figure>
+
+<p>`sum_(i=1)^n i^3=((n(n+1))/2)^2`</p>
+<p>条件概率公式 <code>P(A|B) = (P(A nn B)) / (P(B))</code></p>
+<p> `P(A|B) = (P(A nn B)) / (P(B))` </p>
+
+<p>全概率公式 <code>P(A) = sum_(i) P(A|B_i)*P(B_i)</code></p>
+<p> `P(A) = sum_(i) P(A|B_i)*P(B_i)` </p>
+
+<p>微积分:</p>
+<p>`f(x)=x^2`</p>
+<p>`d/dx(x^3)=((x+dx)^2 - x^2)/dx = (x^2 + 2xdx+dx^2 - x^2)/dx = 2x +dx = 2x`</p>
+<p>`u’+v’ = (du)/dx + (dv)/dx = (du+dv)/dx = (d(u+v)) / dx = (u+v)’`</p>
+<p>`(cu)’ = (dcu)/dx = c(du)/dx = cu’`</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/09/08/use-asciimath/" class="archive-article-date">
+  	<time datetime="2015-09-07T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-09-08</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mathematics/" rel="tag">mathematics</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/5/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/7/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/5/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="page-number current">6</span><a class="page-number" href="/page/7/">7</a><a class="page-number" href="/page/8/">8</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/7/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -884,7 +991,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 桂糊涂
+    		&copy; 2021 桂糊涂
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -914,7 +1021,7 @@
 
 
 
-<script type="text/x-mathjax-config">
+<!-- <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     tex2jax: {
         inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
@@ -932,7 +1039,19 @@ MathJax.Hub.Queue(function() {
 </script>
 
 <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
+</script> -->
+
+<script>
+  MathJax = {
+    loader: {load: ['input/asciimath', 'output/chtml', 'ui/menu']},
+    asciimath: {
+    delimiters: [['`','`'], ['$$', '$$'], ['$','$']]
+  }
+  };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js">
+  </script>
 
 
     
@@ -958,7 +1077,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
+    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/OpenGL-math/" style="font-size: 10px;">OpenGL,math</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/cpp/" style="font-size: 11.25px;">cpp</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
     			</div>
     	</section>
     

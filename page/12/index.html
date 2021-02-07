@@ -54,11 +54,11 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/categories/%E9%A2%86%E5%AF%BC%E5%8A%9B">领导力</a></li>
-	        
 				<li><a href="/categories/AI">AI</a></li>
 	        
 				<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+	        
+				<li><a href="/balance-bot/">读心天平</a></li>
 	        
 			</ul>
 		</nav>
@@ -122,11 +122,11 @@
 				
 					<li><a href="/">主页</a></li>
 		        
-					<li><a href="/categories/%E9%A2%86%E5%AF%BC%E5%8A%9B">领导力</a></li>
-		        
 					<li><a href="/categories/AI">AI</a></li>
 		        
 					<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+		        
+					<li><a href="/balance-bot/">读心天平</a></li>
 		        
 				</ul>
 			</nav>
@@ -148,7 +148,7 @@
       <div class="body-wrap">
         
   
-    <article id="post-game-server-architecture" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-linux-commands-you-should-know" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -158,7 +158,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/17/game-server-architecture/">Game server architecture</a>
+      <a class="article-title" href="/2014/02/25/linux-commands-you-should-know/">你需要知道的Linux命令</a>
     </h1>
   
 
@@ -167,197 +167,32 @@
     <div class="article-entry" itemprop="articleBody">
       
         <ul>
-<li>✓ Router</li>
-<li>✓ SessionContext </li>
-<li>✓ AppContext</li>
-<li>SuperManager - load player(from online, pool or db), create player</li>
-<li>SessionManager - player online, player offline, send message to other player</li>
-<li>WorldManager - A whole world controller (get player ? find player, get clans)</li>
-<li>✕ RoomManager sub world?</li>
-<li>✕ RoomNodeManager Room is tree?</li>
-<li>✓ PlayerWritePool -<br>PlayerCache - </li>
-<li>✓ PlayerStore - </li>
+<li>grep</li>
+<li>find</li>
+<li>sed</li>
+<li>xargs</li>
+<li>awk</li>
+<li>tar</li>
+<li>vi</li>
+<li>shell and shell scripts</li>
+<li>top</li>
+<li>account and group management commands<ul>
+<li>/etc/passwd</li>
+<li>/etc/shadow</li>
+<li>/etc/group</li>
+<li>/etc/gshadow</li>
+<li>…</li>
 </ul>
+</li>
+</ul>
+<p><a href="http://blog.csdn.net/windone0109/article/details/2909565" target="_blank" rel="noopener">Linux高級命令詳解</a></p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/03/17/game-server-architecture/" class="archive-article-date">
-  	<time datetime="2013-03-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-17</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/" rel="tag">game-dev</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-how-to-enable-fenced-code-block-on-github-pages" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/17/how-to-enable-fenced-code-block-on-github-pages/">How to enable fenced code block in github pages</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://github.com/blog/1366-github-pages-updated-to-jekyll-0-12-0" target="_blank" rel="noopener">Github pages最近升级了jekyll 0.12.0</a>, 这一版本支持fenced code block.</p>
-<p>in your _config.yml</p>
-<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">markdown:</span> <span class="string">redcarpet</span></span><br></pre></td></tr></table></figure>
-
-<pre><code><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span></span></span><br><span class="line">  puts <span class="string">'foo'</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></code></pre><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span></span></span><br><span class="line">    puts <span class="string">'foo'</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; &quot;&#123;%&quot; &#125;&#125; highlight ruby linenos&#x3D;table %&#125;</span><br><span class="line">def foo</span><br><span class="line">  puts &#39;foo&#39;</span><br><span class="line">end</span><br><span class="line">&#123;&#123; &quot;&#123;%&quot; &#125;&#125; endhighlight %&#125;</span><br></pre></td></tr></table></figure>
-<p>to:</p>
-
-{% highlight ruby linenos=table %}
-def foo
-  puts 'foo'
-end
-{% endhighlight %}
-
-
-<p>如你所见，鄙人想增加行号，但是失败了。</p>
-<p>非常遗憾的是，tag pages依然不被支持</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/17/how-to-enable-fenced-code-block-on-github-pages/" class="archive-article-date">
-  	<time datetime="2013-03-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-17</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/generator/" rel="tag">generator</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-redis-leveldb" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/17/redis-leveldb/">redis leveldb</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>redis protocol + leveldb storage = perfect key/value database</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/17/redis-leveldb/" class="archive-article-date">
-  	<time datetime="2013-03-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-17</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-git-activity-report-by-git-stats" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/16/git-activity-report-by-git-stats/">使用GitStats了解项目活动情况</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://github.com/trybeee/GitStats" target="_blank" rel="noopener">GitStats</a></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/16/git-activity-report-by-git-stats/" class="archive-article-date">
-  	<time datetime="2013-03-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-16</time>
+      <a href="/2014/02/25/linux-commands-you-should-know/" class="archive-article-date">
+  	<time datetime="2014-02-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-02-25</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -384,7 +219,7 @@ end
 
 
   
-    <article id="post-unix-signals" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-etag-vs-lastmodified-vs-expire" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -394,7 +229,7 @@ end
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/16/unix-signals/">Unix signals</a>
+      <a class="article-title" href="/2014/01/28/etag-vs-lastmodified-vs-expire/">Etag与Last-Modified以及浏览器永久缓存的比较</a>
     </h1>
   
 
@@ -402,78 +237,23 @@ end
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>转载: <a href="http://blog.csdn.net/ljx0305/article/details/2904056" target="_blank" rel="noopener">http://blog.csdn.net/ljx0305/article/details/2904056</a></p>
-<pre><code>SIGHUP    终止进程    终端线路挂断
-SIGINT    终止进程    中断进程
-SIGQUIT   建立CORE文件终止进程，并且生成core文件
-SIGILL   建立CORE文件      非法指令
-SIGTRAP  建立CORE文件      跟踪自陷
-SIGBUS   建立CORE文件      总线错误
-SIGSEGV  建立CORE文件      段非法错误
-SIGFPE   建立CORE文件      浮点异常
-SIGIOT   建立CORE文件      执行I/O自陷
-SIGKILL  终止进程    杀死进程
-SIGPIPE  终止进程    向一个没有读进程的管道写数据
-SIGALARM  终止进程    计时器到时
-SIGTERM  终止进程    软件终止信号
-SIGSTOP  停止进程    非终端来的停止信号
-SIGTSTP  停止进程    终端来的停止信号
-SIGCONT  忽略信号    继续执行一个停止的进程
-SIGURG   忽略信号    I/O紧急信号
-SIGIO    忽略信号    描述符上可以进行I/O
-SIGCHLD  忽略信号    当子进程停止或退出时通知父进程
-SIGTTOU  停止进程    后台进程写终端
-SIGTTIN  停止进程    后台进程读终端
-SIGXGPU  终止进程    CPU时限超时
-SIGXFSZ  终止进程    文件长度过长
-SIGWINCH  忽略信号    窗口大小发生变化
-SIGPROF  终止进程    统计分布图用计时器到时
-SIGUSR1  终止进程    用户定义信号1
-SIGUSR2  终止进程    用户定义信号2
-SIGVTALRM 终止进程    虚拟计时器到时</code></pre><p>1) SIGHUP 本信号在用户终端连接(正常或非正常)结束时发出, 通常是在终端的控<br>制进程结束时, 通知同一session内的各个作业, 这时它们与控制终端<br>不再关联.</p>
-<p>2) SIGINT 程序终止(interrupt)信号, 在用户键入INTR字符(通常是Ctrl-C)时发出</p>
-<p>3) SIGQUIT 和SIGINT类似, 但由QUIT字符(通常是Ctrl-)来控制. 进程在因收到<br>SIGQUIT退出时会产生core文件, 在这个意义上类似于一个程序错误信<br>号.</p>
-<p>4) SIGILL 执行了非法指令. 通常是因为可执行文件本身出现错误, 或者试图执行<br>数据段. 堆栈溢出时也有可能产生这个信号.</p>
-<p>5) SIGTRAP 由断点指令或其它trap指令产生. 由debugger使用.</p>
-<p>6) SIGABRT 程序自己发现错误并调用abort时产生.</p>
-<p>6) SIGIOT 在PDP-11上由iot指令产生, 在其它机器上和SIGABRT一样.</p>
-<p>7) SIGBUS 非法地址, 包括内存地址对齐(alignment)出错. eg: 访问一个四个字长<br>的整数, 但其地址不是4的倍数.</p>
-<p>8) SIGFPE 在发生致命的算术运算错误时发出. 不仅包括浮点运算错误, 还包括溢<br>出及除数为0等其它所有的算术的错误.</p>
-<p>9) SIGKILL 用来立即结束程序的运行. 本信号不能被阻塞, 处理和忽略.</p>
-<p>10) SIGUSR1 留给用户使用</p>
-<p>11) SIGSEGV 试图访问未分配给自己的内存, 或试图往没有写权限的内存地址写数据.</p>
-<p>12) SIGUSR2 留给用户使用</p>
-<p>13) SIGPIPE Broken pipe</p>
-<p>14) SIGALRM 时钟定时信号, 计算的是实际的时间或时钟时间. alarm函数使用该<br>信号.</p>
-<p>15) SIGTERM 程序结束(terminate)信号, 与SIGKILL不同的是该信号可以被阻塞和<br>处理. 通常用来要求程序自己正常退出. shell命令kill缺省产生这<br>个信号.</p>
-<p>17) SIGCHLD 子进程结束时, 父进程会收到这个信号.</p>
-<p>18) SIGCONT 让一个停止(stopped)的进程继续执行. 本信号不能被阻塞. 可以用<br>一个handler来让程序在由stopped状态变为继续执行时完成特定的<br>工作. 例如, 重新显示提示符</p>
-<p>19) SIGSTOP 停止(stopped)进程的执行. 注意它和terminate以及interrupt的区别:<br>该进程还未结束, 只是暂停执行. 本信号不能被阻塞, 处理或忽略.</p>
-<p>20) SIGTSTP 停止进程的运行, 但该信号可以被处理和忽略. 用户键入SUSP字符时<br>(通常是Ctrl-Z)发出这个信号</p>
-<p>21) SIGTTIN 当后台作业要从用户终端读数据时, 该作业中的所有进程会收到SIGTTIN<br>信号. 缺省时这些进程会停止执行.</p>
-<p>22) SIGTTOU 类似于SIGTTIN, 但在写终端(或修改终端模式)时收到.</p>
-<p>23) SIGURG 有”紧急”数据或out-of-band数据到达socket时产生.</p>
-<p>24) SIGXCPU 超过CPU时间资源限制. 这个限制可以由getrlimit/setrlimit来读取/<br>改变</p>
-<p>25) SIGXFSZ 超过文件大小资源限制.</p>
-<p>26) SIGVTALRM 虚拟时钟信号. 类似于SIGALRM, 但是计算的是该进程占用的CPU时间.</p>
-<p>27) SIGPROF 类似于SIGALRM/SIGVTALRM, 但包括该进程用的CPU时间以及系统调用的<br>时间.</p>
-<p>28) SIGWINCH 窗口大小改变时发出.</p>
-<p>29) SIGIO 文件描述符准备就绪, 可以开始进行输入/输出操作.</p>
-<p>30) SIGPWR Power failure</p>
-<p>有两个信号可以停止进程:SIGTERM和SIGKILL。 SIGTERM比较友好，进程能捕捉这个信号，根据您的需要来关闭程序。在关闭程序之前，您可以结束打开的记录文件和完成正在做的任务。在某些情况下，假如进程正在进行作业而且不能中断，那么进程可以忽略这个SIGTERM信号。</p>
-<p>对于SIGKILL信号，进程是不能忽略的。这是一个 “我不管您在做什么,立刻停止”的信号。假如您发送SIGKILL信号给进程，Linux就将进程停止在那里。</p>
+        <p>Etag 和 Last-Modified 的功效类似，但是Etag出现较晚。</p>
+<p>Last-Modified 适合静态文件。</p>
+<p>Etag 适合动态内容的变更。</p>
+<p>永久缓存。。。这只适合类似图片、视频等内容。对js，css等静态文件可以通过加版本号的方式来永久缓存之。</p>
+<p>xxx.js?etag=12345 这种方式来永久缓存</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/03/16/unix-signals/" class="archive-article-date">
-  	<time datetime="2013-03-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-16</time>
+      <a href="/2014/01/28/etag-vs-lastmodified-vs-expire/" class="archive-article-date">
+  	<time datetime="2014-01-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-01-28</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li></ul>
 	</div>
 
       
@@ -495,7 +275,7 @@ SIGVTALRM 终止进程    虚拟计时器到时</code></pre><p>1) SIGHUP 本信�
 
 
   
-    <article id="post-chauvenet-criterion" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-for-each-file-in-makefile" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -505,7 +285,7 @@ SIGVTALRM 终止进程    虚拟计时器到时</code></pre><p>1) SIGHUP 本信�
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/15/chauvenet-criterion/">肖维勒准则</a>
+      <a class="article-title" href="/2013/09/30/for-each-file-in-makefile/">For each files in the Makefile</a>
     </h1>
   
 
@@ -513,32 +293,46 @@ SIGVTALRM 终止进程    虚拟计时器到时</code></pre><p>1) SIGHUP 本信�
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>数据中并不总是合法数据，为了更好的完成统计，我们必须剔除异常的数据。</p>
-<p>如何剔除异常的实验数据(Outlier rejection)，有许多的方法。</p>
-<p>介绍一种易于实现的方法，叫做<a href="http://en.wikipedia.org/wiki/Chauvenet' target="_blank" rel="noopener"s_criterion">肖维勒准则(Chauvenet’s criterion)</a></p>
-<p>平均值</p>
-<pre><code>mean = sum(v) / n</code></pre><p>标准差</p>
-<pre><code>sd = sqrt(sum(v(i) * v(i) - mean * mean, i=1 to n) / (n - 1))</code></pre><p><a href="http://en.wikipedia.org/wiki/Chauvenet' target="_blank" rel="noopener"s_criterion">肖维勒准则(Chauvenet’s criterion)</a></p>
-<p>如果某样本数据d满足</p>
-<pre><code>|v(d)| &gt; w(n) * sd</code></pre><p>则认为v(d)是一个异常数据，将其剔除。</p>
-<p>W(n) 是一个常数，可以用查表法获得</p>
-<p>Table of Chauvenet’s Criterion for data rejection, with curve fit equation</p>
-<p>Chauvenet’s Criterion</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">--------------------------</span><br><span class="line">| n          | c         |</span><br><span class="line">--------------------------</span><br><span class="line">| 3          | 1.38      |</span><br><span class="line">| 4          | 1.54      |</span><br><span class="line">| 5          | 1.65      |</span><br><span class="line">| 6          | 1.73      |</span><br><span class="line">| 7          | 1.8       |</span><br><span class="line">| 10         | 1.96      |</span><br><span class="line">| 15         | 2.13      |</span><br><span class="line">| 25         | 2.33      |</span><br><span class="line">| 50         | 2.57      |</span><br><span class="line">| 100        | 2.81      |</span><br><span class="line">--------------------------</span><br><span class="line">|c &#x3D; 0.9969+0.4040*ln(n) |</span><br><span class="line">--------------------------</span><br></pre></td></tr></table></figure>
+        <p>在构建项目时，时常需要遍历某个文件夹下的文件，按特定的方式将其预处理，变为一个新文件。</p>
+<p>我们可以为此写一个脚本，负责遍历文件夹，处理文件内容，输出文件内容。</p>
+<p>可以看到stackoverflow上的这个<a href="http://stackoverflow.com/questions/2706064/compile-all-c-files-in-a-directory-into-separate-programs" target="_blank" rel="noopener">问题</a>很好的解释了这个问题的应用场景。</p>
+<p>希望将某个目录下的每个c文件编译成一一对应的执行文件，x.c 编译成 x， y.c 编译成 y。</p>
+<pre><code>SRCS = $(wildcard *.c)
+PROGS = $(patsubst %.c,%,$(SRCS))
 
-<p>很奇怪，通过公式获得的结果和表上给的结果并不一致。</p>
+all: $(PROGS)
+
+%: %.c
+        $(CC) $(CFLAGS)  -o $@ $&lt;</code></pre><p>如果没明白发生了什么，通过下面的例子大家应该可以明白。</p>
+<p>Makefile:</p>
+<pre><code>SRCS = $(wildcard a.txt)
+DESTS = $(patsubst %.txt, %.json, $(SRCS))
+
+all: $(DESTS)
+
+%: *.txt
+    @echo $@
+    @echo $&lt;</code></pre><p>在命令行下执行</p>
+<pre><code>touch a.txt b.txt c.txt
+make</code></pre><p>将会输出</p>
+<pre><code>a.txt
+a.json
+b.txt
+b.json
+c.txt
+c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个目录下的 .csv 文件编译成 .json, 这一方法不仅能简化csv to json 脚本，还可以实现类似，仅当csv文件比json文件更新的情况下才需要编译。</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/03/15/chauvenet-criterion/" class="archive-article-date">
-  	<time datetime="2013-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-15</time>
+      <a href="/2013/09/30/for-each-file-in-makefile/" class="archive-article-date">
+  	<time datetime="2013-09-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-09-30</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li></ul>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CI/" rel="tag">CI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/makefile/" rel="tag">makefile</a></li></ul>
 	</div>
 
       
@@ -560,7 +354,7 @@ SIGVTALRM 终止进程    虚拟计时器到时</code></pre><p>1) SIGHUP 本信�
 
 
   
-    <article id="post-node-events-scope" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-something-about-reliable-udp" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -570,7 +364,7 @@ SIGVTALRM 终止进程    虚拟计时器到时</code></pre><p>1) SIGHUP 本信�
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/15/node-events-scope/">node.js events scope</a>
+      <a class="article-title" href="/2013/09/17/something-about-reliable-udp/">关于UDP的一些事</a>
     </h1>
   
 
@@ -578,34 +372,28 @@ SIGVTALRM 终止进程    虚拟计时器到时</code></pre><p>1) SIGHUP 本信�
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Below code display <code>world</code>, it means that the scope of node.js event listener is just the event emmitter itself.</p>
-<pre><code>var util = require(&apos;util&apos;);
-var EventEmitter = require(&apos;events&apos;).EventEmitter;
+        <p>UDP协议速度更快，但不可靠，是一种无连接的协议。TCP是基于连接的协议。但是TCP并不适合不稳定的网络环境，如移动网络。 所以我们需要UDP可靠传输。</p>
+<p>UDP可靠传输协议，有一个开源项目叫UDT，使用一种算法来达到可靠传输的目的，<a href="http://www.jenkinssoftware.com/raknet/manual/congestioncontrol.html" target="_blank" rel="noopener">The UDT Congestion Control Algorithm</a>。</p>
+<p>相关协议还有RUDP(Reliable UDP)，和SRUDP(Simple Reliable UDP)。</p>
+<p>RTP 已是视频等内容的标准。</p>
+<h3 id="对UDP丢包率影响最大的是数据包的大小。"><a href="#对UDP丢包率影响最大的是数据包的大小。" class="headerlink" title="对UDP丢包率影响最大的是数据包的大小。"></a>对UDP丢包率影响最大的是数据包的大小。</h3><p>以太网(Ethernet)数据帧的长度必须在46-1500字节之间,这是由以太网的物理特性决定的.这个1500字节被称为链路层的MTU(最大传输单元).但这并不是指链路层的长度被限制在1500字节,其实这个MTU指的是链路层的数据区.并不包括链路层的首部和尾部的18个字节.所以,事实上,这个1500字节就是网络层IP数据报的长度限制.因为IP数据报的首部为20字节,所以IP数据报的数据区长度最大为1480字节.而这个1480字节就是用来放TCP传来的TCP报文段或UDP传来的UDP数据报的.又因为UDP数据报的首部8字节,所以UDP数据报的数据区最大长度为1472字节.这个1472字节就是我们可以使用的字节数。:) </p>
+<p>当我们发送的UDP数据大于1472的时候会怎样呢？这也就是说IP数据报大于1500字节,大于 MTU.这个时候发送方IP层就需要分片(fragmentation).把数据报分成若干片,使每一片都小于MTU.而接收方IP层则需要进行数据报的重组.这样就会多做许多事情,而更严重的是,由于UDP的特性,当某一片数据传送中丢失时,接收方便无法重组数据报.将导致丢弃整个UDP数据报。<br>因此,在普通的局域网环境下，我建议将UDP的数据控制在1472字节以下为好.<br>进行Internet编程时则不同,因为Internet上的路由器可能会将MTU设为不同的值.如果我们假定MTU为1500来发送数据的,而途经的某个网络的MTU值小于1500字节,那么系统将会使用一系列的机制来调整MTU值,使数据报能够顺利到达目的地,这样就会做许多不必要的操作.鉴于 Internet上的标准MTU值为576字节,所以我建议在进行Internet的UDP编程时.最好将UDP的数据长度控件在548字节 (576-8-20)以内.</p>
+<p>是否需要校验？这是一个问题。理论上无论TCP 还是 UDP，都是需要校验的。</p>
+<h3 id="TCP链接如何保证可靠性？"><a href="#TCP链接如何保证可靠性？" class="headerlink" title="TCP链接如何保证可靠性？"></a>TCP链接如何保证可靠性？</h3><p> TCP的数据包中记录了序号(seq)和应答号(ack)两个字段。三次握手成功后，seq被初始化。传输过程中，TCP继续使用这个序号来标记发送的每个数据包，发送端每传送一个数据包，序列号加一。接收端每接受一个数据包，会用ACK应答哪个seq标记的数据包收到了。</p>
+<p>  通过上述过程，TCP链接就可以保证通信的可靠性了。1. 针对于丢包或者延迟，TCP定义了重发机制。发送端监听接收端返回的ACK包，如果在一个时间窗口内发送端未能接收到ACK包，发送端就认为发送失败，重发该数据包。2. 数据包的重发机制就会导致包的重复，针对包的重复，TCP根据包的seq字段去重复。接收端接收到数据包之后，查看其seq字段，如果已经成功接收该数据包，则丢弃这个数据包。3. IP包的转发机制可能导致包的乱序，针对包的乱序，TCP同样根据包的seq字段重装数据段。保证了每个数据包能够以正确的顺序，无重复的传输到接收端，也就保证了TCP链接的传输可靠性。</p>
+<h3 id="UDP可能出现的问题"><a href="#UDP可能出现的问题" class="headerlink" title="UDP可能出现的问题"></a>UDP可能出现的问题</h3><p>因此，UDP报文可能会出现丢失、乱序、延时等问题。</p>
 
-function Foo(name) {
-  EventEmitter.call(this);
-  this.name = name;
-}
-
-util.inherits(Foo, EventEmitter);
-
-var foo = new Foo(&apos;world&apos;);
-foo.on(&apos;hello&apos;, function(){
-    console.log(this.name);
-});
-
-foo.emit(&apos;hello&apos;);</code></pre>
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/03/15/node-events-scope/" class="archive-article-date">
-  	<time datetime="2013-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-15</time>
+      <a href="/2013/09/17/something-about-reliable-udp/" class="archive-article-date">
+  	<time datetime="2013-09-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-09-17</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/" rel="tag">node.js</a></li></ul>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/network/" rel="tag">network</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/udp/" rel="tag">udp</a></li></ul>
 	</div>
 
       
@@ -627,7 +415,7 @@ foo.emit(&apos;hello&apos;);</code></pre>
 
 
   
-    <article id="post-redis-extras-and-redis-lua-test" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-message-server-cluster-configuration" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -637,7 +425,7 @@ foo.emit(&apos;hello&apos;);</code></pre>
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/14/redis-extras-and-redis-lua-test/">Redis-extras and script test</a>
+      <a class="article-title" href="/2013/08/12/message-server-cluster-configuration/">消息服务器集群的管理</a>
     </h1>
   
 
@@ -645,20 +433,32 @@ foo.emit(&apos;hello&apos;);</code></pre>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>redis-mock</p>
-<p><a href="https://github.com/guileen/redis-extras" target="_blank" rel="noopener">https://github.com/guileen/redis-extras</a></p>
+        <p>N台服务器，N &gt; 10，相互之间会有通信，每台服务器都会开启数个进程监听数个端口用于接收来自其他服务器的消息。每个进程都必须设置一个id，其他服务器发送消息时需要根据目标服务器的id获取该id对应的进程ip和port。</p>
+<h2 id="静态配置"><a href="#静态配置" class="headerlink" title="静态配置"></a>静态配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">all_server_ids[id] &#x3D; &#123;host: &#39;xxx&#39;, port: 1234&#125;;</span><br></pre></td></tr></table></figure>
+<p>启动每个进程时，用参数指定id，如 </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;run-server --id 123，</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">host, port &#x3D; all_server_ids[id]</span><br></pre></td></tr></table></figure>
+<p>缺点：配置繁琐，服务器多的时候容易出错。</p>
+<h2 id="用KeyValue数据库注册，"><a href="#用KeyValue数据库注册，" class="headerlink" title="用KeyValue数据库注册，"></a>用KeyValue数据库注册，</h2><p>在进程启动后， </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">id &#x3D; db.incr(&#39;server-id&#39;);</span><br><span class="line">db.set(&#39;sid:&#39;+id, &#39;host:port&#39;);</span><br></pre></td></tr></table></figure>
+
+<p>在发送消息时，</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">host, port &#x3D; db.get(&#39;sid&#39; + id)</span><br></pre></td></tr></table></figure>
+<p>缺点：获取host,port的操作会很频繁，无法根据消息接收人id做hash来得知目标服务器id。</p>
+<h2 id="中央服务器"><a href="#中央服务器" class="headerlink" title="中央服务器"></a>中央服务器</h2><p>所有消息都通过一个中央服务器转发。所有节点服务器只与中央服务器通讯。所有节点服务器使用统一的配置连接中央服务器。消息发送至中央服务器。</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/03/14/redis-extras-and-redis-lua-test/" class="archive-article-date">
-  	<time datetime="2013-03-13T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-14</time>
+      <a href="/2013/08/12/message-server-cluster-configuration/" class="archive-article-date">
+  	<time datetime="2013-08-11T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-08-12</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/" rel="tag">node.js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/" rel="tag">redis</a></li></ul>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IM/" rel="tag">IM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cluster/" rel="tag">cluster</a></li></ul>
 	</div>
 
       
@@ -680,7 +480,7 @@ foo.emit(&apos;hello&apos;);</code></pre>
 
 
   
-    <article id="post-deploy-nodejs-apps-with-supervisor" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-about-3d" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -690,7 +490,7 @@ foo.emit(&apos;hello&apos;);</code></pre>
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/12/deploy-nodejs-apps-with-supervisor/">Deploy node.js apps with supervisor</a>
+      <a class="article-title" href="/2013/03/29/about-3d/">About 3D</a>
     </h1>
   
 
@@ -698,58 +498,28 @@ foo.emit(&apos;hello&apos;);</code></pre>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>许多的文章介绍Node应用部署都是使用upstart 或是手动编写 init script, 我个人是很不习惯为每个应用去配置启动脚本。</p>
-<p>本文所要介绍的supervisor是配置式的，配置启动命令，环境变量，进程数，等等。</p>
-<p>进入正题：</p>
-<p>创建用户nodeapp</p>
-<pre><code>sudo adduser --disabled-login --gecos &apos;Node App&apos; nodeapp
-cd /home/nodeapp</code></pre><p>clone project</p>
-<pre><code>sudo -u nodeapp -H git clone repo
-cd repo</code></pre><p>Install dependencies modules</p>
-<pre><code>sudo -u nodeapp -H npm install -d</code></pre><p>安装 supervisor</p>
-<pre><code>apt-get install supervisor</code></pre><p>配置</p>
-<pre><code>[program:yourappname]
-command=/usr/local/bin/node /home/nodeapp/yourappname/app.js
-process_name=%(program_name)s%(process_num)s
-numprocs=1
-directory=/tmp
-umask=022
-priority=999
-autostart=true
-autorestart=true
-startsecs=10
-startretries=3
-exitcodes=0,2
-stopsignal=TERM
-stopwaitsecs=10
-user=nodeapp
-redirect_stderr=false
-stdout_logfile=/home/nodeapp/yourappname/logs/stdout.log
-stdout_logfile_maxbytes=1MB
-stdout_logfile_backups=10
-stdout_capture_maxbytes=1MB
-stderr_logfile=/home/nodeapp/yourappname/logs/stderr.log
-stderr_logfile_maxbytes=1MB
-stderr_logfile_backups=10
-stderr_capture_maxbytes=1MB
-environment=NODE_ENV=production,B=2
-serverurl=AUTO</code></pre><p>启动</p>
-<pre><code>supervisorctl
-&gt; help
-&gt; update
-&gt; status
-&gt; restart yourappname</code></pre>
+        <p>ray-trace 光线跟踪，镜面<br>radiosity 辐射光照<br>rasterizing 光栅化，scan line</p>
+<p>你的引擎需要提供的包括：曲面(curved surfaces)、动态光线(dynamic lighting)、体雾(volumetric fog)、镜面(mirrors)、入口(portals)、天空体(skyboxes)、节点阴影(vertex shaders)、粒子系统(particle systems)、静态网格模型(static mesh models)、网格模型动画(animated mesh models)。</p>
+<p>Renderer/Engine Core （渲染/引擎 内核）<br>哈~是呀，所有的人都热爱3D图象渲染！因为这边有着非常多的不同种类的3D世界渲染方式，可要为各类拥有不同工作方式的3D图形管道做出一个概要描述也是几乎不可能的。<br>不管你的渲染器如何工作，最重要的是将你的渲染器组件制作得基化（based）与干净（clean）。<br>首先可以确定的是你将拥有不同的模块来完成不同的任务，我将渲染器拆分为以下几个部份：可见裁减（Visibility）、碰撞检测与反馈（Collision Detection and Response）、摄像器（Camera）、静态几何体（Static Geometry）、动态几何体（Dynamic Geometry）、粒子系统（Particle Systems）、布告板（Billboarding）、网格（Meshes）、天空体（Skybox）、光线（Lighting）、雾（Fogging）、节点阴影（Vertex Shading）和输出（Output）。<br>其中每一个部分都得需要一个接口来方便地实现改变设置（settings）、位置（position）、方向（orientation）、以及其他可能与系统相关的属性配置。<br>即将显露出来的一个主要缺陷便是“特性臃肿”，这将取决于设计期间你想实现什么样的特性。但如不把新特色置入引擎的话，你就会发觉一切都将变的很困难，解决问题的方式也显得特别逊色。<br>还有一件有意义的事便是让所有的三角形[triangles]（或是面[faces]）最终在渲染管道里经过同一点。（并非每次的每个三角形，这里讨论的是三角形列表[triangle lists]、扇形[fans]、带形[strips]、等） 多花一些工作让所有物体的格式都能经过相同的光线、雾、以及阴影代码，这样就能非常便利地仅通过切换材质与纹理id就使任何多边形具有不同的渲染效果。<br>这不会伤及到被大量被渲染绘出的点，但是一旦你不当心，它可能会导致大量的冗余代码。<br>你也许最终便能发现，实现所有这些你所需的极酷效果可能只占了所有的15%左右的代码量甚至更少。这是当然的，因为大多数游戏引擎并不只是图形表现。</p>
+<p>3D繪圖(3D Graphics Pipeline ) <a href="http://www.ategpu.com/2009/06/04/3d%E7%B9%AA%E5%9C%963d-graphics-pipeline.html" target="_blank" rel="noopener">http://www.ategpu.com/2009/06/04/3d%E7%B9%AA%E5%9C%963d-graphics-pipeline.html</a></p>
+<p>3.1 Transformation &amp; Lighting<br>ModelTransformation,  View Transformation, 视点坐标系 HomogeneousCoordinate System , 4x4 Transformation Matrix</p>
+<p>3.2 Viewport Transformation &amp; Clipping &amp; Culling<br>Clip coordinate是將視點座標進行投影(Projection)，在Eye coordinate上，我們的原點就是攝影機，視線方向是-Z軸，加上視角與遠近平面，我們創建了一個梯形體的三維空間，近平面(也就是投影平面)是梯形體較小的矩形，遠平面是梯形體較大的矩形，而所有在這個梯形體的內的Vertex，就是我們在螢幕上會看見的Vertex。因此超出這個梯形體的場景，都被視點去除(Frustum Culling)掉了。 </p>
+<p>為什麼我們在投影完之後還要留下Z座標的值呢？這是因為「Vertex離投影面的距離」可以用來處理三角面間相互遮蓋的情形，也就是哪個三角面在前，哪個三角面在後。這個稱作Z-buffer的技術會在之後提到。 </p>
+<p>3.3 Primitive Assembly ＆ Triangle Setup<br>進行背面去除(Back-face Culling)。 </p>
+<p>3.4 Rasterization</p>
+<p>3.5 Pixel Operation<br>Texture operation<br>紋理操作，也就是根據Pixel的紋理座標，查詢相應的紋理(Texture)，來計算Pixel該有的顏色。<br>.<br>Blending<br>混色，根據目前已經畫好的顏色，與現在正在算的顏色的透明度(Alpha)，混合兩種顏色，當作新的顏色輸出。<br>.<br>Filtering<br>將正在算的顏色經過某種濾鏡(Filtering)後輸出。關於filtering的理論牽涉到數位訊號學，請暫時理解為，經過一種數學運算之後變成了新的顏色。</p>
+
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/03/12/deploy-nodejs-apps-with-supervisor/" class="archive-article-date">
-  	<time datetime="2013-03-11T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-12</time>
+      <a href="/2013/03/29/about-3d/" class="archive-article-date">
+  	<time datetime="2013-03-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-29</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/3D/" rel="tag">3D</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/" rel="tag">game-dev</a></li></ul>
 	</div>
 
       
@@ -771,7 +541,7 @@ serverurl=AUTO</code></pre><p>启动</p>
 
 
   
-    <article id="post-game-object-properties-adapter" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-how-to-learn-linear-algebra" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -781,7 +551,7 @@ serverurl=AUTO</code></pre><p>启动</p>
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/05/game-object-properties-adapter/">GameObject properties adapter ———— 游戏数值开发要点</a>
+      <a class="article-title" href="/2013/03/28/how-to-learn-linear-algebra/">如何学习线性代数</a>
     </h1>
   
 
@@ -789,44 +559,176 @@ serverurl=AUTO</code></pre><p>启动</p>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>游戏数值是动态的，可叠加的，物品，天赋，被动技能，Buff，光环，都会改变一个GameObject的属性。</p>
-<p>游戏数值开发的难点在于抽象。程序员必须将策划的语言抽象出来，否则物品、天赋、技能、Buff、等等会让你的代码千头万绪，错综复杂。</p>
-<p>而如果能够很好的抽象出这些东西，将会一目了然，胸有成竹。</p>
-<p>鄙人曾在一款塔防游戏中负责数值系统的开发。</p>
-<h2 id="数据抽象"><a href="#数据抽象" class="headerlink" title="数据抽象"></a>数据抽象</h2><ul>
-<li><p>静态数据 - 设定 - Settings - S</p>
-</li>
-<li><p>游戏对象 - 实例 - Instance - I</p>
-</li>
-<li><p>实例的设定 - 实例的静态数据 - Instance Settings - IS</p>
-</li>
-<li><p>实例当前的未叠加基本状态 - 实例裸体状态 - Instance Naked Data - IND</p>
-</li>
-<li><p>状态叠加器们 - Instance Adapters - IA</p>
-</li>
-</ul>
-<h2 id="配置数据"><a href="#配置数据" class="headerlink" title="配置数据"></a>配置数据</h2><p>将策划语言转变为可被程序识别的数据，做到技能、物品可配置。</p>
-<ul>
-<li>物品 - 技能 - 天赋 - Adapters<ul>
-<li>[选择器] - [Selector] 定义作用对象，比如某天赋影响所有士兵，而另一技能只影响兽人士兵<ul>
-<li>[修改器] - [Modifier]<ul>
-<li>属性</li>
-<li>操作符 + （增加x点） +% （增加x%）= （改变为x）</li>
-<li>值 x</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
+        <p>曾经看了几本线性代数的书和视频，但是越看越迷惑，大多是直接上来说定义和公式，不了解线性代数的几何意义和应用。</p>
+<p>最终这个疑惑被一本不是专门介绍线性代数的书解决了，书名叫做《Mathematics for 3D Game Programming and Computer Graphics》，这本书很好的解释了线性代数的几何意义。</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/03/05/game-object-properties-adapter/" class="archive-article-date">
-  	<time datetime="2013-03-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-05</time>
+      <a href="/2013/03/28/how-to-learn-linear-algebra/" class="archive-article-date">
+  	<time datetime="2013-03-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-28</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mathematics/" rel="tag">mathematics</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-use-varnish" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/28/use-varnish/">Use varnish</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Varnish 是一个反向代理服务器，并且只能作为反向代理。可编程式的配置。性能很好。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/28/use-varnish/" class="archive-article-date">
+  	<time datetime="2013-03-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-28</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-javascript-date" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/27/javascript-date/">javascript 日期处理</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>计算两日期间的天数之差</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">treatAsUTC</span>(<span class="params">date</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">new</span> <span class="built_in">Date</span>(date);</span><br><span class="line">    result.setMinutes(result.getMinutes() - result.getTimezoneOffset());</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> millisecondsPerDay = <span class="number">24</span> * <span class="number">60</span> * <span class="number">60</span> * <span class="number">1000</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">daysBetween</span>(<span class="params">startDate, endDate</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.floor(treatAsUTC(endDate) / millisecondsPerDay) - <span class="built_in">Math</span>.floor(treatAsUTC(startDate) / millisecondsPerDay);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/27/javascript-date/" class="archive-article-date">
+  	<time datetime="2013-03-26T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-27</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/" rel="tag">js</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-wow-design" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/26/wow-design/">再探魔兽世界</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>日常任务</p>
+<p>货币、声望、荣誉。。。</p>
+<p>副本、英雄副本、团队副本</p>
+<p>社交、公会</p>
+<p>商业技能</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/26/wow-design/" class="archive-article-date">
+  	<time datetime="2013-03-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-26</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -855,7 +757,7 @@ serverurl=AUTO</code></pre><p>启动</p>
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/11/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/13/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/11/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/10/">10</a><a class="page-number" href="/page/11/">11</a><span class="page-number current">12</span><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/13/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -865,7 +767,7 @@ serverurl=AUTO</code></pre><p>启动</p>
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 桂糊涂
+    		&copy; 2021 桂糊涂
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -895,7 +797,7 @@ serverurl=AUTO</code></pre><p>启动</p>
 
 
 
-<script type="text/x-mathjax-config">
+<!-- <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     tex2jax: {
         inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
@@ -913,7 +815,19 @@ MathJax.Hub.Queue(function() {
 </script>
 
 <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
+</script> -->
+
+<script>
+  MathJax = {
+    loader: {load: ['input/asciimath', 'output/chtml', 'ui/menu']},
+    asciimath: {
+    delimiters: [['`','`'], ['$$', '$$'], ['$','$']]
+  }
+  };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js">
+  </script>
 
 
     
@@ -939,7 +853,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
+    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/OpenGL-math/" style="font-size: 10px;">OpenGL,math</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/cpp/" style="font-size: 11.25px;">cpp</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
     			</div>
     	</section>
     

@@ -54,11 +54,11 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/categories/%E9%A2%86%E5%AF%BC%E5%8A%9B">领导力</a></li>
-	        
 				<li><a href="/categories/AI">AI</a></li>
 	        
 				<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+	        
+				<li><a href="/balance-bot/">读心天平</a></li>
 	        
 			</ul>
 		</nav>
@@ -122,11 +122,11 @@
 				
 					<li><a href="/">主页</a></li>
 		        
-					<li><a href="/categories/%E9%A2%86%E5%AF%BC%E5%8A%9B">领导力</a></li>
-		        
 					<li><a href="/categories/AI">AI</a></li>
 		        
 					<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+		        
+					<li><a href="/balance-bot/">读心天平</a></li>
 		        
 				</ul>
 			</nav>
@@ -148,7 +148,7 @@
       <div class="body-wrap">
         
   
-    <article id="post-install-gitlab" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-game-gambling-design" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -158,7 +158,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/04/install-gitlab/">安装gitlab</a>
+      <a class="article-title" href="/2013/03/23/game-gambling-design/">游戏赌博设计</a>
     </h1>
   
 
@@ -166,200 +166,21 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>跟着安装文档一步步的安装，但是遇到了几个坑。</p>
-<ol>
-<li><p>文档中给的 ruby 安装脚本有问题，要安装最新版的ruby。</p>
-</li>
-<li><p>nginx 安装好后，要删掉site-enabled/default.<br>第一次可能会有 502 bad gameway，多试两次，多等一会就好。</p>
-</li>
-<li><p>修改 <code>/home/git/.gitolite.rc</code> 的 <code>GIT_CONFIG_KEYS</code>, 从 <code>&#39;&#39;</code> 改为 <code>&#39;.*&#39;</code>，否则无法创建新项目。</p>
-<p> GIT_CONFIG_KEYS             =&gt;  ‘.*’,</p>
-</li>
-</ol>
+        <p>暗黑创造了赌博系统。这个概念被暗黑刻意弱化了，赌博概率过低，页游将他发扬光大。<br>打怪物掉随机掉装备。<br>打怪掉装备与赌博系统有差别吗？一个投入的是时间，一个投入的是金钱。</p>
+<p>暗黑符文系统，宝石系统，插槽系统。个性化。<br>英雄联盟符文系统，天赋系统。个性化。</p>
+<p>神仙道命格系统————赌博+个性化。</p>
+<p>抢劫系统与竞技场系统。同为PvP。</p>
+<p>天梯、竞技场 与 抢劫是两条不同的线。</p>
+<p>天梯是目标。天梯是单向的。<br>抢劫是手段。抢劫是乱斗。</p>
+<p>活动战，仙道会，帮派战。</p>
+<p>世界boss与副本。</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/03/04/install-gitlab/" class="archive-article-date">
-  	<time datetime="2013-03-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-04</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-lua-tools" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/02/lua-tools/">Lua 工具集</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Lua note on Mac</p>
-<h2 id="lua"><a href="#lua" class="headerlink" title="lua"></a>lua</h2><p>brew install lua</p>
-<h2 id="luarocks-包管理"><a href="#luarocks-包管理" class="headerlink" title="luarocks - 包管理"></a>luarocks - 包管理</h2><p>brew install  luarocks</p>
-<p>luarocks install …</p>
-<p>试用失败</p>
-<h2 id="busted-BDD-like-node-mocha"><a href="#busted-BDD-like-node-mocha" class="headerlink" title="busted - BDD, like node mocha"></a>busted - BDD, like node mocha</h2><p><a href="https://github.com/Olivine-Labs/busted" target="_blank" rel="noopener">https://github.com/Olivine-Labs/busted</a></p>
-<h2 id="inspect"><a href="#inspect" class="headerlink" title="inspect"></a>inspect</h2><p><a href="https://github.com/kikito/inspect.lua" target="_blank" rel="noopener">https://github.com/kikito/inspect.lua</a><br>我用这个工具来debug</p>
-<h1 id="C-绑定到lua"><a href="#C-绑定到lua" class="headerlink" title="C++绑定到lua"></a>C++绑定到lua</h1><h2 id="tolua"><a href="#tolua" class="headerlink" title="tolua++"></a>tolua++</h2><p>cocos2d-x tools 目录下有编译好的tolua++</p>
-<p>编译（Mac OSX）</p>
-<p>1.用brew安装lua</p>
-<p>brew install lua</p>
-<p>2.到官网下载tolua++</p>
-<p><a href="http://www.codenix.com/~tolua/" target="_blank" rel="noopener">http://www.codenix.com/~tolua/</a></p>
-<p>3.编译生成tolua++.a静态库</p>
-<p>cd Downloads/tolua++-1.0.93/src/lib</p>
-<p>gcc -c *.c -I../../include</p>
-<p>ar rcsv libtolua++.a *.o</p>
-<p>4.编译tolua++</p>
-<p>cd Downloads/tolua++-1.0.93/src/bin</p>
-<p>gcc tolua.c toluabind.c -I../../include -L../lib/ -ltolua++ -llua -o tolua++</p>
-<p>5.done</p>
-<p>tolua++ 1.0.93 not support Lua 5.2, use Lua 5.1</p>
-<p>好久没有更新了</p>
-<h2 id="tolua-1"><a href="#tolua-1" class="headerlink" title="tolua"></a>tolua</h2><p>更新，但是没有尝试</p>
-<h2 id="luabind"><a href="#luabind" class="headerlink" title="luabind"></a>luabind</h2><h2 id="swig"><a href="#swig" class="headerlink" title="swig"></a>swig</h2><p>Swig 是为多语言准备的，编译lua有点重。</p>
-<h2 id="LuaJIT"><a href="#LuaJIT" class="headerlink" title="LuaJIT"></a>LuaJIT</h2><h2 id="学习cocos2d-x-lua"><a href="#学习cocos2d-x-lua" class="headerlink" title="学习cocos2d-x lua"></a>学习cocos2d-x lua</h2><p>先看了一本cocos2d-iphone的书。</p>
-<p>看pkg文件来了解哪些功能可以使用，pkg文件也是了解cocos2d-x的好方法。</p>
-<h2 id="unpack"><a href="#unpack" class="headerlink" title="unpack"></a>unpack</h2><pre><code>a,b,c = unpack({1,2,3})
-local ret = self.db[cmd](self.db, arg[0], arg[1], arg[2])
-local ret = self.db[cmd](self.db, unpack(arg))</code></pre>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/02/lua-tools/" class="archive-article-date">
-  	<time datetime="2013-03-01T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-02</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/lua/" rel="tag">lua</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-game-essence-theory" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/02/game-essence-theory/">网络游戏本质论</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>网络游戏的本质是什么？</p>
-<h2 id="游戏的本质"><a href="#游戏的本质" class="headerlink" title="游戏的本质?"></a>游戏的本质?</h2><p>游戏的历史比人类的历史还要久远。玩游戏并不是人类才有的行为，猫猫狗狗都喜欢玩游戏。人类的游戏花样更多，<br>在计算机和互联网的时代，这种变化更加复杂。</p>
-<ul>
-<li>游戏心理学</li>
-</ul>
-<p>游戏制作不是胡乱拼凑。最后出来的东西四不像，没人玩。</p>
-<ul>
-<li>情景 体验无法体验的生活、世界。 神话、故事、小说、动漫、电影</li>
-<li>好奇 探险、解谜</li>
-<li>挑战 Puzzle。Boss。无尽。</li>
-<li>归属 与人一起玩，不想脱离群体</li>
-<li>战争 模拟战争。野心家、君主、策略。</li>
-<li>战斗 好战者。鼓励进攻。对战的策略感，紧张感。斗智为主。</li>
-<li>杀戮 角色扮演，ARPG，Dota</li>
-<li>收集 别人有的我也想有。</li>
-<li>炫耀 向周围的人、好友炫耀自己的战果。</li>
-<li>名望 让尽可能多的人注意到自己。</li>
-<li>休闲 打发时间。</li>
-<li>贪婪 投机取巧，用最少的成本获得大家都想要的东西。2，占小便宜</li>
-<li>恐惧 害怕失去、害怕死亡、害怕孤独</li>
-<li>赌博</li>
-<li>狂欢</li>
-<li>自信 寻找自信。</li>
-<li>色欲</li>
-</ul>
-<ul>
-<li><p>游戏反心理学</p>
-<ul>
-<li>挫败 挫败感是游戏大敌。要让人越战越勇，宁可杀红眼，不能让人一蹶不振。</li>
-<li>不公 不公平。成长类的游戏，要阶段性的公平。</li>
-<li>作弊</li>
-<li>懒惰</li>
-<li>重复 重复性的事情，令人厌倦。</li>
-</ul>
-</li>
-<li><p>网络游戏的必要元素</p>
-</li>
-</ul>
-<p>游戏的特点</p>
-<ul>
-<li>真正的虚拟世界，与现实关联少</li>
-<li>发展、成长、进步</li>
-<li>变化</li>
-<li></li>
-<li>时间越长忠诚度越高</li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/02/game-essence-theory/" class="archive-article-date">
-  	<time datetime="2013-03-01T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-02</time>
+      <a href="/2013/03/23/game-gambling-design/" class="archive-article-date">
+  	<time datetime="2013-03-22T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-23</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -386,7 +207,7 @@ local ret = self.db[cmd](self.db, unpack(arg))</code></pre>
 
 
   
-    <article id="post-murmurhash-algorithm" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-game-server-architecture" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -396,7 +217,7 @@ local ret = self.db[cmd](self.db, unpack(arg))</code></pre>
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2012/11/18/murmurhash-algorithm/">MurmurHash 算法</a>
+      <a class="article-title" href="/2013/03/17/game-server-architecture/">Game server architecture</a>
     </h1>
   
 
@@ -404,33 +225,30 @@ local ret = self.db[cmd](self.db, unpack(arg))</code></pre>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>发现一个不错的hash算法，可以用于我们的实际工作中，如sharding。</p>
-<p>Hash可分为加密hash算法和非加密hash算法，Hash应用于加密、校验、查找、横向扩展等。</p>
-<p>加密一般用MD5，SHA-1，校验一般CRC32。而服务器端的负载均衡方面，hash算法需要快速、分布均匀。</p>
-<p>MurmurHash是一种非加密hash算法，特点是高运算性能，低碰撞率，分布均匀，由Austin Appleby创建于2008年，现已应用到Hadoop、libstdc++、nginx、libmemcached等开源系统。2011年Appleby被Google雇佣，随后Google推出其变种的CityHash算法。</p>
-<ul>
-<li><a href="http://code.google.com/p/pyfasthash/" target="_blank" rel="noopener">python实现</a></li>
-<li><a href="https://github.com/garycourt/murmurhash-js" target="_blank" rel="noopener">javascript实现</a></li>
-<li><a href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/hash/Hashing.html" target="_blank" rel="noopener">java实现</a></li>
-</ul>
-<p>参考：</p>
-<ul>
-<li>[<a href="http://en.wikipedia.org/wiki/List_of_hash_functions]" target="_blank" rel="noopener">http://en.wikipedia.org/wiki/List_of_hash_functions]</a></li>
-<li>[<a href="http://en.wikipedia.org/wiki/MurmurHash]" target="_blank" rel="noopener">http://en.wikipedia.org/wiki/MurmurHash]</a></li>
-<li>[<a href="http://code.google.com/p/cityhash/source/browse/trunk/src/city.cc]" target="_blank" rel="noopener">http://code.google.com/p/cityhash/source/browse/trunk/src/city.cc]</a></li>
+        <ul>
+<li>✓ Router</li>
+<li>✓ SessionContext </li>
+<li>✓ AppContext</li>
+<li>SuperManager - load player(from online, pool or db), create player</li>
+<li>SessionManager - player online, player offline, send message to other player</li>
+<li>WorldManager - A whole world controller (get player ? find player, get clans)</li>
+<li>✕ RoomManager sub world?</li>
+<li>✕ RoomNodeManager Room is tree?</li>
+<li>✓ PlayerWritePool -<br>PlayerCache - </li>
+<li>✓ PlayerStore - </li>
 </ul>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2012/11/18/murmurhash-algorithm/" class="archive-article-date">
-  	<time datetime="2012-11-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-11-18</time>
+      <a href="/2013/03/17/game-server-architecture/" class="archive-article-date">
+  	<time datetime="2013-03-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-17</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hash/" rel="tag">hash</a></li></ul>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/" rel="tag">game-dev</a></li></ul>
 	</div>
 
       
@@ -452,7 +270,7 @@ local ret = self.db[cmd](self.db, unpack(arg))</code></pre>
 
 
   
-    <article id="post-nltk" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-how-to-enable-fenced-code-block-on-github-pages" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -462,7 +280,7 @@ local ret = self.db[cmd](self.db, unpack(arg))</code></pre>
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2012/11/18/nltk/">NLTK</a>
+      <a class="article-title" href="/2013/03/17/how-to-enable-fenced-code-block-on-github-pages/">How to enable fenced code block in github pages</a>
     </h1>
   
 
@@ -470,286 +288,31 @@ local ret = self.db[cmd](self.db, unpack(arg))</code></pre>
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>NLTK is a leading platform for building Python programs to work with human language data. <a href="http://nltk.org" target="_blank" rel="noopener">http://nltk.org</a></p>
+        <p><a href="https://github.com/blog/1366-github-pages-updated-to-jekyll-0-12-0" target="_blank" rel="noopener">Github pages最近升级了jekyll 0.12.0</a>, 这一版本支持fenced code block.</p>
+<p>in your _config.yml</p>
+<figure class="highlight yaml"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="attr">markdown:</span> <span class="string">redcarpet</span></span><br></pre></td></tr></table></figure>
+
+<pre><code><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span></span></span><br><span class="line">  puts <span class="string">'foo'</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure></code></pre><figure class="highlight ruby"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">foo</span></span></span><br><span class="line">    puts <span class="string">'foo'</span></span><br><span class="line"><span class="keyword">end</span></span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&#123;&#123; &quot;&#123;%&quot; &#125;&#125; highlight ruby linenos&#x3D;table %&#125;</span><br><span class="line">def foo</span><br><span class="line">  puts &#39;foo&#39;</span><br><span class="line">end</span><br><span class="line">&#123;&#123; &quot;&#123;%&quot; &#125;&#125; endhighlight %&#125;</span><br></pre></td></tr></table></figure>
+<p>to:</p>
+
+{% highlight ruby linenos=table %}
+def foo
+  puts 'foo'
+end
+{% endhighlight %}
+
+
+<p>如你所见，鄙人想增加行号，但是失败了。</p>
+<p>非常遗憾的是，tag pages依然不被支持</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2012/11/18/nltk/" class="archive-article-date">
-  	<time datetime="2012-11-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-11-18</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/machine-learning/" rel="tag">machine-learning</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-config-format" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2012/10/30/config-format/">配置文件格式比较</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ol>
-<li><p>java项目用的比较多的是 XML、properties，容错性很差，配置起来相当痛苦。</p>
-</li>
-<li><p>动态语言的项目往往用代码来配置，node用js配置，python用python配置，ruby用ruby配置。<br>优点是简单<br>缺点：<br>a. 不能跨语言共享配置<br>b. 配置文件里面可以写代码，本身是有风险的<br>c. 运维人员必须了解相应的语言</p>
-</li>
-<li><p>ini文件，是一个不错的选择，容错性较强。只是对于list类型的配置支持不好，比如一个cluster的所有host，port信息。</p>
-</li>
-<li><p>YAML 比较简洁，是个不错的选择，但也有人不习惯这种极简的风格。<br><a href="http://www.yaml.org/spec/1.2/spec.html#Preview" target="_blank" rel="noopener">http://www.yaml.org/spec/1.2/spec.html#Preview</a></p>
-</li>
-<li><p>JSON现在非常流行，但JSON的缺点也很明显的，如下面的语句是非法的</p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;key: &#39;value&#39;,&#125; &#x2F;&#x2F;注释</span><br></pre></td></tr></table></figure>
-
-<p>key 必须是 “key”, value 必须是双引号，} 前多了个逗号，不支持注释。</p>
-<p>前段时间node社区出现了一种新格式，叫做JSON5，免去了一些JSON的痛苦，<a href="https://github.com/aseemk/json5" target="_blank" rel="noopener">https://github.com/aseemk/json5</a></p>
-<p>如下面的配置是合法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;key: &#39;value&#39;,&#125; &#x2F;&#x2F;注释</span><br></pre></td></tr></table></figure>
-
-<p>可惜他出现于node社区，noder们可以使用JS代码来代替JSON5。所以JSON5可能无法在node社区有所发展，其他的语言实现它的可能性也就更低了。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2012/10/30/config-format/" class="archive-article-date">
-  	<time datetime="2012-10-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-10-30</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data-format/" rel="tag">data-format</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-notes-of-hackers-and-painters" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2012/10/08/notes-of-hackers-and-painters/">《黑客与画家》读后感</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>《黑客与画家——硅谷创业之父Paul Graham文集》英文原名是 《Hackers and Painters —— Big ideas from the computer age》，中文版由<a href="http://www.ruanyifeng.com/blog/" target="_blank" rel="noopener">阮一峰</a>翻译。</p>
-<p>许多人对“黑客与画家”这个标题感到不知所云，很难将黑客与画家放在一起进行对比。我初次见到这个标题，以为仅仅是描写编程与绘画之间的一些相通之处：思考方式或是创作过程。然而开卷之后，才发现有太多的惊喜，或是引人深思，或是感同身受。初看时觉得每章都是独立的，看完发现其实是环环相扣的。因为阅读多是在路上进行的，所以没有圈点，有必要再看一遍，找出那些绝妙的观点细细品味。</p>
-<p>目录：</p>
-<ol>
-<li>为什么书呆子不受欢迎</li>
-<li>黑客与画家</li>
-<li>不能说的话</li>
-<li>良好的坏习惯</li>
-<li>另一条路</li>
-<li>如何创造财富</li>
-<li>关注贫富分化</li>
-<li>防止垃圾邮件的另一种方法</li>
-<li>设计者的品味</li>
-<li>编程语言解析</li>
-<li>一百年后的编程语言</li>
-<li>拒绝平庸</li>
-<li>书呆子的复仇</li>
-<li>梦寐以求的编程语言</li>
-<li>设计与研究</li>
-</ol>
-<p>第9章的几个小节标题：</p>
-<ul>
-<li>好设计是简单的设计</li>
-<li>好设计是永不过时的设计</li>
-<li>好设计是解决主要问题的设计</li>
-<li>好设计是启发性的设计</li>
-<li>好设计通常是有点趣味性的设计</li>
-<li>好设计是艰苦的设计</li>
-<li>好设计是看似容易的设计</li>
-<li>好设计是对称的设计</li>
-<li>好设计是模仿大自然的设计</li>
-<li>好设计是一种再设计</li>
-<li>好设计是能够复制的设计</li>
-<li>好设计常常是奇特的设计</li>
-<li>好设计是成批出现的</li>
-<li>好设计常常是大胆的设计</li>
-</ul>
-<p>导读：</p>
-<ul>
-<li>1-4章 黑客、Nerd的内心与社会的偏见。</li>
-<li>5-7章 互联网时代的财富创造。</li>
-<li>8-9章 巧妙、简单的设计。</li>
-<li>10-15章 编程语言的设计与选择。</li>
-</ul>
-<p>阅读此书时，连脚注都是不能放过的。</p>
-<p>“画作永远没有完成的一天，你只是不再画下去了而已”。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2012/10/08/notes-of-hackers-and-painters/" class="archive-article-date">
-  	<time datetime="2012-10-07T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-10-08</time>
-</a>
-      
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-professional-github-blog-hosting-guide" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2012/09/19/professional-github-blog-hosting-guide/">github博客專業教程</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="準備知識"><a href="#準備知識" class="headerlink" title="準備知識"></a>準備知識</h2><p>git, github, markdown</p>
-<h2 id="爲什麼要把博客host在github？"><a href="#爲什麼要把博客host在github？" class="headerlink" title="爲什麼要把博客host在github？"></a>爲什麼要把博客host在github？</h2><ul>
-<li>彰顯碼農風采</li>
-<li>你的每篇文章擁有版本控制，每次修改都有版本記錄。</li>
-<li>文件，markdown，內容樣式分離。</li>
-</ul>
-<h2 id="Github"><a href="#Github" class="headerlink" title="Github"></a>Github</h2><p>用過Github的人都知道，github會自動將markdown文件渲染爲html。所以許多項目直接用Readme.md 作爲文檔，簡單有效。有些高級點的github玩家則會爲項目創建一個github page，<br>你可以使用github page generator來生成頁面，如果你對自己的html/css非常有信心，<br>那麼我強烈建議你使用<a href="https://github.com/visionmedia/git-extras" target="_blank" rel="noopener">git-extras</a>的<br><a href="https://github.com/visionmedia/git-extras/blob/master/bin/git-gh-pages" target="_blank" rel="noopener">gh-pages</a>命令來創建一個乾淨的gh-pages分支，<br>在這個分支上你可以隨心所欲的編寫你的項目主頁。</p>
-<p><img src="/upload/2012/github-page-gen.png" alt="github page generator"></p>
-<p>既然github可以host項目主頁，那麼他是否可以host用戶主頁呢？當然可以，否則，本文就無從談起了。方法很簡單，你只需要創建一個 USERNAME.github.com 的項目即可host你的個人主頁。文中所有USERNAME都表示你的github用戶名。</p>
-<p>但是如果只是一堆的html/js/css堆砌而成的個人主頁，是完全無法與博客相提並論的。本文既然叫做《github博客專業教程》，自然不能只教大家host一堆靜態文件。</p>
-<h2 id="Step-1-創建repository"><a href="#Step-1-創建repository" class="headerlink" title="Step 1. 創建repository"></a>Step 1. 創建repository</h2><p>假定你已經有了github帳號，我的github用户名是<code>guileen</code>，請將本文中的<code>guileen</code>一律替換爲你的github用戶名。</p>
-<p>在github上創建一個新的Repository，命名爲 guileen.github.com，恭喜你，你已經有了一個屬於自己的博客空間，而且你可以隨心所欲的定製它。</p>
-<p>接下來，把這個庫clone到本地。</p>
-<pre><code>git clone git@github.com:guileen/guileen.github.com.git</code></pre><h2 id="Step-2-index-html"><a href="#Step-2-index-html" class="headerlink" title="Step 2. index.html"></a>Step 2. index.html</h2><p>在项目根目录下创建 index.html</p>
-<pre><code>&lt;html&gt;
-    &lt;head&gt;
-        &lt;title&gt;Hello&lt;/title&gt;
-    &lt;/head&gt;
-    &lt;body&gt;
-        &lt;h1&gt;Hello world&lt;/h1&gt;
-    &lt;/body&gt;
-&lt;/html&gt;</code></pre><p>将这个文件添加到git中</p>
-<blockquote>
-<p>git add index.html<br>git commit -m ‘first commit’<br>git push origin master</p>
-</blockquote>
-<p>当你将这个文件push到github之后，访问 <a href="http://guileen.github.com" target="_blank" rel="noopener">http://guileen.github.com</a> ，就可以看到你的主页了。<br>就像你所看到的，github会自动host这个库下的静态文件，也包括 js/css/images。不过有部分文件不在次列，稍候介绍。</p>
-<h2 id="Step-3-安装jekyll"><a href="#Step-3-安装jekyll" class="headerlink" title="Step 3. 安装jekyll"></a>Step 3. 安装jekyll</h2><p>大家可能会以为，github page只能host静态文件，无法完成类似，分类，分页，日期等功能。对于这些需求，github用一种很巧妙的方法来实现了。</p>
-<p>Github初期是使用ruby开发的，现在ruby依然是github主要使用的编程语言。在ruby这样一个富有创造力的社区，诞生过很多神奇的开源项目。<br>而github就是使用了一个叫做jekyll的ruby项目。</p>
-<p>Mac</p>
-<pre><code>gem update --system
-gem install jekyll
-jekyll --server --auto</code></pre><h2 id="Step-4-config-yml"><a href="#Step-4-config-yml" class="headerlink" title="Step 4. _config.yml"></a>Step 4. _config.yml</h2><pre><code># Configure of jekyll
-
-# github default configurations
-safe: true
-lsi: false
-pygments: true
-
-# override jekyll configurations
-
-# use redcarpet more like github
-markdown: redcarpet
-
-# My configurations
-title: 桂糊涂的流水账
-ga: UA-00000000-0</code></pre><h2 id="Step-4-post"><a href="#Step-4-post" class="headerlink" title="Step 4. _post"></a>Step 4. _post</h2><h2 id="Step-5-layout"><a href="#Step-5-layout" class="headerlink" title="Step 5. layout"></a>Step 5. layout</h2><h2 id="Step-6-google-analytics"><a href="#Step-6-google-analytics" class="headerlink" title="Step 6. google analytics"></a>Step 6. google analytics</h2><h2 id="Step-7-comment"><a href="#Step-7-comment" class="headerlink" title="Step 7. comment"></a>Step 7. comment</h2><p>使用 <a href="https://disqus.com" target="_blank" rel="noopener">Disqus</a> 服务</p>
-<h2 id="Step-8-highlight"><a href="#Step-8-highlight" class="headerlink" title="Step 8. highlight"></a>Step 8. highlight</h2><h2 id="Step-9-share"><a href="#Step-9-share" class="headerlink" title="Step 9. share"></a>Step 9. share</h2><h2 id="Step-10-RSS"><a href="#Step-10-RSS" class="headerlink" title="Step 10. RSS"></a>Step 10. RSS</h2><p><a href="https://github.com/guileen/guileen.github.com/blob/master/atom.xml" target="_blank" rel="noopener">atom.xml</a></p>
-<h2 id="Step-11-github-info"><a href="#Step-11-github-info" class="headerlink" title="Step 11. github info"></a>Step 11. github info</h2><h2 id="參考"><a href="#參考" class="headerlink" title="參考"></a>參考</h2><ul>
-<li><a href="http://jekyllrb.com/" target="_blank" rel="noopener">http://jekyllrb.com/</a></li>
-<li><a href="https://github.com/mojombo/jekyll" target="_blank" rel="noopener">https://github.com/mojombo/jekyll</a></li>
-<li><a href="https://help.github.com/categories/20/articles" target="_blank" rel="noopener">https://help.github.com/categories/20/articles</a></li>
-<li><a href="http://erjjones.github.com/blog/How-I-built-my-blog-in-one-day/" target="_blank" rel="noopener">http://erjjones.github.com/blog/How-I-built-my-blog-in-one-day/</a></li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2012/09/19/professional-github-blog-hosting-guide/" class="archive-article-date">
-  	<time datetime="2012-09-18T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-09-19</time>
+      <a href="/2013/03/17/how-to-enable-fenced-code-block-on-github-pages/" class="archive-article-date">
+  	<time datetime="2013-03-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-17</time>
 </a>
       
 	<div class="article-tag tagcloud">
@@ -776,9 +339,500 @@ ga: UA-00000000-0</code></pre><h2 id="Step-4-post"><a href="#Step-4-post" class=
 
 
   
+    <article id="post-redis-leveldb" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/17/redis-leveldb/">redis leveldb</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>redis protocol + leveldb storage = perfect key/value database</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/17/redis-leveldb/" class="archive-article-date">
+  	<time datetime="2013-03-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-17</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-git-activity-report-by-git-stats" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/16/git-activity-report-by-git-stats/">使用GitStats了解项目活动情况</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/trybeee/GitStats" target="_blank" rel="noopener">GitStats</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/16/git-activity-report-by-git-stats/" class="archive-article-date">
+  	<time datetime="2013-03-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-16</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-unix-signals" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/16/unix-signals/">Unix signals</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>转载: <a href="http://blog.csdn.net/ljx0305/article/details/2904056" target="_blank" rel="noopener">http://blog.csdn.net/ljx0305/article/details/2904056</a></p>
+<pre><code>SIGHUP    终止进程    终端线路挂断
+SIGINT    终止进程    中断进程
+SIGQUIT   建立CORE文件终止进程，并且生成core文件
+SIGILL   建立CORE文件      非法指令
+SIGTRAP  建立CORE文件      跟踪自陷
+SIGBUS   建立CORE文件      总线错误
+SIGSEGV  建立CORE文件      段非法错误
+SIGFPE   建立CORE文件      浮点异常
+SIGIOT   建立CORE文件      执行I/O自陷
+SIGKILL  终止进程    杀死进程
+SIGPIPE  终止进程    向一个没有读进程的管道写数据
+SIGALARM  终止进程    计时器到时
+SIGTERM  终止进程    软件终止信号
+SIGSTOP  停止进程    非终端来的停止信号
+SIGTSTP  停止进程    终端来的停止信号
+SIGCONT  忽略信号    继续执行一个停止的进程
+SIGURG   忽略信号    I/O紧急信号
+SIGIO    忽略信号    描述符上可以进行I/O
+SIGCHLD  忽略信号    当子进程停止或退出时通知父进程
+SIGTTOU  停止进程    后台进程写终端
+SIGTTIN  停止进程    后台进程读终端
+SIGXGPU  终止进程    CPU时限超时
+SIGXFSZ  终止进程    文件长度过长
+SIGWINCH  忽略信号    窗口大小发生变化
+SIGPROF  终止进程    统计分布图用计时器到时
+SIGUSR1  终止进程    用户定义信号1
+SIGUSR2  终止进程    用户定义信号2
+SIGVTALRM 终止进程    虚拟计时器到时</code></pre><p>1) SIGHUP 本信号在用户终端连接(正常或非正常)结束时发出, 通常是在终端的控<br>制进程结束时, 通知同一session内的各个作业, 这时它们与控制终端<br>不再关联.</p>
+<p>2) SIGINT 程序终止(interrupt)信号, 在用户键入INTR字符(通常是Ctrl-C)时发出</p>
+<p>3) SIGQUIT 和SIGINT类似, 但由QUIT字符(通常是Ctrl-)来控制. 进程在因收到<br>SIGQUIT退出时会产生core文件, 在这个意义上类似于一个程序错误信<br>号.</p>
+<p>4) SIGILL 执行了非法指令. 通常是因为可执行文件本身出现错误, 或者试图执行<br>数据段. 堆栈溢出时也有可能产生这个信号.</p>
+<p>5) SIGTRAP 由断点指令或其它trap指令产生. 由debugger使用.</p>
+<p>6) SIGABRT 程序自己发现错误并调用abort时产生.</p>
+<p>6) SIGIOT 在PDP-11上由iot指令产生, 在其它机器上和SIGABRT一样.</p>
+<p>7) SIGBUS 非法地址, 包括内存地址对齐(alignment)出错. eg: 访问一个四个字长<br>的整数, 但其地址不是4的倍数.</p>
+<p>8) SIGFPE 在发生致命的算术运算错误时发出. 不仅包括浮点运算错误, 还包括溢<br>出及除数为0等其它所有的算术的错误.</p>
+<p>9) SIGKILL 用来立即结束程序的运行. 本信号不能被阻塞, 处理和忽略.</p>
+<p>10) SIGUSR1 留给用户使用</p>
+<p>11) SIGSEGV 试图访问未分配给自己的内存, 或试图往没有写权限的内存地址写数据.</p>
+<p>12) SIGUSR2 留给用户使用</p>
+<p>13) SIGPIPE Broken pipe</p>
+<p>14) SIGALRM 时钟定时信号, 计算的是实际的时间或时钟时间. alarm函数使用该<br>信号.</p>
+<p>15) SIGTERM 程序结束(terminate)信号, 与SIGKILL不同的是该信号可以被阻塞和<br>处理. 通常用来要求程序自己正常退出. shell命令kill缺省产生这<br>个信号.</p>
+<p>17) SIGCHLD 子进程结束时, 父进程会收到这个信号.</p>
+<p>18) SIGCONT 让一个停止(stopped)的进程继续执行. 本信号不能被阻塞. 可以用<br>一个handler来让程序在由stopped状态变为继续执行时完成特定的<br>工作. 例如, 重新显示提示符</p>
+<p>19) SIGSTOP 停止(stopped)进程的执行. 注意它和terminate以及interrupt的区别:<br>该进程还未结束, 只是暂停执行. 本信号不能被阻塞, 处理或忽略.</p>
+<p>20) SIGTSTP 停止进程的运行, 但该信号可以被处理和忽略. 用户键入SUSP字符时<br>(通常是Ctrl-Z)发出这个信号</p>
+<p>21) SIGTTIN 当后台作业要从用户终端读数据时, 该作业中的所有进程会收到SIGTTIN<br>信号. 缺省时这些进程会停止执行.</p>
+<p>22) SIGTTOU 类似于SIGTTIN, 但在写终端(或修改终端模式)时收到.</p>
+<p>23) SIGURG 有”紧急”数据或out-of-band数据到达socket时产生.</p>
+<p>24) SIGXCPU 超过CPU时间资源限制. 这个限制可以由getrlimit/setrlimit来读取/<br>改变</p>
+<p>25) SIGXFSZ 超过文件大小资源限制.</p>
+<p>26) SIGVTALRM 虚拟时钟信号. 类似于SIGALRM, 但是计算的是该进程占用的CPU时间.</p>
+<p>27) SIGPROF 类似于SIGALRM/SIGVTALRM, 但包括该进程用的CPU时间以及系统调用的<br>时间.</p>
+<p>28) SIGWINCH 窗口大小改变时发出.</p>
+<p>29) SIGIO 文件描述符准备就绪, 可以开始进行输入/输出操作.</p>
+<p>30) SIGPWR Power failure</p>
+<p>有两个信号可以停止进程:SIGTERM和SIGKILL。 SIGTERM比较友好，进程能捕捉这个信号，根据您的需要来关闭程序。在关闭程序之前，您可以结束打开的记录文件和完成正在做的任务。在某些情况下，假如进程正在进行作业而且不能中断，那么进程可以忽略这个SIGTERM信号。</p>
+<p>对于SIGKILL信号，进程是不能忽略的。这是一个 “我不管您在做什么,立刻停止”的信号。假如您发送SIGKILL信号给进程，Linux就将进程停止在那里。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/16/unix-signals/" class="archive-article-date">
+  	<time datetime="2013-03-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-16</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-chauvenet-criterion" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/15/chauvenet-criterion/">肖维勒准则</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>数据中并不总是合法数据，为了更好的完成统计，我们必须剔除异常的数据。</p>
+<p>如何剔除异常的实验数据(Outlier rejection)，有许多的方法。</p>
+<p>介绍一种易于实现的方法，叫做<a href="http://en.wikipedia.org/wiki/Chauvenet' target="_blank" rel="noopener"s_criterion">肖维勒准则(Chauvenet’s criterion)</a></p>
+<p>平均值</p>
+<pre><code>mean = sum(v) / n</code></pre><p>标准差</p>
+<pre><code>sd = sqrt(sum(v(i) * v(i) - mean * mean, i=1 to n) / (n - 1))</code></pre><p><a href="http://en.wikipedia.org/wiki/Chauvenet' target="_blank" rel="noopener"s_criterion">肖维勒准则(Chauvenet’s criterion)</a></p>
+<p>如果某样本数据d满足</p>
+<pre><code>|v(d)| &gt; w(n) * sd</code></pre><p>则认为v(d)是一个异常数据，将其剔除。</p>
+<p>W(n) 是一个常数，可以用查表法获得</p>
+<p>Table of Chauvenet’s Criterion for data rejection, with curve fit equation</p>
+<p>Chauvenet’s Criterion</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">--------------------------</span><br><span class="line">| n          | c         |</span><br><span class="line">--------------------------</span><br><span class="line">| 3          | 1.38      |</span><br><span class="line">| 4          | 1.54      |</span><br><span class="line">| 5          | 1.65      |</span><br><span class="line">| 6          | 1.73      |</span><br><span class="line">| 7          | 1.8       |</span><br><span class="line">| 10         | 1.96      |</span><br><span class="line">| 15         | 2.13      |</span><br><span class="line">| 25         | 2.33      |</span><br><span class="line">| 50         | 2.57      |</span><br><span class="line">| 100        | 2.81      |</span><br><span class="line">--------------------------</span><br><span class="line">|c &#x3D; 0.9969+0.4040*ln(n) |</span><br><span class="line">--------------------------</span><br></pre></td></tr></table></figure>
+
+<p>很奇怪，通过公式获得的结果和表上给的结果并不一致。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/15/chauvenet-criterion/" class="archive-article-date">
+  	<time datetime="2013-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-15</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-node-events-scope" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/15/node-events-scope/">node.js events scope</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Below code display <code>world</code>, it means that the scope of node.js event listener is just the event emmitter itself.</p>
+<pre><code>var util = require(&apos;util&apos;);
+var EventEmitter = require(&apos;events&apos;).EventEmitter;
+
+function Foo(name) {
+  EventEmitter.call(this);
+  this.name = name;
+}
+
+util.inherits(Foo, EventEmitter);
+
+var foo = new Foo(&apos;world&apos;);
+foo.on(&apos;hello&apos;, function(){
+    console.log(this.name);
+});
+
+foo.emit(&apos;hello&apos;);</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/15/node-events-scope/" class="archive-article-date">
+  	<time datetime="2013-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-15</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/" rel="tag">node.js</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-redis-extras-and-redis-lua-test" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/14/redis-extras-and-redis-lua-test/">Redis-extras and script test</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>redis-mock</p>
+<p><a href="https://github.com/guileen/redis-extras" target="_blank" rel="noopener">https://github.com/guileen/redis-extras</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/14/redis-extras-and-redis-lua-test/" class="archive-article-date">
+  	<time datetime="2013-03-13T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-14</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/" rel="tag">node.js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/redis/" rel="tag">redis</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-deploy-nodejs-apps-with-supervisor" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/12/deploy-nodejs-apps-with-supervisor/">Deploy node.js apps with supervisor</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>许多的文章介绍Node应用部署都是使用upstart 或是手动编写 init script, 我个人是很不习惯为每个应用去配置启动脚本。</p>
+<p>本文所要介绍的supervisor是配置式的，配置启动命令，环境变量，进程数，等等。</p>
+<p>进入正题：</p>
+<p>创建用户nodeapp</p>
+<pre><code>sudo adduser --disabled-login --gecos &apos;Node App&apos; nodeapp
+cd /home/nodeapp</code></pre><p>clone project</p>
+<pre><code>sudo -u nodeapp -H git clone repo
+cd repo</code></pre><p>Install dependencies modules</p>
+<pre><code>sudo -u nodeapp -H npm install -d</code></pre><p>安装 supervisor</p>
+<pre><code>apt-get install supervisor</code></pre><p>配置</p>
+<pre><code>[program:yourappname]
+command=/usr/local/bin/node /home/nodeapp/yourappname/app.js
+process_name=%(program_name)s%(process_num)s
+numprocs=1
+directory=/tmp
+umask=022
+priority=999
+autostart=true
+autorestart=true
+startsecs=10
+startretries=3
+exitcodes=0,2
+stopsignal=TERM
+stopwaitsecs=10
+user=nodeapp
+redirect_stderr=false
+stdout_logfile=/home/nodeapp/yourappname/logs/stdout.log
+stdout_logfile_maxbytes=1MB
+stdout_logfile_backups=10
+stdout_capture_maxbytes=1MB
+stderr_logfile=/home/nodeapp/yourappname/logs/stderr.log
+stderr_logfile_maxbytes=1MB
+stderr_logfile_backups=10
+stderr_capture_maxbytes=1MB
+environment=NODE_ENV=production,B=2
+serverurl=AUTO</code></pre><p>启动</p>
+<pre><code>supervisorctl
+&gt; help
+&gt; update
+&gt; status
+&gt; restart yourappname</code></pre>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/12/deploy-nodejs-apps-with-supervisor/" class="archive-article-date">
+  	<time datetime="2013-03-11T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-12</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/12/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span>
+      <a class="extend prev" rel="prev" href="/page/12/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/11/">11</a><a class="page-number" href="/page/12/">12</a><span class="page-number current">13</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/14/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -788,7 +842,7 @@ ga: UA-00000000-0</code></pre><h2 id="Step-4-post"><a href="#Step-4-post" class=
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 桂糊涂
+    		&copy; 2021 桂糊涂
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -818,7 +872,7 @@ ga: UA-00000000-0</code></pre><h2 id="Step-4-post"><a href="#Step-4-post" class=
 
 
 
-<script type="text/x-mathjax-config">
+<!-- <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     tex2jax: {
         inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
@@ -836,7 +890,19 @@ MathJax.Hub.Queue(function() {
 </script>
 
 <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
+</script> -->
+
+<script>
+  MathJax = {
+    loader: {load: ['input/asciimath', 'output/chtml', 'ui/menu']},
+    asciimath: {
+    delimiters: [['`','`'], ['$$', '$$'], ['$','$']]
+  }
+  };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js">
+  </script>
 
 
     
@@ -862,7 +928,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
+    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/OpenGL-math/" style="font-size: 10px;">OpenGL,math</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/cpp/" style="font-size: 11.25px;">cpp</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
     			</div>
     	</section>
     

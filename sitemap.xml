@@ -2,6 +2,90 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://guileen.github.io/2021/02/07/law-of-cosines-and-phong-reflection-model/</loc>
+    
+    <lastmod>2021-02-07T00:12:00.889Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2021/01/11/learn-cmake/</loc>
+    
+    <lastmod>2021-02-06T12:30:37.115Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/balance-bot/index.html</loc>
+    
+    <lastmod>2021-02-06T12:30:37.115Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2020/12/31/2020-review/</loc>
+    
+    <lastmod>2021-02-06T12:30:37.114Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2021/01/08/cpp-build-systems/</loc>
+    
+    <lastmod>2021-02-06T12:30:37.114Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2020/10/29/tao-at-the-very-begining/</loc>
+    
+    <lastmod>2021-02-06T12:30:37.113Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2020/12/14/parse-html-in-command-line/</loc>
+    
+    <lastmod>2021-02-06T12:30:37.113Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2020/12/18/image-replacer/</loc>
+    
+    <lastmod>2021-02-06T12:30:37.113Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2020/12/18/setup-ikev2-vpn-server-on-ubuntu-16-04/</loc>
+    
+    <lastmod>2021-02-06T12:30:37.113Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2020/12/22/bitbar/</loc>
+    
+    <lastmod>2021-02-06T12:30:37.113Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2020/12/22/iptables/</loc>
+    
+    <lastmod>2021-02-06T12:30:37.113Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2020/10/20/ip-to-location/</loc>
+    
+    <lastmod>2021-02-06T12:30:37.112Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://guileen.github.io/2020/04/05/limitation-of-rl-in-long-term/</loc>
     
     <lastmod>2020-04-04T16:43:34.648Z</lastmod>

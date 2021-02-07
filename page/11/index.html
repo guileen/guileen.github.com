@@ -54,11 +54,11 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/categories/%E9%A2%86%E5%AF%BC%E5%8A%9B">领导力</a></li>
-	        
 				<li><a href="/categories/AI">AI</a></li>
 	        
 				<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+	        
+				<li><a href="/balance-bot/">读心天平</a></li>
 	        
 			</ul>
 		</nav>
@@ -122,11 +122,11 @@
 				
 					<li><a href="/">主页</a></li>
 		        
-					<li><a href="/categories/%E9%A2%86%E5%AF%BC%E5%8A%9B">领导力</a></li>
-		        
 					<li><a href="/categories/AI">AI</a></li>
 		        
 					<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+		        
+					<li><a href="/balance-bot/">读心天平</a></li>
 		        
 				</ul>
 			</nav>
@@ -148,7 +148,7 @@
       <div class="body-wrap">
         
   
-    <article id="post-etag-vs-lastmodified-vs-expire" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-java-package-manager-and-build-tools" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -158,7 +158,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/01/28/etag-vs-lastmodified-vs-expire/">Etag与Last-Modified以及浏览器永久缓存的比较</a>
+      <a class="article-title" href="/2014/03/26/java-package-manager-and-build-tools/">Java包管理和構建工具</a>
     </h1>
   
 
@@ -166,23 +166,33 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Etag 和 Last-Modified 的功效类似，但是Etag出现较晚。</p>
-<p>Last-Modified 适合静态文件。</p>
-<p>Etag 适合动态内容的变更。</p>
-<p>永久缓存。。。这只适合类似图片、视频等内容。对js，css等静态文件可以通过加版本号的方式来永久缓存之。</p>
-<p>xxx.js?etag=12345 这种方式来永久缓存</p>
+        <p>雖然不喜歡JAVA，但是想學Android，還是要重新撿起來它。但是已經習慣了npm如此方便的包管理工具的人已經無法適應沒有npm的生活了。</p>
+<p>N年前，JAVA的構建都是用Ant進行的，但Ant只是專注於構建，並不做包管理。後來是Maven，maven既有構建工具，也有包管理（依賴管理）的功能。但是Maven的pom.xml寫起來實在冗長，不想寫。</p>
+<p>於是重新去瞭解了一下，發現JAVA領域也已經產生了一些新的包管理和構建工具了。Gradle和Ivy。</p>
+<p>Ivy 是Maven之後的又一個包管理工具。而Gradle則是基於groovy語言開發的一種java構建的DSL（領域專用語言 Domain-specific language）。</p>
+<p>Ivy安裝前需要安裝Ant，Ivy本身是Ant的一個子項目。與Maven既做構建又做依賴的方法不同，Ivy只做依賴，而構建交給Ant來做。我比較喜歡Ant + Ivy這種模式，Maven過於耦合。<br>我們的Java項目下應該存在一個build.xml和一個ivy.xml，分別用於描述Ant構建過程和依賴。</p>
+<h3 id="使用Ant自动安装Ivy"><a href="#使用Ant自动安装Ivy" class="headerlink" title="使用Ant自动安装Ivy"></a>使用Ant自动安装Ivy</h3><p><a href="http://ant.apache.org/ivy/history/2.2.0/install.html" target="_blank" rel="noopener">Ant自动安装Ivy</a></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">name</span>=<span class="string">"demo"</span> <span class="attr">default</span>=<span class="string">"resolve"</span> <span class="attr">xmlns:ivy</span>=<span class="string">"antlib:org.apache.ivy.ant"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"ivy.install.version"</span> <span class="attr">value</span>=<span class="string">"2.2.0"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">condition</span> <span class="attr">property</span>=<span class="string">"ivy.home"</span> <span class="attr">value</span>=<span class="string">"$&#123;env.IVY_HOME&#125;"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">isset</span> <span class="attr">property</span>=<span class="string">"env.IVY_HOME"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">condition</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"ivy.home"</span> <span class="attr">value</span>=<span class="string">"$&#123;user.home&#125;/.ant"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"ivy.jar.dir"</span> <span class="attr">value</span>=<span class="string">"$&#123;ivy.home&#125;/lib"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"ivy.jar.file"</span> <span class="attr">value</span>=<span class="string">"$&#123;ivy.jar.dir&#125;/ivy.jar"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">"download-ivy"</span> <span class="attr">unless</span>=<span class="string">"offline"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mkdir</span> <span class="attr">dir</span>=<span class="string">"$&#123;ivy.jar.dir&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- download Ivy from web site so that it can be used even without any special installation --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">get</span> <span class="attr">src</span>=<span class="string">"http://repo2.maven.org/maven2/org/apache/ivy/ivy/$&#123;ivy.install.version&#125;/ivy-$&#123;ivy.install.version&#125;.jar"</span> </span></span><br><span class="line"><span class="tag">             <span class="attr">dest</span>=<span class="string">"$&#123;ivy.jar.file&#125;"</span> <span class="attr">usetimestamp</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">"init-ivy"</span> <span class="attr">depends</span>=<span class="string">"download-ivy"</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- try to load ivy here from ivy home, in case the user has not already dropped</span></span><br><span class="line"><span class="comment">              it into ant's lib dir (note that the latter copy will always take precedence).</span></span><br><span class="line"><span class="comment">              We will not fail as long as local lib dir exists (it may be empty) and</span></span><br><span class="line"><span class="comment">              ivy is in at least one of ant's lib dir or the local lib dir. --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">path</span> <span class="attr">id</span>=<span class="string">"ivy.lib.path"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">fileset</span> <span class="attr">dir</span>=<span class="string">"$&#123;ivy.jar.dir&#125;"</span> <span class="attr">includes</span>=<span class="string">"*.jar"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;/<span class="name">path</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">taskdef</span> <span class="attr">resource</span>=<span class="string">"org/apache/ivy/ant/antlib.xml"</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">uri</span>=<span class="string">"antlib:org.apache.ivy.ant"</span> <span class="attr">classpathref</span>=<span class="string">"ivy.lib.path"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- ================================= </span></span><br><span class="line"><span class="comment">      target: resolve              </span></span><br><span class="line"><span class="comment">     ================================= --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">"resolve"</span> <span class="attr">description</span>=<span class="string">"--&gt; retrieve dependencies with ivy"</span> <span class="attr">depends</span>=<span class="string">"init-ivy"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ivy:retrieve</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line">    </span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="ivy-xml"><a href="#ivy-xml" class="headerlink" title="ivy.xml"></a>ivy.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">ivy-module</span> <span class="attr">version</span>=<span class="string">"2.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">info</span> <span class="attr">organisation</span>=<span class="string">"org.apache"</span> <span class="attr">module</span>=<span class="string">"hello-ivy"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span> <span class="attr">org</span>=<span class="string">"commons-lang"</span> <span class="attr">name</span>=<span class="string">"commons-lang"</span> <span class="attr">rev</span>=<span class="string">"2.0"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span> <span class="attr">org</span>=<span class="string">"commons-cli"</span> <span class="attr">name</span>=<span class="string">"commons-cli"</span> <span class="attr">rev</span>=<span class="string">"1.0"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ivy-module</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="ivysettings-xml"><a href="#ivysettings-xml" class="headerlink" title="ivysettings.xml"></a>ivysettings.xml</h3><h3 id="Gradle"><a href="#Gradle" class="headerlink" title="Gradle"></a>Gradle</h3><p>Gradle的職責是自動化構建，它同時支持Maven和Ivy包管理，甚至Ant的任務，比如這樣</p>
+<p>build.gradle</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">task hello &lt;&lt; &#123;</span><br><span class="line">    String greeting &#x3D; &#39;hello from Ant&#39;</span><br><span class="line">    ant.echo(message: greeting)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">task check &lt;&lt; &#123;</span><br><span class="line">    ant.taskdef(resource: &#39;checkstyletask.properties&#39;) &#123;</span><br><span class="line">        classpath &#123;</span><br><span class="line">            fileset(dir: &#39;libs&#39;, includes: &#39;*.jar&#39;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ant.checkstyle(config: &#39;checkstyle.xml&#39;) &#123;</span><br><span class="line">        fileset(dir: &#39;src&#39;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Java和XML是我最不喜歡的兩個東西，gradle可以讓構建不再是一堆雜亂冗長的XML了，而變成了一段優雅可讀的文字，很酷。但如果項目不是很大，構建不是很複雜，我覺得Ant+Ivy足夠了。<br>而維護一個複雜的構建過程時，Ant的build.xml一定會越來越亂，到那時，再切換至gradle不遲。</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2014/01/28/etag-vs-lastmodified-vs-expire/" class="archive-article-date">
-  	<time datetime="2014-01-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-01-28</time>
+      <a href="/2014/03/26/java-package-manager-and-build-tools/" class="archive-article-date">
+  	<time datetime="2014-03-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-26</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/HTTP/" rel="tag">HTTP</a></li></ul>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CI/" rel="tag">CI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
 	</div>
 
       
@@ -204,7 +214,7 @@
 
 
   
-    <article id="post-for-each-file-in-makefile" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-about-apk" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -214,7 +224,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/09/30/for-each-file-in-makefile/">For each files in the Makefile</a>
+      <a class="article-title" href="/2014/03/25/about-apk/">About APK</a>
     </h1>
   
 
@@ -222,46 +232,28 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>在构建项目时，时常需要遍历某个文件夹下的文件，按特定的方式将其预处理，变为一个新文件。</p>
-<p>我们可以为此写一个脚本，负责遍历文件夹，处理文件内容，输出文件内容。</p>
-<p>可以看到stackoverflow上的这个<a href="http://stackoverflow.com/questions/2706064/compile-all-c-files-in-a-directory-into-separate-programs" target="_blank" rel="noopener">问题</a>很好的解释了这个问题的应用场景。</p>
-<p>希望将某个目录下的每个c文件编译成一一对应的执行文件，x.c 编译成 x， y.c 编译成 y。</p>
-<pre><code>SRCS = $(wildcard *.c)
-PROGS = $(patsubst %.c,%,$(SRCS))
-
-all: $(PROGS)
-
-%: %.c
-        $(CC) $(CFLAGS)  -o $@ $&lt;</code></pre><p>如果没明白发生了什么，通过下面的例子大家应该可以明白。</p>
-<p>Makefile:</p>
-<pre><code>SRCS = $(wildcard a.txt)
-DESTS = $(patsubst %.txt, %.json, $(SRCS))
-
-all: $(DESTS)
-
-%: *.txt
-    @echo $@
-    @echo $&lt;</code></pre><p>在命令行下执行</p>
-<pre><code>touch a.txt b.txt c.txt
-make</code></pre><p>将会输出</p>
-<pre><code>a.txt
-a.json
-b.txt
-b.json
-c.txt
-c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个目录下的 .csv 文件编译成 .json, 这一方法不仅能简化csv to json 脚本，还可以实现类似，仅当csv文件比json文件更新的情况下才需要编译。</p>
+        <p>APK是一種很不安全的格式，它很容易被反編譯和二次打包。</p>
+<p>簽名 apk的簽名是不需要第三方驗證的。開發者自己管理keystore。</p>
+<p>Odex 將APK中的classes.dex文件優化爲一個單獨.dex文件存放，原來的calsses.dex保留。可以提高App加載速度。是ROM中攜帶的一種功能。一些ROM沒有這個功能可以通過工具實現。</p>
+<p>zipalign 可以讓APK資源被訪問速度更快，需要在簽名打包爲APK之後進行。因爲APK就是ZIP文件，也就是說讓ZIP文件讀取更快。</p>
+<p>APK反編譯工具有很多，apk2java，dex2jar，jdgui，jad。比較好用的有apktool。還有圖形化的工具Androidfby。</p>
+<p>Proguard 是class混淆工具，很久以前就有。但這也只是能夠提高略微的提高一些破解難度而已，作用不大。</p>
+<p>Java bytecode，動態加載字節碼，這種方法也可以提高一定的破解難度。或者是使用ClassLoader（DexClassLoader、PathClassLoader）來做文章，將class加密，用自定義ClassLoader加載。</p>
+<p>JNI 將部分代碼用c編寫，編譯成so文件，這種方法破解難度略大。</p>
+<p>僞加密等方法上傳市場不支持，因爲市場需要解包檢查權限。且4.2版本後不支持這種方式。</p>
+<p>可以看出，大部分的工具如proguard、jad、JNI等都是傳統的java技術，此外就是Dalvik的dex文件格式和zip相關的工具。</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/09/30/for-each-file-in-makefile/" class="archive-article-date">
-  	<time datetime="2013-09-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-09-30</time>
+      <a href="/2014/03/25/about-apk/" class="archive-article-date">
+  	<time datetime="2014-03-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-25</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CI/" rel="tag">CI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/makefile/" rel="tag">makefile</a></li></ul>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/" rel="tag">android</a></li></ul>
 	</div>
 
       
@@ -283,7 +275,7 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
 
 
   
-    <article id="post-something-about-reliable-udp" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-karam-multi-browser-test-runner" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -293,7 +285,7 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/09/17/something-about-reliable-udp/">关于UDP的一些事</a>
+      <a class="article-title" href="/2014/03/19/karam-multi-browser-test-runner/">Karam：多瀏覽器平臺的測試工具</a>
     </h1>
   
 
@@ -301,28 +293,58 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>UDP协议速度更快，但不可靠，是一种无连接的协议。TCP是基于连接的协议。但是TCP并不适合不稳定的网络环境，如移动网络。 所以我们需要UDP可靠传输。</p>
-<p>UDP可靠传输协议，有一个开源项目叫UDT，使用一种算法来达到可靠传输的目的，<a href="http://www.jenkinssoftware.com/raknet/manual/congestioncontrol.html" target="_blank" rel="noopener">The UDT Congestion Control Algorithm</a>。</p>
-<p>相关协议还有RUDP(Reliable UDP)，和SRUDP(Simple Reliable UDP)。</p>
-<p>RTP 已是视频等内容的标准。</p>
-<h3 id="对UDP丢包率影响最大的是数据包的大小。"><a href="#对UDP丢包率影响最大的是数据包的大小。" class="headerlink" title="对UDP丢包率影响最大的是数据包的大小。"></a>对UDP丢包率影响最大的是数据包的大小。</h3><p>以太网(Ethernet)数据帧的长度必须在46-1500字节之间,这是由以太网的物理特性决定的.这个1500字节被称为链路层的MTU(最大传输单元).但这并不是指链路层的长度被限制在1500字节,其实这个MTU指的是链路层的数据区.并不包括链路层的首部和尾部的18个字节.所以,事实上,这个1500字节就是网络层IP数据报的长度限制.因为IP数据报的首部为20字节,所以IP数据报的数据区长度最大为1480字节.而这个1480字节就是用来放TCP传来的TCP报文段或UDP传来的UDP数据报的.又因为UDP数据报的首部8字节,所以UDP数据报的数据区最大长度为1472字节.这个1472字节就是我们可以使用的字节数。:) </p>
-<p>当我们发送的UDP数据大于1472的时候会怎样呢？这也就是说IP数据报大于1500字节,大于 MTU.这个时候发送方IP层就需要分片(fragmentation).把数据报分成若干片,使每一片都小于MTU.而接收方IP层则需要进行数据报的重组.这样就会多做许多事情,而更严重的是,由于UDP的特性,当某一片数据传送中丢失时,接收方便无法重组数据报.将导致丢弃整个UDP数据报。<br>因此,在普通的局域网环境下，我建议将UDP的数据控制在1472字节以下为好.<br>进行Internet编程时则不同,因为Internet上的路由器可能会将MTU设为不同的值.如果我们假定MTU为1500来发送数据的,而途经的某个网络的MTU值小于1500字节,那么系统将会使用一系列的机制来调整MTU值,使数据报能够顺利到达目的地,这样就会做许多不必要的操作.鉴于 Internet上的标准MTU值为576字节,所以我建议在进行Internet的UDP编程时.最好将UDP的数据长度控件在548字节 (576-8-20)以内.</p>
-<p>是否需要校验？这是一个问题。理论上无论TCP 还是 UDP，都是需要校验的。</p>
-<h3 id="TCP链接如何保证可靠性？"><a href="#TCP链接如何保证可靠性？" class="headerlink" title="TCP链接如何保证可靠性？"></a>TCP链接如何保证可靠性？</h3><p> TCP的数据包中记录了序号(seq)和应答号(ack)两个字段。三次握手成功后，seq被初始化。传输过程中，TCP继续使用这个序号来标记发送的每个数据包，发送端每传送一个数据包，序列号加一。接收端每接受一个数据包，会用ACK应答哪个seq标记的数据包收到了。</p>
-<p>  通过上述过程，TCP链接就可以保证通信的可靠性了。1. 针对于丢包或者延迟，TCP定义了重发机制。发送端监听接收端返回的ACK包，如果在一个时间窗口内发送端未能接收到ACK包，发送端就认为发送失败，重发该数据包。2. 数据包的重发机制就会导致包的重复，针对包的重复，TCP根据包的seq字段去重复。接收端接收到数据包之后，查看其seq字段，如果已经成功接收该数据包，则丢弃这个数据包。3. IP包的转发机制可能导致包的乱序，针对包的乱序，TCP同样根据包的seq字段重装数据段。保证了每个数据包能够以正确的顺序，无重复的传输到接收端，也就保证了TCP链接的传输可靠性。</p>
-<h3 id="UDP可能出现的问题"><a href="#UDP可能出现的问题" class="headerlink" title="UDP可能出现的问题"></a>UDP可能出现的问题</h3><p>因此，UDP报文可能会出现丢失、乱序、延时等问题。</p>
+        <p>nodejs讓js脫離了瀏覽器，它的包管理工具npm讓js代碼能夠更好的分享，此後前端開發因此產生了巨大的變革。</p>
+<p>前端開發最痛苦的過程莫過於跨瀏覽器測試了。我一直期盼有一種更好的前端測試方案，當然不只是我這麼想。</p>
+<p>ArgularJS團隊在開發過程中希望有一種更好的測試方案，他們定義了3條理想的測試工具應該具備的特點：</p>
+<ol>
+<li><code>it(&#39;should be fast&#39;)</code></li>
+</ol>
+<blockquote>
+<p>它（‘應該很快’）</p>
+</blockquote>
+<ol start="2">
+<li><code>it(&#39;should use real browsers&#39;)</code></li>
+</ol>
+<blockquote>
+<p>它（‘應該使用真正的瀏覽器‘）</p>
+</blockquote>
+<ol start="3">
+<li><code>it(&#39;should be reliable/stable&#39;)</code></li>
+</ol>
+<blockquote>
+<p>它（’應該是穩定的‘）</p>
+</blockquote>
+<p>在2012年11月27日，google發佈了博客<a href="http://googletesting.blogspot.com/2012/11/testacular-spectacular-test-runner-for.html" target="_blank" rel="noopener">Testacular-Spectacular Test Runner for JavaScript</a><br>介紹他們所開發的測試執行器（Test runner）Testacular，之後他們將此項目改名爲Karma。</p>
+<h2 id="安裝Karma"><a href="#安裝Karma" class="headerlink" title="安裝Karma"></a>安裝Karma</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">npm install karma-cli -g</span><br><span class="line">cd projecthome</span><br><span class="line">npm install karma</span><br><span class="line">karma init</span><br></pre></td></tr></table></figure>
+
+<p>blabla, 讓我們跳過這一部分吧，直接給大家介紹最佳實踐。</p>
+<h2 id="最佳實踐"><a href="#最佳實踐" class="headerlink" title="最佳實踐"></a>最佳實踐</h2><h3 id="安裝yeoman-grunt-karma"><a href="#安裝yeoman-grunt-karma" class="headerlink" title="安裝yeoman, grunt, karma"></a>安裝yeoman, grunt, karma</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo npm install yo -g</span><br><span class="line">sudo npm install generator-argular -g</span><br><span class="line">sudo npm install grunt-cli -g</span><br><span class="line">sudo npm install karma-cli -g</span><br></pre></td></tr></table></figure>
+
+<h3 id="創建項目"><a href="#創建項目" class="headerlink" title="創建項目"></a>創建項目</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">mkdir &#x2F;path&#x2F;to&#x2F;project</span><br><span class="line">cd &#x2F;path&#x2F;to&#x2F;project</span><br><span class="line">yo argular</span><br></pre></td></tr></table></figure>
+
+<h3 id="安裝一些測試模塊"><a href="#安裝一些測試模塊" class="headerlink" title="安裝一些測試模塊"></a>安裝一些測試模塊</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install karma-jasmin --save-dev</span><br><span class="line">npm install karma-chrome-launcher --save-dev</span><br></pre></td></tr></table></figure>
+
+<h3 id="執行測試"><a href="#執行測試" class="headerlink" title="執行測試"></a>執行測試</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grunt test</span><br></pre></td></tr></table></figure>
+
+<h3 id="增加其他瀏覽器"><a href="#增加其他瀏覽器" class="headerlink" title="增加其他瀏覽器"></a>增加其他瀏覽器</h3><p>編輯karam.conf.js將browser改爲</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">browsers:[<span class="string">'Chrome'</span>, <span class="string">'Firefox'</span>, <span class="string">'Safari'</span>]</span><br></pre></td></tr></table></figure>
+
+<p>安裝其他的launcher</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">npm install karma-firefox-launcher --save-dev</span><br><span class="line">npm install karma-safari-launcher --save-dev</span><br></pre></td></tr></table></figure>
+
+<h3 id="再次執行測試"><a href="#再次執行測試" class="headerlink" title="再次執行測試"></a>再次執行測試</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">grunt test</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/09/17/something-about-reliable-udp/" class="archive-article-date">
-  	<time datetime="2013-09-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-09-17</time>
+      <a href="/2014/03/19/karam-multi-browser-test-runner/" class="archive-article-date">
+  	<time datetime="2014-03-18T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-19</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/network/" rel="tag">network</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/udp/" rel="tag">udp</a></li></ul>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
 	</div>
 
       
@@ -344,7 +366,7 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
 
 
   
-    <article id="post-message-server-cluster-configuration" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-f-shaped-pattern-reading-web-content" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -354,7 +376,7 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/08/12/message-server-cluster-configuration/">消息服务器集群的管理</a>
+      <a class="article-title" href="/2014/03/18/f-shaped-pattern-reading-web-content/">尼爾森F模型</a>
     </h1>
   
 
@@ -362,32 +384,22 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>N台服务器，N &gt; 10，相互之间会有通信，每台服务器都会开启数个进程监听数个端口用于接收来自其他服务器的消息。每个进程都必须设置一个id，其他服务器发送消息时需要根据目标服务器的id获取该id对应的进程ip和port。</p>
-<h2 id="静态配置"><a href="#静态配置" class="headerlink" title="静态配置"></a>静态配置</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">all_server_ids[id] &#x3D; &#123;host: &#39;xxx&#39;, port: 1234&#125;;</span><br></pre></td></tr></table></figure>
-<p>启动每个进程时，用参数指定id，如 </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">.&#x2F;run-server --id 123，</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">host, port &#x3D; all_server_ids[id]</span><br></pre></td></tr></table></figure>
-<p>缺点：配置繁琐，服务器多的时候容易出错。</p>
-<h2 id="用KeyValue数据库注册，"><a href="#用KeyValue数据库注册，" class="headerlink" title="用KeyValue数据库注册，"></a>用KeyValue数据库注册，</h2><p>在进程启动后， </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">id &#x3D; db.incr(&#39;server-id&#39;);</span><br><span class="line">db.set(&#39;sid:&#39;+id, &#39;host:port&#39;);</span><br></pre></td></tr></table></figure>
-
-<p>在发送消息时，</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">host, port &#x3D; db.get(&#39;sid&#39; + id)</span><br></pre></td></tr></table></figure>
-<p>缺点：获取host,port的操作会很频繁，无法根据消息接收人id做hash来得知目标服务器id。</p>
-<h2 id="中央服务器"><a href="#中央服务器" class="headerlink" title="中央服务器"></a>中央服务器</h2><p>所有消息都通过一个中央服务器转发。所有节点服务器只与中央服务器通讯。所有节点服务器使用统一的配置连接中央服务器。消息发送至中央服务器。</p>
+        <p>尼爾森F模型，是根據眼球追蹤技術的實驗數據得出的結論，即人類在瀏覽網頁時通常遵循先橫向再縱向再橫向的模式。</p>
+<p>對這種模式的理解在提高網站轉化率方面非常有意義。</p>
+<p><img src="http://media.nngroup.com/media/editor/alertbox/f_reading_pattern_eyetracking.jpg" alt=""></p>
+<p><a href="http://www.nngroup.com/articles/f-shaped-pattern-reading-web-content/" target="_blank" rel="noopener">F-Shaped Pattern For Reading Web Content</a><br> by JAKOB NIELSEN on April 17, 2006</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/08/12/message-server-cluster-configuration/" class="archive-article-date">
-  	<time datetime="2013-08-11T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-08-12</time>
+      <a href="/2014/03/18/f-shaped-pattern-reading-web-content/" class="archive-article-date">
+  	<time datetime="2014-03-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-18</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IM/" rel="tag">IM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cluster/" rel="tag">cluster</a></li></ul>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/marketing/" rel="tag">marketing</a></li></ul>
 	</div>
 
       
@@ -409,7 +421,7 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
 
 
   
-    <article id="post-about-3d" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-write-atom-package" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -419,7 +431,7 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/29/about-3d/">About 3D</a>
+      <a class="article-title" href="/2014/03/18/write-atom-package/">编写atom插件</a>
     </h1>
   
 
@@ -427,28 +439,25 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>ray-trace 光线跟踪，镜面<br>radiosity 辐射光照<br>rasterizing 光栅化，scan line</p>
-<p>你的引擎需要提供的包括：曲面(curved surfaces)、动态光线(dynamic lighting)、体雾(volumetric fog)、镜面(mirrors)、入口(portals)、天空体(skyboxes)、节点阴影(vertex shaders)、粒子系统(particle systems)、静态网格模型(static mesh models)、网格模型动画(animated mesh models)。</p>
-<p>Renderer/Engine Core （渲染/引擎 内核）<br>哈~是呀，所有的人都热爱3D图象渲染！因为这边有着非常多的不同种类的3D世界渲染方式，可要为各类拥有不同工作方式的3D图形管道做出一个概要描述也是几乎不可能的。<br>不管你的渲染器如何工作，最重要的是将你的渲染器组件制作得基化（based）与干净（clean）。<br>首先可以确定的是你将拥有不同的模块来完成不同的任务，我将渲染器拆分为以下几个部份：可见裁减（Visibility）、碰撞检测与反馈（Collision Detection and Response）、摄像器（Camera）、静态几何体（Static Geometry）、动态几何体（Dynamic Geometry）、粒子系统（Particle Systems）、布告板（Billboarding）、网格（Meshes）、天空体（Skybox）、光线（Lighting）、雾（Fogging）、节点阴影（Vertex Shading）和输出（Output）。<br>其中每一个部分都得需要一个接口来方便地实现改变设置（settings）、位置（position）、方向（orientation）、以及其他可能与系统相关的属性配置。<br>即将显露出来的一个主要缺陷便是“特性臃肿”，这将取决于设计期间你想实现什么样的特性。但如不把新特色置入引擎的话，你就会发觉一切都将变的很困难，解决问题的方式也显得特别逊色。<br>还有一件有意义的事便是让所有的三角形[triangles]（或是面[faces]）最终在渲染管道里经过同一点。（并非每次的每个三角形，这里讨论的是三角形列表[triangle lists]、扇形[fans]、带形[strips]、等） 多花一些工作让所有物体的格式都能经过相同的光线、雾、以及阴影代码，这样就能非常便利地仅通过切换材质与纹理id就使任何多边形具有不同的渲染效果。<br>这不会伤及到被大量被渲染绘出的点，但是一旦你不当心，它可能会导致大量的冗余代码。<br>你也许最终便能发现，实现所有这些你所需的极酷效果可能只占了所有的15%左右的代码量甚至更少。这是当然的，因为大多数游戏引擎并不只是图形表现。</p>
-<p>3D繪圖(3D Graphics Pipeline ) <a href="http://www.ategpu.com/2009/06/04/3d%E7%B9%AA%E5%9C%963d-graphics-pipeline.html" target="_blank" rel="noopener">http://www.ategpu.com/2009/06/04/3d%E7%B9%AA%E5%9C%963d-graphics-pipeline.html</a></p>
-<p>3.1 Transformation &amp; Lighting<br>ModelTransformation,  View Transformation, 视点坐标系 HomogeneousCoordinate System , 4x4 Transformation Matrix</p>
-<p>3.2 Viewport Transformation &amp; Clipping &amp; Culling<br>Clip coordinate是將視點座標進行投影(Projection)，在Eye coordinate上，我們的原點就是攝影機，視線方向是-Z軸，加上視角與遠近平面，我們創建了一個梯形體的三維空間，近平面(也就是投影平面)是梯形體較小的矩形，遠平面是梯形體較大的矩形，而所有在這個梯形體的內的Vertex，就是我們在螢幕上會看見的Vertex。因此超出這個梯形體的場景，都被視點去除(Frustum Culling)掉了。 </p>
-<p>為什麼我們在投影完之後還要留下Z座標的值呢？這是因為「Vertex離投影面的距離」可以用來處理三角面間相互遮蓋的情形，也就是哪個三角面在前，哪個三角面在後。這個稱作Z-buffer的技術會在之後提到。 </p>
-<p>3.3 Primitive Assembly ＆ Triangle Setup<br>進行背面去除(Back-face Culling)。 </p>
-<p>3.4 Rasterization</p>
-<p>3.5 Pixel Operation<br>Texture operation<br>紋理操作，也就是根據Pixel的紋理座標，查詢相應的紋理(Texture)，來計算Pixel該有的顏色。<br>.<br>Blending<br>混色，根據目前已經畫好的顏色，與現在正在算的顏色的透明度(Alpha)，混合兩種顏色，當作新的顏色輸出。<br>.<br>Filtering<br>將正在算的顏色經過某種濾鏡(Filtering)後輸出。關於filtering的理論牽涉到數位訊號學，請暫時理解為，經過一種數學運算之後變成了新的顏色。</p>
+        <p>Atom 是github开发的编辑器，号称21世纪hackable编辑器。近日对其hack了一下，增加了一个命令行。</p>
+<p>Atom的View系统很不错。</p>
+<p>顺便学会使用licecap录了个屏。<a href="http://www.cockos.com/licecap/" target="_blank" rel="noopener">http://www.cockos.com/licecap/</a></p>
+<p>接下来的目标是可以打开多终端。</p>
+<p><img src="http://guileen.github.io/img/terminal-status/screenshot-0.2.0.gif" alt=""></p>
+<h2 id="UPDATE：-2014-03-22"><a href="#UPDATE：-2014-03-22" class="headerlink" title="UPDATE： 2014-03-22"></a>UPDATE： 2014-03-22</h2><p>多终端已实现，apm操作不慎，版本号bump到了1.1.0</p>
+<p><img src="http://guileen.github.io/img/terminal-status/screenshot-1.1.0.gif" alt=""></p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/03/29/about-3d/" class="archive-article-date">
-  	<time datetime="2013-03-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-29</time>
+      <a href="/2014/03/18/write-atom-package/" class="archive-article-date">
+  	<time datetime="2014-03-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-18</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/3D/" rel="tag">3D</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/" rel="tag">game-dev</a></li></ul>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/editor/" rel="tag">editor</a></li></ul>
 	</div>
 
       
@@ -470,7 +479,7 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
 
 
   
-    <article id="post-how-to-learn-linear-algebra" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-static-site-generator" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -480,7 +489,7 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/28/how-to-learn-linear-algebra/">如何学习线性代数</a>
+      <a class="article-title" href="/2014/03/18/static-site-generator/">靜態網站生成器</a>
     </h1>
   
 
@@ -488,20 +497,51 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>曾经看了几本线性代数的书和视频，但是越看越迷惑，大多是直接上来说定义和公式，不了解线性代数的几何意义和应用。</p>
-<p>最终这个疑惑被一本不是专门介绍线性代数的书解决了，书名叫做《Mathematics for 3D Game Programming and Computer Graphics》，这本书很好的解释了线性代数的几何意义。</p>
+        <p>靜態網頁依然應用的很廣，但是開發一個靜態網站並不像想象的那麼簡單，快速，易於維護。</p>
+<p>搭建慢。首先我們需要搭建項目的結構，引入我們需要的js，css，layout文件。</p>
+<p>復用難。也許同樣的網頁我們之前已經做過一個，但當我們需要再做一個的時候，我們還需要從頭再做一次。如果我們直接複製粘貼此前的代碼到新項目中，<br>對代碼的合併，網站名稱，logo等信息的修改，刪除不需要的代碼，要花去我們很多的時間。一個網站下的多個頁面在結構上應該是復用的。</p>
+<p>維護繁。對於一個已經完成的靜態網站，當我們想要修改它的時候，也並不是那麼簡單。比如我們要修改一個樣式，運氣好的話我們只需要修改一兩處css即可，<br>運氣差的話我們可能要修改DOM結構，但同一類頁面元素的DOM結構是分散在很多地方的，比如contact頁面，about頁面，某個landing page。<br>這就讓我們的代碼變得難以維護。</p>
+<p>如果我們對靜態網站做一個總結的話，一般來說包含以下內容。</p>
+<ul>
+<li>lyaout<br>網站的基本外觀框架。</li>
+<li>partial<br>網站的常用局部組件。</li>
+<li>data<br>網站基本配置，如標題，logo，base url，等。</li>
+<li>pages<br>幾個頁面，比如about，contact。</li>
+<li>posts<br>很多文章。</li>
+</ul>
+<p>於是靜態網站生成器（static site generator）產生了。</p>
+<p>現在比較常見的靜態網站生成器：</p>
+<ul>
+<li><p>jekyll Ruby 實現，github支持，插件豐富，支持諸如tag，分類，本博客使用的就是jekyll。</p>
+</li>
+<li><p>harp <a href="http://harpjs.com" target="_blank" rel="noopener">http://harpjs.com</a></p>
+</li>
+<li><p>hexo <a href="http://zespia.tw/hexo" target="_blank" rel="noopener">http://zespia.tw/hexo</a></p>
+</li>
+<li><p>docpad docpad.org 基於coffeescript</p>
+</li>
+<li><p>assemble assemble.io</p>
+</li>
+<li><p>cabin] cabinjs.com</p>
+</li>
+<li><p>Yeoman yeoman.io nodejs環境。yeoman不能算是一個靜態網站生成器，你可以叫它項目生成器。它可以生成諸如webapp，argularjs，assemble的东西。</p>
+</li>
+</ul>
+<p>我的選擇 Yeoman + x，Yeoman 的設計是面向開發者的。</p>
+<p>對於x的選擇，必須是nodejs的，從github關注量來看，docpad最多。但hexo和assemble产生较新，hexo关注人相对更多，看上去不错。</p>
+<p>yeoman + hexo 計劃用這種方式來實現項目主頁，Landing Page。</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/03/28/how-to-learn-linear-algebra/" class="archive-article-date">
-  	<time datetime="2013-03-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-28</time>
+      <a href="/2014/03/18/static-site-generator/" class="archive-article-date">
+  	<time datetime="2014-03-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-18</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mathematics/" rel="tag">mathematics</a></li></ul>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
 	</div>
 
       
@@ -523,7 +563,7 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
 
 
   
-    <article id="post-use-varnish" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-open-source-speech-api" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -533,7 +573,7 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/28/use-varnish/">Use varnish</a>
+      <a class="article-title" href="/2014/03/16/open-source-speech-api/">开源语音识别引擎</a>
     </h1>
   
 
@@ -541,19 +581,25 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>Varnish 是一个反向代理服务器，并且只能作为反向代理。可编程式的配置。性能很好。</p>
+        <p>大部分的语音识别引擎是收费的，或者是闭源的。google speech API不适合做语音控制系统，只适合识别日常语言。julius是一个日本人开发的语音识别引擎，GPL协议，看起来不错，决定研究一下。</p>
+<p>今天花了很多时间折腾atom，是github推出的编辑器，可以方便灵活的编写插件。非常希望可以用说话来编程。折腾了一些，接触了如下东西。</p>
+<ul>
+<li>sox (with flac format) 一个CLI程序可以录音。</li>
+<li>node-speakable  录音并调用google speech API。</li>
+<li>node-julius  顾名思义，node调用julius API。还没有使用。</li>
+</ul>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/03/28/use-varnish/" class="archive-article-date">
-  	<time datetime="2013-03-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-28</time>
+      <a href="/2014/03/16/open-source-speech-api/" class="archive-article-date">
+  	<time datetime="2014-03-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-16</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li></ul>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/editor/" rel="tag">editor</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/machine-learning/" rel="tag">machine-learning</a></li></ul>
 	</div>
 
       
@@ -575,7 +621,7 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
 
 
   
-    <article id="post-javascript-date" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-svn-migrate-to-git" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -585,7 +631,7 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/27/javascript-date/">javascript 日期处理</a>
+      <a class="article-title" href="/2014/02/27/svn-migrate-to-git/">遷移svn代碼到git</a>
     </h1>
   
 
@@ -593,20 +639,41 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>计算两日期间的天数之差</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">treatAsUTC</span>(<span class="params">date</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">var</span> result = <span class="keyword">new</span> <span class="built_in">Date</span>(date);</span><br><span class="line">    result.setMinutes(result.getMinutes() - result.getTimezoneOffset());</span><br><span class="line">    <span class="keyword">return</span> result;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="keyword">var</span> millisecondsPerDay = <span class="number">24</span> * <span class="number">60</span> * <span class="number">60</span> * <span class="number">1000</span>;</span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">daysBetween</span>(<span class="params">startDate, endDate</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">Math</span>.floor(treatAsUTC(endDate) / millisecondsPerDay) - <span class="built_in">Math</span>.floor(treatAsUTC(startDate) / millisecondsPerDay);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+        <p>很多時候我們需要將svn代碼遷移到git。比如從<a href="http://www.visualsvn.com/server/" target="_blank" rel="noopener">visualsvn</a>遷移到<a href="http://gitlab.org" target="_blank" rel="noopener">gitlab</a>，<br>在此過程中你通常需要刪除一些垃圾文件，修改你的committer名字。</p>
+<p>克隆svn代碼：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git svn clone svn_url</span><br></pre></td></tr></table></figure>
+
+<p>刪除不需要的文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git filter-branch --tree-filter &#39;rm -rf node_modules&#39;</span><br></pre></td></tr></table></figure>
+
+<p>刪除空的提交</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git filter-branch --commit-filter &#39;git_commit_non_empty_tree &quot;$@&quot;&#39; HEAD</span><br></pre></td></tr></table></figure>
+
+<p>gc</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git gc</span><br></pre></td></tr></table></figure>
+
+<p>如果你需要修改你的commiter或author名字</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">#!/bin/sh</span></span><br><span class="line"> </span><br><span class="line">git filter-branch --env-filter <span class="string">'</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">an="$GIT_AUTHOR_NAME"</span></span><br><span class="line"><span class="string">am="$GIT_AUTHOR_EMAIL"</span></span><br><span class="line"><span class="string">cn="$GIT_COMMITTER_NAME"</span></span><br><span class="line"><span class="string">cm="$GIT_COMMITTER_EMAIL"</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">if [ "$GIT_COMMITTER_EMAIL" = "your@email.to.match" ]</span></span><br><span class="line"><span class="string">then</span></span><br><span class="line"><span class="string">    cn="Your New Committer Name"</span></span><br><span class="line"><span class="string">    cm="Your New Committer Email"</span></span><br><span class="line"><span class="string">fi</span></span><br><span class="line"><span class="string">if [ "$GIT_AUTHOR_EMAIL" = "your@email.to.match" ]</span></span><br><span class="line"><span class="string">then</span></span><br><span class="line"><span class="string">    an="Your New Author Name"</span></span><br><span class="line"><span class="string">    am="Your New Author Email"</span></span><br><span class="line"><span class="string">fi</span></span><br><span class="line"><span class="string"> </span></span><br><span class="line"><span class="string">export GIT_AUTHOR_NAME="$an"</span></span><br><span class="line"><span class="string">export GIT_AUTHOR_EMAIL="$am"</span></span><br><span class="line"><span class="string">export GIT_COMMITTER_NAME="$cn"</span></span><br><span class="line"><span class="string">export GIT_COMMITTER_EMAIL="$cm"</span></span><br><span class="line"><span class="string">'</span></span><br></pre></td></tr></table></figure>
+
+<p>添加git remote庫並push</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">git remote add origin git_url</span><br><span class="line">git push -u origin master</span><br></pre></td></tr></table></figure>
+
+<p>重新克隆一個乾淨的git庫</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git clone git_url</span><br></pre></td></tr></table></figure>
+
+<p>完成。</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/03/27/javascript-date/" class="archive-article-date">
-  	<time datetime="2013-03-26T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-27</time>
+      <a href="/2014/02/27/svn-migrate-to-git/" class="archive-article-date">
+  	<time datetime="2014-02-26T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-02-27</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/" rel="tag">js</a></li></ul>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/git/" rel="tag">git</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/svn/" rel="tag">svn</a></li></ul>
 	</div>
 
       
@@ -628,7 +695,7 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
 
 
   
-    <article id="post-wow-design" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-common-app-folders" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -638,7 +705,7 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/26/wow-design/">再探魔兽世界</a>
+      <a class="article-title" href="/2014/02/25/common-app-folders/">通用的項目文件結構</a>
     </h1>
   
 
@@ -646,23 +713,20 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>日常任务</p>
-<p>货币、声望、荣誉。。。</p>
-<p>副本、英雄副本、团队副本</p>
-<p>社交、公会</p>
-<p>商业技能</p>
+        <p>在項目開發過程中經常會因爲“應該將某個文件放在哪個文件夾下”，以及文件夾應該叫什麼名字這種問題而糾結。在經歷一次次痛苦糾結後，決定整理一個通用的項目文件結構。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;root</span><br><span class="line">|- README ( LICENSE etc)</span><br><span class="line">|- Makefile ( Gruntfile.js Dockfile etc)</span><br><span class="line">|- &#x2F;build (if you have complex build scripts)</span><br><span class="line">|- &#x2F;deps (node_modules, bower_components)</span><br><span class="line">|- &#x2F;test (test cases)</span><br><span class="line">&#96;- &#x2F;src</span><br><span class="line">    |- example.conf (example config or default config)</span><br><span class="line">    |- &#x2F;res (public resources, pack to client)</span><br><span class="line">    |  |- img</span><br><span class="line">    |  |- i18n</span><br><span class="line">    |  &#96;- ...</span><br><span class="line">    |- &#x2F;etc (miscs)</span><br><span class="line">    |- &#x2F;utils (utils depends nothing, reuseable)</span><br><span class="line">    |- &#x2F;core (engine, framework part, depends on utils, reuseable)</span><br><span class="line">    |- &#x2F;models (or services, talking to data and lowlevel interface)</span><br><span class="line">    |- &#x2F;routes (handle client request, most use in HTTP, sometimes it called &#96;commands&#96; in CLI or socket program.)</span><br><span class="line">    |- &#x2F;actions (controllers, UI delegates)</span><br><span class="line">    |- &#x2F;views (templates, UI, etc)</span><br><span class="line">    &#96;- &#x2F;helper (like utils, but it is highly relatated with &#x2F;core &#x2F;models &#x2F;actions &#x2F;views.)</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/03/26/wow-design/" class="archive-article-date">
-  	<time datetime="2013-03-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-26</time>
+      <a href="/2014/02/25/common-app-folders/" class="archive-article-date">
+  	<time datetime="2014-02-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-02-25</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/" rel="tag">game-dev</a></li></ul>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/node-js/" rel="tag">node.js</a></li></ul>
 	</div>
 
       
@@ -684,7 +748,7 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
 
 
   
-    <article id="post-game-gambling-design" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-localstorage-errors" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -694,7 +758,7 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/23/game-gambling-design/">游戏赌博设计</a>
+      <a class="article-title" href="/2014/02/25/localstorage-errors/">LocalStorage的异常处理</a>
     </h1>
   
 
@@ -702,26 +766,21 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>暗黑创造了赌博系统。这个概念被暗黑刻意弱化了，赌博概率过低，页游将他发扬光大。<br>打怪物掉随机掉装备。<br>打怪掉装备与赌博系统有差别吗？一个投入的是时间，一个投入的是金钱。</p>
-<p>暗黑符文系统，宝石系统，插槽系统。个性化。<br>英雄联盟符文系统，天赋系统。个性化。</p>
-<p>神仙道命格系统————赌博+个性化。</p>
-<p>抢劫系统与竞技场系统。同为PvP。</p>
-<p>天梯、竞技场 与 抢劫是两条不同的线。</p>
-<p>天梯是目标。天梯是单向的。<br>抢劫是手段。抢劫是乱斗。</p>
-<p>活动战，仙道会，帮派战。</p>
-<p>世界boss与副本。</p>
+        <p>当达到localStorage容量上限时，按照标准描述会抛出 <code>QUOTA_EXCEEDED_ERR</code>. 但这个 <code>QUOTA_EXCEEDED_ERR</code> 到底是什么？一个常量？一个字符串？<a href="http://chrisberkhout.com/blog/localstorage-errors/" target="_blank" rel="noopener">各浏览器的实现却不一样</a>.</p>
+<p>所以我使用了以下简单的方法来处理这个异常。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    localStorage.setItem(key, value);</span><br><span class="line">&#125;<span class="keyword">catch</span>(e) &#123;</span><br><span class="line">    localStorage.clear();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/03/23/game-gambling-design/" class="archive-article-date">
-  	<time datetime="2013-03-22T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-23</time>
+      <a href="/2014/02/25/localstorage-errors/" class="archive-article-date">
+  	<time datetime="2014-02-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-02-25</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/" rel="tag">game-dev</a></li></ul>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
 	</div>
 
       
@@ -745,7 +804,7 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/10/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><a class="extend next" rel="next" href="/page/12/">Next &amp;raquo;</a>
+      <a class="extend prev" rel="prev" href="/page/10/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/12/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -755,7 +814,7 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2020 桂糊涂
+    		&copy; 2021 桂糊涂
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -785,7 +844,7 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
 
 
 
-<script type="text/x-mathjax-config">
+<!-- <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     tex2jax: {
         inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
@@ -803,7 +862,19 @@ MathJax.Hub.Queue(function() {
 </script>
 
 <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
+</script> -->
+
+<script>
+  MathJax = {
+    loader: {load: ['input/asciimath', 'output/chtml', 'ui/menu']},
+    asciimath: {
+    delimiters: [['`','`'], ['$$', '$$'], ['$','$']]
+  }
+  };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js">
+  </script>
 
 
     
@@ -829,7 +900,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
+    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/OpenGL-math/" style="font-size: 10px;">OpenGL,math</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/cpp/" style="font-size: 11.25px;">cpp</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
     			</div>
     	</section>
     
