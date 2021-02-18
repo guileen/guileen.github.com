@@ -152,6 +152,130 @@
       <div class="body-wrap">
         
   
+    <article id="post-android-ui-animations" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/27/android-ui-animations/">Android UI 动画</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>UI动画不同于游戏动画。我们不能把全部精力放在动画上，因此必须要让开发动画的成本降到最低。作为一个懒人，必须要搜索一些现成的库了。</p>
+<p><a href="https://github.com/nhaarman/ListViewAnimations" target="_blank" rel="noopener">ListViewAnimations</a> 列表动画，很多常用动画，功能强大</p>
+<p><a href="https://github.com/openaphid/android-flip" target="_blank" rel="noopener">Android flip</a> 翻页动画</p>
+<p><a href="https://github.com/Comcast/FreeFlow" target="_blank" rel="noopener">Free Flow</a> 扁平化块状布局，支持动画</p>
+<p><a href="https://github.com/chrisbanes/ActionBar-PullToRefresh" target="_blank" rel="noopener">ActionBar Pull To Refresh</a> 和动画无关，但不知道为什么想记在这里。</p>
+<p>另外动画<a href="http://developer.android.com/guide/topics/graphics/hardware-accel.html" target="_blank" rel="noopener">硬件加速</a>，可以支持应用级，Activity级，Window级，View级。</p>
+<p>接下来要看看代码，对自定义View和Animation深入了解一下。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/03/27/android-ui-animations/" class="archive-article-date">
+  	<time datetime="2014-03-26T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-27</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UI/" rel="tag">UI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/" rel="tag">android</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-java-package-manager-and-build-tools" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/26/java-package-manager-and-build-tools/">Java包管理和構建工具</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>雖然不喜歡JAVA，但是想學Android，還是要重新撿起來它。但是已經習慣了npm如此方便的包管理工具的人已經無法適應沒有npm的生活了。</p>
+<p>N年前，JAVA的構建都是用Ant進行的，但Ant只是專注於構建，並不做包管理。後來是Maven，maven既有構建工具，也有包管理（依賴管理）的功能。但是Maven的pom.xml寫起來實在冗長，不想寫。</p>
+<p>於是重新去瞭解了一下，發現JAVA領域也已經產生了一些新的包管理和構建工具了。Gradle和Ivy。</p>
+<p>Ivy 是Maven之後的又一個包管理工具。而Gradle則是基於groovy語言開發的一種java構建的DSL（領域專用語言 Domain-specific language）。</p>
+<p>Ivy安裝前需要安裝Ant，Ivy本身是Ant的一個子項目。與Maven既做構建又做依賴的方法不同，Ivy只做依賴，而構建交給Ant來做。我比較喜歡Ant + Ivy這種模式，Maven過於耦合。<br>我們的Java項目下應該存在一個build.xml和一個ivy.xml，分別用於描述Ant構建過程和依賴。</p>
+<h3 id="使用Ant自动安装Ivy"><a href="#使用Ant自动安装Ivy" class="headerlink" title="使用Ant自动安装Ivy"></a>使用Ant自动安装Ivy</h3><p><a href="http://ant.apache.org/ivy/history/2.2.0/install.html" target="_blank" rel="noopener">Ant自动安装Ivy</a></p>
+<figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">project</span> <span class="attr">name</span>=<span class="string">"demo"</span> <span class="attr">default</span>=<span class="string">"resolve"</span> <span class="attr">xmlns:ivy</span>=<span class="string">"antlib:org.apache.ivy.ant"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"ivy.install.version"</span> <span class="attr">value</span>=<span class="string">"2.2.0"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">condition</span> <span class="attr">property</span>=<span class="string">"ivy.home"</span> <span class="attr">value</span>=<span class="string">"$&#123;env.IVY_HOME&#125;"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">isset</span> <span class="attr">property</span>=<span class="string">"env.IVY_HOME"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">condition</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"ivy.home"</span> <span class="attr">value</span>=<span class="string">"$&#123;user.home&#125;/.ant"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"ivy.jar.dir"</span> <span class="attr">value</span>=<span class="string">"$&#123;ivy.home&#125;/lib"</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">property</span> <span class="attr">name</span>=<span class="string">"ivy.jar.file"</span> <span class="attr">value</span>=<span class="string">"$&#123;ivy.jar.dir&#125;/ivy.jar"</span> /&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">"download-ivy"</span> <span class="attr">unless</span>=<span class="string">"offline"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">mkdir</span> <span class="attr">dir</span>=<span class="string">"$&#123;ivy.jar.dir&#125;"</span>/&gt;</span></span><br><span class="line">        <span class="comment">&lt;!-- download Ivy from web site so that it can be used even without any special installation --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">get</span> <span class="attr">src</span>=<span class="string">"http://repo2.maven.org/maven2/org/apache/ivy/ivy/$&#123;ivy.install.version&#125;/ivy-$&#123;ivy.install.version&#125;.jar"</span> </span></span><br><span class="line"><span class="tag">             <span class="attr">dest</span>=<span class="string">"$&#123;ivy.jar.file&#125;"</span> <span class="attr">usetimestamp</span>=<span class="string">"true"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line"></span><br><span class="line">    <span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">"init-ivy"</span> <span class="attr">depends</span>=<span class="string">"download-ivy"</span>&gt;</span></span><br><span class="line">      <span class="comment">&lt;!-- try to load ivy here from ivy home, in case the user has not already dropped</span></span><br><span class="line"><span class="comment">              it into ant's lib dir (note that the latter copy will always take precedence).</span></span><br><span class="line"><span class="comment">              We will not fail as long as local lib dir exists (it may be empty) and</span></span><br><span class="line"><span class="comment">              ivy is in at least one of ant's lib dir or the local lib dir. --&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">path</span> <span class="attr">id</span>=<span class="string">"ivy.lib.path"</span>&gt;</span></span><br><span class="line">            <span class="tag">&lt;<span class="name">fileset</span> <span class="attr">dir</span>=<span class="string">"$&#123;ivy.jar.dir&#125;"</span> <span class="attr">includes</span>=<span class="string">"*.jar"</span>/&gt;</span></span><br><span class="line"></span><br><span class="line">        <span class="tag">&lt;/<span class="name">path</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">taskdef</span> <span class="attr">resource</span>=<span class="string">"org/apache/ivy/ant/antlib.xml"</span></span></span><br><span class="line"><span class="tag">                 <span class="attr">uri</span>=<span class="string">"antlib:org.apache.ivy.ant"</span> <span class="attr">classpathref</span>=<span class="string">"ivy.lib.path"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line">    </span><br><span class="line">    <span class="comment">&lt;!-- ================================= </span></span><br><span class="line"><span class="comment">      target: resolve              </span></span><br><span class="line"><span class="comment">     ================================= --&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">target</span> <span class="attr">name</span>=<span class="string">"resolve"</span> <span class="attr">description</span>=<span class="string">"--&gt; retrieve dependencies with ivy"</span> <span class="attr">depends</span>=<span class="string">"init-ivy"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">ivy:retrieve</span> /&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">target</span>&gt;</span></span><br><span class="line">    </span><br><span class="line"><span class="tag">&lt;/<span class="name">project</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="ivy-xml"><a href="#ivy-xml" class="headerlink" title="ivy.xml"></a>ivy.xml</h3><figure class="highlight xml"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?xml version="1.0" encoding="UTF-8"?&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">ivy-module</span> <span class="attr">version</span>=<span class="string">"2.0"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">info</span> <span class="attr">organisation</span>=<span class="string">"org.apache"</span> <span class="attr">module</span>=<span class="string">"hello-ivy"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">dependencies</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span> <span class="attr">org</span>=<span class="string">"commons-lang"</span> <span class="attr">name</span>=<span class="string">"commons-lang"</span> <span class="attr">rev</span>=<span class="string">"2.0"</span>/&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">dependency</span> <span class="attr">org</span>=<span class="string">"commons-cli"</span> <span class="attr">name</span>=<span class="string">"commons-cli"</span> <span class="attr">rev</span>=<span class="string">"1.0"</span>/&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">dependencies</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">ivy-module</span>&gt;</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="ivysettings-xml"><a href="#ivysettings-xml" class="headerlink" title="ivysettings.xml"></a>ivysettings.xml</h3><h3 id="Gradle"><a href="#Gradle" class="headerlink" title="Gradle"></a>Gradle</h3><p>Gradle的職責是自動化構建，它同時支持Maven和Ivy包管理，甚至Ant的任務，比如這樣</p>
+<p>build.gradle</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">task hello &lt;&lt; &#123;</span><br><span class="line">    String greeting &#x3D; &#39;hello from Ant&#39;</span><br><span class="line">    ant.echo(message: greeting)</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">task check &lt;&lt; &#123;</span><br><span class="line">    ant.taskdef(resource: &#39;checkstyletask.properties&#39;) &#123;</span><br><span class="line">        classpath &#123;</span><br><span class="line">            fileset(dir: &#39;libs&#39;, includes: &#39;*.jar&#39;)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    ant.checkstyle(config: &#39;checkstyle.xml&#39;) &#123;</span><br><span class="line">        fileset(dir: &#39;src&#39;)</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Java和XML是我最不喜歡的兩個東西，gradle可以讓構建不再是一堆雜亂冗長的XML了，而變成了一段優雅可讀的文字，很酷。但如果項目不是很大，構建不是很複雜，我覺得Ant+Ivy足夠了。<br>而維護一個複雜的構建過程時，Ant的build.xml一定會越來越亂，到那時，再切換至gradle不遲。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/03/26/java-package-manager-and-build-tools/" class="archive-article-date">
+  	<time datetime="2014-03-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-26</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CI/" rel="tag">CI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-about-apk" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -686,131 +810,6 @@
 
 
   
-    <article id="post-linux-commands-you-should-know" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/02/25/linux-commands-you-should-know/">你需要知道的Linux命令</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ul>
-<li>grep</li>
-<li>find</li>
-<li>sed</li>
-<li>xargs</li>
-<li>awk</li>
-<li>tar</li>
-<li>vi</li>
-<li>shell and shell scripts</li>
-<li>top</li>
-<li>account and group management commands<ul>
-<li>/etc/passwd</li>
-<li>/etc/shadow</li>
-<li>/etc/group</li>
-<li>/etc/gshadow</li>
-<li>…</li>
-</ul>
-</li>
-</ul>
-<p><a href="http://blog.csdn.net/windone0109/article/details/2909565" target="_blank" rel="noopener">Linux高級命令詳解</a></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2014/02/25/linux-commands-you-should-know/" class="archive-article-date">
-  	<time datetime="2014-02-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-02-25</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-localstorage-errors" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/02/25/localstorage-errors/">LocalStorage的异常处理</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>当达到localStorage容量上限时，按照标准描述会抛出 <code>QUOTA_EXCEEDED_ERR</code>. 但这个 <code>QUOTA_EXCEEDED_ERR</code> 到底是什么？一个常量？一个字符串？<a href="http://chrisberkhout.com/blog/localstorage-errors/" target="_blank" rel="noopener">各浏览器的实现却不一样</a>.</p>
-<p>所以我使用了以下简单的方法来处理这个异常。</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">try</span>&#123;</span><br><span class="line">    localStorage.setItem(key, value);</span><br><span class="line">&#125;<span class="keyword">catch</span>(e) &#123;</span><br><span class="line">    localStorage.clear();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2014/02/25/localstorage-errors/" class="archive-article-date">
-  	<time datetime="2014-02-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-02-25</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/10/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><span class="space">&hellip;</span><a class="page-number" href="/page/9/">9</a><a class="page-number" href="/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/page/12/">12</a><a class="page-number" href="/page/13/">13</a><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/12/">Next &amp;raquo;</a>
@@ -853,7 +852,7 @@
 
 
 
-<script type="text/x-mathjax-config">
+<!-- <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     tex2jax: {
         inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
@@ -871,7 +870,19 @@ MathJax.Hub.Queue(function() {
 </script>
 
 <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
+</script> -->
+
+<script>
+  MathJax = {
+    loader: {load: ['input/asciimath', 'output/chtml', 'ui/menu']},
+    asciimath: {
+    delimiters: [['`','`'], ['$$', '$$'], ['$','$']]
+  }
+  };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js">
+  </script>
 
 
     
@@ -897,7 +908,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/cpp/" style="font-size: 11.25px;">cpp</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
+    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/OpenGL-math/" style="font-size: 10px;">OpenGL,math</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/cpp/" style="font-size: 11.25px;">cpp</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
     			</div>
     	</section>
     

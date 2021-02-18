@@ -152,6 +152,160 @@
       <div class="body-wrap">
         
   
+    <article id="post-the-essence-of-linear-algebra" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/18/the-essence-of-linear-algebra/">线性代数的本质</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>当我在大学中学习线性代数的时候，我不知所云且不以为然。然后随着不断的学习，我发现不懂线性代数是没法在更深的技术领域里混的。比如机器学习、计算机图形学等等，对于其他的科研领域也都是同样的。如果学不好线性代数既不是我的问题，也不是线性代数的问题，那到底是什么问题？最近学些了<a href="https://www.bilibili.com/video/BV1X7411F744" target="_blank" rel="noopener">现代计算机图形学入门-闫令琪</a> <a href="https://www.bilibili.com/video/BV1ib411t7YR" target="_blank" rel="noopener">线性代数的本质-3blue1brown</a> 这两个系列视频使我对线性代数多了更多的感性认识，而<a href="https://www.marxists.org/chinese/maozedong/marxist.org-chinese-mao-193707.htm" target="_blank" rel="noopener">《实践论》</a> 告诉我们，<strong>理性认识是要依赖于感性认识的</strong>。传统的线性代数教材则希望构建一套完全自洽的纯粹的数学理论，它不依赖于现实世界的知识。这或许可以满足一些数学家的成就感，但这种马后炮式的“创造”是脱离历史的。线性代数就像其他的学科一样，不可能是仅凭想象产生的，虽然数学家可以伪装成不依赖历史发展而独立自洽，但这除了是一种智力游戏外，对于认识世界、传播知识并没有任何帮助。我们就在这种缺乏感性认识的数学教育中丧失了对数学理论的兴趣，岂不哀哉？</p>
+<p>吐槽结束，进入正题。谈谈我此刻对线性代数的理解，探讨一下他的本质到底是什么。我们是否会问自己，加减乘除的本质到底是什么？我们之所以不这么问，是因为我们已经理解了四则运算的本质。我们不会问关于十进制的本质，因为日常生活中已经给我们建立了足够多的经验。但我们在学龄前的阶段，我们则可能对十进制和加减乘除充满了困惑。但我们接触线性代数太晚，我们并没有足够的练习和日常应用使我们建立起感性认识。当我们在商店里消费的时候四则运算不断强化着我们的认知，但线性代数缺少这样的机会。当我们被教授四则运算时，老师把我们当作一个普通的人类，会告诉我们3个苹果+2个苹果=5个苹果，这种现实世界的例子帮助我们更好的理解了四则运算。但当我们学习线性代数时，我们则变成了一个个抽象的理性机器，这个系统只告诉我们各种定义、运算规则，然后要求我们像计算机一样的运行，计算出结果。What are we doing？我们怎么可能不懵圈呢？线性代数就是一个增强版的加减乘除，但没有足够的案例使我们不知道我们的计算究竟代表着什么？AlphaGo就算赢了李世石，但他不知道自己在干什么。我们作为人类的尊严在哪里？我又没控制好自己的情绪，让我们回到正题。《线性代数及其应用》是一本很好的教材，他和国内教材最大的区别就在于“应用”上，这本书中列举了大量的例子来说明线性代数的应用。这本书的开头说道“<strong>线性代数是一门语言，必须用学习外语的方法每天学习这种语言</strong>”。</p>
+<p>我们从鸡兔同笼来举个例子。鸡兔同笼是小学阶段的奥数题，也就是在小学的数学语言中，这是一道很难描述的题。到了中学阶段我们可以用未知数x表示鸡的数量，未知数y表示兔的数量，并列出方程。而对于线性代数的语言，我们用向量$$((a),(b))$$表示鸡和兔的数量，如果我们有非常多的未知数，我们不希望定义太多的未知数符号，我们直接用$$x$$表示这个n维变量。我们有一个变换矩阵$$[[1,1],[2,4]]$$ 表示鸡有1个头2只脚，兔有1个头4只脚 。如果有3只鸡5只兔则 $$[[1,1],[2,4]]*[[3],[5]]=[[3*1+5*1],[3*2+5*4]]=[[8],[26]]$$，它代表着我们将一个“鸡兔向量”映射到了“头脚向量”的空间中，共有8只头，26只脚。</p>
+<p>我们知道函数是一种映射，$$f(x)=y$$代表将$x$到$y$的映射关系。矩阵乘法叫做线性变换，线性变换是一种函数映射，但函数映射不一定是线性变化。因此线性变换是符合函数的性质的。如果函数是可逆的，则有$$x=f^(-1)(y)$$，同样的，对于矩阵而言，$$若A是可逆的，且Ax=b，则x=A^(-1)b。设A=[[a,b],[c,d]]，则A^(-1)=1/(ad-bc)[[d,-b],[-c,a]]$$。对于鸡兔同笼问题，$$A=[[1,1],[2,4]]，则A^(-1)=1/2[[4,-1],[-2,1]]，当有8头26脚时，x=1/2[[4,-1],[-2,1]]*[[8],[26]]=1/2[[4*8-26],[-2*8+26]]=1/2[[6],[10]]=[[3],[5]]，即3只鸡5只兔。$$最重要的是，这整个计算过程，计算机可以轻松的完成，并且可以用定义标准化的操作，因为操作标准化，计算机可以被设计的更加擅长处理这类操作。这就是线性代数得到广泛应用的一个最重要原因。</p>
+<p>我们可以从鸡兔变换到头脚，我们也可以从产量变换到成本收益（这是经济学的应用），我们也可以从速度变换到阻力（这是空气动力学的应用），我们也可以将3D空间变换到3D或2D空间（这是计算机图形学的应用），我们也可以将用户行为维度变换到兴趣标签维度（这是机器学习推荐系统的应用）。这都说明了线性代数是一门“语言”，是一个工具。并不是因为线性代数，所以这些定理存在，而是因为这些规律本身存在，才能有线性代数这门工具。人类是巧妙的“发明”了线性代数，而不是“发现”了线性代数。</p>
+<p>线性变换可能进行多次，就像映射可以进行多次一样。因为矩阵的乘法就是一种特殊的函数，函数满足结合律$$g(f(h(x)))=((g @ f)(h(x)))$$，所以矩阵乘法也符合结合律$$A(BC)=(AB)C$$。</p>
+<p>TODO 叉乘表示面积和垂直与平面的向量，行列式表示体积，秩表示维数，特征值与特征向量，表示空间中在线性变换中保持稳定的轴，最小二乘法</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2021/02/18/the-essence-of-linear-algebra/" class="archive-article-date">
+  	<time datetime="2021-02-18T04:03:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-02-18</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-law-of-cosines-and-phong-reflection-model" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/07/law-of-cosines-and-phong-reflection-model/">从余弦定理到冯氏光照模型</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-勾股定理——宇宙的密码"><a href="#1-勾股定理——宇宙的密码" class="headerlink" title="1.勾股定理——宇宙的密码"></a>1.勾股定理——宇宙的密码</h3><p>$a^2+b^2=c^2$。下图是勾股定理的一个直观证明。</p>
+<p><img src="/img/math/ggdl.png" alt=""></p>
+<h3 id="2-余弦定理，角与边的关系"><a href="#2-余弦定理，角与边的关系" class="headerlink" title="2. 余弦定理，角与边的关系"></a>2. 余弦定理，角与边的关系</h3><img src="/img/math/q-cosine.svg.png" width="30%">
+
+<img src="/img/math/cosine-1.png" width="30%">
+
+ <img src="/img/math/cos-sin.png" width="30%">
+
+<p>三条边可以确定一个三角形，已知三角形的三条边长，如何求出其角度呢？</p>
+<p>由$cos,sin$定义可知<br>
+  $$ c = a * cos beta + b * cos alpha $$<br>
+  两边同乘c得：<br>
+$$ c^2 = ac * cos beta + bc * cos alpha $$<br>
+  同理可得：<br>
+$$ a^2 = ac cos beta + ab * cos gamma $$<br>
+$$ b^2 = bc cos alpha + ab cos gamma $$<br>
+  故：$$ a^2+b^2-c^2 = 2abcosgamma $$<br>
+  可得：$$ c^2 = a^2 + b^2 - 2ab cos gamma $$<br>
+</p>
+
+
+<h3 id="3-向量的定义（方向）"><a href="#3-向量的定义（方向）" class="headerlink" title="3. 向量的定义（方向）"></a>3. 向量的定义（方向）</h3><img src="/img/math/vector_subtraction.svg.png" width="45%">
+
+<img src="/img/math/vector_addition.svg.png" width="45%">
+
+<p>$$令 vec c = vec a - vec b$$, $$theta$$为$$vec a$$ $$vec b$$ 的夹角。余弦定理可以用向量形式写成 $$ | vec c |^2 = |vec a|^2 + |vec b|^2 -  2 |vec a| |vec b| cos theta $$ </p>
+<h3 id="4-点积（dot-product）的代数定义"><a href="#4-点积（dot-product）的代数定义" class="headerlink" title="4. 点积（dot product）的代数定义"></a>4. 点积（dot product）的代数定义</h3><p>两个向量的点积是一个标量。向量$$vec a=[a_1, a_2, … a_n]$$与向量$$vec b=[b_1, b_2, … b_n]$$的点积定义为: $$ vec a * vec b = sum_(i=1)^n a_i b_i = a_1 b_1 + a_2 b_2 + … a_n b_n $$。</p>
+<p>点积有以下性质（证略）：</p>
+<ol>
+<li>满足交换律 $$vec a * vec b = vec b * vec a$$</li>
+<li>满足分配律 $$vec a * (vec b + vec c) = vec a * vec b + vec a * vec c$$</li>
+<li>乘以标量时满足 $$ (c_1 vec a) * (c_2 vec b) = (c_1 c_2)(vec a * vec b)$$</li>
+<li>不满足结合律。因为标量 $$ vec a * vec b $$ 与向量 $$ vec c $$ 的点积没有定义，所以$$(vec a * vec b) * vec c=vec a * (vec b * vec c)$$ 没有意义。</li>
+</ol>
+<p>点积的代数定义简单实用，易于表示，也易于使用计算机程序处理。是线性代数的基本操作之一。</p>
+<h3 id="5-点积的几何意义"><a href="#5-点积的几何意义" class="headerlink" title="5. 点积的几何意义"></a>5. 点积的几何意义</h3><p>对于任何一个n维向量有 $|vec a|^2=a_1^2+a_2^2+…+a_n^2$。根据勾股定理，这是很显然的。换个角度<strong>说如果没有勾股定理，这一步就不存在，后面的内容也不存在了。而勾股定理不是由代数方法证明的，而是独立于代数系统之外的空间基本性质。而空间和时间是宇宙最根本的本质。这就是勾股定理最神奇的地方</strong>。</p>
+<p>我们根据点积的定义可知：$$ vec a * vec a = a_1 * a_1 + a_2 * a_2 + … a_n * a_n = |vec a|^2$$ 即 $$ vec a * vec a == |vec a|^2$$</p>
+<p>我们根据余弦定理的向量表示可得：$$ vec c * vec c = vec a * vec a + vec b * vec b - 2 |vec a| |vec b| cos theta . (1)$$ </p>
+<p>根据向量的定义 $$ vec c = vec a - vec b $$ 有 $$ vec c * vec c = (vec a - vec b) * (vec a - vec b) = vec a * vec a + vec b * vec b - 2 vec a * vec b . (2)$$</p>
+<p>结合等式$$(1)$$、$$(2)$$有 $$vec a * vec b = |vec a| |vec b| cos theta$$。一个看似简单的代数点积操作，竟然和夹角余弦相关，真是不可思议。</p>
+<p>点积的几何意义是什么呢？关键就在这个$cos theta$，如果$$|vec b|$$为1时候，我们可以将$$vec a * vec b$$视为$$vec a $$在$$vec b$$方向上的投影长度。</p>
+<p><img src="/img/math/dot_product_1.png" width="45%"> <img src="/img/math/dot_product_2.png" width="45%"></p>
+<h3 id="6-点积的物理意义（从数学到宇宙）"><a href="#6-点积的物理意义（从数学到宇宙）" class="headerlink" title="6. 点积的物理意义（从数学到宇宙）"></a>6. 点积的物理意义（从数学到宇宙）</h3><p>点积的物理意义就是向量在某方向上的投影长度。这在物理上可以表达力在某方向上的投影，光在某方向的投影，速度、加速度在某方向的投影。而点积的操作，可以使我们只需要关心这些物理量的向量表示，而不需要去关心夹角，不需要去计算三角函数。而在统计学、机器学习等方面，余弦可以表示两个向量之间的相似性，比如两个词向量，两个用户的兴趣向量等，应用非常广泛。下面就以计算机图形学举例来说明点积的应用。</p>
+<p>冯氏光照模型将一个物体的光照分解为环境光+漫反射光+镜面反射光。</p>
+<p><img src="/img/math/Phong_components_version_4.png" alt=""></p>
+<p>环境光比较简单就是一个常量。而漫反射光，则为光照强度在平面的法线方向的投影，与法线方向一致则光照最强。镜面反射光则为反射光方向在视角方向上的投影，与视角完全一致，则反射光最强。</p>
+<p><img src="/img/math/diffuse_light.png" width="45%"> <img src="/img/math/specular_light.png" width="45%"></p>
+<p>OpenGL的shader大致如下：</p>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">vec3</span> CalcDirLight(DirLight light, <span class="type">vec3</span> normal, <span class="type">vec3</span> viewDir) &#123;</span><br><span class="line">    <span class="comment">// normalize 归一化，使法线向量的长度为1</span></span><br><span class="line">    <span class="type">vec3</span> lightDir = <span class="built_in">normalize</span>(-light.direction);</span><br><span class="line">    <span class="comment">// 漫反射光. dot 计算cos* 强度， max把负值最多降到0，表示全黑。</span></span><br><span class="line">    <span class="type">float</span> diff = <span class="built_in">max</span>(<span class="built_in">dot</span>(normal, lightDir), <span class="number">0.0</span>);</span><br><span class="line">    <span class="type">vec3</span> reflectDir = <span class="built_in">reflect</span>(-lightDir, normal);</span><br><span class="line">    <span class="comment">// dot 计算反射光在视角上的cos分量，至少为0。使用pow，模拟镜面光焦点分布集中度，shininess越高要求反射分量越接近于1</span></span><br><span class="line">    <span class="comment">// 反射分量==1 表示必须视角恰巧与反射角完全一致才能看到反射光，也就是绝对镜面</span></span><br><span class="line">    <span class="type">float</span> spec = <span class="built_in">pow</span>(<span class="built_in">max</span>(<span class="built_in">dot</span>(viewDir, reflectDir), <span class="number">0.0</span>), material.shininess);</span><br><span class="line">    <span class="comment">// 合并冯氏光照结果</span></span><br><span class="line">    <span class="type">vec3</span> ambient = light.ambient * <span class="type">vec3</span>(<span class="built_in">texture</span>(material.diffuse, TexCoords));</span><br><span class="line">    <span class="type">vec3</span> diffuse = light.diffuse * diff * <span class="type">vec3</span>(<span class="built_in">texture</span>(material.diffuse, TexCoords));</span><br><span class="line">    <span class="type">vec3</span> specular = light.specular * spec * <span class="type">vec3</span>(<span class="built_in">texture</span>(material.specular, TexCoords));</span><br><span class="line">    <span class="keyword">return</span> (ambient + diffuse + specular);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2021/02/07/law-of-cosines-and-phong-reflection-model/" class="archive-article-date">
+  	<time datetime="2021-02-06T17:01:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-02-07</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenGL-math/" rel="tag">OpenGL,math</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-learn-cmake" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -876,115 +1030,6 @@
 
 
   
-    <article id="post-tao-at-the-very-begining" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/29/tao-at-the-very-begining/">太初有道</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>人类在数万年前进入了一个新的状态，太初之人，完满自足，而后散布天下。</p>
-<p>庄子天下篇说，上古之人真是完备啊，可惜后世的人很不幸，他们将看到道术在天下分裂。</p>
-<p>古希腊哲学、古印度思想、中国古代思想，有一个更统一的源头。那就是上古太初之人。</p>
-<p>我们今天的思想是东西方思想的结合，依然不够完满，缺失了重要的部分。</p>
-<p>美洲文化受到了破坏。非洲有一部分上古文化留存，苗瑶族也有一些上古之道留存。但都不完整。</p>
-<p>我们的目标应该是恢复一个人类上古之道，而不是自称独立发展的，自绝于世界。</p>
-<p>也不是盲目的学习他人，放弃自己，因为他人也不过是缺憾的存在。</p>
-<p>人类无论从基因上，还是从思想上，都是残缺的。</p>
-<p>我们需要追求圆满自足，这是人所遗忘的功能。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2020/10/29/tao-at-the-very-begining/" class="archive-article-date">
-  	<time datetime="2020-10-29T07:30:57.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-10-29</time>
-</a>
-      
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-ip-to-location" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/10/20/ip-to-location/">ip转换为地理位置</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ol>
-<li>安装windows xp虚拟机，安装guest addition</li>
-<li>添加share folder</li>
-<li>安装纯真数据库: <a href="http://www.cz88.net/fox/ipdat.shtml" target="_blank" rel="noopener">http://www.cz88.net/fox/ipdat.shtml</a></li>
-<li>解压到share folder</li>
-<li>mac上使用 iconv -f GBK -t UTF-8 ipdata.txt &gt; ipdata-utf8.txt</li>
-<li>上传到github</li>
-</ol>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2020/10/20/ip-to-location/" class="archive-article-date">
-  	<time datetime="2020-10-20T08:30:02.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-10-20</time>
-</a>
-      
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
@@ -1027,7 +1072,7 @@
 
 
 
-<script type="text/x-mathjax-config">
+<!-- <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     tex2jax: {
         inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
@@ -1045,7 +1090,19 @@ MathJax.Hub.Queue(function() {
 </script>
 
 <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
+</script> -->
+
+<script>
+  MathJax = {
+    loader: {load: ['input/asciimath', 'output/chtml', 'ui/menu']},
+    asciimath: {
+    delimiters: [['`','`'], ['$$', '$$'], ['$','$']]
+  }
+  };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js">
+  </script>
 
 
     
@@ -1071,7 +1128,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/cpp/" style="font-size: 11.25px;">cpp</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
+    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/OpenGL-math/" style="font-size: 10px;">OpenGL,math</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/cpp/" style="font-size: 11.25px;">cpp</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
     			</div>
     	</section>
     

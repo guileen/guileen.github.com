@@ -152,6 +152,170 @@
       <div class="body-wrap">
         
   
+    <article id="post-torch-output-loss-optimizer" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/24/torch-output-loss-optimizer/">Torch的损失函数和优化器</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>深度神经网络输出的结果与标注结果进行对比，计算出损失，根据损失进行优化。那么输出结果、损失函数、优化方法就需要进行正确的选择。</p>
+<h1 id="常用损失函数"><a href="#常用损失函数" class="headerlink" title="常用损失函数"></a>常用损失函数</h1><p>pytorch 损失函数的基本用法</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">criterion = LossCriterion(参数)</span><br><span class="line">loss = criterion(x, y)</span><br></pre></td></tr></table></figure>
+<p>Mean Absolute Error<br>torch.nn.L1Loss<br>Measures the mean absolute error.</p>
+<h2 id="Mean-Absolute-Error-L1Loss"><a href="#Mean-Absolute-Error-L1Loss" class="headerlink" title="Mean Absolute Error/ L1Loss"></a>Mean Absolute Error/ L1Loss</h2><p>nn.L1Loss<br><img src="/img/loss/l1loss.png" alt=""><br>很少使用</p>
+<h2 id="Mean-Square-Error-Loss"><a href="#Mean-Square-Error-Loss" class="headerlink" title="Mean Square Error Loss"></a>Mean Square Error Loss</h2><p>nn.MSELoss<br><img src="/img/loss/mseloss.png" alt=""><br>针对数值不大的回归问题。</p>
+<h2 id="Smooth-L1-Loss"><a href="#Smooth-L1-Loss" class="headerlink" title="Smooth L1 Loss"></a>Smooth L1 Loss</h2><p>nn.SmoothL1Loss<br><img src="/img/loss/smoothl1loss.png" alt=""><br>它在绝对差值大于1时不求平方，可以避免梯度爆炸。大部分回归问题都可以适用，尤其是数值比较大的时候。</p>
+<h2 id="Negative-Log-Likelihood-Loss"><a href="#Negative-Log-Likelihood-Loss" class="headerlink" title="Negative Log-Likelihood Loss"></a>Negative Log-Likelihood Loss</h2><p>torch.nn.NLLLoss，一般与 LogSoftmax 成对使用。使用时 <code>loss(softmaxTarget, target)</code>。用于处理多分类问题。<br><img src="/img/loss/nllloss.png" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">m = nn.LogSoftmax(dim=<span class="number">1</span>)</span><br><span class="line">loss = nn.NLLLoss()</span><br><span class="line"><span class="comment"># input is of size N x C = 3 x 5， C为分类数</span></span><br><span class="line">input = torch.randn(<span class="number">3</span>, <span class="number">5</span>, requires_grad=<span class="keyword">True</span>)</span><br><span class="line"><span class="comment"># each element in target has to have 0 &lt;= value &lt; C</span></span><br><span class="line">target = torch.tensor([<span class="number">1</span>, <span class="number">0</span>, <span class="number">4</span>])</span><br><span class="line">output = loss(m(input), target)</span><br><span class="line">output.backward()</span><br></pre></td></tr></table></figure>
+
+<h2 id="Cross-Entropy-Loss"><a href="#Cross-Entropy-Loss" class="headerlink" title="Cross Entropy Loss"></a>Cross Entropy Loss</h2><p>nn.CrossEntropyLoss 将 LogSoftmax 和 NLLLoss 绑定到了一起。所以无需再对结果使用Softmax</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">loss &#x3D; nn.CrossEntropyLoss()</span><br><span class="line">input &#x3D; torch.randn(3, 5, requires_grad&#x3D;True)</span><br><span class="line">target &#x3D; torch.empty(3, dtype&#x3D;torch.long).random_(5)</span><br><span class="line">output &#x3D; loss(input, target)</span><br><span class="line">output.backward()</span><br></pre></td></tr></table></figure>
+
+<h2 id="BCELoss"><a href="#BCELoss" class="headerlink" title="BCELoss"></a>BCELoss</h2><p>二分类问题的CrossEntropyLoss。输入、目标结构是一样的。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">m = nn.Sigmoid()</span><br><span class="line">loss = nn.BCELoss()</span><br><span class="line">input = torch.randn(<span class="number">3</span>, requires_grad=<span class="keyword">True</span>)</span><br><span class="line">target = torch.empty(<span class="number">3</span>).random_(<span class="number">2</span>)</span><br><span class="line">output = loss(m(input), target)</span><br><span class="line">output.backward()</span><br></pre></td></tr></table></figure>
+
+<h2 id="Margin-Ranking-Loss"><a href="#Margin-Ranking-Loss" class="headerlink" title="Margin Ranking Loss"></a>Margin Ranking Loss</h2><p><img src="/img/loss/marginrankingloss.png" alt=""></p>
+<p>常用户增强学习、对抗生成网络、排序任务。给定输入x1，x2，y的值是1或-1，如果y==1表示x1应该比x2的排名更高，y==-1则相反。如果y值与x1、x2顺序一致，那么loss为0，否则错误为 y*(x1-x2)</p>
+<h2 id="Hinge-Embedding-Loss"><a href="#Hinge-Embedding-Loss" class="headerlink" title="Hinge Embedding Loss"></a>Hinge Embedding Loss</h2><p>y的值是1或-1，用于衡量两个输入是否相似或不相似。</p>
+<h2 id="Cosine-Embedding-Loss"><a href="#Cosine-Embedding-Loss" class="headerlink" title="Cosine Embedding Loss"></a>Cosine Embedding Loss</h2><p>给定两个输入x1，x2，y的值是1或-1，用于衡量x1和x2是否相似。<br><img src="/img/loss/cosineembeddingloss.png" alt=""><br>其中cos(x1, x2)表示相似度<br><img src="/img/loss/cossim.png" alt=""></p>
+<h1 id="各种优化器"><a href="#各种优化器" class="headerlink" title="各种优化器"></a>各种优化器</h1><p>大多数情况Adam能够取得比较好的效果。SGD 是最普通的优化器, 也可以说没有加速效果, 而 Momentum 是 SGD 的改良版, 它加入了动量原则. 后面的 RMSprop 又是 Momentum 的升级版. 而 Adam 又是 RMSprop 的升级版. 不过从这个结果中我们看到, Adam 的效果似乎比 RMSprop 要差一点. 所以说并不是越先进的优化器, 结果越佳.</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># SGD 就是随机梯度下降</span></span><br><span class="line">opt_SGD         = torch.optim.SGD(net_SGD.parameters(), lr=LR)</span><br><span class="line"><span class="comment"># momentum 动量加速,在SGD函数里指定momentum的值即可</span></span><br><span class="line">opt_Momentum    = torch.optim.SGD(net_Momentum.parameters(), lr=LR, momentum=<span class="number">0.8</span>)</span><br><span class="line"><span class="comment"># RMSprop 指定参数alpha</span></span><br><span class="line">opt_RMSprop     = torch.optim.RMSprop(net_RMSprop.parameters(), lr=LR, alpha=<span class="number">0.9</span>)</span><br><span class="line"><span class="comment"># Adam 参数betas=(0.9, 0.99)</span></span><br><span class="line">opt_Adam        = torch.optim.Adam(net_Adam.parameters(), lr=LR, betas=(<span class="number">0.9</span>, <span class="number">0.99</span>))</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/12/24/torch-output-loss-optimizer/" class="archive-article-date">
+  	<time datetime="2019-12-24T14:05:59.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-24</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/AI/">AI</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-understanding-cnn" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/24/understanding-cnn/">理解CNN参数及PyTorch实例</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文假设读者已经了解了CNN的基本原理。在实际的项目中，会发现CNN有多个参数需要调整，本文主要目的在于理清各个参数的作用。</p>
+<h2 id="卷积核-kernel"><a href="#卷积核-kernel" class="headerlink" title="卷积核 kernel"></a>卷积核 kernel</h2><p>Kernel，卷积核，有时也称为filter。在迭代过程中，学习的结果就保存在kernel里面。深度学习，学习的就是一个权重。kernel的尺寸越小，计算量越小，一般选择3x3，更小就没有意义了。<br><img src="/img/cnn/kernel_2.png" alt=""></p>
+<p>结果是对卷积核与一小块输入数据的点积。</p>
+<h2 id="层数-Channels"><a href="#层数-Channels" class="headerlink" title="层数 Channels"></a>层数 Channels</h2><p><img src="/img/cnn/channel_1.png" alt=""></p>
+<p>所有位置的点积构成一个激活层。</p>
+<p><img src="/img/cnn/channel_2.png" alt=""></p>
+<p>如果我们有6个卷积核，我们就会有6个激活层。</p>
+<h2 id="步长-Stride"><a href="#步长-Stride" class="headerlink" title="步长 Stride"></a>步长 Stride</h2><p><img src="/img/cnn/kernel.gif" alt=""><br>上图是每次向右移动一格，一行结束向下移动一行，所以stride是1x1，如果是移动2格2行则是2x2。</p>
+<h2 id="填充-Padding"><a href="#填充-Padding" class="headerlink" title="填充 Padding"></a>填充 Padding</h2><p>Padding的作用是为了获取图片上下左右边缘的特征。<br><img src="/img/cnn/pad.jpg" alt=""></p>
+<h2 id="池化-Pooling"><a href="#池化-Pooling" class="headerlink" title="池化 Pooling"></a>池化 Pooling</h2><p>卷积层为了提取特征，但是卷积层提取完特征后特征图层依然很大。为了减少计算量，我们可以用padding的方式来减小特征图层。Pooling的方法有MaxPooling核AveragePooling。<br><img src="/img/cnn/pooling.jpg" alt=""></p>
+<p>推荐看一下李飞飞的<a href="http://cs231n.stanford.edu/slides/2017/cs231n_2017_lecture5.pdf" target="_blank" rel="noopener">这篇slide</a></p>
+<h2 id="PyTorch-中的相关方法"><a href="#PyTorch-中的相关方法" class="headerlink" title="PyTorch 中的相关方法"></a>PyTorch 中的相关方法</h2><ul>
+<li><p>torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode=’zeros’)</p>
+</li>
+<li><p>torch.nn.MaxPool2d(kernel_size, stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False)</p>
+<ul>
+<li>stride 默认与kernel_size相等</li>
+</ul>
+</li>
+<li><p>torch.nn.AvgPool2d(kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True, divisor_override=None)</p>
+</li>
+<li><p>Tensor.view(*shape) -&gt; Tensor</p>
+<ul>
+<li>用于将卷积层展开为全连接层<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; x &#x3D; torch.randn(4, 4)</span><br><span class="line">&gt;&gt;&gt; x.size()</span><br><span class="line">torch.Size([4, 4])</span><br><span class="line">&gt;&gt;&gt; y &#x3D; x.view(16)</span><br><span class="line">&gt;&gt;&gt; y.size()</span><br><span class="line">torch.Size([16])</span><br><span class="line">&gt;&gt;&gt; z &#x3D; x.view(-1, 8)  # the size -1 is inferred from other dimensions</span><br><span class="line">&gt;&gt;&gt; z.size()</span><br><span class="line">torch.Size([2, 8])</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="MNIST例子"><a href="#MNIST例子" class="headerlink" title="MNIST例子"></a>MNIST例子</h2><p>MNIST 数据集的输入是 1x28x28 的数据集。在实际开发中必须要清楚每一次的输出结构。</p>
+<ul>
+<li>我们第一层使用 5x5的卷积核，步长为1，padding为0，28-5+1 = 24，那么输出就是 24x24。计算方法是 (input_size - kernel_size)/ stride + 1。</li>
+<li>我们第二层使用 2x2的MaxPool，那么输出为 12x12.</li>
+<li>第三层再使用5x5，卷积核，输出则为 12-5+1，即 8x8。</li>
+<li>再使用 2x2 MaxPool，输出则为 4x4。</li>
+</ul>
+<p><img src="/img/cnn/mnist_convet.png" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Net</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="string">"""ConvNet -&gt; Max_Pool -&gt; RELU -&gt; ConvNet -&gt; Max_Pool -&gt; RELU -&gt; FC -&gt; RELU -&gt; FC -&gt; SOFTMAX"""</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super(Net, self).__init__()</span><br><span class="line">        self.conv1 = nn.Conv2d(<span class="number">1</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">1</span>)</span><br><span class="line">        self.conv2 = nn.Conv2d(<span class="number">10</span>, <span class="number">20</span>, <span class="number">5</span>, <span class="number">1</span>)</span><br><span class="line">        self.fc1 = nn.Linear(<span class="number">4</span>*<span class="number">4</span>*<span class="number">20</span>, <span class="number">50</span>)</span><br><span class="line">        self.fc2 = nn.Linear(<span class="number">50</span>, <span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        x = F.relu(self.conv1(x))</span><br><span class="line">        x = F.max_pool2d(x, <span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line">        x = F.relu(self.conv2(x))</span><br><span class="line">        x = F.max_pool2d(x, <span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line">        x = x.view(<span class="number">-1</span>, <span class="number">4</span>*<span class="number">4</span>*<span class="number">20</span>)</span><br><span class="line">        x = F.relu(self.fc1(x))</span><br><span class="line">        x = self.fc2(x)</span><br><span class="line">        <span class="keyword">return</span> F.log_softmax(x, dim=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>以上代码摘自 <a href="https://github.com/floydhub/mnist" target="_blank" rel="noopener">https://github.com/floydhub/mnist</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/12/24/understanding-cnn/" class="archive-article-date">
+  	<time datetime="2019-12-24T07:56:21.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-24</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/AI/">AI</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-alpha-go-zero" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -700,128 +864,6 @@ A  &lt;-C公钥加密信息---  C  &lt;- A公钥加密信息--- B</code></pre><p
 
 
   
-    <article id="post-architect-problems" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/24/architect-problems/">问题汇总</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>负责某公司技术以来，遇到了一些问题，汇总一下：</p>
-<ol>
-<li>接口设计问题，错误的接口设计将导致难以避免的问题</li>
-<li>DNS劫持问题，用户网络问题定位困难</li>
-<li>苹果IAP漏单问题</li>
-<li>缓存时间、状态不一致、压力太大、崩溃重启、启动慢问题</li>
-<li>NoSQL选型问题</li>
-<li>数据库负载问题，主从同步问题</li>
-<li>日志监控问题</li>
-<li>服务自动扩容，全球部署问题</li>
-<li>垃圾信息、僵尸账号问题</li>
-<li>IM丢消息，收不到消息问题。</li>
-<li>IM、群聊问题定位、测试困难</li>
-<li>聊天信息存储问题</li>
-</ol>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/24/architect-problems/" class="archive-article-date">
-  	<time datetime="2016-11-24T06:55:49.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-24</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-bimozhishang" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/11/24/bimozhishang/">笔墨之殇</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>说点什么好呢？这两天我开始，翻阅以前我读过的书，我发现，有很多的书，只是草草看过，还有一些书，根本没有看过。原来自己有做读书笔记的习惯，可是当我把阅读的时间放到地铁上之后，这个习惯，也随之消失了。以至于我根本不知道这本书，有没有读过。纸质书，可以有记录笔记的空间，而电子书，阅读起来比较方便，我想这就是纸质书和电子书的区别吧！</p>
-<p>以前我总想写点文字。可是我发现自己，写作的速度越来越慢了，也找不到合适的输入法。拼音输入法，当你想打一些，书面语，或者是文言文的时候，就很难输入。而，五笔输入法或者其他的字型输入法，都有一个问题，就是，学起来太麻烦了，我根本记不住那些字码表，而且，当我，去回忆那些字码的时候，我的思路已经被打断了。</p>
-<p>我还是喜欢拿着笔在纸上写字的感觉。在这种状态下，我的思路是最流畅的。</p>
-<p>一直以来，我都想写一两本小说，可是构思了很久，却迟迟没有动笔。自己内心真正想表达的东西，和整个故事的结构，往往存在冲突。我不愿意写一些，没有人想看的东西，但我也不想，完全是为了迎合别人的口味，而写作。</p>
-<p>其实，这并不是什么文章，我这是在测试一种新的输入法，一种，新的写作方式，那就是，直接把我想写的，念出来。你所看到的一切，都是我通过语音输入的。好吧，今天就说到这里，我的脚也泡好了。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/11/24/bimozhishang/" class="archive-article-date">
-  	<time datetime="2016-11-23T16:16:01.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-24</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gossip/" rel="tag">gossip</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
@@ -864,7 +906,7 @@ A  &lt;-C公钥加密信息---  C  &lt;- A公钥加密信息--- B</code></pre><p
 
 
 
-<script type="text/x-mathjax-config">
+<!-- <script type="text/x-mathjax-config">
 MathJax.Hub.Config({
     tex2jax: {
         inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
@@ -882,7 +924,19 @@ MathJax.Hub.Queue(function() {
 </script>
 
 <script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
-</script>
+</script> -->
+
+<script>
+  MathJax = {
+    loader: {load: ['input/asciimath', 'output/chtml', 'ui/menu']},
+    asciimath: {
+    delimiters: [['`','`'], ['$$', '$$'], ['$','$']]
+  }
+  };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js">
+  </script>
 
 
     
@@ -908,7 +962,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/cpp/" style="font-size: 11.25px;">cpp</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
+    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/OpenGL-math/" style="font-size: 10px;">OpenGL,math</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/cpp/" style="font-size: 11.25px;">cpp</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
     			</div>
     	</section>
     
