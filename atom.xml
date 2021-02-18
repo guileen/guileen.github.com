@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://guileen.github.io/"/>
-  <updated>2021-02-18T04:03:51.927Z</updated>
+  <updated>2021-02-18T13:12:37.862Z</updated>
   <id>http://guileen.github.io/</id>
   
   <author>
@@ -15,6 +15,29 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>BRDF双向反射分布函数</title>
+    <link href="http://guileen.github.io/2021/02/18/brdf-pbr/"/>
+    <id>http://guileen.github.io/2021/02/18/brdf-pbr/</id>
+    <published>2021-02-18T13:12:37.000Z</published>
+    <updated>2021-02-18T13:12:37.862Z</updated>
+    
+    <content type="html"><![CDATA[<p>双向反射分布函数（bidirectional reflectance distribution function）$f_r(omega_i,omega_r)$是一个计算光照反射量的函数。$omega_i$表示输入光角度，$omega_r$表示反射光角度，函数返回反射光辐射率。$omega$由球面坐标系的$phi$,$theta$角度表示，因此brdf函数共有4个参数。brdf的单位是每立体角$sr^(-1)$。</p><img src="/img/brdf/spherical-coordinates.png" style="width:50%;" /><img src="/img/brdf/solid-angle-1sr.png" style="width:45%;margin-top:5%;" /><h3 id="辐射度量学-Radiometry"><a href="#辐射度量学-Radiometry" class="headerlink" title="辐射度量学(Radiometry)"></a>辐射度量学(Radiometry)</h3><table><thead><tr><th>物理量</th><th>符号</th><th>公式</th><th>国际单位制</th><th>单位符号</th><th>注释</th></tr></thead><tbody><tr><td><a href="https://zh.wikipedia.org/wiki/辐射能" target="_blank" rel="noopener">辐射能</a>（Radiant energy）</td><td>$Q_e$</td><td></td><td><a href="https://zh.wikipedia.org/wiki/焦耳" target="_blank" rel="noopener">焦耳</a></td><td>$J$</td><td>能量。</td></tr><tr><td><a href="https://zh.wikipedia.org/wiki/辐射通量" target="_blank" rel="noopener">辐射通量</a>（Radiant flux）</td><td>$Phi_e$</td><td>$Phi=(dQ)/(dt)$</td><td><a href="https://zh.wikipedia.org/wiki/瓦特" target="_blank" rel="noopener">瓦特</a></td><td>$W$</td><td>每单位时间的辐射能量，亦作“辐射功率”。</td></tr><tr><td><a href="https://zh.wikipedia.org/wiki/辐射强度" target="_blank" rel="noopener">辐射强度</a>（Radiant intensity）</td><td>$I_e$</td><td>$I=(dPhi)/(d omega)</td><td><a href="https://zh.wikipedia.org/wiki/瓦特" target="_blank" rel="noopener">瓦特</a>每<a href="https://zh.wikipedia.org/wiki/球面度" target="_blank" rel="noopener">球面度</a></td><td>$W*sr^(-1)$</td><td>每单位<a href="https://zh.wikipedia.org/wiki/立體角" target="_blank" rel="noopener">立体角</a>的辐射通量。</td></tr><tr><td><a href="https://zh.wikipedia.org/wiki/輻照度" target="_blank" rel="noopener">辐照度</a>（Irradiance）（辉度）</td><td>$E_e$</td><td>$E=(dPhi)/(dA)=int_(Omega)  L(omega)cos theta d omega$</td><td><a href="https://zh.wikipedia.org/wiki/瓦特" target="_blank" rel="noopener">瓦特</a>每平方米</td><td>$W*m^(-2)$</td><td>入射表面的辐射通量</td></tr><tr><td><a href="https://zh.wikipedia.org/wiki/辐射率" target="_blank" rel="noopener">辐射率</a>（Radiance）(光亮度）</td><td>$L_e$</td><td>$(d^2Phi)/(dAcos theta d omega)$</td><td><a href="https://zh.wikipedia.org/wiki/瓦特" target="_blank" rel="noopener">瓦特</a>每<a href="https://zh.wikipedia.org/wiki/球面度" target="_blank" rel="noopener">球面度</a>每平方米</td><td>$W*sr^(-1)*m^(-2)$</td><td>每单位<a href="https://zh.wikipedia.org/wiki/立體角" target="_blank" rel="noopener">立体角</a>每单位投射表面的<a href="https://zh.wikipedia.org/wiki/辐射通量" target="_blank" rel="noopener">辐射通量</a>。<strong>相当于辐射强度在dA上的微分</strong></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table><p>BRDF由Fred Nicodemus在1965年提出，函数如下：</p><p>$$f_r(omega_i,omega_r) = (dL_r(omega_r))/(dE_i(omega_i)) = (dL_r(omega_r))/(L_i(omega_i)cos theta_i d omega_i) $$</p><img src="/Users/admin/work/guileen.github.com/hexo/source/img/brdf/brdf-diagram.png" style="width:50%;" /><p>这个公式之所以定义为辐射率（radiance）和辐照度（irradiance）之比，而不是radiance和radiance之比，或irradiance和irradiance之比。是因为当考虑入射时，我们需要考虑入射光在面积上的分量，所以irradiance译为辐<strong>照</strong>度。当考虑反射时，我们需要考虑每立体角的辐射通量，并且这个辐射通量最终投影在屏幕（视网膜）面积上的辐射通量，因此我们用辐射率。如果我们用点光源，入射光的计算似乎也是可以用辐射率的，但有时我们还要考虑平行光的情况，那么对于入射光就不存在每立体角的概念了，因此对于入射光照我们用辐照度，反射我们用辐射率。</p><h3 id="基于物理的BRDF模型-PBR，Physically-based-rendering"><a href="#基于物理的BRDF模型-PBR，Physically-based-rendering" class="headerlink" title="基于物理的BRDF模型(PBR，Physically-based rendering)"></a>基于物理的BRDF模型(PBR，Physically-based rendering)</h3><h4 id="次表面散射（Subsurface-scattering）"><a href="#次表面散射（Subsurface-scattering）" class="headerlink" title="次表面散射（Subsurface scattering）"></a>次表面散射（Subsurface scattering）</h4><p>是一些半透明物质比如皮肤、玉石、大理石、塑料等。当光入射到材料表面后，一部分被反射、一部分被吸收、还有一部分经历透射，透射光在材料内部进行多次不规则的反射之后，又从不同角度反射了回来。</p><h4 id="菲涅尔反射（Fresnel-Reflectance）"><a href="#菲涅尔反射（Fresnel-Reflectance）" class="headerlink" title="菲涅尔反射（Fresnel Reflectance）"></a>菲涅尔反射（Fresnel Reflectance）</h4><p>当光从一种折射率为$n_1$的介质向另一种折射率为$n_2$的介质传播时，在两者的交界处可能会同时发生光的反射和折射。<a href="https://zh.wikipedia.org/wiki/%E8%8F%B2%E6%B6%85%E8%80%B3%E6%96%B9%E7%A8%8B" target="_blank" rel="noopener">菲涅尔方程</a>描述了光波的不同分量被折射和反射的情况，也描述了波反射时的相变。光线会随着我们的观察角度而反射不同的亮度，当我们以垂直与水面的角度观察池塘时，我们可以看到池塘的底部，但当我们以平行于水面的角度观察水面时，反射光则会很强我们无法看到池底。</p><h4 id="微表面理论（Microfacet-Theory）"><a href="#微表面理论（Microfacet-Theory）" class="headerlink" title="微表面理论（Microfacet Theory）"></a>微表面理论（Microfacet Theory）</h4><p>微表面理论假设材质的表面是由不同方向的微小细节平面（microfacet）所构成，反射光线由这些微表面的法线分布决定。我们用法线分布函数（Normal Distribution Function，NDF），D(h) 来描述表面的法线分布概率。h表示视角与入射光角度之间的半程向量。</p><p><img src="/img/brdf/microfacet.jpg" alt=""></p><p>$$f(i,o) = (F(i,h)G(i,o,h)D(h))/(4(n,i)(n,o))$$ </p><p>其中F(i,h)表示菲涅尔项，表示所有反射的比例。G(i,o,h) 表示自投影项，当光线几乎平射于微表面时，光线则将被粗糙的表面自我遮挡掉。D(h)表示法线分布。</p><p>参考:</p><p><a href="https://en.wikipedia.org/wiki/Bidirectional_reflectance_distribution_function" target="_blank" rel="noopener">Wikipedia:《Bidirectional reflectance distribution function》</a></p><p>《Real-Time Rendering, 4th edition》</p><p><a href="https://github.com/QianMo/Real-Time-Rendering-3rd-CN-Summary-Ebook" target="_blank" rel="noopener">《Real-Time Rendering 3rd》提炼总结</a></p><p><a href="https://zhuanlan.zhihu.com/p/20119162" target="_blank" rel="noopener"> Microfacet材质和多层材质——文刀秋二</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;双向反射分布函数（bidirectional reflectance distribution function）$f_r(omega_i,omega_r)$是一个计算光照反射量的函数。$omega_i$表示输入光角度，$omega_r$表示反射光角度，函数返回反射光辐射率
+      
+    
+    </summary>
+    
+    
+      <category term="computer-graphics" scheme="http://guileen.github.io/tags/computer-graphics/"/>
+    
+  </entry>
   
   <entry>
     <title>线性代数的本质</title>
@@ -445,31 +468,6 @@
     </summary>
     
       <category term="AI" scheme="http://guileen.github.io/categories/AI/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>2019年度回顾：新思潮的前夜</title>
-    <link href="http://guileen.github.io/2019/12/25/2019-new-thinking/"/>
-    <id>http://guileen.github.io/2019/12/25/2019-new-thinking/</id>
-    <published>2019-12-25T02:38:44.000Z</published>
-    <updated>2020-08-31T07:01:49.033Z</updated>
-    
-    <content type="html"><![CDATA[<p>过去一年，事业上没多少进步，思想上有贯通之感。这些“无用之学”是一年的无所事事换来，所以需要记录一下。</p><p>今年不再听得到，改听微信读书。办了张图书馆的借书证。主要知识来源：书、知乎、B站。排序与阅读顺序无关</p><p>与同学论战，论战过程中不断提高自己的理论水平，发现有很多东西虽然有概念，如果缺乏实证没有说服力。世界银行提供了很多经济数据，很有价值，如GDP、PPP、Gini系数等。</p><p>读冯友兰的《中国哲学史》，思考中国哲学所具有的普世意义。温习《庄子》《墨子》的部分内容。尝试论证人生的意义，一个可以被自己接受的人生意义。</p><p>B站看秦晖讲的《中国哲学史》，其以群己界限、乡举里选、儒法斗争为叙述线索，似有可取之处，但其对民族性论述不以为然。新文化运动以来诸如胡适、鲁迅，皆有可取之处，却其对民族性的贬低又有精日、西奴之嫌。</p><p>读了《夏禹神话研究》。了解相关知识，对五帝、夏禹历史尝试进行分析，梳理一个叙事结构。录了几个关于五帝抖音视频，暂停了。</p><p>进一步了解了地理环境决定论，读《枪炮病菌与钢铁》。</p><p>了解加州学派的主要观点，读了《白银资本》《火枪与账簿》全球史视角下的东西方对比（明清时期）。</p><p>了解了明史，尤其是晚明史，读了《万历十五年》，《剑桥中国明代史》，B站看张西平、商传等学者的视频，重新认识了明朝。</p><p>了解东林党的历史和评价，褒贬不一。猜想：东林岳麓两家书院，传承中华文明，他们的学生从明末到民国，风格迥异。常凯申是江浙人，属于东林一脉，毛主席是湖南人，属于岳麓一脉。</p><p>了解了中学西传，启蒙运动与中国哲学的关系。西方近代哲学主要发端于启蒙运动，那么西方哲学到底是继承自中学西传，还是继承自基督教，还是继承自古希腊？这个问题引人深思。</p><p>读了白云先生的文章，虽有偏激之辞，但格局极大，有打通任督二脉之感。尤其是关于韩愈-陈抟-朱熹-宋明理学-王夫之-曾国藩、杨昌济、毛泽东的中华道统传承的论述。</p><p>了解王夫之生平，对此先贤之前无甚了解。他的《读通鉴论》看了一节。钦佩。读《曾国藩传》。</p><p>读《天朝的崩溃》，思考满清的农奴式统治的影响，新文化运动批评的民族性，其实是满遗余孽。</p><p>在知乎上回答了李约瑟难题，基本认为李约瑟难题是个伪命题。</p><p>读了《毛泽东自传》《毛泽东传》，一个越了解越觉得伟大的人，千古无二，真神，远胜佛祖、摩西之流。相信毛主义会再次回归神坛。</p><p>读了温铁军的《八次危机》，认识到前三十年的巨大成就和困难，以及后三十年的巨大经济与社会问题。</p><p>在读《临高启明》，一群工业党写的。了解现代国家形成的过程，工业化的巨大困难，以及工业化完成后将带来财富激增。</p><p>看了《无悔追踪》《一年又一年》《天道》这三部连续剧可以串起中国几十年民众的生活状态。</p><p>读了《战后日本经济史》，德国、苏联、日本 的崛起都有社会主义/国家资本主义的原因，与自由市场经济无关。而那些鼓吹自由市场理论的，都是在完成工业化后，才开始采用自由市场，工业化前都有压榨式的原始积累过程。上学时没学好马哲，现在要补习。</p><p>读了《大国悲剧：苏联解体的前因后果》，看了HBO电视剧《切尔诺贝利》。</p><p>了解中国在冷战中的地位与策略。战后历史就是中美苏的斗争历史，其他国家忙着搭便车。</p><p>看了《切腹》《寄生虫》《美国工厂》这几部电影，无产阶级无处不在啊。</p><h2 id="今年"><a href="#今年" class="headerlink" title="今年"></a>今年</h2><p>华为被视为民族英雄，联想被视作美帝买办。</p><p>非洲猪瘟，猪肉价格上涨。</p><p>香港动乱。</p><p>王健林内贷外投，转移财产。</p><p>国庆大阅兵，民心振奋。</p><p>华为胡玲发帖、251事件。</p><p>抖音上忽然走红 沈巍（流浪的大师）、李子柒（世外桃源）、牧马人（文革晚期、改革初期的淳朴生活）。</p><p>中美贸易战接近收官。</p><p>世界各地区社会运动不断。</p><h2 id="未来"><a href="#未来" class="headerlink" title="未来"></a>未来</h2><p>我们正站在世界巨变的前夜，这个巨变将以我们意向不到的方式出现。</p><p>美国会倒下，但我们不知道美国将会如何倒下。中美最根本的战争在金融领域，人民币国际化就是在争夺全球铸币权份额。美元可能会崩溃，但中国拥有的大量美元资产需要安全置换。如果美元霸权能够缓缓的衰落，对中国的影响最小，如果美元霸权骤然终结，也将对中国带来冲击。</p><p>在现在的国际环境下，依靠出口拉动经济的方式是不可持续的，最重要的是提振内需，但目前老百姓手里没钱，内需也拉不动。所以现在必须要平衡贫富差距。缩小贫富差距就要有人掏钱，因此有钱的人都想着抽逃资金。严打不仅稳定社会治安，也会收回大量不法收入。</p><p>房价不会大涨也不会大跌，上涨会让还没买房的人不满意，下跌会让已经买了房的人不满意，所以就锁住，不涨不跌。房子已经进入了计划时代，就像火车票必须凭身份证购买来抑制黄牛是一样的。信息化使计划经济具有了更大的可行性。即使通货膨胀了，房价也不会涨，因为已经不再是市场化环境了。所以本质上，房价在缓缓下跌。</p><p>需要优化财富分配，医疗养老之类的福利会加强，教育科研投入会加大，贫困人口持续扶贫。</p><p>大量高科技依然掌握在欧美手中。中国的普及教育很好，但是高等教育与欧美差距较大，教育改革也是困难重重。仅从本人专业来看，编程语言、操作系统、深度学习框架，都是美国人的。</p><p>生产过剩、人工智能，会影响就业率。新增人口下滑，老龄化加速。</p><p>创业会越来越难，基本上属于解决就业的公益事业。体制内、大平台的职工相当于新的铁饭碗，同时临时工也会越来越多。</p><p>创业的最佳阶段是GDP高速增长的阶段，只要入局基本都有得赚。如果宏观上的财富没有增加，那么创业相当于是在存量市场与其他人竞争。除非有压倒性的武器，找到可以战胜的敌人，否则不要创业。海外市场机会较大。</p><p>创新是有闲阶级特权，有闲不一定是非常富有，但需要有一份保证基本生活的、时间投入少的收入，即“睡后收入”。如果创新可立刻获得回报，则可以进入增强回路循环。</p><p>随着机器人取代越来越多的低端就业，UBI即无条件基本收入的概念会被越来越多的人接受。今年参加美国总统竞选的杨安泽使用了UBI的口号，别人问他钱从哪来，他说向富人收税。桑德斯再次参加大选，美国民主社会主义近年快速崛起。</p><p>传统发达国家因为后发国家的追赶，导致本国产业受到影响，就业率下滑。从而产生越来越多的社会运动，希望获得更高的社会福利，有的地方甚至为了几毛钱的地铁涨价就闹了起来。但这些国家由于债务压力已经很大，经济环境恶化，无法给到更多的社会福利。富人们则利用国际避税手段，来躲避社会责任。一场全球性的萧条和左派革命正在酝酿，那些小政府的发达地区问题最严重（比如香港、韩国是小政府、新加坡是大政府）。</p><p>中美的竞争不会转化为热战，因为中国不想打，美国打不赢。中美握手后，将联手打击国际避税，共治天下。</p><p>资本因其可以转移，在国际共运中，虽然一部分资产被没收，但更多的则逃到了避风港中。苏联解体、改革开放也使大量的公有资产再次被私有化。美国衰落将使资本最大的避风港消失，所有的资本都将处于监管之下。</p><p>中国国内思想分歧增大。近几十年的高速增长，右派认为前人有罪，自己有功，而问题则留给后人处理，大力宣传，所以右派思想居主流。近十年文革一代领导人上台，左派思想逐渐兴起，加之贫富差距、环保、贪腐等问题的存在，助推了左派思潮的壮大。我也是因为近几年的反腐、扶贫、强军才开始重新认识这个国家。</p><p>如果说这一代领导人的思想是在文革中形成的话，那么下一届领导人的思想又是在何时形成的呢？文革给中国续了命，修正主义则给苏联送了命。戈尔巴乔夫说“我们是苏共二十大的孩子，苏联六十年代的历史对我们影响很大”，六十年代的苏联就相当于八十年代的中国，赫鲁晓夫教出了戈尔巴乔夫，戈尔巴乔夫一手送走了苏联。下一届领导人是左还是右？改革开放中形成的利益集团是否已经可以左右政治格局，形成类似日韩的财阀统治？这是未来最大的不确定因素。</p><p>正因为这是未来最大的不确定因素，所以伟人在晚年才要发动文革。不断受人非议的文革，完成了一代人的政治教育，奠定了一代人的思想基础，顶住了世界范围的社会主义颠覆潮。伟人看得太远了，我们无法企及。但是我们虽然顶住了颠覆，却也经历了改革，大量国有资产被私有化，形成了利益集团。几十年过去了，人心不古。既得利益者一定会想方设法垄断政治权力，不加控制结局与明朝无异。解决方案伟人都说过了，而我们首先要做的就是正确评价文革。反对文革的人常拿文革中的极端案例来举例，犯罪案件每个时代都有，我们要注意到文革时期的犯罪率是远低于改革之后的，即便把群众运动中极端案件算上，也比改革之后的犯罪率低。就连当时“受迫害”的人都没有反对文革（比如现任领导人），那些不了解文革的人又凭什么反对呢？妖魔化文革的本质就是妖魔化群众运动，从而顺理成章的剥夺了民众的政治权力。</p><p>扯远了，看来可以写的主题有很多。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;过去一年，事业上没多少进步，思想上有贯通之感。这些“无用之学”是一年的无所事事换来，所以需要记录一下。&lt;/p&gt;
-&lt;p&gt;今年不再听得到，改听微信读书。办了张图书馆的借书证。主要知识来源：书、知乎、B站。排序与阅读顺序无关&lt;/p&gt;
-&lt;p&gt;与同学论战，论战过程中不断提高自己的理论
-      
-    
-    </summary>
-    
-      <category term="随笔" scheme="http://guileen.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
     
     
   </entry>
