@@ -6,16 +6,16 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://guileen.github.io">
-  <title>在命令行解析HTML | 桂糊涂的博客</title>
+  <title>线性代数的本质 | 桂糊涂的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="最近要做音乐app，但没有素材。 一个音乐爬虫 https:&#x2F;&#x2F;github.com&#x2F;BeanWei&#x2F;MusicSpider 网页版的内容比较容易解析，为了快速了解数据结构，需要一个好工具。于是找到了pup 123go get github.com&#x2F;ericchiang&#x2F;pupcurl -s https:&#x2F;&#x2F;news.ycombinator.com&amp;#x2F">
+  <meta name="description" content="当我在大学中学习线性代数的时候，我不知所云且不以为然。然后随着不断的学习，我发现不懂线性代数是没法在更深的技术领域里混的。比如机器学习、计算机图形学等等，对于其他的科研领域也都是同样的。如果学不好线性代数既不是我的问题，也不是线性代数的问题，那到底是什么问题？最近学些了现代计算机图形学入门-闫令琪 线性代数的本质-3blue1brown 这两个系列视频使我对线性代数多了更多的感性认识，而《实践论》">
 <meta property="og:type" content="article">
-<meta property="og:title" content="在命令行解析HTML">
-<meta property="og:url" content="http://guileen.github.io/2020/12/14/parse-html-in-command-line/index.html">
+<meta property="og:title" content="线性代数的本质">
+<meta property="og:url" content="http://guileen.github.io/2021/02/18/the-essence-of-linear-algebra/index.html">
 <meta property="og:site_name" content="桂糊涂的博客">
-<meta property="og:description" content="最近要做音乐app，但没有素材。 一个音乐爬虫 https:&#x2F;&#x2F;github.com&#x2F;BeanWei&#x2F;MusicSpider 网页版的内容比较容易解析，为了快速了解数据结构，需要一个好工具。于是找到了pup 123go get github.com&#x2F;ericchiang&#x2F;pupcurl -s https:&#x2F;&#x2F;news.ycombinator.com&amp;#x2F">
-<meta property="article:published_time" content="2020-12-14T09:02:32.000Z">
-<meta property="article:modified_time" content="2020-12-14T09:44:16.415Z">
+<meta property="og:description" content="当我在大学中学习线性代数的时候，我不知所云且不以为然。然后随着不断的学习，我发现不懂线性代数是没法在更深的技术领域里混的。比如机器学习、计算机图形学等等，对于其他的科研领域也都是同样的。如果学不好线性代数既不是我的问题，也不是线性代数的问题，那到底是什么问题？最近学些了现代计算机图形学入门-闫令琪 线性代数的本质-3blue1brown 这两个系列视频使我对线性代数多了更多的感性认识，而《实践论》">
+<meta property="article:published_time" content="2021-02-18T04:03:51.000Z">
+<meta property="article:modified_time" content="2021-02-18T04:03:51.927Z">
 <meta property="article:author" content="桂糊涂">
 <meta name="twitter:card" content="summary">
   
@@ -152,7 +152,7 @@
 </nav>
 
       <div class="body-wrap">
-        <article id="post-parse-html-in-command-line" class="article article-type-post" itemscope itemprop="blogPost">
+        <article id="post-the-essence-of-linear-algebra" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -162,7 +162,7 @@
         
   
     <h1 class="article-title" itemprop="name">
-      在命令行解析HTML
+      线性代数的本质
     </h1>
   
 
@@ -170,22 +170,20 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近要做音乐app，但没有素材。 一个音乐爬虫</p>
-<p><a href="https://github.com/BeanWei/MusicSpider" target="_blank" rel="noopener">https://github.com/BeanWei/MusicSpider</a></p>
-<p>网页版的内容比较容易解析，为了快速了解数据结构，需要一个好工具。于是找到了pup</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">go get github.com&#x2F;ericchiang&#x2F;pup</span><br><span class="line"></span><br><span class="line">curl -s https:&#x2F;&#x2F;news.ycombinator.com&#x2F; | pup &#39;table table tr:nth-last-of-type(n+2) td.title a json&#123;&#125;&#39;</span><br></pre></td></tr></table></figure>
-
-
-<p>以上解析可以用于命令行的分析，但若要生成更精简的数据结构，可以用下面的结构。</p>
-<p>const { parse } = require(‘node-html-parser’)<br>const fs = require(‘fs’)</p>
-<p>var dom = parse(fs.readFileSync(“./test_list.xml”, “utf8”))<br>var res = dom.querySelectorAll(‘li’).map(el=&gt; {<br>     return {<br>         src: el.querySelector(“img”).getAttribute(“src”),<br>         title: el.querySelector(“a.tit”).innerText,<br>         href: el.querySelector(“a.tit”).getAttribute(“href”),<br>         cnt: el.querySelector(“span.nb”).innerText,<br>     }<br> })<br>console.log(JSON.stringify(res,null,’  ‘))</p>
+        <p>当我在大学中学习线性代数的时候，我不知所云且不以为然。然后随着不断的学习，我发现不懂线性代数是没法在更深的技术领域里混的。比如机器学习、计算机图形学等等，对于其他的科研领域也都是同样的。如果学不好线性代数既不是我的问题，也不是线性代数的问题，那到底是什么问题？最近学些了<a href="https://www.bilibili.com/video/BV1X7411F744" target="_blank" rel="noopener">现代计算机图形学入门-闫令琪</a> <a href="https://www.bilibili.com/video/BV1ib411t7YR" target="_blank" rel="noopener">线性代数的本质-3blue1brown</a> 这两个系列视频使我对线性代数多了更多的感性认识，而<a href="https://www.marxists.org/chinese/maozedong/marxist.org-chinese-mao-193707.htm" target="_blank" rel="noopener">《实践论》</a> 告诉我们，<strong>理性认识是要依赖于感性认识的</strong>。传统的线性代数教材则希望构建一套完全自洽的纯粹的数学理论，它不依赖于现实世界的知识。这或许可以满足一些数学家的成就感，但这种马后炮式的“创造”是脱离历史的。线性代数就像其他的学科一样，不可能是仅凭想象产生的，虽然数学家可以伪装成不依赖历史发展而独立自洽，但这除了是一种智力游戏外，对于认识世界、传播知识并没有任何帮助。我们就在这种缺乏感性认识的数学教育中丧失了对数学理论的兴趣，岂不哀哉？</p>
+<p>吐槽结束，进入正题。谈谈我此刻对线性代数的理解，探讨一下他的本质到底是什么。我们是否会问自己，加减乘除的本质到底是什么？我们之所以不这么问，是因为我们已经理解了四则运算的本质。我们不会问关于十进制的本质，因为日常生活中已经给我们建立了足够多的经验。但我们在学龄前的阶段，我们则可能对十进制和加减乘除充满了困惑。但我们接触线性代数太晚，我们并没有足够的练习和日常应用使我们建立起感性认识。当我们在商店里消费的时候四则运算不断强化着我们的认知，但线性代数缺少这样的机会。当我们被教授四则运算时，老师把我们当作一个普通的人类，会告诉我们3个苹果+2个苹果=5个苹果，这种现实世界的例子帮助我们更好的理解了四则运算。但当我们学习线性代数时，我们则变成了一个个抽象的理性机器，这个系统只告诉我们各种定义、运算规则，然后要求我们像计算机一样的运行，计算出结果。What are we doing？我们怎么可能不懵圈呢？线性代数就是一个增强版的加减乘除，但没有足够的案例使我们不知道我们的计算究竟代表着什么？AlphaGo就算赢了李世石，但他不知道自己在干什么。我们作为人类的尊严在哪里？我又没控制好自己的情绪，让我们回到正题。《线性代数及其应用》是一本很好的教材，他和国内教材最大的区别就在于“应用”上，这本书中列举了大量的例子来说明线性代数的应用。这本书的开头说道“<strong>线性代数是一门语言，必须用学习外语的方法每天学习这种语言</strong>”。</p>
+<p>我们从鸡兔同笼来举个例子。鸡兔同笼是小学阶段的奥数题，也就是在小学的数学语言中，这是一道很难描述的题。到了中学阶段我们可以用未知数x表示鸡的数量，未知数y表示兔的数量，并列出方程。而对于线性代数的语言，我们用向量$$((a),(b))$$表示鸡和兔的数量，如果我们有非常多的未知数，我们不希望定义太多的未知数符号，我们直接用$$x$$表示这个n维变量。我们有一个变换矩阵$$[[1,1],[2,4]]$$ 表示鸡有1个头2只脚，兔有1个头4只脚 。如果有3只鸡5只兔则 $$[[1,1],[2,4]]*[[3],[5]]=[[3*1+5*1],[3*2+5*4]]=[[8],[26]]$$，它代表着我们将一个“鸡兔向量”映射到了“头脚向量”的空间中，共有8只头，26只脚。</p>
+<p>我们知道函数是一种映射，$$f(x)=y$$代表将$x$到$y$的映射关系。矩阵乘法叫做线性变换，线性变换是一种函数映射，但函数映射不一定是线性变化。因此线性变换是符合函数的性质的。如果函数是可逆的，则有$$x=f^(-1)(y)$$，同样的，对于矩阵而言，$$若A是可逆的，且Ax=b，则x=A^(-1)b。设A=[[a,b],[c,d]]，则A^(-1)=1/(ad-bc)[[d,-b],[-c,a]]$$。对于鸡兔同笼问题，$$A=[[1,1],[2,4]]，则A^(-1)=1/2[[4,-1],[-2,1]]，当有8头26脚时，x=1/2[[4,-1],[-2,1]]*[[8],[26]]=1/2[[4*8-26],[-2*8+26]]=1/2[[6],[10]]=[[3],[5]]，即3只鸡5只兔。$$最重要的是，这整个计算过程，计算机可以轻松的完成，并且可以用定义标准化的操作，因为操作标准化，计算机可以被设计的更加擅长处理这类操作。这就是线性代数得到广泛应用的一个最重要原因。</p>
+<p>我们可以从鸡兔变换到头脚，我们也可以从产量变换到成本收益（这是经济学的应用），我们也可以从速度变换到阻力（这是空气动力学的应用），我们也可以将3D空间变换到3D或2D空间（这是计算机图形学的应用），我们也可以将用户行为维度变换到兴趣标签维度（这是机器学习推荐系统的应用）。这都说明了线性代数是一门“语言”，是一个工具。并不是因为线性代数，所以这些定理存在，而是因为这些规律本身存在，才能有线性代数这门工具。人类是巧妙的“发明”了线性代数，而不是“发现”了线性代数。</p>
+<p>线性变换可能进行多次，就像映射可以进行多次一样。因为矩阵的乘法就是一种特殊的函数，函数满足结合律$$g(f(h(x)))=((g @ f)(h(x)))$$，所以矩阵乘法也符合结合律$$A(BC)=(AB)C$$。</p>
+<p>TODO 叉乘表示面积和垂直与平面的向量，行列式表示体积，秩表示维数，特征值与特征向量，表示空间中在线性变换中保持稳定的轴，最小二乘法</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2020/12/14/parse-html-in-command-line/" class="archive-article-date">
-  	<time datetime="2020-12-14T09:02:32.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-12-14</time>
+      <a href="/2021/02/18/the-essence-of-linear-algebra/" class="archive-article-date">
+  	<time datetime="2021-02-18T04:03:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-02-18</time>
 </a>
       
       
@@ -198,18 +196,9 @@
   
 <nav id="article-nav">
   
-    <a href="/2020/12/18/setup-ikev2-vpn-server-on-ubuntu-16-04/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          Ubuntu 16 安装 IKEV2 VPN SERVER
-        
-      </div>
-    </a>
   
-  
-    <a href="/2020/10/29/tao-at-the-very-begining/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">太初有道</div>
+    <a href="/2021/02/07/law-of-cosines-and-phong-reflection-model/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">从余弦定理到冯氏光照模型</div>
       <i class="icon-circle-right"></i>
     </a>
   
