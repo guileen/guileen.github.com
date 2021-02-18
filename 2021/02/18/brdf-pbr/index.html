@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://guileen.github.io">
+  <title>BRDF双向反射分布函数 | 桂糊涂的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="双向反射分布函数（bidirectional reflectance distribution function）$f_r(omega_i,omega_r)$是一个计算光照反射量的函数。$omega_i$表示输入光角度，$omega_r$表示反射光角度，函数返回反射光辐射率。$omega$由球面坐标系的$phi$,$theta$角度表示，因此brdf函数共有4个参数。brdf的单位是每立体角$sr">
+<meta property="og:type" content="article">
+<meta property="og:title" content="BRDF双向反射分布函数">
+<meta property="og:url" content="http://guileen.github.io/2021/02/18/brdf-pbr/index.html">
+<meta property="og:site_name" content="桂糊涂的博客">
+<meta property="og:description" content="双向反射分布函数（bidirectional reflectance distribution function）$f_r(omega_i,omega_r)$是一个计算光照反射量的函数。$omega_i$表示输入光角度，$omega_r$表示反射光角度，函数返回反射光辐射率。$omega$由球面坐标系的$phi$,$theta$角度表示，因此brdf函数共有4个参数。brdf的单位是每立体角$sr">
+<meta property="og:image" content="http://guileen.github.io/img/brdf/spherical-coordinates.png">
+<meta property="og:image" content="http://guileen.github.io/img/brdf/solid-angle-1sr.png">
+<meta property="og:image" content="http://guileen.github.io/Users/admin/work/guileen.github.com/hexo/source/img/brdf/brdf-diagram.png">
+<meta property="og:image" content="http://guileen.github.io/img/brdf/microfacet.jpg">
+<meta property="article:published_time" content="2021-02-18T13:12:37.000Z">
+<meta property="article:modified_time" content="2021-02-18T15:48:31.636Z">
+<meta property="article:author" content="桂糊涂">
+<meta property="article:tag" content="computer-graphics">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://guileen.github.io/img/brdf/spherical-coordinates.png">
+  
+    <link rel="alternative" href="/atom.xml" title="桂糊涂的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/avatar.jpg">
+  
+  
+<link rel="stylesheet" href="/main.css">
+
+  
+
+<meta name="generator" content="Hexo 4.1.1"></head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">桂糊涂</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">代码杂记</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/categories/AI">AI</a></li>
+	        
+				<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+	        
+				<li><a href="/balance-bot/">读心天平</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/guileen" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="https://weibo.com/guileen" title="weibo">weibo</a>
+		        
+					<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">桂糊涂</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">桂糊涂</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">代码杂记</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/categories/AI">AI</a></li>
+		        
+					<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+		        
+					<li><a href="/balance-bot/">读心天平</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/guileen" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="https://weibo.com/guileen" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-brdf-pbr" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      BRDF双向反射分布函数
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>双向反射分布函数（bidirectional reflectance distribution function）$f_r(omega_i,omega_r)$是一个计算光照反射量的函数。$omega_i$表示输入光角度，$omega_r$表示反射光角度，函数返回反射光辐射率。$omega$由球面坐标系的$phi$,$theta$角度表示，因此brdf函数共有4个参数。brdf的单位是每立体角$sr^(-1)$。</p>
+<img src="/img/brdf/spherical-coordinates.png" style="width:50%;" />
+
+<img src="/img/brdf/solid-angle-1sr.png" style="width:45%;margin-top:5%;" />
+
+<h3 id="辐射度量学-Radiometry"><a href="#辐射度量学-Radiometry" class="headerlink" title="辐射度量学(Radiometry)"></a>辐射度量学(Radiometry)</h3><table>
+<thead>
+<tr>
+<th>物理量</th>
+<th>符号</th>
+<th>公式</th>
+<th>国际单位制</th>
+<th>单位符号</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://zh.wikipedia.org/wiki/辐射能" target="_blank" rel="noopener">辐射能</a>（Radiant energy）</td>
+<td>$Q_e$</td>
+<td></td>
+<td><a href="https://zh.wikipedia.org/wiki/焦耳" target="_blank" rel="noopener">焦耳</a></td>
+<td>$J$</td>
+<td>能量。</td>
+</tr>
+<tr>
+<td><a href="https://zh.wikipedia.org/wiki/辐射通量" target="_blank" rel="noopener">辐射通量</a>（Radiant flux）</td>
+<td>$Phi_e$</td>
+<td>$Phi=(dQ)/(dt)$</td>
+<td><a href="https://zh.wikipedia.org/wiki/瓦特" target="_blank" rel="noopener">瓦特</a></td>
+<td>$W$</td>
+<td>每单位时间的辐射能量，亦作“辐射功率”。</td>
+</tr>
+<tr>
+<td><a href="https://zh.wikipedia.org/wiki/辐射强度" target="_blank" rel="noopener">辐射强度</a>（Radiant intensity）</td>
+<td>$I_e$</td>
+<td>$I=(dPhi)/(d omega)</td>
+<td><a href="https://zh.wikipedia.org/wiki/瓦特" target="_blank" rel="noopener">瓦特</a>每<a href="https://zh.wikipedia.org/wiki/球面度" target="_blank" rel="noopener">球面度</a></td>
+<td>$W*sr^(-1)$</td>
+<td>每单位<a href="https://zh.wikipedia.org/wiki/立體角" target="_blank" rel="noopener">立体角</a>的辐射通量。</td>
+</tr>
+<tr>
+<td><a href="https://zh.wikipedia.org/wiki/輻照度" target="_blank" rel="noopener">辐照度</a>（Irradiance）（辉度）</td>
+<td>$E_e$</td>
+<td>$E=(dPhi)/(dA)=int_(Omega)  L(omega)cos theta d omega$</td>
+<td><a href="https://zh.wikipedia.org/wiki/瓦特" target="_blank" rel="noopener">瓦特</a>每平方米</td>
+<td>$W*m^(-2)$</td>
+<td>入射表面的辐射通量</td>
+</tr>
+<tr>
+<td><a href="https://zh.wikipedia.org/wiki/辐射率" target="_blank" rel="noopener">辐射率</a>（Radiance）(光亮度）</td>
+<td>$L_e$</td>
+<td>$(d^2Phi)/(dAcos theta d omega)$</td>
+<td><a href="https://zh.wikipedia.org/wiki/瓦特" target="_blank" rel="noopener">瓦特</a>每<a href="https://zh.wikipedia.org/wiki/球面度" target="_blank" rel="noopener">球面度</a>每平方米</td>
+<td>$W*sr^(-1)*m^(-2)$</td>
+<td>每单位<a href="https://zh.wikipedia.org/wiki/立體角" target="_blank" rel="noopener">立体角</a>每单位投射表面的<a href="https://zh.wikipedia.org/wiki/辐射通量" target="_blank" rel="noopener">辐射通量</a>。<strong>相当于辐射强度在dA上的微分</strong></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>BRDF由Fred Nicodemus在1965年提出，函数如下：</p>
+<p>$$f_r(omega_i,omega_r) = (dL_r(omega_r))/(dE_i(omega_i)) = (dL_r(omega_r))/(L_i(omega_i)cos theta_i d omega_i) $$</p>
+<img src="/Users/admin/work/guileen.github.com/hexo/source/img/brdf/brdf-diagram.png" style="width:50%;" />
+
+<p>这个公式之所以定义为辐射率（radiance）和辐照度（irradiance）之比，而不是radiance和radiance之比，或irradiance和irradiance之比。是因为当考虑入射时，我们需要考虑入射光在面积上的分量，所以irradiance译为辐<strong>照</strong>度。当考虑反射时，我们需要考虑每立体角的辐射通量，并且这个辐射通量最终投影在屏幕（视网膜）面积上的辐射通量，因此我们用辐射率。如果我们用点光源，入射光的计算似乎也是可以用辐射率的，但有时我们还要考虑平行光的情况，那么对于入射光就不存在每立体角的概念了，因此对于入射光照我们用辐照度，反射我们用辐射率。</p>
+<h3 id="基于物理的BRDF模型-PBR，Physically-based-rendering"><a href="#基于物理的BRDF模型-PBR，Physically-based-rendering" class="headerlink" title="基于物理的BRDF模型(PBR，Physically-based rendering)"></a>基于物理的BRDF模型(PBR，Physically-based rendering)</h3><h4 id="次表面散射（Subsurface-scattering）"><a href="#次表面散射（Subsurface-scattering）" class="headerlink" title="次表面散射（Subsurface scattering）"></a>次表面散射（Subsurface scattering）</h4><p>是一些半透明物质比如皮肤、玉石、大理石、塑料等。当光入射到材料表面后，一部分被反射、一部分被吸收、还有一部分经历透射，透射光在材料内部进行多次不规则的反射之后，又从不同角度反射了回来。</p>
+<h4 id="菲涅尔反射（Fresnel-Reflectance）"><a href="#菲涅尔反射（Fresnel-Reflectance）" class="headerlink" title="菲涅尔反射（Fresnel Reflectance）"></a>菲涅尔反射（Fresnel Reflectance）</h4><p>当光从一种折射率为$n_1$的介质向另一种折射率为$n_2$的介质传播时，在两者的交界处可能会同时发生光的反射和折射。<a href="https://zh.wikipedia.org/wiki/%E8%8F%B2%E6%B6%85%E8%80%B3%E6%96%B9%E7%A8%8B" target="_blank" rel="noopener">菲涅尔方程</a>描述了光波的不同分量被折射和反射的情况，也描述了波反射时的相变。光线会随着我们的观察角度而反射不同的亮度，当我们以垂直与水面的角度观察池塘时，我们可以看到池塘的底部，但当我们以平行于水面的角度观察水面时，反射光则会很强我们无法看到池底。</p>
+<h4 id="微表面理论（Microfacet-Theory）"><a href="#微表面理论（Microfacet-Theory）" class="headerlink" title="微表面理论（Microfacet Theory）"></a>微表面理论（Microfacet Theory）</h4><p>微表面理论假设材质的表面是由不同方向的微小细节平面（microfacet）所构成，反射光线由这些微表面的法线分布决定。我们用法线分布函数（Normal Distribution Function，NDF），D(h) 来描述表面的法线分布概率。h表示视角与入射光角度之间的半程向量。</p>
+<p><img src="/img/brdf/microfacet.jpg" alt=""></p>
+<p>$$f(i,o) = (F(i,h)G(i,o,h)D(h))/(4(n,i)(n,o))$$ </p>
+<p>其中F(i,h)表示菲涅尔项，表示所有反射的比例。G(i,o,h) 表示自投影项，当光线几乎平射于微表面时，光线则将被粗糙的表面自我遮挡掉。D(h)表示法线分布。</p>
+<p>参考:</p>
+<p><a href="https://en.wikipedia.org/wiki/Bidirectional_reflectance_distribution_function" target="_blank" rel="noopener">Wikipedia:《Bidirectional reflectance distribution function》</a></p>
+<p>《Real-Time Rendering, 4th edition》</p>
+<p><a href="https://github.com/QianMo/Real-Time-Rendering-3rd-CN-Summary-Ebook" target="_blank" rel="noopener">《Real-Time Rendering 3rd》提炼总结</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/20119162" target="_blank" rel="noopener"> Microfacet材质和多层材质——文刀秋二</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2021/02/18/brdf-pbr/" class="archive-article-date">
+  	<time datetime="2021-02-18T13:12:37.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-02-18</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/computer-graphics/" rel="tag">computer-graphics</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2021/02/18/the-essence-of-linear-algebra/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">线性代数的本质</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+
+<script type="text/javascript">
+(function(){
+var url = "http://widget.weibo.com/distribution/comments.php?width=0&url=auto&brandline=y&fontsize=12&skin=9&ralateuid=1751113432&appkey=3729652156&iframskin=9&dpc=1";
+url = url.replace("url=auto", "url=" + encodeURIComponent(document.URL));
+document.write('<iframe id="WBCommentFrame" src="' + url + '" scrolling="no" frameborder="0" style="width:100%"></iframe>');
+})();
+</script>
+<script src="http://tjs.sjs.sinajs.cn/open/widget/js/widget/comment.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.WBComment.init({
+    "id": "WBCommentFrame"
+});
+</script>
+
+</div>
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2021 桂糊涂
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+
+<script src="/./main.js"></script>
+
+
+
+<!-- <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script> -->
+
+<script>
+  MathJax = {
+    loader: {load: ['input/asciimath', 'output/chtml', 'ui/menu']},
+    asciimath: {
+    delimiters: [['`','`'], ['$$', '$$'], ['$','$']]
+  }
+  };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js">
+  </script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/OpenGL-math/" style="font-size: 10px;">OpenGL,math</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/computer-graphics/" style="font-size: 10px;">computer-graphics</a> <a href="/tags/cpp/" style="font-size: 11.25px;">cpp</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
+    			</div>
+    	</section>
+    
+
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">联系我：&lt;br&gt; guileen AT qq DOT com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
