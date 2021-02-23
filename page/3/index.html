@@ -152,6 +152,98 @@
       <div class="body-wrap">
         
   
+    <article id="post-introduce-reinforcement-learning-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/27/introduce-reinforcement-learning-1/">强化学习简介（一）：Q-learning</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>完成图像分类之类的监督学习任务，已经没有特别大的难度。我们希望AI能够帮助我们处理一些更加复杂的任务，比如：下棋、玩游戏、自动驾驶、行走等。这一类的学习任务被称为强化学习。</p>
+<p><img src="/img/rl-1/4.png" alt="强化学习图示"></p>
+<h2 id="K摇臂赌博机"><a href="#K摇臂赌博机" class="headerlink" title="K摇臂赌博机"></a>K摇臂赌博机</h2><p>我们可以考虑一个最简单的环境：一个动作可立刻获得奖励，目标是使每一个动作的奖励最大化。对这种单步强化学习任务，可以设计一个理论模型——“K-摇臂赌博机”。这个赌博机有K个摇臂，赌徒在投入一个硬币后可一选择按下一个摇臂，每个摇臂以一定概率吐出硬币，但这个概率赌徒并不知道。赌徒的目标是通过一定的策略最大化自己的奖赏，即获得最多的硬币。最终所获得的总奖励被称为累计奖励。</p>
+<p><img src="/img/rl-1/2.jpg" alt="K摇臂赌博机"></p>
+<p>对于这个简单模型，若要知道每个摇臂的概率，我们只需要进行足够多的尝试即可，这是“仅探索”策略；若要奖励最大化，则需要执行奖赏概率最大的动作即可，这是“仅利用”策略。但在更复杂的环境中，我们不可能对每一个状态的每个动作都进行足够多的探索。比如围棋，我们后续的探索是需要依赖于之前的探索的。因此我们需要在探索和利用之间进行平衡。我们在学习的过程中，必须要保持一定的概率`epsilon`进行探索，其余时候则执行学习到的策略。</p>
+<h2 id="基本概念术语"><a href="#基本概念术语" class="headerlink" title="基本概念术语"></a>基本概念术语</h2><p>为了便于分析讨论，我们定义一些术语。</p>
+<ul>
+<li><p>机器agent处于环境`E`中。</p>
+</li>
+<li><p>状态空间为`S`，每个状态`s in S`是机器感知到的环境描述。</p>
+</li>
+<li><p>机器能够采取的可采取的动作a的集合即动作空间`A`，`a in A`。</p>
+</li>
+<li><p>转移函数`P`表示：当机器执行了一个动作`a`后，环境有一定概率从状态`s`改变为新的状态`s’`。即：`s’=P(s, a)`</p>
+</li>
+<li><p>奖赏函数`R`则表示了执行动作可能获得的奖赏`r`。即：`r=R(s,a)`。</p>
+</li>
+<li><p>环境可以描述为`E=&lt;&lt;S, A, P, R&gt;&gt;`。</p>
+</li>
+<li><p>强化学习的任务是习得一个策略（policy）`pi`，使机器在状态`s`下选择到最佳的`a`。策略有两种描述方法：</p>
+<ol>
+<li>`a=pi(s)` 表示状态`s`下将执行动作`a`，是一种确定性的表示法。</li>
+<li>`pi(s, a)` 表示状态`s`下执行动作`a`的概率。这里有 `sum_a pi(s,a)=1`</li>
+</ol>
+</li>
+<li><p>累计奖励指连续的执行一串动作之后的奖励总和。</p>
+</li>
+<li><p>`Q^(pi)(s, a)`表示在状态`s`下，执行动作`a`，再策略`pi`的累计奖励。为方便讨论后续直接写为`Q(s,a)`。</p>
+</li>
+<li><p>`V^(pi)(s)` 表示在状态`s`下，使用策略`pi`的累计奖励。为方便讨论后续直接写为`V(s)`。</p>
+</li>
+</ul>
+<p>强化学习往往不会立刻得到奖励，而是在很多步之后才能得到一个诸如成功/失败的奖励，这是我们的算法需要反思之前所有的动作来学习。所以强化学习可以视作一种延迟标记的监督学习。</p>
+<h2 id="Q-learning"><a href="#Q-learning" class="headerlink" title="Q-learning"></a>Q-learning</h2><p>对于我们要学习的`Q(s,a)`函数，我们可以使用一个Q-table来表示。Q-table是一个二维表，记录每个状态`s in S, a in A`的`Q`值。Q表被初始化为0的状态。在状态`s`执行了动作`a`之后，得到状态`s’`，奖励`r`。我们将潜在的`Q`函数记为`Q_(real)`，其值为当前奖励r与后续状态`s’`的最佳累计奖励之和。则有：</p>
+<p>` Q_(real)(s, a) = r + gamma * argmax_aQ(s’, a) `<br>` err = Q_(real)(s, a) - Q(s, a) `</p>
+<p>其中`gamma`为`Q`函数的偏差，`err`为误差，`alpha`为学习率。 可得出更新公式为：</p>
+<p>` Q(s, a) leftarrow Q(s, a) + alpha*err `<br>即：<br>` Q(s,a) leftarrow (1-alpha)Q(s,a) + alpha(r + gamma * argmax_aQ(s’, a)) `</p>
+<p>以上公式即为Q-learning的关键</p>
+<h3 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 初始化Q表</span></span><br><span class="line"><span class="keyword">for</span> s <span class="keyword">in</span> S:</span><br><span class="line">  <span class="keyword">for</span> a <span class="keyword">in</span> A:</span><br><span class="line">    Q(s, a) = <span class="number">0</span></span><br><span class="line"><span class="comment"># 训练过程</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(N):</span><br><span class="line">  <span class="keyword">if</span> rand() &lt; epsilon:</span><br><span class="line">    a = 从 A 中随机选取一个动作</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    a = 从 A 中选取使 Q(a) 最大的a</span><br><span class="line">  <span class="comment"># 从环境中获得反馈</span></span><br><span class="line">  r = R(s, a)</span><br><span class="line">  s1 = P(s, a)</span><br><span class="line">  <span class="comment"># 更新Q表</span></span><br><span class="line">  Q(s,a) = (<span class="number">1</span>-alpha)*Q(s,a) + alpha * (r + gamma * argmax Q(s1, a) - Q(s, a))</span><br><span class="line">  s = s1</span><br></pre></td></tr></table></figure>
+
+<p>下图是一个Q表内存结构，在经过一定的学习后，Q表的内容将能够不断逼近每个状态的每个动作的累计收益。<br><img src="/img/rl-1/3.png" alt="Q-table"></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/12/27/introduce-reinforcement-learning-1/" class="archive-article-date">
+  	<time datetime="2019-12-27T03:28:16.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-27</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/AI/">AI</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-2019-new-thinking" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -820,72 +912,6 @@ A  &lt;-C公钥加密信息---  C  &lt;- A公钥加密信息--- B</code></pre><p
 
 
   
-    <article id="post-public-avatar" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/public-avatar/">人设——下一个现象级产品会是谁？</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Update 2019-12：此文预见了新社交软件抖音的崛起。红人霸场的现象使社交平台被红人绑架，新人也被压制。抖音能够成功，首先是4G移动网络的进一步普及，提供了短视频社交的需求，但这一赛道的玩家众多，并不能保证抖音胜出。真正保证抖音胜出的是其“捧红新人“的能力，完全基于推荐算法的产品设计，将流量分发的控制权从红人手中收回到平台，可以根据算法计划性的将流量分配给新人进行实验。至于其滤镜、音乐之类的辅助运营手段，并非其制霸全球的根本原因。</p>
-<p>另在清理微博时，看见了自己在2012年对游戏收费模式的看法。王者荣耀的成功从另一个角度印证了我的预见性。<br><img src="/img/screen_shot/wb2012.jpeg" alt=""></p>
-<h2 id="原文："><a href="#原文：" class="headerlink" title="原文："></a>原文：</h2><p>什么是SNS的本质？当我们看待一个SNS的时候，我们看到的是什么？</p>
-<p>信息、状态、转发、私信、粉丝、评论，我们看到的是这些产品功能吗？还是这些数据？他的价值在哪里？</p>
-<p>一个SNS，我们看到的是，我们自己的公共形象，或者是某些人的公共形象。SNS为这些红人提供了舞台。</p>
-<p>而且，每个SNS所提供的舞台是不一样的，往来的红人也是不一样的。</p>
-<p>SNS就像一个主题酒吧，来往形形色色的人，但他们身上或多或少会有一些共同点。在同一个SNS上，他们有同样的期许。</p>
-<p>粉丝是一个两难的设计。没有粉丝，红人们没有动力在SNS上奋斗，而有了粉丝之后，任何的SNS最终会走向固化，<strong>红人霸占了主要的SNS资源</strong>。</p>
-<p>这也是各种SNS会不断推陈出新的原因，因为有一批有潜质的红人，无论他／她是什么类别的红人，他需要一个舞台。但是有些场子，已经被人霸占，于是他们不得不寻找新的舞台。而总有一些SNS平台会抓住一些机会，提供某个类别的小舞台，这就是垂直SNS。</p>
-<p>是否有可能干翻霸主级的社交网络？Facebook，twitter，国内的腾讯、微博。<strong>答案是能！</strong>本质上腾讯就被自己干翻了，微信取代QQ，本质上就是对霸主的挑战，虽然这一切发生在腾讯内部。但是微信取代QQ，这样的现象是难以复制的，为什么呢？因为微信取代QQ是发生在<strong>移动互联网与传统互联网更替的阶段的，是大事因缘</strong>，没有微信取代QQ，也会有其他应用取代QQ，但机会只有一次。</p>
-<p>陌陌，用陌生人社交的方式占领了一定的市场，但是陌陌本身的名称定位已经把自己钉死了，就是陌生人社交。微信早期用摇一摇也达到了同样的爆发式增长，但用户规模上去之后，微信就可以弱化了这一个功能。</p>
-<p>SNS下一个风口在哪里？SNS不是风口，但机会永远存在。挑战霸主级的社交网络，需要的是天时地利人和。产品与用户，双方共同成就了一个霸主级社交产品。得红人者得天下，微博的发展正是这样的模式。</p>
-<p>但红人是本身就存在的，还是通过平台而红的，这个问题很关键。<strong>一个优秀的SNS平台应该有制造红人的能力，或者是让红人可以成长起来的能力</strong>。当你知道的红人越来越多的来自微信公众号，而不是来自微博的时候，那么说明微博的影响力降低了。</p>
-<p>因此霸主级的似乎不可撼动的庞然大物其实是可以被打败的。</p>
-<p>如何再造一个现象级的社交网络，我们不应该从产品模式上来思考这个问题，而是需要从人性的角度上来思考这个问题。人性是社交网络之所以成立的本质。更具体的说，<strong>人的社会性，情绪化，是社交网络的根本驱动力</strong>。人渴望被关注，渴望交流，渴望存在感，或只是渴望来自他人的声音。找到人在精神上的未被充分满足的需求点，强化这种概念，就有机会在社交产品中找到一席之地。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/19/public-avatar/" class="archive-article-date">
-  	<time datetime="2016-12-19T04:15:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-19</time>
-</a>
-      
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
       <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><span class="space">&hellip;</span><a class="page-number" href="/page/15/">15</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
@@ -984,7 +1010,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/OpenGL-math/" style="font-size: 10px;">OpenGL,math</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/computer-graphics/" style="font-size: 10px;">computer-graphics</a> <a href="/tags/cpp/" style="font-size: 11.25px;">cpp</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
+    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/OpenGL-Game-development/" style="font-size: 10px;">OpenGL,Game development</a> <a href="/tags/OpenGL-math/" style="font-size: 10px;">OpenGL,math</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/computer-graphics/" style="font-size: 10px;">computer-graphics</a> <a href="/tags/cpp/" style="font-size: 11.25px;">cpp</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
     			</div>
     	</section>
     
