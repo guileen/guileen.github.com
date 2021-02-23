@@ -152,6 +152,64 @@
       <div class="body-wrap">
         
   
+    <article id="post-game-server-design" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/16/game-server-design/">游戏服务器设计</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>近日看到一文章说起游戏数据库怎么设计，mysql？mongodb？这篇文章说，做游戏根本不需要数据库, 直接写一个文件save、load。回想我曾经做过的两个游戏服务器，基本上数据库承担的角色就是Save/Load。</p>
+<p>我认为这个观点很有道理，游戏中的关系，尤其是MMO的关系，非常复杂，不是像数据库结构那样的一板一眼的。很多时候和GameObject关系更大一点。所以直接对整个GameWorld进行序列化存储，其实是一个非常简单有效的方法。</p>
+<p>可能有人会问了，如果要对数据进行统计，或者GM给某个人发装备怎么办？</p>
+<p>如果有业务数据需要统计，这个应该在必要的时候进行统计，这一般发生在游戏外或游戏结束时，比如：注册，充值，对局结束。</p>
+<p>如果GM要给某人发装备，那么必然是在游戏内，这个时候，其实和数据库没什么关系，因为你改数据库，装备也不会出现在人的身上，你还是得在游戏里给玩家加道具。</p>
+<p>回档时间，就是将所有数据保存起来。</p>
+<p>序列化会不会影响游戏的正常进行？这里一定是要将游戏的数据内存dump一份，然后在另一个进程里对某一个固定状态的数据进行持久化。为了便于持久化, 设计一个连续的便于复制的内存结构。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/03/16/game-server-design/" class="archive-article-date">
+  	<time datetime="2015-03-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-16</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game/" rel="tag">game</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/" rel="tag">game-dev</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-get-isp-ip-blocks" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -777,68 +835,6 @@
 	<a class="article-category-link" href="/categories/AI/">AI</a>
 	</div>
 
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-stretegy-of-texasholdem" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/01/18/stretegy-of-texasholdem/">德州扑克策略心得</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>德州扑克是个概率的游戏，更是心理的游戏。</p>
-<p>了解德州的概率只是基础，更重要的是心理战。</p>
-<p>数学上的概率是不完整的，必须要结合实际的战斗得出更准确的概率。</p>
-<p>比如某个选手比较谨慎，那么他Bet的时候，有大牌的概率明显更大，这是和数学上的概率不同的。</p>
-<p>某个选手喜欢Bluff，那么他下大注的时候，有大牌的概率就会相对更小。</p>
-<p>场上选手越多，获胜概率越小。有时为了提高胜率会Bet把一些对手挤出局。</p>
-<p>出手的先后影响胜负。同样胜率的牌，先下注的人可能吓跑比自己略大的牌。但是最后下注的人，虽然是小牌，也会因为其他选手的Fold而提高胜率，所以最后的玩家会Call。</p>
-<p>Allin 不一定是Bluff, 也是博弈策略。在底牌，翻牌阶段，当底池很大时Allin，自己的牌面也很大，可以起到Bluff收底的效果，如果别人跟住，也有很大胜算。</p>
-<p>加20%~50%底池量的注，是兼顾攻击性和安全性的下注。太少无关痛痒，太多得不偿失。</p>
-<p>Bluff 不一定要Allin, 对手在Call的时候，用Raise策略，让他非常痛苦。</p>
-<p>Bluff一定要判断好局势，当对手比较弱的时候Bluff，但永远不要在最后一轮Bluff Allin。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/01/18/stretegy-of-texasholdem/" class="archive-article-date">
-  	<time datetime="2015-01-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-01-18</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game/" rel="tag">game</a></li></ul>
-	</div>
-
-      
 
       <div class="clearfix"></div>
     </div>

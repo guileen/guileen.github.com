@@ -152,6 +152,71 @@
       <div class="body-wrap">
         
   
+    <article id="post-chauvenet-criterion" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/15/chauvenet-criterion/">肖维勒准则</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>数据中并不总是合法数据，为了更好的完成统计，我们必须剔除异常的数据。</p>
+<p>如何剔除异常的实验数据(Outlier rejection)，有许多的方法。</p>
+<p>介绍一种易于实现的方法，叫做<a href="http://en.wikipedia.org/wiki/Chauvenet' target="_blank" rel="noopener"s_criterion">肖维勒准则(Chauvenet’s criterion)</a></p>
+<p>平均值</p>
+<pre><code>mean = sum(v) / n</code></pre><p>标准差</p>
+<pre><code>sd = sqrt(sum(v(i) * v(i) - mean * mean, i=1 to n) / (n - 1))</code></pre><p><a href="http://en.wikipedia.org/wiki/Chauvenet' target="_blank" rel="noopener"s_criterion">肖维勒准则(Chauvenet’s criterion)</a></p>
+<p>如果某样本数据d满足</p>
+<pre><code>|v(d)| &gt; w(n) * sd</code></pre><p>则认为v(d)是一个异常数据，将其剔除。</p>
+<p>W(n) 是一个常数，可以用查表法获得</p>
+<p>Table of Chauvenet’s Criterion for data rejection, with curve fit equation</p>
+<p>Chauvenet’s Criterion</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">--------------------------</span><br><span class="line">| n          | c         |</span><br><span class="line">--------------------------</span><br><span class="line">| 3          | 1.38      |</span><br><span class="line">| 4          | 1.54      |</span><br><span class="line">| 5          | 1.65      |</span><br><span class="line">| 6          | 1.73      |</span><br><span class="line">| 7          | 1.8       |</span><br><span class="line">| 10         | 1.96      |</span><br><span class="line">| 15         | 2.13      |</span><br><span class="line">| 25         | 2.33      |</span><br><span class="line">| 50         | 2.57      |</span><br><span class="line">| 100        | 2.81      |</span><br><span class="line">--------------------------</span><br><span class="line">|c &#x3D; 0.9969+0.4040*ln(n) |</span><br><span class="line">--------------------------</span><br></pre></td></tr></table></figure>
+
+<p>很奇怪，通过公式获得的结果和表上给的结果并不一致。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/15/chauvenet-criterion/" class="archive-article-date">
+  	<time datetime="2013-03-14T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-15</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-node-events-scope" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -780,77 +845,6 @@ local ret = self.db[cmd](self.db, unpack(arg))</code></pre>
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hash/" rel="tag">hash</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-config-format" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2012/10/30/config-format/">配置文件格式比较</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <ol>
-<li><p>java项目用的比较多的是 XML、properties，容错性很差，配置起来相当痛苦。</p>
-</li>
-<li><p>动态语言的项目往往用代码来配置，node用js配置，python用python配置，ruby用ruby配置。<br>优点是简单<br>缺点：<br>a. 不能跨语言共享配置<br>b. 配置文件里面可以写代码，本身是有风险的<br>c. 运维人员必须了解相应的语言</p>
-</li>
-<li><p>ini文件，是一个不错的选择，容错性较强。只是对于list类型的配置支持不好，比如一个cluster的所有host，port信息。</p>
-</li>
-<li><p>YAML 比较简洁，是个不错的选择，但也有人不习惯这种极简的风格。<br><a href="http://www.yaml.org/spec/1.2/spec.html#Preview" target="_blank" rel="noopener">http://www.yaml.org/spec/1.2/spec.html#Preview</a></p>
-</li>
-<li><p>JSON现在非常流行，但JSON的缺点也很明显的，如下面的语句是非法的</p>
-</li>
-</ol>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;key: &#39;value&#39;,&#125; &#x2F;&#x2F;注释</span><br></pre></td></tr></table></figure>
-
-<p>key 必须是 “key”, value 必须是双引号，} 前多了个逗号，不支持注释。</p>
-<p>前段时间node社区出现了一种新格式，叫做JSON5，免去了一些JSON的痛苦，<a href="https://github.com/aseemk/json5" target="_blank" rel="noopener">https://github.com/aseemk/json5</a></p>
-<p>如下面的配置是合法</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&#123;key: &#39;value&#39;,&#125; &#x2F;&#x2F;注释</span><br></pre></td></tr></table></figure>
-
-<p>可惜他出现于node社区，noder们可以使用JS代码来代替JSON5。所以JSON5可能无法在node社区有所发展，其他的语言实现它的可能性也就更低了。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2012/10/30/config-format/" class="archive-article-date">
-  	<time datetime="2012-10-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-10-30</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data-format/" rel="tag">data-format</a></li></ul>
 	</div>
 
       

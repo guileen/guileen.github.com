@@ -152,6 +152,61 @@
       <div class="body-wrap">
         
   
+    <article id="post-objective-c-code-analytics" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/05/21/objective-c-code-analytics/">Objective-C 代码质量分析</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>install <a href="http://oclint.org/" target="_blank" rel="noopener">oclint</a></p>
+<p><code>brew install xctool</code></p>
+<p>install <a href="https://github.com/gcovr/gcovr" target="_blank" rel="noopener">gcovr</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;oclint&#x2F;oclint-xcodebuild&#x2F;master&#x2F;oclint-xcodebuild</span><br><span class="line">sudo mv oclint-xcodebuild &#x2F;usr&#x2F;local&#x2F;bin&#x2F;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/05/21/objective-c-code-analytics/" class="archive-article-date">
+  	<time datetime="2015-05-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-05-21</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CI/" rel="tag">CI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C/" rel="tag">Objective-C</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/" rel="tag">iOS</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-use-iterm2-monitor-errors" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -886,64 +941,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-game-server-design" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/16/game-server-design/">游戏服务器设计</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>近日看到一文章说起游戏数据库怎么设计，mysql？mongodb？这篇文章说，做游戏根本不需要数据库, 直接写一个文件save、load。回想我曾经做过的两个游戏服务器，基本上数据库承担的角色就是Save/Load。</p>
-<p>我认为这个观点很有道理，游戏中的关系，尤其是MMO的关系，非常复杂，不是像数据库结构那样的一板一眼的。很多时候和GameObject关系更大一点。所以直接对整个GameWorld进行序列化存储，其实是一个非常简单有效的方法。</p>
-<p>可能有人会问了，如果要对数据进行统计，或者GM给某个人发装备怎么办？</p>
-<p>如果有业务数据需要统计，这个应该在必要的时候进行统计，这一般发生在游戏外或游戏结束时，比如：注册，充值，对局结束。</p>
-<p>如果GM要给某人发装备，那么必然是在游戏内，这个时候，其实和数据库没什么关系，因为你改数据库，装备也不会出现在人的身上，你还是得在游戏里给玩家加道具。</p>
-<p>回档时间，就是将所有数据保存起来。</p>
-<p>序列化会不会影响游戏的正常进行？这里一定是要将游戏的数据内存dump一份，然后在另一个进程里对某一个固定状态的数据进行持久化。为了便于持久化, 设计一个连续的便于复制的内存结构。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/03/16/game-server-design/" class="archive-article-date">
-  	<time datetime="2015-03-15T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-16</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game/" rel="tag">game</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/" rel="tag">game-dev</a></li></ul>
 	</div>
 
       

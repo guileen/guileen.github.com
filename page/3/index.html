@@ -152,6 +152,80 @@
       <div class="body-wrap">
         
   
+    <article id="post-introduce-reinforcement-learning-2" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/27/introduce-reinforcement-learning-2/">强化学习简介（二）：Q-learning实战</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们现在通过一个例子来演练Q-learning算法。在练习强化学习之前，我们需要拥有一个模拟器环境。我们主要的目的是学习编写机器人算法，所以对模拟器环境部分不推荐自己写。直接使用<code>gym</code>来作为我们对实验环境。安装方法：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install gym</span><br></pre></td></tr></table></figure>
+
+<h2 id="初识环境"><a href="#初识环境" class="headerlink" title="初识环境"></a>初识环境</h2><p>我们的实验环境是一个冰湖滑行游戏，你将控制一个agent在冰面到达目标终点，前进方向并不总受你的控制，你还需要躲过冰窟。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gym</span><br><span class="line"><span class="comment"># 构造游戏环境</span></span><br><span class="line">env = gym.make(<span class="string">'FrozenLake-v0'</span>)</span><br><span class="line"><span class="comment"># 动作空间-&gt; Discrete(4)</span></span><br><span class="line">print(env.action_space)</span><br><span class="line"><span class="comment"># 状态空间-&gt; Discrete(16)</span></span><br><span class="line">print(env.observation_space)</span><br><span class="line"><span class="comment"># 初始化游戏环境，并得到状态s</span></span><br><span class="line">s = env.reset()</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    <span class="comment"># 渲染游戏画面</span></span><br><span class="line">    env.render()</span><br><span class="line">    <span class="comment"># 从动作空间中随机选择一个动作a</span></span><br><span class="line">    a = env.action_space.sample()</span><br><span class="line">    <span class="comment"># 执行动作a，得到新状态s，奖励r，是否完成done</span></span><br><span class="line">    s, r, done, info = env.step(a) <span class="comment"># take a random action</span></span><br><span class="line">    print(s, r, done, info)</span><br><span class="line"><span class="comment"># 关闭环境</span></span><br><span class="line">env.close()</span><br></pre></td></tr></table></figure>
+
+<p>游戏画面示意如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SFFF       (S: 起点，安全)</span><br><span class="line">FHFH       (F: 冰面，安全)</span><br><span class="line">FFFH       (H: 冰窟，进入则失败)</span><br><span class="line">HFFG       (G: 终点，到达则成功)</span><br></pre></td></tr></table></figure>
+
+<h2 id="Agent结构"><a href="#Agent结构" class="headerlink" title="Agent结构"></a>Agent结构</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> gym</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">QLAgent</span><span class="params">()</span>:</span></span><br><span class="line">    q = <span class="keyword">None</span></span><br><span class="line">    action_space = <span class="keyword">None</span></span><br><span class="line">    epsilon = <span class="number">0.1</span> <span class="comment"># 探索率</span></span><br><span class="line">    gamma = <span class="number">0.99</span>  <span class="comment"># 衰减率</span></span><br><span class="line">    lr = <span class="number">0.1</span> <span class="comment"># 学习率</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, action_space, state_count, epsilon=<span class="number">0.1</span>, lr=<span class="number">0.1</span>, gamma=<span class="number">0.99</span>)</span>:</span></span><br><span class="line">        self.q = [[<span class="number">0.</span> <span class="keyword">for</span> a <span class="keyword">in</span> range(action_space.n)] <span class="keyword">for</span> s <span class="keyword">in</span> range(state_count)]</span><br><span class="line">        self.action_space = action_space</span><br><span class="line">        self.epsilon = epsilon</span><br><span class="line">        self.lr = lr</span><br><span class="line">        self.gamma = gamma</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 根据状态s，选择动作a</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">choose_action</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 更新状态变化并学习，状态s执行了a动作，得到了奖励r，状态转移到了s_</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">update_transition</span><span class="params">(self, s, a, r, s_)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure>
+
+<p>这是一个Agent的一般结构，主要由初始化、选择动作、更新状态变化，三个方法构成。后续的其他算法将依然采用该结构。q表数据使用一个二维数组表示，其大小为 state_count action_count，对于这个项目而言是一个 `16*4` 的大小。</p>
+<h2 id="添加Q-table的辅助方法"><a href="#添加Q-table的辅助方法" class="headerlink" title="添加Q-table的辅助方法"></a>添加Q-table的辅助方法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 返回状态s的最佳动作a、及其r值。</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">argmax</span><span class="params">(self, s)</span>:</span></span><br><span class="line">    max_r = -math.inf</span><br><span class="line">    max_a = <span class="keyword">None</span></span><br><span class="line">    <span class="keyword">for</span> a <span class="keyword">in</span> range(self.action_space.n):</span><br><span class="line">        r = self.q_get(s, a)</span><br><span class="line">        <span class="keyword">if</span> r &gt; max_r:</span><br><span class="line">            max_a = a</span><br><span class="line">            max_r = r</span><br><span class="line">    <span class="keyword">return</span> max_a, max_r</span><br><span class="line"><span class="comment"># 获得 状态s，动作a 对应的r值</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">q_get</span><span class="params">(self, s, a)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> self.q[s][a]</span><br><span class="line"><span class="comment"># 更新 状态s 动作a 对应的r值</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">q_put</span><span class="params">(self, s, a, v)</span>:</span></span><br><span class="line">    self.q[s][a] = v</span><br></pre></td></tr></table></figure>
+
+<h2 id="Q-learning的关键步骤"><a href="#Q-learning的关键步骤" class="headerlink" title="Q-learning的关键步骤"></a>Q-learning的关键步骤</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">choose_action</span><span class="params">(self, s)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> random.random() &lt; self.epsilon:</span><br><span class="line">        <span class="comment"># 按一定概率进行随机探索</span></span><br><span class="line">        <span class="keyword">return</span> self.action_space.sample()</span><br><span class="line">    <span class="comment"># 返回最佳动作</span></span><br><span class="line">    a, _ = self.argmax(s)</span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">update_transition</span><span class="params">(self, s, a, r, s_)</span>:</span></span><br><span class="line">    q = self.q_get(s, a)</span><br><span class="line">    _, r_ = self.argmax(s_)</span><br><span class="line">    <span class="comment"># Q &lt;- Q + a(Q' - Q)</span></span><br><span class="line">    <span class="comment"># &lt;=&gt; Q &lt;- (1-a)Q + a(Q')</span></span><br><span class="line">    q = (<span class="number">1</span>-self.lr) * q + self.lr * (r + self.gamma * r_)</span><br><span class="line">    self.q_put(s, a, q)</span><br></pre></td></tr></table></figure>
+
+<h2 id="训练主循环"><a href="#训练主循环" class="headerlink" title="训练主循环"></a>训练主循环</h2><p>我们进行10000局游戏的训练，每局游戏执行直到完成。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">env = gym.make(<span class="string">'FrozenLake-v0'</span>)</span><br><span class="line">agent = QLAgent(env.action_space, env.observation_space.n)</span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(<span class="number">10000</span>):</span><br><span class="line">    s = env.reset()</span><br><span class="line">    done = <span class="keyword">False</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> done:</span><br><span class="line">        <span class="comment"># env.render()  # 训练过程不需要渲染</span></span><br><span class="line">        a = agent.choose_action(s) <span class="comment"># 选择动作</span></span><br><span class="line">        s_, r, done, info = env.step(a) <span class="comment"># 执行动作</span></span><br><span class="line">        agent.update_transition(s, a, r, s_) <span class="comment"># 更新状态变化</span></span><br><span class="line">        s = s_</span><br><span class="line"><span class="comment"># 显示训练后的Q表</span></span><br><span class="line">print(agent.q)</span><br></pre></td></tr></table></figure>
+
+<h2 id="测试效果"><a href="#测试效果" class="headerlink" title="测试效果"></a>测试效果</h2><p>在测试中，我们只选择最佳策略，不再探索，也不再更新Q表。</p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获胜次数</span></span><br><span class="line">total_win = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10000</span>):</span><br><span class="line">    s = env.reset()</span><br><span class="line">    done = <span class="keyword">False</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> done:</span><br><span class="line">        <span class="comment"># 选择最佳策略</span></span><br><span class="line">        a, _ = agent.argmax(s)</span><br><span class="line">        <span class="comment"># 执行动作 a</span></span><br><span class="line">        s_, r, done, info = env.step(a)</span><br><span class="line">        <span class="keyword">if</span> done <span class="keyword">and</span> r == <span class="number">1</span>:</span><br><span class="line">            total_win += <span class="number">1</span></span><br><span class="line">        s = s_</span><br><span class="line">print(<span class="string">'Total win='</span>, total_win)</span><br><span class="line">env.close()</span><br></pre></td></tr></table></figure>
+
+<p>最终测试的效果是在1万局中获胜了7284次，说明达到了不错的实验效果。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/12/27/introduce-reinforcement-learning-2/" class="archive-article-date">
+  	<time datetime="2019-12-27T08:02:19.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-27</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/AI/">AI</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-introduce-reinforcement-learning-1" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -831,69 +905,6 @@ A  &lt;-C公钥加密信息---  C  &lt;- A公钥加密信息--- B</code></pre><p
 	</div>
 
       
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-conscious-of-machine" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/01/conscious-of-machine/">机器的意识</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>机器学习当下是非常火热的课题，大量的模型被设计出来令人眼花缭乱。诸如SVM，随机森林，贝叶斯网络，神经网络只不过是这个领域的基础知识，在这些基础方法之上的各种优化分支方法更是数不胜数。大量的所谓机器学习的研究者，在某个问题上，通过对现有方法的小修小补，达到了一些微不足道的提升，或仅仅是对几种模型／优化方法／特征分析／问题领域进行一些常规的比较分析，便可以一本正经的发布一篇学术论文。为了这些方法应用到实际的工程中时，通常需要消耗大量的人力用于前期的数据分析和处理，这一过程被称为“特征工程”。对于此类人员的专业度要求非常高，需求量也非常大，因此这类人才的溢价也非常高，以致于一个刚刚毕业的研究生的薪酬可以轻松超越一个有多年经验的软件工程师。然而这类人力工作通常并没有太多的创新性可言。这是在当前的科技背景下产生的独特的现象——一大批资质平平的智力工作者受到了疯狂的追捧。这一现象必然在机器学习真正取得突破性进展后终结，本文将讨论突破性进展可能的方向。</p>
-<p>科技发展有两种驱动力，其一是资本对于更高生产力的追求，其二是纯粹的为了智力上的满足感或是对于某种超自然信仰而展开的对于真理本质的追求。前者更长于将科学成果转化为实际应用，而后者才是实现技术爆炸的真正内核。机器学习领域也是如此，目前正处于科学成果转化的高峰期，是基于前些年的一些基础研究进行的转化。但也是瓶颈期，因为我们感受到了现有方法的局限。目前人们对于人工智能的态度行业内外的看法截然相反：业外的人大部分担心人工智能将超越、统治甚至毁灭人类，业内大部分则恰恰相反。因为专业人士更加清楚，现有方法大多是非常愚蠢的，所谓智能不过是一种魔术。你一定体验过魔术被揭秘的感觉，这就是我兴致勃勃的了解了许多机器学习方法后的感受。可以很负责任的说，我们距离人工智能的本质还差的很远很远。大部分的人醉心于如何更好的表演魔术，只有很少的人去追求真正的本质，而这些追求本质的方法如果在魔术表演上不够精彩，是很容易被忽视的。</p>
-<p>人工智能概念最早由约翰·麦卡锡（John McCarthy，1927年9月4日－2011年10月24日）在1956年由他自己召集的达特矛斯会议上提出的：“人工智能就是要让机器的行为看起来就像是人所表现出的智能行为一样”。这是人工智能的早期定义，人们后来意识到这个定义忽略了强人工智能的可能性。所谓强人工智能是指机器拥有真正的智能而不仅仅是“看起来像”，与之相对的则被称为弱人工智能，而目前实现的都是弱人工智能。这引发了一系列的哲学问题——什么是智能？强人工智能是否有可能实现？强人工智能是不是人类的灾难？即便我们出于伦理和人类安全的考虑，不追求实现强人工智能，而只是追求弱人工智能的“看起来像”的目的，也不得不借鉴强人工智能的思路，也就不可避免的不断的朝着强人工智能方向前进。本文不讨论人工智能是否对人类构成威胁的问题，仅从方向和方法上讨论强人工智能的可行性。</p>
-<p>人工智能本质上属于仿生学范畴的。智能本身就是很复杂的，而人类仅能认识到自己的智能，不可能理解龙虾或者外星人的智能。所以对人工智能本质的追求，应该是对人类自身深入认识的过程。并且这种认识不能仅仅停留于哲学解构的层面，必须通过工程手段加以重新建构，我们用哲学上和工程上都能理解的语言进行表达，而这种语言我们称之为模型。</p>
-<p>人类智能可划分为一些层次，无意识的精神、意识、自我、逻辑、知识、表达、知觉、经验。这些划分并不存在清晰的界限。通过真正的智能与现有弱人工智能的比较，我们可以更好的理解这些概念。</p>
-<p>当AlphaGo轻松打败人类棋手时，人类棋手感到压力、恐惧、伤心、绝望。我们为AlphaGo的棋艺感到惊叹，但事实上二者在智能上相比，人类棋手的情绪反应才是真正令人惊叹的。AlphaGo不会为胜利而感到骄傲，也不会为失败而羞耻，他不会为存在而感到快乐，也不会为消失感到痛苦。他甚至根本没有想要胜利的欲望，更不会有人类各种复杂的情感。这些就是无意识的精神，精神在不自觉的驱动着我们的意识，或纵情声色，或知耻而勇，或趋利避害，或舍生忘死。虽然我们看起来是由理智所控制的动物，但精神不受理智的控制。这点在恋爱中的人身上尤为明显，即便他们的理智告诉他们不要对另一方过于依恋，但他们却无法控制自己所思所想。对于音乐的感受也是类似的，不过是不同频率的声波的组合，竟能使人不由自主的感到快乐或悲伤，多么的神奇。生物学家认为，当多巴胺分泌增加时，人就会感到快乐。多巴胺是一种神经传导物质，这就像是给神经系统的奖励，以刺激我们更加努力的工作。但这并不能解释快乐的本质，我们可以想象我们给车添加了燃油和润滑油，这相当于是给了车奖励，但是车并不会感到快乐。我们在训练AlphaGo时，每次他获胜，我们也会给他一个反馈，告诉他这次做的结果不错，他就会更加靠近这个结果，但他并不会感到快乐。那么为什么多巴胺分泌增加人就会感到快乐呢？显然多巴胺不是快乐的本质，只是快乐的使者而已。</p>
-<p>人类诸多行为有可能是后天习得的，但有些则是在被创造时就存在的。食欲、快乐、痛觉、饥饿感、自我、对母亲的依恋，这些都是与生俱来的。所以我们可以认为某种无意识的精神在母体中被创造时就存在了。但是从那一刻这种精神开始存在呢？我们很难想象单细胞状态的受精卵拥有这种精神。当基因代码一层层展开，从单细胞到多细胞，脊椎动物，鱼、两栖、哺乳类、灵长目、人科、智人属的基因片段开始逐步表达，胚胎的结构从简单到复杂，直到降生时我们依然没有发育完全，经历长时间的幼态持续，青春期，我们更多的情绪和欲望被展现出来。当我们回忆我们成长阶段的各种性格变化，这一切究竟是在哪一刻如何产生的呢？我们可以肯定这种精神不是来自于单一的细胞，而是来自大量脑细胞的集体创造。在我们大脑中有一个部分，是在基因中硬编码的部分，做出一些基本的身体机能感受判断、审美判断、情感判断。这部分不受理智控制的部分，我们称为精神。如果没有这种本能的精神，我们的智力也就没有了用武之地。我们可以设想任何的人工智能程序，必须拥有某个目标，这就是他的欲望，在欲望被满足时会得到某种激励。但人类的欲望是如此的不同，在欲望被满足时得到的奖励感受也是如此不同。他不是一个简单弱人工智能所能解释的，以梯度下降法举例：当错误率很高时，函数会修正自己的参数朝着错误率更低的方向前进一小步，直到错误率不再有明显下降。错误率最小是他的目标，但是这个函数是如此机械，我们不可能他是有精神的。</p>
-<p><em>精神是目标，但目标不一定是精神，精神本身就是复杂的，是在长期进化中形成的一种复杂的多细胞集体创造。</em></p>
-<p><em>人类的意识是一系列智能子系统的集合</em>。佛教所谓六根即：眼耳鼻舌身意，意识是起到总控的作用。意识可以连接我们的视觉、听觉、触觉、味觉、嗅觉，可以控制我们的肌肉，意识是用来做出决策的。精神是意识的内核，是引擎，为意识指出明确的方向。精神是底层的，意识是上层的。当我们在梦境时，我们的意识模糊，但是精神却是清醒的，梦境混乱无序，我们对身体的控制减弱，但我们对于快乐悲伤的感受依然真实。意识不仅仅是各个单元的连接器，其自身也是复杂的，可能是某种层垒的结构，最低级的意识就是对于感觉的条件反射，更高级的意识活动则包含知识、经验、逻辑。意识不等于记忆、知识、逻辑、推理的能力。草原上的野兽，尤其是那些捕猎者，它们都拥有很强的意识，但不等于他们拥有人类一样的高级智力活动。</p>
-<p>感觉系统大体是类似的，目前的人工智能在某种程度上已经能够做到一些感知能力，尤其是视觉、听觉方面。对于视觉而言，如果在你的周围空间随便选取一个点，那么通过这个点的只有一些杂乱的电磁波而已，我们称之为光线，但是当我们的眼睛置于这个点，我们能够从这堆杂乱的电磁波中提取出周围物体的信息，投射在我们的视网膜上，视网膜将这些刺激信号传递到我们的视觉处理系统，我们能够分辨“颜色”，“形状”，“材质”，“种类”，“运动”。听觉也是同样神奇，我们的双耳中的空气分子不过是在无序的震动，我们却能从中提取出音色、音高，如果有多种声音同时存在，我们也能很好的将这些声音分离。在一个混乱的环境下，如果我们想要看清或听清一些东西，我们必须付出更多的注意力，也就是我们需要投入更多的意识。这说明我们的感觉系统不仅仅是一个物理系统，更加是一个信息处理的系统。我们通过信息的时间变化，组合，特征分离和重新组合，得出结论。因此对于同一事物的感受，不同的个体是不一样的，这也就是我们说的主观感受。比如我们对于颜色的感受，在意识中的投射是不一样的，一个很明显的证据就是色盲。所以我们虽然都认同某个物体是红色的，红色在我的意识中与在你的意识中可能是完全不同的。在跨越物种之时，感受的区别必然更加明显。有些物种则拥有完全不同的感觉器官，比如可以看到地球磁场的知更鸟（引用）。感觉系统的模拟，首先需要有相应的仪器设备采集信号，信号必须经过无意识的处理，转化为抽象的特征，将抽象特征交给意识体来处理。</p>
-<p>假设我们已经能够创造出具有精神、意识、感觉的系统，我们可以开始讨论“自我”这个问题。这个问题看起来非常诡异，一个具有精神、意识、感觉的系统，难道会没有自我的概念吗？如果一个意识体就是整个世界的全部，除了自身之外再无其他，他还会有自我的概念存在吗？自我相对于非我而存在的，没有非我，也就没有自我。如果一个意识体置于一个容器之内，他对容器外的世界一无所知，在他看来他就是全部。当我们沉浸于某个目标时，我们也会忘记了自己的存在。当我们进入竞争环境，自我概念就会强化。自我与存在是同一个问题，保持自我存在是一个本能的精神元素之一。   。。。必须区分内外，头发是不是我，指甲是不是手臂是不是我？</p>
-<p>未完待续。。。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2018/06/01/conscious-of-machine/" class="archive-article-date">
-  	<time datetime="2018-06-01T03:49:41.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-06-01</time>
-</a>
-      
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/AI/">AI</a><a class="article-category-link" href="/categories/AI/%E9%9A%8F%E7%AC%94/">随笔</a>
-	</div>
-
 
       <div class="clearfix"></div>
     </div>

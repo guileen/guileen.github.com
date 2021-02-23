@@ -152,6 +152,84 @@
       <div class="body-wrap">
         
   
+    <article id="post-scheme-base-object-notation-language" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/28/scheme-base-object-notation-language/">Scheme base notation language</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>We use XML, JSON, BSON, MsgPack, Protobuf to transfer structured data. They have issues with effeciant or readability. I always think about that are there any better way to describe structured data clearly and effeciant.</p>
+<p>We have primitive types: String, Number, Boolean, Date, Null. And combind types: Array, Object.</p>
+<p>In real world, a class of object always have same fields, JSON is kind of waste.</p>
+<p>For example, we have JSON of books</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    books:[</span><br><span class="line">        &#123;&quot;title&quot;:&quot;hello world&quot;, &quot;pages&quot;:100, &quot;author&quot;:&quot;Jack&quot;, published:1&#125;,</span><br><span class="line">        &#123;&quot;title&quot;:&quot;hello to programming 1&quot;, &quot;pages&quot;:50, &quot;author&quot;:&quot;Tom&quot;, published:1&#125;,</span><br><span class="line">        &#123;&quot;title&quot;:&quot;hello to programming 2&quot;, &quot;pages&quot;:50, &quot;author&quot;:&quot;Tom&quot;, published:1&#125;,</span><br><span class="line">        &#123;&quot;title&quot;:&quot;hello to programming 3&quot;, &quot;pages&quot;:50, &quot;author&quot;:&quot;Tom&quot;, published:0&#125;,</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>So, protobuf need you define your scheme, and use you scheme code to compress field names.</p>
+<p>In my vison, protobuf is effeciant, but it is not a dynamic describe language, it is an static describe language. Which means, in many times, you need compile your client and server with a shared scheme definition file.</p>
+<p>Did you get it? Share scheme definition file, recompile client or server once scheme change, is lack of development effeciant.</p>
+<p>So, I design a scheme language like below. It define the scheme first, and use it.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">!book(title:s,pages:n,author:s,published:b);</span><br><span class="line">&#123;</span><br><span class="line">    books:[</span><br><span class="line">        book(&#39;hello world&#39;,100,&#39;Jack&#39;,1),</span><br><span class="line">        book(&#39;how to programming 1&#39;,50,&#39;Tom&#39;,1),</span><br><span class="line">        book(&#39;how to programming 2&#39;,50,&#39;Tom&#39;,1),</span><br><span class="line">        book(&#39;how to programming 3&#39;,50,&#39;Tom&#39;,0)</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>The first line <code>!book(...);</code> define a scheme of book. Syntax is <code>!name(field:type, ...);</code>. </p>
+<p>The string after <code>;</code> is data body. <code>book(...)</code> use scheme to create a book object.</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">!book(title:s,pages:n,author:s,published:b);</span><br><span class="line">&#123;</span><br><span class="line">    books:![book][</span><br><span class="line">        (&#39;hello world&#39;,100,&#39;Jack&#39;,1),</span><br><span class="line">        (&#39;how to programming 1&#39;,50,&#39;Tom&#39;,1),</span><br><span class="line">        (&#39;how to programming 2&#39;,50,&#39;Tom&#39;,1),</span><br><span class="line">        (&#39;how to programming 3&#39;,50,&#39;Tom&#39;,0)</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>Also,</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    books:![(title,pages,author,published)][</span><br><span class="line">        (&#39;hello world&#39;,100,&#39;Jack&#39;,1),</span><br><span class="line">        (&#39;how to programming 1&#39;,50,&#39;Tom&#39;,1),</span><br><span class="line">        (&#39;how to programming 2&#39;,50,&#39;Tom&#39;,1),</span><br><span class="line">        (&#39;how to programming 3&#39;,50,&#39;Tom&#39;,0)</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>You can also seperate it to two part in communication.</p>
+<p>The head:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">!book(title:s,pages:n,author:s,published:b);</span><br></pre></td></tr></table></figure>
+
+<p>The body:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    books:[</span><br><span class="line">        book(&#39;hello world&#39;,100,&#39;Jack&#39;,1),</span><br><span class="line">        book(&#39;how to programming 1&#39;,50,&#39;Tom&#39;,1),</span><br><span class="line">        book(&#39;how to programming 2&#39;,50,&#39;Tom&#39;,1),</span><br><span class="line">        book(&#39;how to programming 3&#39;,50,&#39;Tom&#39;,0)</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>On the client, you can download head once, and body multiple time.</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/09/28/scheme-base-object-notation-language/" class="archive-article-date">
+  	<time datetime="2015-09-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-09-28</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data-format/" rel="tag">data-format</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-use-ffmpeg" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -846,61 +924,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-objective-c-code-analytics" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/05/21/objective-c-code-analytics/">Objective-C 代码质量分析</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>install <a href="http://oclint.org/" target="_blank" rel="noopener">oclint</a></p>
-<p><code>brew install xctool</code></p>
-<p>install <a href="https://github.com/gcovr/gcovr" target="_blank" rel="noopener">gcovr</a></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">wget https:&#x2F;&#x2F;raw.githubusercontent.com&#x2F;oclint&#x2F;oclint-xcodebuild&#x2F;master&#x2F;oclint-xcodebuild</span><br><span class="line">sudo mv oclint-xcodebuild &#x2F;usr&#x2F;local&#x2F;bin&#x2F;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/05/21/objective-c-code-analytics/" class="archive-article-date">
-  	<time datetime="2015-05-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-05-21</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CI/" rel="tag">CI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Objective-C/" rel="tag">Objective-C</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/iOS/" rel="tag">iOS</a></li></ul>
 	</div>
 
       
