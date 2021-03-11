@@ -1,7 +1,9 @@
 ---
 title: 分布式事务
+date: 2021-03-11 21:24:22
 tags:
 ---
+
 
 微服务架构中，分布式事务、全链路跟踪、监控报警、限流降级、灰度发布、服务网关等等都很重要，大多是比较简单的工程性问题，有成熟的解决方案。其中在理论上比较复杂的，主要就是分布式事务了。
 
@@ -11,13 +13,13 @@ tags:
 
 目前看来是比较完美的，但是这一方案对主业务有很大的侵入性。因此可以考虑将Msg持久化独立为一个服务。在开始主事务前，先将Msg置为Prepare状态，然后主事务完成后，Commit Msg。如果Prepare Msg失败，则主事务不会开始，如果Msg Prepare失败，但没有Commit Msg，则Msg服务会向主服务回调检测任务是否完成。RocketMQ实现了类似的机制。这一模式的主要缺点是需要写一个回调检查方法。这种方法也被成为**半投递**。
 
-![](/Users/admin/work/guileen.github.com/hexo/source/img/dtx/half-message.jpg)
+![](/img/dtx/half-message.jpg)
 
 ## 同步场景分布式事务
 
 ### 二阶段提交协议（2 Phase Commit）（XA）
 
-![](/Users/admin/work/guileen.github.com/hexo/source/img/dtx/2pc.png)
+![](/img/dtx/2pc.png)
 
 2PC协议中，用户与协调者通信。事务的执行分为准备阶段和提交阶段。在准备阶段，完成资源的锁定。协调者收到所有的投票都为Yes后，通知所有参与者提交事务，否则通知参与者取消事务。为了完成事务，需要实现以下几个接口
 
@@ -45,7 +47,7 @@ tags:
 
 ### 三阶段提交协议（3 Phase Commit）
 
-![](/Users/admin/work/guileen.github.com/hexo/source/img/dtx/3pc.png)
+![](/img/dtx/3pc.png)
 
 3PC与2PC的异同：
 
@@ -58,7 +60,7 @@ tags:
 
 TCC本质上依然是2PC，他们的区别是TCC是服务级别的，而2PC是资源级别的（也可以是服务级别的）。在2PC、3PC中，都会对资源进行长时间的占用，同一时间只能有一个事务执行，有一个锁竞争的问题。为了解决这个问题，TCC在Try阶段，就将事务所需的资源进行预留，后续的锁只发生在预留的资源上。
 
-![](/Users/admin/work/guileen.github.com/hexo/source/img/dtx/tcc.png)
+![](/img/dtx/tcc.png)
 
 为了解释这个问题，我们先来想象这样一种场景，用户在电商网站购买商品1000元，使用余额支付800元，使用红包支付200元。我们看一下在 2PC 中的流程：
 
