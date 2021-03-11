@@ -46,7 +46,7 @@
 		</a>
 
 		<hgroup>
-		  <h1 class="header-author"><a href="/">undefined</a></h1>
+		  <h1 class="header-author"><a href="/">桂糊涂</a></h1>
 		</hgroup>
 
 		
@@ -106,7 +106,7 @@
       <nav id="mobile-nav">
   	<div class="overlay">
   		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">undefined</h1>
+  		<h1 class="header-author js-mobile-header hide">桂糊涂</h1>
   	</div>
 	<div class="intrude-less">
 		<header id="header" class="inner">
@@ -116,7 +116,7 @@
 				
 			</div>
 			<hgroup>
-			  <h1 class="header-author">undefined</h1>
+			  <h1 class="header-author">桂糊涂</h1>
 			</hgroup>
 			
 			<nav class="header-menu">
@@ -173,7 +173,7 @@
 <p><strong>[制作工具]</strong>–&gt;静态数据–&gt;<strong>[用户输入处理、AI update、物理引擎]</strong>–&gt;动态数据–&gt;<strong>[渲染引擎]</strong>–&gt;最终画面。</p>
 <p>游戏引擎=制作工具+程序API+渲染引擎。</p>
 <p>而游戏引擎的关键，就在于处理数据。</p>
-<p>哪怕一个最简单的<a href="https://github.com/louis-gui/louis-gui.github.io/blob/main/likeasnakegame.cpp" target="_blank" rel="noopener">终端贪食蛇游戏</a>(这是我11岁的儿子写的)也需要符合这个标准。这个终端游戏制作工具不需要，他的素材是一些终端字符，google担任了这个制作工具的角色。程序API更新贪食蛇的动态数据，然后渲染引擎将动态数据映射成特定的终端字符打印在屏幕上。</p>
+<p>哪怕一个最简单的<a target="_blank" rel="noopener" href="https://github.com/louis-gui/louis-gui.github.io/blob/main/likeasnakegame.cpp">终端贪食蛇游戏</a>(这是我11岁的儿子写的)也需要符合这个标准。这个终端游戏制作工具不需要，他的素材是一些终端字符，google担任了这个制作工具的角色。程序API更新贪食蛇的动态数据，然后渲染引擎将动态数据映射成特定的终端字符打印在屏幕上。</p>
 <p>开发一个3D游戏，数据结构更加复杂一些。理清了这个结构之后，3D游戏可能比2D游戏更容易开发一些，因为3D数据结构毕竟更接近真实世界。我们将整个待渲染的世界，称为【场景】，场景中摆放着各种【模型】。对于物理引擎部分，只需要模型的数据就可以了，而对于渲染引擎，则还需要【光源】和【摄像机】。</p>
 <h2 id="物理引擎"><a href="#物理引擎" class="headerlink" title="物理引擎"></a>物理引擎</h2><p>一个粒子由*位置position、速度velocity、质量mass、力force（加速度acceleration）、阻尼damping（简化一个物体在一个环境中的摩擦力如0.999）等属性，还需要考虑地心引力gravity的影响。</p>
 <p>用反质量invertMass模拟无限质量？</p>
