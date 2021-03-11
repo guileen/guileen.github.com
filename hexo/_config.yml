@@ -82,6 +82,7 @@ deploy:
   #message: Site updated: {{ now('YYYY-MM-DD HH:mm:ss')  }}
 
 theme_config:
+  author: 桂糊涂
 # Header
   menu:
     主页: /
