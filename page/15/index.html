@@ -14,6 +14,7 @@
 <meta property="og:url" content="http://guileen.github.io/page/15/index.html">
 <meta property="og:site_name" content="桂糊涂的博客">
 <meta property="og:description" content="Description">
+<meta property="og:locale">
 <meta property="article:author" content="桂糊涂">
 <meta name="twitter:card" content="summary">
   
@@ -27,7 +28,7 @@
 
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+</head>
 
 <body>
   <div id="container">
@@ -42,11 +43,9 @@
 		</a>
 
 		<hgroup>
-		  <h1 class="header-author"><a href="/">桂糊涂</a></h1>
+		  <h1 class="header-author"><a href="/">undefined</a></h1>
 		</hgroup>
 
-		
-		<p class="header-subtitle">代码杂记</p>
 		
 
 		<nav class="header-menu">
@@ -104,7 +103,7 @@
       <nav id="mobile-nav">
   	<div class="overlay">
   		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">桂糊涂</h1>
+  		<h1 class="header-author js-mobile-header hide">undefined</h1>
   	</div>
 	<div class="intrude-less">
 		<header id="header" class="inner">
@@ -114,10 +113,8 @@
 				
 			</div>
 			<hgroup>
-			  <h1 class="header-author">桂糊涂</h1>
+			  <h1 class="header-author">undefined</h1>
 			</hgroup>
-			
-			<p class="header-subtitle">代码杂记</p>
 			
 			<nav class="header-menu">
 				<ul>
@@ -151,6 +148,72 @@
 
       <div class="body-wrap">
         
+  
+    <article id="post-murmurhash-algorithm" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2012/11/18/murmurhash-algorithm/">MurmurHash 算法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>发现一个不错的hash算法，可以用于我们的实际工作中，如sharding。</p>
+<p>Hash可分为加密hash算法和非加密hash算法，Hash应用于加密、校验、查找、横向扩展等。</p>
+<p>加密一般用MD5，SHA-1，校验一般CRC32。而服务器端的负载均衡方面，hash算法需要快速、分布均匀。</p>
+<p>MurmurHash是一种非加密hash算法，特点是高运算性能，低碰撞率，分布均匀，由Austin Appleby创建于2008年，现已应用到Hadoop、libstdc++、nginx、libmemcached等开源系统。2011年Appleby被Google雇佣，随后Google推出其变种的CityHash算法。</p>
+<ul>
+<li><a href="http://code.google.com/p/pyfasthash/" target="_blank" rel="noopener">python实现</a></li>
+<li><a href="https://github.com/garycourt/murmurhash-js" target="_blank" rel="noopener">javascript实现</a></li>
+<li><a href="http://docs.guava-libraries.googlecode.com/git/javadoc/com/google/common/hash/Hashing.html" target="_blank" rel="noopener">java实现</a></li>
+</ul>
+<p>参考：</p>
+<ul>
+<li>[<a href="http://en.wikipedia.org/wiki/List_of_hash_functions]" target="_blank" rel="noopener">http://en.wikipedia.org/wiki/List_of_hash_functions]</a></li>
+<li>[<a href="http://en.wikipedia.org/wiki/MurmurHash]" target="_blank" rel="noopener">http://en.wikipedia.org/wiki/MurmurHash]</a></li>
+<li>[<a href="http://code.google.com/p/cityhash/source/browse/trunk/src/city.cc]" target="_blank" rel="noopener">http://code.google.com/p/cityhash/source/browse/trunk/src/city.cc]</a></li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2012/11/18/murmurhash-algorithm/" class="archive-article-date">
+  	<time datetime="2012-11-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-11-18</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hash/" rel="tag">hash</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
   
     <article id="post-config-format" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
