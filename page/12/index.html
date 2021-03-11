@@ -14,6 +14,7 @@
 <meta property="og:url" content="http://guileen.github.io/page/12/index.html">
 <meta property="og:site_name" content="桂糊涂的博客">
 <meta property="og:description" content="Description">
+<meta property="og:locale">
 <meta property="article:author" content="桂糊涂">
 <meta name="twitter:card" content="summary">
   
@@ -27,7 +28,7 @@
 
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+</head>
 
 <body>
   <div id="container">
@@ -42,11 +43,9 @@
 		</a>
 
 		<hgroup>
-		  <h1 class="header-author"><a href="/">桂糊涂</a></h1>
+		  <h1 class="header-author"><a href="/">undefined</a></h1>
 		</hgroup>
 
-		
-		<p class="header-subtitle">代码杂记</p>
 		
 
 		<nav class="header-menu">
@@ -104,7 +103,7 @@
       <nav id="mobile-nav">
   	<div class="overlay">
   		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">桂糊涂</h1>
+  		<h1 class="header-author js-mobile-header hide">undefined</h1>
   	</div>
 	<div class="intrude-less">
 		<header id="header" class="inner">
@@ -114,10 +113,8 @@
 				
 			</div>
 			<hgroup>
-			  <h1 class="header-author">桂糊涂</h1>
+			  <h1 class="header-author">undefined</h1>
 			</hgroup>
-			
-			<p class="header-subtitle">代码杂记</p>
 			
 			<nav class="header-menu">
 				<ul>
@@ -151,6 +148,64 @@
 
       <div class="body-wrap">
         
+  
+    <article id="post-write-atom-package" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/03/18/write-atom-package/">编写atom插件</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Atom 是github开发的编辑器，号称21世纪hackable编辑器。近日对其hack了一下，增加了一个命令行。</p>
+<p>Atom的View系统很不错。</p>
+<p>顺便学会使用licecap录了个屏。<a href="http://www.cockos.com/licecap/" target="_blank" rel="noopener">http://www.cockos.com/licecap/</a></p>
+<p>接下来的目标是可以打开多终端。</p>
+<p><img src="http://guileen.github.io/img/terminal-status/screenshot-0.2.0.gif" alt=""></p>
+<h2 id="UPDATE：-2014-03-22"><a href="#UPDATE：-2014-03-22" class="headerlink" title="UPDATE： 2014-03-22"></a>UPDATE： 2014-03-22</h2><p>多终端已实现，apm操作不慎，版本号bump到了1.1.0</p>
+<p><img src="http://guileen.github.io/img/terminal-status/screenshot-1.1.0.gif" alt=""></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/03/18/write-atom-package/" class="archive-article-date">
+  	<time datetime="2014-03-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-18</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/editor/" rel="tag">editor</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
   
     <article id="post-open-source-speech-api" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -702,67 +757,6 @@ c.json</code></pre><p>再举一个实际应用场景的例子，希望把某个�
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/IM/" rel="tag">IM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cluster/" rel="tag">cluster</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-about-3d" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/29/about-3d/">About 3D</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>ray-trace 光线跟踪，镜面<br>radiosity 辐射光照<br>rasterizing 光栅化，scan line</p>
-<p>你的引擎需要提供的包括：曲面(curved surfaces)、动态光线(dynamic lighting)、体雾(volumetric fog)、镜面(mirrors)、入口(portals)、天空体(skyboxes)、节点阴影(vertex shaders)、粒子系统(particle systems)、静态网格模型(static mesh models)、网格模型动画(animated mesh models)。</p>
-<p>Renderer/Engine Core （渲染/引擎 内核）<br>哈~是呀，所有的人都热爱3D图象渲染！因为这边有着非常多的不同种类的3D世界渲染方式，可要为各类拥有不同工作方式的3D图形管道做出一个概要描述也是几乎不可能的。<br>不管你的渲染器如何工作，最重要的是将你的渲染器组件制作得基化（based）与干净（clean）。<br>首先可以确定的是你将拥有不同的模块来完成不同的任务，我将渲染器拆分为以下几个部份：可见裁减（Visibility）、碰撞检测与反馈（Collision Detection and Response）、摄像器（Camera）、静态几何体（Static Geometry）、动态几何体（Dynamic Geometry）、粒子系统（Particle Systems）、布告板（Billboarding）、网格（Meshes）、天空体（Skybox）、光线（Lighting）、雾（Fogging）、节点阴影（Vertex Shading）和输出（Output）。<br>其中每一个部分都得需要一个接口来方便地实现改变设置（settings）、位置（position）、方向（orientation）、以及其他可能与系统相关的属性配置。<br>即将显露出来的一个主要缺陷便是“特性臃肿”，这将取决于设计期间你想实现什么样的特性。但如不把新特色置入引擎的话，你就会发觉一切都将变的很困难，解决问题的方式也显得特别逊色。<br>还有一件有意义的事便是让所有的三角形[triangles]（或是面[faces]）最终在渲染管道里经过同一点。（并非每次的每个三角形，这里讨论的是三角形列表[triangle lists]、扇形[fans]、带形[strips]、等） 多花一些工作让所有物体的格式都能经过相同的光线、雾、以及阴影代码，这样就能非常便利地仅通过切换材质与纹理id就使任何多边形具有不同的渲染效果。<br>这不会伤及到被大量被渲染绘出的点，但是一旦你不当心，它可能会导致大量的冗余代码。<br>你也许最终便能发现，实现所有这些你所需的极酷效果可能只占了所有的15%左右的代码量甚至更少。这是当然的，因为大多数游戏引擎并不只是图形表现。</p>
-<p>3D繪圖(3D Graphics Pipeline ) <a href="http://www.ategpu.com/2009/06/04/3d%E7%B9%AA%E5%9C%963d-graphics-pipeline.html" target="_blank" rel="noopener">http://www.ategpu.com/2009/06/04/3d%E7%B9%AA%E5%9C%963d-graphics-pipeline.html</a></p>
-<p>3.1 Transformation &amp; Lighting<br>ModelTransformation,  View Transformation, 视点坐标系 HomogeneousCoordinate System , 4x4 Transformation Matrix</p>
-<p>3.2 Viewport Transformation &amp; Clipping &amp; Culling<br>Clip coordinate是將視點座標進行投影(Projection)，在Eye coordinate上，我們的原點就是攝影機，視線方向是-Z軸，加上視角與遠近平面，我們創建了一個梯形體的三維空間，近平面(也就是投影平面)是梯形體較小的矩形，遠平面是梯形體較大的矩形，而所有在這個梯形體的內的Vertex，就是我們在螢幕上會看見的Vertex。因此超出這個梯形體的場景，都被視點去除(Frustum Culling)掉了。 </p>
-<p>為什麼我們在投影完之後還要留下Z座標的值呢？這是因為「Vertex離投影面的距離」可以用來處理三角面間相互遮蓋的情形，也就是哪個三角面在前，哪個三角面在後。這個稱作Z-buffer的技術會在之後提到。 </p>
-<p>3.3 Primitive Assembly ＆ Triangle Setup<br>進行背面去除(Back-face Culling)。 </p>
-<p>3.4 Rasterization</p>
-<p>3.5 Pixel Operation<br>Texture operation<br>紋理操作，也就是根據Pixel的紋理座標，查詢相應的紋理(Texture)，來計算Pixel該有的顏色。<br>.<br>Blending<br>混色，根據目前已經畫好的顏色，與現在正在算的顏色的透明度(Alpha)，混合兩種顏色，當作新的顏色輸出。<br>.<br>Filtering<br>將正在算的顏色經過某種濾鏡(Filtering)後輸出。關於filtering的理論牽涉到數位訊號學，請暫時理解為，經過一種數學運算之後變成了新的顏色。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/29/about-3d/" class="archive-article-date">
-  	<time datetime="2013-03-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-29</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/3D/" rel="tag">3D</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/" rel="tag">game-dev</a></li></ul>
 	</div>
 
       

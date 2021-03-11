@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://guileen.github.io/"/>
-  <updated>2021-02-23T14:08:00.828Z</updated>
+  <updated>2021-03-11T13:27:19.285Z</updated>
   <id>http://guileen.github.io/</id>
   
   <author>
@@ -15,6 +15,28 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>分布式事务</title>
+    <link href="http://guileen.github.io/2021/03/11/distributed-transaction/"/>
+    <id>http://guileen.github.io/2021/03/11/distributed-transaction/</id>
+    <published>2021-03-11T13:24:22.000Z</published>
+    <updated>2021-03-11T13:27:19.285Z</updated>
+    
+    <content type="html"><![CDATA[<p>微服务架构中，分布式事务、全链路跟踪、监控报警、限流降级、灰度发布、服务网关等等都很重要，大多是比较简单的工程性问题，有成熟的解决方案。其中在理论上比较复杂的，主要就是分布式事务了。</p><h2 id="异步场景的分布式事务"><a href="#异步场景的分布式事务" class="headerlink" title="异步场景的分布式事务"></a>异步场景的分布式事务</h2><p>主服务完成事务后将结果用事件（消息队列）通知从服务。从服务消费完成事务后，将事件删除（否则将持续收到事件通知）。这一模式的主要问题是，消息队列与主事务如何保持一致。解决方案是主事务中增加一个本地Msg表，事件投递成功后，删除本地Msg。若事件投递失败，由消息补偿定时任务将未投递消息写入消息服务。</p><p>目前看来是比较完美的，但是这一方案对主业务有很大的侵入性。因此可以考虑将Msg持久化独立为一个服务。在开始主事务前，先将Msg置为Prepare状态，然后主事务完成后，Commit Msg。如果Prepare Msg失败，则主事务不会开始，如果Msg Prepare失败，但没有Commit Msg，则Msg服务会向主服务回调检测任务是否完成。RocketMQ实现了类似的机制。这一模式的主要缺点是需要写一个回调检查方法。这种方法也被成为<strong>半投递</strong>。</p><p><img src="/img/dtx/half-message.jpg" alt=""></p><h2 id="同步场景分布式事务"><a href="#同步场景分布式事务" class="headerlink" title="同步场景分布式事务"></a>同步场景分布式事务</h2><h3 id="二阶段提交协议（2-Phase-Commit）（XA）"><a href="#二阶段提交协议（2-Phase-Commit）（XA）" class="headerlink" title="二阶段提交协议（2 Phase Commit）（XA）"></a>二阶段提交协议（2 Phase Commit）（XA）</h3><p><img src="/img/dtx/2pc.png" alt=""></p><p>2PC协议中，用户与协调者通信。事务的执行分为准备阶段和提交阶段。在准备阶段，完成资源的锁定。协调者收到所有的投票都为Yes后，通知所有参与者提交事务，否则通知参与者取消事务。为了完成事务，需要实现以下几个接口</p><ul><li>[参与者]canCommit(trans) -&gt; Yes/No  协调者询问参与者能否开始任务。参与者若返回yes，需要锁定相关资源。</li><li>[参与者]doCommit(trans)  协调者通知参与者执行他的事务。</li><li>[参与者]doAbort(trans) 协调者通知参与者放弃事务。</li><li>[协调者]haveCommitted(trans) 参与者调用协调者的该接口，通知协调者，自己已经完成了任务。</li><li>[协调者]getDecision(trans) 参与者投Yes后一段时间未收到通知，参与者主动询问表决结果，主动恢复事务。</li></ul><p>我们必须要考虑超时的情况：</p><ul><li>每一个网络动作都要包含一个超时的动作，超时并不意味失败。</li><li>当协调者调用canCommit超时时，事务将不会开始，协调者将向所有参与者发送doAbort。</li><li>当参与者在canCommit返回了No之后，参与者终止事务（没有超时）</li><li>当参与者在canCommit返回了Yes之后超时，我们称其进入了不确定状态，参与者需要调用getDecision来决定下一步的动作。如果协调者发生故障，需要继续检测getDecision，等待协调者恢复后则可恢复事务。（可能持续的等待）</li></ul><p>我们还需要考虑到进程崩溃的情况：</p><ul><li>当参与者回复了Yes之后崩溃，后继服务需要从数据库中恢复该事务。因此参与者在回复Yes之前必须将事务状态写入数据库。</li><li>当协调者崩溃后，需要正确的处理getDecision</li></ul><p>缺点：</p><ul><li>在一切正常的情况下，2PC的性能是2N次请求。但如果出现了异常，则可能出现长时间的等待，并锁定了相关资源。3PC用来解决这样的问题。</li></ul><h3 id="三阶段提交协议（3-Phase-Commit）"><a href="#三阶段提交协议（3-Phase-Commit）" class="headerlink" title="三阶段提交协议（3 Phase Commit）"></a>三阶段提交协议（3 Phase Commit）</h3><p><img src="/img/dtx/3pc.png" alt=""></p><p>3PC与2PC的异同：</p><ul><li>3PC将2PC的准备阶段拆分为『询问』和『准备』两个阶段。</li><li>在询问阶段，参与者不锁定资源，只返回是否可以执行。这一步避免了2PC最终表决为No却锁定了资源的情况。</li><li>当询问所有参与者都可以执行的情况下，才要求参与者进行准备，锁定资源。</li><li>询问、准备必须都成功，才会执行Commit，否则执行Abort。这与2PC是类似的。</li></ul><h3 id="TCC协议"><a href="#TCC协议" class="headerlink" title="TCC协议"></a>TCC协议</h3><p>TCC本质上依然是2PC，他们的区别是TCC是服务级别的，而2PC是资源级别的（也可以是服务级别的）。在2PC、3PC中，都会对资源进行长时间的占用，同一时间只能有一个事务执行，有一个锁竞争的问题。为了解决这个问题，TCC在Try阶段，就将事务所需的资源进行预留，后续的锁只发生在预留的资源上。</p><p><img src="/img/dtx/tcc.png" alt=""></p><p>为了解释这个问题，我们先来想象这样一种场景，用户在电商网站购买商品1000元，使用余额支付800元，使用红包支付200元。我们看一下在 2PC 中的流程：</p><p>Prepare 阶段：</p><ul><li>下单系统插入一条订单记录，不提交</li><li>余额系统减 800 元，给记录加锁，写 redo 和 undo 日志，不提交</li><li>红包系统减 200 元，给记录加锁，写 redo 和 undo 日志，不提交</li></ul><p>Commit 阶段：</p><ul><li>下单系统提交订单记录</li><li>余额系统提交，释放锁</li><li>红包系统提交，释放锁</li></ul><p>我们在事务执行过程中，锁定了整个用户账户。而TCC 在该场景中的流程：</p><p>Try操作</p><ul><li>tryX 下单系统创建待支付订单</li><li>tryY 冻结账户红包 200 元</li><li>tryZ 冻结资金账户 800 元</li></ul><p>Confirm操作</p><ul><li>confirmX 订单更新为支付成功</li><li>confirmY 扣减账户红包 200 元</li><li>confirmZ 扣减资金账户 800 元</li></ul><p>Cancel操作</p><ul><li>cancelX 订单处理异常，资金红包退回，订单支付失败</li><li>cancelY 冻结红包失败，账户余额退回，订单支付失败</li><li>cancelZ 冻结余额失败，账户红包退回，订单支付失败</li></ul><p>我们只对参与事务的部分资源进行了锁定，因此极大的降低了锁竞争的情况，也就提升了系统的性能。缺点是，TCC的实现对业务的侵入性较强，必须由开发人员来编写。而2PC、3PC则可以抽象为统一的框架。</p><h2 id="AT-模式"><a href="#AT-模式" class="headerlink" title="AT 模式"></a>AT 模式</h2><p>本地关系型数据库   [Seata AT模式]<a href="http://seata.io/zh-cn/docs/dev/mode/at-mode.html">http://seata.io/zh-cn/docs/dev/mode/at-mode.html</a></p><p>两阶段提交协议的演变：</p><ul><li>一阶段：业务数据和回滚日志记录在同一个本地事务中提交，释放本地锁和连接资源。</li><li>二阶段：<ul><li>提交异步化，非常快速地完成。</li><li>回滚通过一阶段的回滚日志进行反向补偿。</li></ul></li></ul><p>TODO</p><h2 id="SAGA"><a href="#SAGA" class="headerlink" title="SAGA"></a>SAGA</h2><p>长事务解决方案，订机票的例子</p><p>TODO</p><p><a href="https://huzb.me/2019/06/30/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E2%80%94%E2%80%942PC%E3%80%813PC%E5%92%8CTCC/#%E4%BA%94%E3%80%81TCC-%E5%8D%8F%E8%AE%AE">[1]分布式事务——2PC、3PC 和 TCC</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;微服务架构中，分布式事务、全链路跟踪、监控报警、限流降级、灰度发布、服务网关等等都很重要，大多是比较简单的工程性问题，有成熟的解决方案。其中在理论上比较复杂的，主要就是分布式事务了。&lt;/p&gt;
+&lt;h2 id=&quot;异步场景的分布式事务&quot;&gt;&lt;a href=&quot;#异步场景的分布式事务&quot;
+      
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>为什么『太极』是一门好语言？</title>
@@ -437,29 +459,6 @@
       
       
         &lt;p&gt;我们在上文简述了DQN算法。此文以PyTorch来实现一个DQN的例子。我们的环境选用&lt;a href=&quot;https://gym.openai.com/envs/CartPole-v1/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;CartPole-v1&lt;
-      
-    
-    </summary>
-    
-      <category term="AI" scheme="http://guileen.github.io/categories/AI/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>强化学习简介（三）：DQN</title>
-    <link href="http://guileen.github.io/2019/12/28/introduce-reinforcement-learning-3/"/>
-    <id>http://guileen.github.io/2019/12/28/introduce-reinforcement-learning-3/</id>
-    <published>2019-12-28T03:53:37.000Z</published>
-    <updated>2020-08-31T07:01:49.033Z</updated>
-    
-    <content type="html"><![CDATA[<p>上一个例子中我们使用了冰面滑行的游戏环境，这是一个有限状态空间的环境。如果我们现在面对的是一个接近无限的状态空间呢？比如围棋，比如非离散型的问题。我们无法使用一个有限的Q表来存储所有Q值，即使有足够的存储空间，也没有足够的计算资源来遍历所有的状态空间。对于这一类问题，深度学习就有了施展的空间了。</p><p>Q表存储着状态s和动作a、奖励r的信息。我们知道深度神经网络，也具有存储信息的能力。DQN算法就是将Q-table存储结构替换为神经网络来存储信息。我们定义神经网络`f(s, w) ~~ Q(s)`，输出为一个向量`[Q(s, a_1), Q(s, a_2), Q(s, a_3), …, Q(s, a_n)]`。经过这样的改造，我们就可以用Q-learing的算法思路来解决更复杂的状态空间的问题了。我们可以通过下面两张图来对比Q-learning和DQN的异同。</p><p><img src="/img/rl-3/1.png" alt="Q-learning"></p><p><img src="/img/rl-3/2.png" alt="Deep-Q-learning"></p><p>网络结构要根据具体问题来设计。在神经网络训练的过程中，损失函数是关键。我们采用MSE来计算error。</p><p>`L(w) = (ubrace(r + argmax_aQ(s’, a’))_(目标值) - ubrace(Q(s, a))_(预测值))^2`</p><h2 id="基本算法描述"><a href="#基本算法描述" class="headerlink" title="基本算法描述"></a>基本算法描述</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">使用随机参数初始化网络Q</span><br><span class="line"><span class="keyword">while</span> 未收敛:</span><br><span class="line">  action 按一定概率随机选取，其余使用argmax Q(s)选取</span><br><span class="line">  模拟执行 action 获取 状态 s_, 奖励 r, 是否完成 done</span><br><span class="line">  <span class="keyword">if</span> done:</span><br><span class="line">    target = r</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    target = r + gamma * argmax Q(s_)</span><br><span class="line">  loss = MSE(target, Q(s, a))</span><br><span class="line">  使用loss更新网络Q</span><br><span class="line">  s = s_</span><br></pre></td></tr></table></figure><p>但是，通过实验我们会发现，训练过程非常的不稳定。稳定性是强化学习所面临的主要问题之一，为了达到稳定的训练我们需要运用一些优化的手段。</p><h2 id="环境的稳定性"><a href="#环境的稳定性" class="headerlink" title="环境的稳定性"></a>环境的稳定性</h2><p>Agent生活在环境之中，并根据环境的反馈进行学习，但环境是否是稳定的呢？假设agent在学习出门穿衣的技能，它需要学会在冬天多穿，夏天少穿。但是这个agent只会根据当天的反馈来修正自己的行为，也就是说这个agent是没有记忆的。那么这个agent就会在多次失败后终于在冬天学会了多穿衣，但转眼之间到了夏天他又会陷入不断的失败，最终他在夏天学会了少穿衣之后，又会在冬天陷入失败，如此循环不断，永远不会收敛。如果要能够很好的训练，这个agent至少要有一整年的记忆空间，每一批都要从过去的记忆中抽取记忆来进行训练，就可以避免遗忘过去的教训。</p><p>在DeepMind的Atari 论文中提到</p><blockquote><p>First, we used a biologically inspired mechanism termed experience replay that randomizes over the data, thereby removing correlations in the observation sequence and smoothing over changes in the data distribution.</p></blockquote><p>意思是，受生物学启发，他们采用了一种叫做经验回放（experience replay）的机制，随机抽取数据来到达“移除观察序列的相关性，平滑数据分布的改变”的目的。<br><img src="/img/rl-3/4.png" alt="DQN with Atari"></p><p>我们已经理解了要有经验回放的记忆，但是为什么一定要随机抽取呢？对此论文认为这个随机抽取可以移除序列相关性、平滑分布中的改变。当如何理解呢？简单的说就是在我们不清楚合理的周期的情况下，能够保证采样的合理性。我们仍然以四季穿衣举例，假设我们不使用随机采样，我们必须在每次训练中都采用365天左右的数据，才能使我们的数据样本分布合理。可是agent并不清楚一年365天这个规律，这恰恰是我们所要学习的内容。采用随机采用，就可以自然的做到数据的分布合理，而且只需要使用记忆中的部分数据，减少单次迭代的计算量。</p><p>在这个记忆里，我们并不记录当时的网络参数（分析过程），我们只记录（状态s，动作a，新状态s’, 单步奖励r)。显然，记忆的尺寸不可能无限大。当记忆体增大到一定程度之后，我们采用滚动的方式用最新的记忆替换掉最老的记忆。就像在学习围棋的过程中，有初学者阶段的对局记忆，也有高手阶段的对局记忆，在提升棋艺的角度来看，高手阶段的记忆显然比初学者阶段的记忆更有价值。</p><p>说句题外话，其实对于一个民族而言也是一样的。我们这个民族拥有一个非常好的传统，就是记述历史，也就是等于我们这个民族拥有足够大的记忆量，这是我们胜于其他民族的。但是这个历史记录中，掺杂了历史上不同阶段的评价，这些评价是根据当时的经验得出的。而根据DQN的算法描述来看，对我们最有价值的部分其实是原始信息，而不是那些附加在之上的评价，这些评价有正确的部分，也有错误的部分，我们不用去过多关心。我们只需要在今天的认知（也就是最新的训练结果）基础上，对历史原始信息（旧状态、动作、新状态、单步奖励）进行随机的抽样分析即可。</p><h2 id="网络稳定性"><a href="#网络稳定性" class="headerlink" title="网络稳定性"></a>网络稳定性</h2><p>DQN另一个稳定性问题与目标值计算有关。因为`target = r + gamma * argmax Q(s’)`，所以目标值与网络参数本身是相关，而参数在训练中是不断变化的，所以这会造成训练中的不稳定。一个神经网络可以自动收敛，取决于存在一个稳定的目标，如果目标本身在不断的游移变动，那么想要达到稳定就比较困难。这就像站在平地上的人很容易平衡，但如果让人站在一个不断晃动的木板上，就很难达到平衡。为了解决这个问题，我们需要构建一个稳定的目标函数。</p><p>解决的方法是采用两个网络代替一个网络。一个网络用于训练调整参数，称之为策略网络，另一个专门用于计算目标，称之为目标网络。目标网络与策略网络拥有完全一样的网络结构，在训练的过程中目标网络的参数是固定的。执行一小批训练之后，将策略网络最新的参数复制到目标网络中。</p><p><img src="/img/rl-3/3.png" alt="目标网络"></p><p>经验回放和目标网络的效果见下表（引用自Nature 论文）：<br><img src="/img/rl-3/5.png" alt="优化对比"></p><h2 id="其他DQN优化"><a href="#其他DQN优化" class="headerlink" title="其他DQN优化"></a>其他DQN优化</h2><p>关于DQN的优化，这篇文章描述的比较全面 <a href="https://zhuanlan.zhihu.com/p/21547911" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/21547911</a>。在之后的实践中考虑是否进一步深入。主要介绍3个改进：</p><p><img src="/img/rl-3/6.png" alt="DQN优化"></p><ul><li>Double DQN：对目标值计算的优化，a’使用策略网络选择的动作来代替目标网络选择的动作。</li><li>Prioritised replay：使用优先队列（priority queue）来存储经验，避免丢弃早期的重要经验。使用error作为优先级，仿生学技巧，类似于生物对可怕往事的记忆。</li><li>Dueling Network：将Q网络分成两个通道，一个输出V，一个输出A，最后再合起来得到Q。如下图所示（引用自Dueling Network论文）。这个方法主要是idea很简单但是很难想到，然后效果一级棒，因此也成为了ICML的best paper。</li></ul><p><img src="/img/rl-3/7.png" alt="Dueling Network"></p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;上一个例子中我们使用了冰面滑行的游戏环境，这是一个有限状态空间的环境。如果我们现在面对的是一个接近无限的状态空间呢？比如围棋，比如非离散型的问题。我们无法使用一个有限的Q表来存储所有Q值，即使有足够的存储空间，也没有足够的计算资源来遍历所有的状态空间。对于这一类问题，深度学
       
     
     </summary>

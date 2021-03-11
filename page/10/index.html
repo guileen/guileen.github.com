@@ -14,6 +14,7 @@
 <meta property="og:url" content="http://guileen.github.io/page/10/index.html">
 <meta property="og:site_name" content="桂糊涂的博客">
 <meta property="og:description" content="Description">
+<meta property="og:locale">
 <meta property="article:author" content="桂糊涂">
 <meta name="twitter:card" content="summary">
   
@@ -27,7 +28,7 @@
 
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+</head>
 
 <body>
   <div id="container">
@@ -42,11 +43,9 @@
 		</a>
 
 		<hgroup>
-		  <h1 class="header-author"><a href="/">桂糊涂</a></h1>
+		  <h1 class="header-author"><a href="/">undefined</a></h1>
 		</hgroup>
 
-		
-		<p class="header-subtitle">代码杂记</p>
 		
 
 		<nav class="header-menu">
@@ -104,7 +103,7 @@
       <nav id="mobile-nav">
   	<div class="overlay">
   		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">桂糊涂</h1>
+  		<h1 class="header-author js-mobile-header hide">undefined</h1>
   	</div>
 	<div class="intrude-less">
 		<header id="header" class="inner">
@@ -114,10 +113,8 @@
 				
 			</div>
 			<hgroup>
-			  <h1 class="header-author">桂糊涂</h1>
+			  <h1 class="header-author">undefined</h1>
 			</hgroup>
-			
-			<p class="header-subtitle">代码杂记</p>
 			
 			<nav class="header-menu">
 				<ul>
@@ -151,6 +148,81 @@
 
       <div class="body-wrap">
         
+  
+    <article id="post-guileen-texasholdem-ai" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/19/guileen-texasholdem-ai/">桂糊涂的德州扑克AI</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>如何编写德州扑克的AI。</p>
+<p>德州扑克与其他的棋牌类游戏不同，他不一定存在着最优解，更多的是一种心理竞技。这对于人类来说可能很简单，但对于电脑来说却并不擅长。我的目标就是将人类的思维用代码的方式重现出来。</p>
+<p>对德州的分析，首先是概率。一手牌的胜率是多少。在底牌，翻牌，转牌，河牌阶段的算法依次如下：</p>
+<p>底牌阶段的算法采用查表法。13不同花色的牌组合共有169种，分为，对子面，同花面，杂花面。这里有个小技巧，13可以用4个bit来表示，两张底牌的组合，正好可以用一个字节来表示。我用高位在前表示同花，低位在前表示杂花。</p>
+<p>河牌阶段的胜率算法也比较简单。我采用的是穷举法————去除自己的底牌和公牌后，组合遍历对手可能的底牌，将对手的底牌与自己的底牌比较，胜率=获胜次数/组合数。组合数共有995种。这里的关键是如何高效比较我方牌与对手牌的大小。</p>
+<p>转牌阶段的胜率，依然采用穷举法————组合遍历河牌，并计算河牌胜率的平均值。河牌共有46种可能，因此算法复杂度为O(45540)。这一切比较都依赖于快速比较手牌，如果手牌比较速度慢，将无法快速计算出这一胜率。</p>
+<p>翻牌阶段胜率，无法再采用转牌阶段胜率的算法，这里有个技巧，翻牌阶段胜率近似=发一张牌后的胜率。</p>
+<p>如何快速比较自己和对方的手牌。这里也使用了一个小技巧，就是将每张牌面的大小数值化。德州牌面比较是先比较牌型，再比较牌值。因此，将牌型的值作为最高位，将牌面的值作为后5位，即可形成一个比较值。如红3黑5方A梅5方5，牌值为=3555e3。3代表3条牌型，555e3是牌面值。A一般作为14牌值处理。从高牌，对子，两对，三条，顺子，葫芦，同花，四条，同花顺，依次是0，1，2，3，4，5，6，7，8。牌面值直接用2,3,4,5,6,7,8,9,A,B,C,D,E。以16进制表示依然可以有很好的可读性。</p>
+<p>在做牌型检测时，同花，顺子比较特殊，其他的4条，3条，葫芦，两对，对子，高牌，都是相似的。</p>
+<p>同花检测，将同样花色的牌放进桶里，一个桶里的牌大于等于5张，则为同花，若这5张还能成顺，则为同花顺。</p>
+<p>顺子检测时，A较为特殊，既可以和10，J，Q，K搭配，也可以和2，3，4，5，6搭配。将14位数组，设置1，0，1表示存在该牌，0表示不存在。从大到小遍历计数，连续计数5次则为顺子。之所以从大到小遍历是为了找到最大的顺子而不是最小的顺子。</p>
+<p>其他牌型比较，先将牌放进13个桶里，然后将这些桶排序。排序方法是，桶里的牌越多越大，牌一样多比较桶本身的编号。这样我们就得出了[3个3，2个J，2个8，1个K]的桶列表。如果第一个桶是4张，那我们的牌型就是4条。第一个桶是3张就是3条，同时第二个桶是2张就是葫芦，前两个桶是两张就是两对，第一个桶是两张是一对，否则就是杂牌。</p>
+<p>但是仅仅知道胜率是远远不够的，这只是人类思维的开始。人类对于胜率的判断很多是基于经验，但这种经验非常高效，综合考虑了很多数学概率中没考虑到的因素：比如，玩家数量，底池大小，对手下注量。人类有恐惧感，也有冒险精神，这都是电脑所不具备的。</p>
+<p>有没有可能设计一种AI，只根据标准的概率下注，完全不考虑人类心理因素呢？</p>
+<p>德州高手会研究对手。如果一个玩家从来不Bluff（诈赌），并且他的下注量和他的胜率相关。有经验的牌手，可以根据他的下注量反推出他的胜率，再根据他的胜率反推出他的手牌。与一个透明的玩家玩牌，要赢可能要看手气，要输真的很难。</p>
+<p>另一方面，一个绝不冒险的玩家，也会被轻易的Bluff掉，从而使对手的实际胜率远大于理论上的胜率。</p>
+<p>还有一方面，那就是恐惧。电脑不会恐惧，当对手ALLIN的时候，人类会忌惮，会重新评估对手的牌力。但电脑不会，他认为的大牌，无论多大的注都会跟。</p>
+<p>因此，学会冒险与恐惧是编写德州AI的最大难点。</p>
+<p>人数概率修正。人数影响概率。<br>恐惧修正。<br>安全跟注值计算。<br>Value控制。<br>Balnace。<br>BLUFF。Bluff的时机。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/01/19/guileen-texasholdem-ai/" class="archive-article-date">
+  	<time datetime="2015-01-18T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-01-19</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game/" rel="tag">game</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/AI/">AI</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
   
     <article id="post-stretegy-of-texasholdem" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -691,81 +763,6 @@
 	</div>
 
       
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-mathematical-model-of-1024-game" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/04/21/mathematical-model-of-1024-game/">小游戏1024的AI数学模型</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h2 id="游戏规则"><a href="#游戏规则" class="headerlink" title="游戏规则"></a>游戏规则</h2><p>1024 是一个近期比较流行的小游戏，也有称之为2048。游戏在一个4x4的方格(grid)中进行，方格中会在随机的一个空白位置填上一个数字2，玩家可以选择将所有数字向上、向下、向左、或向右的某一方向移动，所有数字将往这一方向移动，如果数字碰到了边界或一个不相同的数字，则停止移动，如果碰到了相同的数字则这两个数字将会合并为两数之和。如果移动之后局面未有任何改变，则此方向禁止移动。在玩家进行了一次移动后，方格中会再随机的产生一个数字，如此循环，直到4个方向都不可以移动则游戏结束。玩家的目标是尽可能的合成更大的数字。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">2 2 0 0           4 0 0 0</span><br><span class="line">4 0 0 0           4 0 0 0</span><br><span class="line">0 0 0 0  向左移动 0 0 0 0</span><br><span class="line">0 0 0 0           0 0 0 0</span><br><span class="line"></span><br><span class="line">2 2 0 0           0 0 0 4</span><br><span class="line">4 0 0 0           0 0 0 4</span><br><span class="line">0 0 0 0  向右移动 0 0 0 0</span><br><span class="line">0 0 0 0           0 0 0 0</span><br><span class="line"></span><br><span class="line">2 2 0 0           0 0 0 0</span><br><span class="line">4 0 0 0           0 0 0 0</span><br><span class="line">0 0 0 0  向下移动 2 0 0 0</span><br><span class="line">0 0 0 0           4 2 0 0</span><br><span class="line"></span><br><span class="line">2 2 0 0           2 2 0 0</span><br><span class="line">4 0 0 0           4 0 0 0</span><br><span class="line">0 0 0 0  向上移动 0 0 0 0  局面未改变，禁止此方向</span><br><span class="line">0 0 0 0           0 0 0 0</span><br><span class="line"></span><br><span class="line">   2    4    8   16</span><br><span class="line">  32   64  128  256</span><br><span class="line">  64    2    8 1024  任何方向都无法移动，终局。</span><br><span class="line">   2    4   16    8</span><br></pre></td></tr></table></figure>
-
-<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>笔者尝试通过AI来解决这个问题以得出尽可能大的数字。在开发过程中设计了多种数学模型来求解这一问题，希望借本文与大家分享数学建模的一些思路。</p>
-<p>我的AI算法使用的是<a href="http://en.wikipedia.org/wiki/Alpha%E2%80%93beta_pruning" target="_blank" rel="noopener">alpha-beta pruning</a>。Alpha-beta pruning算法常用于博弈程序的AI，比如象棋、国际象棋、五子棋等。其基本思路与<a href="http://en.wikipedia.org/wiki/Minimax" target="_blank" rel="noopener">Minimax search</a>相似，通过对当前局面及其分支的评分，得出最优解的算法，只是通过剪枝的算法大大降低了算法的复杂度。1024这个游戏也可以理解为一个博弈游戏，玩家向某方向移动，电脑落下一个数字，这是一个玩家与电脑博弈的过程，玩家希望得出最大数字，电脑则是尽可能的让这个数字出现在玩家最不希望它出现的位置（实际游戏过程中，这个数字的出现位置是随机的）。</p>
-<p>Alpha-beta pruning算法是非常依赖于启发函数（Heuristic）的，启发函数是对于一个局面G的优劣的评估值，记为h(G)，h(G)越大，代表局面越好，h(G)越小代表局面越坏。Alpha-beta pruning的目标是做出当前局面G下的最佳决策，依据于一定深度的子分支的评价结果。因为深度有限且部分分支被抛弃，所以alpha-beta不能保证搜索到的结果是最优的，所以启发函数h(G)不仅用来评价局面的好坏，也用于引导搜索的过程。</p>
-<p>本文要讨论的即是关于1024游戏的启发函数h(G)的设计。</p>
-<h2 id="数学模型"><a href="#数学模型" class="headerlink" title="数学模型"></a>数学模型</h2><p>我们都知道数学是什么，但什么是数学模型？我们说铁比棉花“重”，这不是数学模型，而我们说铁的密度更大，而密度=质量/体积，这就是数学模型。我们说某个人速度很快，这不是数学模型，速度=距离/时间，他的速度是10米每秒，这就是数学模型。我们说今天阴天，可能会下雨，这不是数学模型，而我们说今天下雨的概率是P(下雨|阴天)，这就是数学模型。</p>
-<p>当先贤们创造经典力学的时候，他们是在对我们的日常知识建立数学模型。比如你说推一个轻的车比推一个重的车更容易，但如果你说，F=ma，那么你就是牛顿。</p>
-<p>顺便说一句，我认为数学教育的目标应该是建立数学模型，而不是解题。</p>
-<p>关于1024这个游戏，我们说局面A比局面B更好，那么怎么样对一个局面的好坏建立数学模型呢？<code>h(G_A) &lt; h(G_B)</code> 则认为局面B比局面A更好。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">2 4 2 8     2 4 8 16</span><br><span class="line">4 2 4 4     2 2 4 8</span><br><span class="line">2 4 2 4     4 4 8 4</span><br><span class="line">4 2 0 0     0 0 4 8</span><br><span class="line">   A           B</span><br></pre></td></tr></table></figure>
-
-<h2 id="最大值模型"><a href="#最大值模型" class="headerlink" title="最大值模型"></a>最大值模型</h2><p>基于游戏的基本目标，我们希望尽可能的合成更大的数字，我们可以很显然得出一个数学模型：当局面G里出现的最大数字越大，则代表局面越好。即：</p>
-<p>h(G) = Max(G)</p>
-<p>假设G中目前的最大数字是256，基于此模型，AI将会尽可能的将这个数字合成到512，然后将512合成1024，然后是2048。看起来是很合理的。但实际测试中发现了如下的局面：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">4   2   4   8</span><br><span class="line">2   512 16  2</span><br><span class="line">64  2   32  4</span><br><span class="line">2   8   4   2</span><br></pre></td></tr></table></figure>
-
-<p>为什么发生这种局面？因为我们的AI过于急功近利了，因为最大值模型。就像我们设计了一个象棋程序，直接吃掉对方老将。。。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2014/04/21/mathematical-model-of-1024-game/" class="archive-article-date">
-  	<time datetime="2014-04-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-04-21</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mathematics/" rel="tag">mathematics</a></li></ul>
-	</div>
-
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/AI/">AI</a>
-	</div>
-
 
       <div class="clearfix"></div>
     </div>

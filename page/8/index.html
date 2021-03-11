@@ -14,6 +14,7 @@
 <meta property="og:url" content="http://guileen.github.io/page/8/index.html">
 <meta property="og:site_name" content="桂糊涂的博客">
 <meta property="og:description" content="Description">
+<meta property="og:locale">
 <meta property="article:author" content="桂糊涂">
 <meta name="twitter:card" content="summary">
   
@@ -27,7 +28,7 @@
 
   
 
-<meta name="generator" content="Hexo 4.2.1"></head>
+</head>
 
 <body>
   <div id="container">
@@ -42,11 +43,9 @@
 		</a>
 
 		<hgroup>
-		  <h1 class="header-author"><a href="/">桂糊涂</a></h1>
+		  <h1 class="header-author"><a href="/">undefined</a></h1>
 		</hgroup>
 
-		
-		<p class="header-subtitle">代码杂记</p>
 		
 
 		<nav class="header-menu">
@@ -104,7 +103,7 @@
       <nav id="mobile-nav">
   	<div class="overlay">
   		<div class="slider-trigger"><i class="icon-list"></i></div>
-  		<h1 class="header-author js-mobile-header hide">桂糊涂</h1>
+  		<h1 class="header-author js-mobile-header hide">undefined</h1>
   	</div>
 	<div class="intrude-less">
 		<header id="header" class="inner">
@@ -114,10 +113,8 @@
 				
 			</div>
 			<hgroup>
-			  <h1 class="header-author">桂糊涂</h1>
+			  <h1 class="header-author">undefined</h1>
 			</hgroup>
-			
-			<p class="header-subtitle">代码杂记</p>
 			
 			<nav class="header-menu">
 				<ul>
@@ -151,6 +148,68 @@
 
       <div class="body-wrap">
         
+  
+    <article id="post-mysql-optimization" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/06/17/mysql-optimization/">MySQL 优化</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>近期mysql 主从同步延迟过高，依次进行了如下优化。</p>
+<ol>
+<li><p>增加从库，将应用负载分散到多个从库，以降低从库同步延迟。</p>
+</li>
+<li><p>查看slow query，优化慢查询，必要位置添加索引。</p>
+</li>
+<li><p>打印所有sql日志，搜集一段时间日志后，去掉条件，按语句合并，汇总执行次数并排序。定位执行次数最高的语句，然后进行代码层面的优化，降低IO。</p>
+</li>
+<li><p>READ IO已经被降低，但CPU使用量却居高不下。SHOW PROCESSLIST; 定位到一些慢查询（执行时间小于long_query_time 但执行次数很多的语句），对这类语句再进行优化。</p>
+</li>
+</ol>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/06/17/mysql-optimization/" class="archive-article-date">
+  	<time datetime="2015-06-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-06-17</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
   
     <article id="post-objective-c-code-analytics" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
@@ -832,115 +891,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-what-is-CRDT" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/03/26/what-is-CRDT/">【转】什么是CRDT</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="http://liyu1981.github.io/what-is-CRDT/" target="_blank" rel="noopener">原文</a></p>
-<p>Project FiFo 0.6.0的release note中有这样一条：全面采用CRDT作为底层数据结构。</p>
-<p>为什么要采用CRDT，有啥好处? 其实是不太容易理解的。</p>
-<p>在这里，我就试图用听的懂的语言来解释一下CRDT是什么，以及为什么采用它是一个巨大的进步。</p>
-<h2 id="CRDT是什么？"><a href="#CRDT是什么？" class="headerlink" title="CRDT是什么？"></a>CRDT是什么？</h2><p>CRDT是Conflict-Free Replicated Data Types的缩写，直译的话即“无冲突可复制数据类型”。</p>
-<p>翻译过来这还是不是人话啊！所以接下来还是保留其英文缩写称呼之。</p>
-<p>先随便解释两句。</p>
-<p>研究分布式系统，尤其是研究最终一致性分布式系统的过程中，一个最基本的问题就是，应该采用什么样的数据结构来保证最终一致性？ 这是一个关键的，难度超过一般人想象的问题。</p>
-<p>CRDT即是理论界目前对于这个问题的答案（一篇集大成的论文在这里）。</p>
-<p>当然理论界的思路现在不是所有人能跟上的，需要更加简单的解释。</p>
-<h2 id="一致性的难题"><a href="#一致性的难题" class="headerlink" title="一致性的难题"></a>一致性的难题</h2><p>先回顾一下分布式系统。分布式系统即运行在多物理计算机上的系统。它的好处，不用说了，这是人类目前实际可行的构建超大规模系统的唯二办法之一（另一种就是构建超级计算机）。如果考虑上经济可行这个因素，那么分布式系统就是唯一可行之法。</p>
-<p>构建分布式系统，抛开效率问题不谈，首先是如何保持其正确性？</p>
-<p>简单的讲，构建一个分布式系统跑得飞快完全不难（例如写个存什么但是不保证取出来的系统:-)），只有构建一个运作起来正确性与单机程序完全无二的分布式系统，这才困难。</p>
-<p>现实上，就算这个理想中的目标也不是很容易既可以达成的。这就要说到CAP定理。</p>
-<h3 id="CAP-Theory"><a href="#CAP-Theory" class="headerlink" title="CAP Theory"></a>CAP Theory</h3><p>CAP定理告诉我们，在构建分布式系统的时候，Consistency（一致性），Availability（可用性），Partition tolerance（分区容错性），这三者只可以同时选择两样。</p>
-<p>即，就算给我们再多的资源（比如人力，智力，机器，钱这些壕的东西），在目前的计算机体系结构下，三样同时选择，理论上无可能的。如果谁做到了？就是不科学。</p>
-<p>不幸的是，分区容错性是实际运营的分布式系统所必需的。设想下，谁能保证系统的各节点永远保持网络联通？ 这是不给GFW面子。</p>
-<p>所以接下来我们需要在一致性和可用性中二选其一。</p>
-<p>选择一致性，构建的就是强一致性系统，比如符合ACID特性的数据库系统。选择可用性，构建的就是最终一致性系统。前者的特点是数据落地即是一致的，但是可用性不能时时保证，这意思就是，有时系统在忙着保证一致性，无法对外界服务。后者的特点是时时刻刻都保证可用性，用户随时都可以访问，但是各个节点之间会存在不一致的时刻。</p>
-<p>需要注意的是最终一致性的系统不是不保证一致性，而是不在保证可用性和分区容错性的同时保证一致性。</p>
-<p>最终我们还是要在最终一致性的各节点之间处理数据，使他们达到一致。</p>
-<h2 id="需要保存怎样的信息才可能达到最终一致？"><a href="#需要保存怎样的信息才可能达到最终一致？" class="headerlink" title="需要保存怎样的信息才可能达到最终一致？"></a>需要保存怎样的信息才可能达到最终一致？</h2><p>因为最终一致性系统保证可用性与分区容错性，所以在构建去中心，无单点故障，总是可用的系统时，会是更自然的选择。</p>
-<p>那么我们就一定需要在某个时刻处理这个一致性问题。</p>
-<p>举个例子，我们设想一个最终一致的分布式系统，处理一个账户的支出收入问题。假设这个账户是T，初始化有100块钱，用户可以通过系统里面好几个节点，例如A, B, C，访问它。那么我们的最终一致的分布式系统，可以保证A B C三者在时时刻刻都可以对T进行操作。</p>
-<p>假设某个时刻t1，A往T中存了10块钱，B则向T中取了10块钱，C则在接下来的一个时刻查询T有多少钱，他们是同时发生的。</p>
-<p>显然，分布式系统会保证这三个操作都能完成，于是</p>
-<ol>
-<li>在A系统看来，T有110块钱;</li>
-<li>在B系统看来，T有90块钱;</li>
-<li>在C系统看来，T有100块钱。</li>
-</ol>
-<p>在这个时刻t1，这三者都是对的，即最终一致性系统中，存在不一致的时刻。那么经过一段时间之后，假设是t2吧，我们需要使得A B和C系统看来，T都有100块钱，即保证最终一致。</p>
-<p>这中间肯定需要做一些操作，例如A B和C系统之间交换一些必要的信息数据。</p>
-<p>问题是：这些需要被交换的数据至少需要是怎样的？</p>
-<p>如果在各节点我们只是存了T的余额，例如用一个整数变量，这样显然是不行的：当A系统和B系统的数据传输到C系统时，C无法分辨A或者B系统的结果到底谁对。</p>
-<p>简单的答案就是我们至少需要多存储一点信息。</p>
-<p>在这个例子里面，我们或许可以这样设计：每个系统存储的不是一个最终数值，而是一系列包含了时刻与余额的记录。假设我们的系统是从t0时刻开始的，那么在我们的例子里面，t1时刻</p>
-<ol>
-<li>A系统存储的是： (t0, 100),(t1, 110)</li>
-<li>B系统存储的是： (t0, 100),(t1, 90)</li>
-<li>C系统存储的是： (t0, 100),(t1, 100)</li>
-</ol>
-<p>这样的结构使得我们在传输了足够的信息之后，都能达成一致性。例如对于C系统，当然收到足够多的信息，即是除自己之外所有的节点信息（A和B）后，如下得出正确一致的数据</p>
-<p>A系统在t0至t1之间产生的变化是 +10<br>B系统在t0至t1之间产生的变化是 -10<br>C系统在t0至t1之间产生的变化是 +0<br>A和B系统与C在t0时数据一致，在t1之后未至t2之前一致的数据应为 100 +10 -10 +0 = 100<br>类似的，在A和B上也可以这样的判断。</p>
-<h2 id="再谈CRDT"><a href="#再谈CRDT" class="headerlink" title="再谈CRDT"></a>再谈CRDT</h2><p>上面的例子足够简单，答案也足够的粗糙。想在实际系统中应用，我们必须要考虑更多的数据类型和应用场景。于是设计一个能够保持最终一致性的数据结构，就会变成一件很难的事情。甚至于这件事情本身会喧宾夺主，成为一个最终一致性系统中的最麻烦的问题。</p>
-<p>有了这样的概念，现在我们可以回头看CRDT。</p>
-<p>CRDT就是这样一些适应于不同场景的可以保持最终一致性的数据结构的统称。围绕着CRDT的理论，则涵盖了</p>
-<p>它们应该具有怎样的基本表现形式，<br>满足一些什么样的基本条件才可以保持最终一致性（毕竟大家不想每次都穷举所有的情况），<br>以及在不断的寻找一些通用的，有大量应用场景的CRDT，并努力提高它们的空间和时间效率。<br>之前提到的那篇论文很好的总结了目前为止人们在CRDT这件事情上的认识程度。简要的总结，它</p>
-<h2 id="定义了CRDT"><a href="#定义了CRDT" class="headerlink" title="定义了CRDT"></a>定义了CRDT</h2><p>列举了CRDT的两种基本形式，即基于状态的CRDT与基于操作的CRDT。前者存储的是一个个的最终值，类似我们的例子，后者存储的是一个个的操作记录，类似于我们例子里面的推导过程<br>界定了CRDT能满足最终一致性的边界条件。简单说，设计一个CRDT，只需要验证它是否满足这些边界条件，即可知道它是否能保持最终一致<br>界定了两类CRDT在系统中应用时，需要的信息交换的边界条件。即回答怎样叫做“收集到足够多的信息”<br>枚举了当前人类所知的CRDT，包含了计数器(counter)，寄存器(register)，集合(set)和图(graph)等几类<br>在现实中应该如何应用CRDT，尤其是对于存储空间怎样进行回收的问题<br>简要的就是，这篇文章是一本字典，它包含了CRDT方面人类的知识结晶。</p>
-<h2 id="怎样在实际系统中应用"><a href="#怎样在实际系统中应用" class="headerlink" title="怎样在实际系统中应用"></a>怎样在实际系统中应用</h2><p>说了这么多，CRDT其实还是停留在纸上，或许对于系统构建者来说，更加关心怎么在自己的最终一致性系统中使用？以什么样的方式？</p>
-<p>这样的问题或许太大，但是我们可以看看如何在RiakCore这样的最终一致性分布式框架中使用</p>
-<p>抛弃自己所写的数据结构，实现CRDT，或者使用已经实现好的CRDT library<br>参照CRDT的一致性可判断条件（即”收集到足够多的信息”），在需要判断最终一致性时收集它们<br>抛弃自己所写的一致性判断算法，实现CRDT的一致性合并算法，或者使用已经实现好的存在于CRDT library中的方法<br>就是这样简单。</p>
-<p>其实整个过程，与使用类似map/stack这样的数据结构并不不同的地方。</p>
-<h2 id="谁应该使用？谁在使用？"><a href="#谁应该使用？谁在使用？" class="headerlink" title="谁应该使用？谁在使用？"></a>谁应该使用？谁在使用？</h2><p>所有力求最终一致性的分布式系统，都应该使用CRDT。</p>
-<p>如果一个最终一致的分布式系统至今还没有使用，那么要么是其所使用的数据结构已经实现了（很可能是粗糙的）CRDT的一种或者几种，要么是这个系统在最终一致性上的保证就存在问题。</p>
-<p>至于谁在使用呢？应该说大部分的最终一致性系统都在自觉不自觉的向之迈进。Fifo已经全面的采用了; RiakKV也已经采用了，做为1.4版本的重要特性; 随着Riak_dt的开源，越来越多Erlang/OTP的程序也有希望尽快使用上CRDT。</p>
-<p>最后的总结</p>
-<p>CRDT带来了什么？从用户的层面，好象是什么也没有带来。但是从系统管理员/开发者的角度来看，CRDT给了我们从逻辑上既可以判断分布式系统能否保证最终一致性的能力。因此，在下一次选择系统的时候，我们就可以更加的理智，更加的清醒。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/03/26/what-is-CRDT/" class="archive-article-date">
-  	<time datetime="2015-03-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-26</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li></ul>
 	</div>
 
       

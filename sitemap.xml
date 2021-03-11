@@ -2,6 +2,13 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://guileen.github.io/2021/03/11/distributed-transaction/</loc>
+    
+    <lastmod>2021-03-11T13:27:19.285Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://guileen.github.io/2021/02/23/why-taichi-is-good/</loc>
     
     <lastmod>2021-02-23T14:08:00.828Z</lastmod>
