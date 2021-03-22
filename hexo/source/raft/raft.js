@@ -17,22 +17,26 @@ const heartbeatInterval = 50
 const heartbeatTimeoutRange = [1500, 3000]
 const networkLatency = 150
 
+const numNodes = 5
+
 var msgIdSeq = 0
 
 var ctx = null;
 var data = {
-  nodes: [
-    {
-      nodeState: RAFT_FOLLOWER,
-    },
-    {
-      nodeState: RAFT_CANDIDATE,
-    },
-    {
-      nodeState: RAFT_LEADER,
-    }
-  ],
+  nodes: [],
   msgs: [],
+}
+// raft 协议
+function initData() {
+  console.log('initData')
+  for(var i=0; i<numNodes; i++) {
+    var now = Date.now()
+    data.nodes.push({
+      nodeState: RAFT_FOLLOWER,
+      hbTS: now,
+      timeout: now + heartbeatTimeoutRange[0] + Math.random()*(heartbeatTimeoutRange[1] - heartbeatTimeoutRange[0]),
+    })
+  }
 }
 
 function onHeartbeat(node) {
@@ -84,6 +88,7 @@ function updateNode(node) {
   }
 }
 
+// update
 function update() {
   for(var i=0;i<data.msgs.length;i++) {
     var msg = data.msgs[i]
@@ -100,6 +105,7 @@ function update() {
   }
 }
 
+// render logics
 function render() {
   var nodes = data.nodes
   var round_radius = Math.min(sw/2,sh/2) - node_radius - timeout_width - 10
@@ -147,9 +153,13 @@ function render() {
   }
 }
 
+var started = false
 function startGame() {
+  if(started) return
+  started = true
   var canvas = document.getElementById("canvas")
   ctx = canvas.getContext("2d")
+  initData()
   setInterval(function(){
     update()
     render()
