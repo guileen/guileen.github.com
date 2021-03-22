@@ -142,7 +142,6 @@ function render() {
       ctx.font = "24px Sans"
       ctx.fillStyle = '#0388fc'
       var tsize = ctx.measureText(msg.text)
-      console.log('tsize', tsize)
       ctx.fillText(msg.text, msg.x - tsize.width/2, msg.y)
     }
   }
