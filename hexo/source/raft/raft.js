@@ -15,7 +15,7 @@ var node_strokes = ['#baf5ff', '#fce303', '#000000']
 
 const heartbeatInterval = 50
 const heartbeatTimeoutRange = [1500, 3000]
-const networkLatency = 150
+const networkLatency = 40
 
 const numNodes = 5
 
@@ -31,8 +31,18 @@ function initData() {
   console.log('initData')
   for(var i=0; i<numNodes; i++) {
     var now = Date.now()
+    // 初始化节点
     data.nodes.push({
-      nodeState: RAFT_FOLLOWER,
+      currentTerm: 0,
+      votedFor: null,
+      log: [],
+      commitIndex: 0,
+      lastApplied: 0,
+      lastLogTerm: 0,
+
+      nextIndex: [],
+      matchIndex: [],
+      state: RAFT_FOLLOWER,
       hbTS: now,
       timeout: now + heartbeatTimeoutRange[0] + Math.random()*(heartbeatTimeoutRange[1] - heartbeatTimeoutRange[0]),
     })
@@ -45,7 +55,24 @@ function onHeartbeat(node) {
   node.timeout = node.hbTS + heartbeatTimeoutRange[0] + Math.random()*(heartbeatTimeoutRange[1] - heartbeatTimeoutRange[0])
 }
 
-function sendMsg(msg) {
+function onStateChange(node, state) {
+  if(state == node.state) {
+    return
+  }
+  node.state = state
+  if(state==RAFT_LEADER) {
+    // become leader
+    broadcastMsg(node, 'AppendEntries', {
+      term: node.currentTerm,
+      leaderId: node.id,
+    }, function(){
+
+    })
+  }
+}
+
+function sendMsg(msg, callback) {
+  // RPC from client
   msg.id = ++msgIdSeq
   msg.x = msg.from.x
   msg.y = msg.from.y
@@ -53,22 +80,46 @@ function sendMsg(msg) {
     x: (msg.to.x - msg.from.x) / networkLatency,
     y: (msg.to.y - msg.from.y) / networkLatency,
   }
+  msg.callback = callback
   data.msgs.push(msg)
 }
 
-function onMessage(msg) {
+function onMessage(node, msg) {
   for(var i = 0; i < data.msgs.length; i++) {
     if(data.msgs[i].id == msg.id) {
       data.msgs.splice(i,1)
       break
     }
   }
+  // RPC server handler
+  if(msg.cmd=='AppendEntries') {
+
+  } else if(msg.cmd=='RequestVote') {
+    if(msg.args.term > node.currentTerm) {
+    console.log('onRequestVote', msg)
+      node.votedFor = msg.args.candidateId
+      msg.callback({term:node.currentTerm, voteGranted:true})
+    } else if(msg.args.term == node.currentTerm && msg.args.candidateId == node.votedFor) {
+      msg.callback({term:node.currentTerm, voteGranted:true})
+    } else {
+      msg.callback({term:node.currentTerm, voteGranted:false})
+    }
+  }
+}
+
+function broadcastMsg(node, cmd, args, callback) {
+  data.nodes.forEach(function (toNode, j) {
+    if (j == node.id) return;
+    sendMsg({
+      from: node,
+      to: toNode,
+      cmd: cmd,
+      args: args,
+    }, callback)
+  })
 }
 
 function updateNode(node) {
-  if(node.isCandidating) {
-    return
-  }
   // 如果超过一定时间没有收到心跳，则进入选举状态
   if(node.timeout == null) {
     // 初始化心跳
@@ -76,15 +127,29 @@ function updateNode(node) {
   }
   if(Date.now() > node.timeout) {
     // 超时，进入选举状态，发送选举消息
-    node.isCandidating = true
-    for(var j = 0; j < data.nodes.length; j++) {
-      if (j==node.id) continue;
-      sendMsg({
-        from: node,
-        to: data.nodes[j],
-        text: "hello world",
-      })
-    }
+    node.state = RAFT_CANDIDATE
+    node.currentTerm++
+    // vote for self
+    node.votedFor = node.id
+    node.gotVotes = 1
+    node.timeout = Date.now() + 1500 + Math.random() * 1500
+    broadcastMsg(node, 'RequestVote', {
+      term: node.currentTerm,
+      candidateId: node.id,
+      lastLogIndex: node.lastApplied,
+      lastLogTerm: node.lastLogTerm,
+    }, function (res) {
+      if (res.term > node.currentTerm) {
+        onStateChange(node, RAFT_FOLLOWER)
+        return
+      }
+      if (res.voteGranted) {
+        if (++node.gotVotes > numNodes / 2) {
+          // 转换为leader
+          onStateChange(node, RAFT_LEADER)
+        }
+      }
+    })
   }
 }
 
@@ -95,7 +160,7 @@ function update() {
     msg.x += msg.velocity.x
     msg.y += msg.velocity.y
     if(Math.abs(msg.x-msg.to.x) < 10 && Math.abs(msg.y-msg.to.y) < 10) {
-      onMessage(msg)
+      onMessage(msg.to, msg)
     }
   }
   for(var i = 0; i < data.nodes.length; i++) {
@@ -125,8 +190,8 @@ function render() {
     node.y = sh/2 + Math.sin(positionAngle) * round_radius
     // draw circle
     ctx.beginPath()
-    ctx.fillStyle = node_colors[node.nodeState]
-    ctx.strokeStyle = node_strokes[node.nodeState]
+    ctx.fillStyle = node_colors[node.state]
+    ctx.strokeStyle = node_strokes[node.state]
     ctx.arc(node.x,node.y,node_radius,0,Math.PI*2)
     ctx.fill()
     ctx.stroke()
