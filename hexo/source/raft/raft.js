@@ -50,7 +50,6 @@ function initData() {
 }
 
 function onHeartbeat(node) {
-  console.log('onHeartbeat', node)
   node.hbTS = Date.now()
   node.timeout = node.hbTS + heartbeatTimeoutRange[0] + Math.random()*(heartbeatTimeoutRange[1] - heartbeatTimeoutRange[0])
 }
@@ -62,13 +61,25 @@ function onStateChange(node, state) {
   node.state = state
   if(state==RAFT_LEADER) {
     // become leader
-    broadcastMsg(node, 'AppendEntries', {
-      term: node.currentTerm,
-      leaderId: node.id,
-    }, function(){
-
-    })
+    node.timeout = Number.MAX_VALUE
+    appendEntriesRPC(node)
+    node.timer = setInterval(function() {
+      appendEntriesRPC(node)
+    }, 500)
+  } else {
+    if(node.timer != null) {
+      clearTimeout(node.timer)
+    }
   }
+}
+
+function appendEntriesRPC(node) {
+  broadcastMsg(node, 'AppendEntries', {
+    term: node.currentTerm,
+    leaderId: node.id,
+  }, function(res){
+
+  })
 }
 
 function sendMsg(msg, callback) {
@@ -91,13 +102,18 @@ function onMessage(node, msg) {
       break
     }
   }
+  if(msg.args.term > node.currentTerm) {
+    onStateChange(node, RAFT_FOLLOWER)
+    onHeartbeat(node)
+  }
   // RPC server handler
   if(msg.cmd=='AppendEntries') {
-
+    onHeartbeat(node)
   } else if(msg.cmd=='RequestVote') {
     if(msg.args.term > node.currentTerm) {
-    console.log('onRequestVote', msg)
+      console.log('onRequestVote', msg)
       node.votedFor = msg.args.candidateId
+      node.currentTerm = msg.args.term
       msg.callback({term:node.currentTerm, voteGranted:true})
     } else if(msg.args.term == node.currentTerm && msg.args.candidateId == node.votedFor) {
       msg.callback({term:node.currentTerm, voteGranted:true})
@@ -202,13 +218,21 @@ function render() {
     ctx.strokeStyle = '#888888'
     ctx.arc(node.x,node.y,node_radius + timeout_width , -Math.PI/2, -Math.PI/2 + (percent) * Math.PI * 2)
     ctx.stroke()
+    ctx.font = '30px serif'
+    ctx.fillStyle = '#001122'
+    ctx.fillText(''+node.term, node.x, node.y)
   }
   for(var i = 0; i < data.msgs.length; i++) {
     var msg = data.msgs[i]
     ctx.beginPath()
-    ctx.fillStyle = '#f743fa'
+    if(msg.cmd == 'RequestVote') {
+      ctx.fillStyle = '#f743fa'
+    } else {
+      ctx.fillStyle = '#77ff77'
+    }
     ctx.arc(msg.x,msg.y,msg_radius, 0, Math.PI*2)
     ctx.fill()
+    msg.text = msg.args.term
     if(msg.text) {
       ctx.font = "24px Sans"
       ctx.fillStyle = '#0388fc'
