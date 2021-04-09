@@ -58,7 +58,15 @@ http://thesecretlivesofdata.com/raft/
 
 https://raft.github.io/
 
+https://raft.github.io/raft.pdf
+
+https://github.com/maemual/raft-zh_cn/blob/master/raft-zh_cn.md
+
 Ark
 
 [一致性算法资料](http://neurocline.github.io/dev/2015/08/09/consensus-algorithms.html)
+
+
+
+
 
