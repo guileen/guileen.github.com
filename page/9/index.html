@@ -149,6 +149,68 @@
       <div class="body-wrap">
         
   
+    <article id="post-network-tools" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/03/26/network-tools/">集群运维工具</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="www.17ce.com">17ce</a><br><a href="ip.cn">ip.cn</a></p>
+<p>zookeeper<br>docker<br><a href="https://github.com/googlecloudplatform/kubernetes" target="_blank" rel="noopener">kubernetes</a><br><a href="https://github.com/wandoulabs/codis" target="_blank" rel="noopener">codis</a><br>ssdb<br>stridecd<br>devops - 开发运营</p>
+<h2 id="直接Mark！开源的DevOps开发工具箱"><a href="#直接Mark！开源的DevOps开发工具箱" class="headerlink" title="直接Mark！开源的DevOps开发工具箱"></a>直接Mark！开源的DevOps开发工具箱</h2><p>来源CSDN| 作者张红月</p>
+<p>开源工具DevOps监控工具开源<br>摘要：在DevOps的整个流程中，使用一些开源工具可以促进开发与运维之间的沟通，有利于项目的管理，甚至可以达到事半功倍的效果。<br>DevOps是一组过程、方法与系统的统称，用于促进开发（应用程序/软件工程）、技术运营和质量保障（QA）部门之间的沟通、协作与整合。在DevOps的整个流程中，使用一些开源工具可以促进开发与运维之间的沟通，有利于项目的管理，甚至可以达到事半功倍的效果。</p>
+<p>本文作者Richard Kraaijenhagen是Owlin创始人，全栈工程师，数据科学家。他收集了DevOps开发可能用到的所有工具，并且把它们按照职责进行分类，本文摘取了部分工具分享给大家，这些工具也可以用于日常软件方面的开发，所以，大家直接Mark吧！</p>
+<p>包&amp;产品管理工具</p>
+<p>Chocolatey：Chocolatey是Windows下一款开源的命令行包管理软件 ，简单说这就是Windows的apt-get；<br>FPM：全称是Effing package management，该死的软件包管理器，极大的缓解了多个平台构建软件包(deb,rpm,等)的痛苦；<br>Herd：是一个基于Twitter Murder的文件分布系统；<br>Vagrant Cachier：Vagrant的一个插件，用于缓存包方面的管理；<br>WiX Toolset：提供一组最强大的工具集来帮助你创建Windows安装包。该工具集从XML源代码构建你的Windows安装程序包，可以无缝集成到构建过程；<br>Boxstarter：利用Chocolatey包管理工具来自动化安装软件和创建可重复、脚本化的Windows环境；<br>Elita：Elita是一个利用git和salt进行持续部署（部署作为服务）和API-driven基础设施的引擎/框架；<br>Fig：主要用来跟Docker一起来实现的快速隔离的开发环境；<br>Pulp：Pulp是一个用来管理软件库以及相关内容的平台；<br>Veewee：Veewee是一个开源工具，用来创建和配置轻量级、可再生、便捷式虚拟机环境。</p>
+<p>日志&amp;监控<br>AmonOne：现代化的自托管服务器监控工具；<br>Anthracite：一个事件/日志改变/管理应用程序；<br>collectd3：是一个可视化的collectd系统性能统计工具；<br>collectd：是一个守护(daemon)进程，用来收集系统性能和提供各种存储方式来存储不同值的机制；<br>Diamond：是一个基于Python的守护程序，主要用来收集系统指标，并且把它们发布到Graphite（或其它）工具中；<br>Errbit：是一个用于收集和管理程序错误的开源工具；<br>Sensu：一个开源的监控框架；<br>Logstash：是一个应用程序日志、事件的传输、处理、管理和搜索的平台。你可以用它来统一对应用程序日志进行收集管理，提供Web接口用于查询和统计；<br>log.io：一个实时的开源日志监控工具；<br>FnordMetric：是一个基于redis/ruby的实时事件跟踪应用，是个收集和可视化时间序列数据的框架，用户可以在几分钟内创建漂亮的实时分析仪表盘；<br>Logster：是一个工具，读取日志文件然后创建Graphite 或 Ganglia可用的指标数据。比如你可能使用logster来图形化在你的Web Server日志中的HTTP响应发生数量；<br>Kibana：是一个为Logstash和ElasticSearch提供的日志分析的Web接口。可使用它对日志进行高效的搜索、可视化、分析等各种操作；<br>Monit：是一款功能非常丰富的进程、文件、目录和设备的监测软件，用于Unix平台。 它可以自动修复那些已经停止运作的程序，适合处理那些由于多种原因导致的软件错误；<br>Metrics：这并不是Java库，而是基于Go的一个轻量级的检测器；<br>Graphite：是一个用于采集网站实时信息并进行统计的开源项目，可用于采集多种网站服务运行状态信息；<br>Ganglia：Ganglia是一个跨平台可扩展的、高性能计算系统下的分布式监控系统，如集群和网格；<br>Server Density：一个跨平台的监控系统；<br>Folsom：Folsom是一款受 Coda Hale’s metrics启发的、基于Erlang的度量系统；<br>CMB (Cloud Message Bus)：是一个高可用、横向扩展的队列和通知服务，兼容AWS SQS和SNS；<br>Glances：是一款用于Linux、BSD的开源命令行系统监视工具，它使用Python语言开发，能够监视CPU、负载、内存、磁盘I/O、网络流量、文件系统、系统温度等信息。<br>Uptime：使用Node.js、MongoDB和Twitter Bootstrap开发的远程监控系统；<br>Icinga：Nagios的扩展版本；<br>Packetbeat： 是开源应用监控和包跟踪系统；<br>Zipkin：是Twitter的一个开源项目，允许开发者收集Twitter各个服务上的监控数据，并提供查询接口；<br>Dead Manâs Snitch：是一款监控Heroku Scheduler、计划的监视工具；<br>Statsd：是一个Node.js的daemon程序，简单，轻巧。使用的UDP协议，可以和Graphite图片渲染应用结合；<br>Riemann：一个网络监控系统；<br>Puppet Dashboard：Puppet Dashboard是一个Web接口，为Puppet提供节点分类和报告功能，是一个开源的配置管理工具；<br>jmxtrans：jmxtrans是一款非常强大的工具，使用它可以轻易生成基于json的配置文章，然后再以你想要的格式输出；<br>Scales：跟踪服务器状态和统计指标，使你全面掌握服务器状态，还可以发送指标到Graphite来图像呈现或者向文件写入崩溃信息；<br>Zabbix：是一个基于Web界面的提供分布式系统监视以及网络监视功能的企业级的开源解决方案；<br>Graylog 2：Graylog2是一个用来将系统日志syslog保存到MongoDB中的工具。<br>进程管理</p>
+<p>Bouncy：可以作为HTTP路由主机；<br>Supervisor：是一个客户端服务器系统，允许用户监控和控制类Unix操作系统上的进程数；<br>God：由Ruby实现的进程监控框架。<br>服务发现<br>Consul：简化了分布式环境中的服务的注册和发现流程，通过HTTP或者DNS接口发现。支持外部SaaS 提供者等；<br>etcd：是一个高可用的Key/Value存储系统，主要用于分享配置和服务发现；<br>Apache ZooKeeper：是Apache Hadoop的一个子项目，它主要是用来解决分布式应用中经常遇到的一些数据管理问题；<br>Weave：创建一个虚拟网络并连接到部署在多个主机上的Docker容器。<br>持续集成和交付</p>
+<p>Buildbot：是一个系统的自动化编译/测试周期最需要的软件，以验证代码的变化。通过自动重建和测试每次发生了变化的东西，在建设迅速查明之前，减少不必要的失败；<br>Cabot：是一个开源，自我托管的监控工具；<br>Jenkins：是基于Java开发的一种持续集成工具，用于监控持续重复的工作；<br>Hubot：基于脚本具有很高的灵活性，任何人都可以编写自己的脚本来扩展基本功能；<br>Hudson：是一个可扩展的持续集成引擎，主要用于：持续、自动地构建/测试软件项目、监控一些定时执行的任务；<br>CruiseControl.rb：是一个持续集成服务器，它可以让团队里的每个人随时了解项目的健康状况和进度；<br>OpsBot：是一个开源的、可插入的改善通信的机器人。<br>希望这些工具能够给开发者带来实实在在的帮助，想要查看更多工具，大家可以 访问原文，原文中的工具列表会持续更新。</p>
+<p>最后，再跟大家分享一个 DevOps BookMarks，这里面涉及了DevOps方方面面的工具和内容，有兴趣的同学可以前去学习。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/03/26/network-tools/" class="archive-article-date">
+  	<time datetime="2015-03-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-03-26</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-what-is-CRDT" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -759,110 +821,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/editor/" rel="tag">editor</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/" rel="tag">vim</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-install-pptp-vpn-on-ubuntu" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2015/02/04/install-pptp-vpn-on-ubuntu/">Ubuntu安装pptp vpn 防火墙</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>打开ufw后，pptp无法连接。转载一篇文章。<a href="http://www.darrenfang.com/2014/01/install-pptp-vpn-on-ubuntu/" target="_blank" rel="noopener">原文</a></p>
-<p>有时需要访问一些国外的技术网站，但是国内网络时常连接不上，只好在服务器上面安装VPN来访问了。本文介绍如何在Ubuntu Server 12.04中安装及配置PPTD VPN服务。</p>
-<p>关于VPN的说明可以查看维基百科：<a href="http://zh.wikipedia.org/wiki/VPN" target="_blank" rel="noopener">http://zh.wikipedia.org/wiki/VPN</a></p>
-<p>安装PPTPD和防火墙UFW</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo apt-get install pptpd ufw</span><br></pre></td></tr></table></figure>
-
-<p>配置防火墙</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"># 允许SSH</span><br><span class="line">sudo ufw allow 22</span><br><span class="line"># 允许HTTP</span><br><span class="line">sudo ufw allow 80</span><br><span class="line"># 允许VPN</span><br><span class="line">sudo ufw allow 1723</span><br><span class="line"># 启用UFW</span><br><span class="line">sudo ufw enable</span><br></pre></td></tr></table></figure>
-
-<p>注意，需要允许SSH端口，不然无法用SSH登录服务器。</p>
-<p>配置PPTPD</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi &#x2F;etc&#x2F;ppp&#x2F;pptpd-options</span><br></pre></td></tr></table></figure>
-
-<p>配置加密方式。使用加密连接时，请查看以下配置是否在改文件中，默认是存在的</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">refuse-pap</span><br><span class="line">refuse-chap</span><br><span class="line">refuse-mschap</span><br><span class="line">require-mschap-v2</span><br><span class="line">require-mppe-128</span><br></pre></td></tr></table></figure>
-
-<p>添加DNS配置。可以根据实际情况修改。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ms-dns 114.114.114.114</span><br><span class="line">ms-dns 8.8.4.4</span><br></pre></td></tr></table></figure>
-
-<p>配置IP地址。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi &#x2F;etc&#x2F;pptpd.conf</span><br></pre></td></tr></table></figure>
-
-<p>添加以下配置。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"># 根据实际网卡名修改</span><br><span class="line">bcrelay eth0</span><br><span class="line"># 本地IP，可以写成服务器的公网IP</span><br><span class="line">localip 192.168.0.2</span><br><span class="line"># 分配的地址池，可以和服务器IP不在一个网段内</span><br><span class="line">remoteip 192.168.1.100-110</span><br></pre></td></tr></table></figure>
-
-<p>添加VPN帐号</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo vi &#x2F;etc&#x2F;ppp&#x2F;chap-secrets</span><br></pre></td></tr></table></figure>
-
-<p>添加以下内容，用tab键分隔。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vpn *       123456        *</span><br></pre></td></tr></table></figure>
-
-<p>其中用户名是vpn，密码是123456。 重启PPTPD服务。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo &#x2F;etc&#x2F;init.d&#x2F;pptpd restart</span><br></pre></td></tr></table></figure>
-
-<p>重启后就可以连接上VPN服务器了。但是发现除了能连接上服务器外，不能访问外网。这时候还需要配置NAT。 第五步：配置NAT 启用IPv4转发</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;sysctl.conf</span><br></pre></td></tr></table></figure>
-
-<p>添加以下内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net.ipv4.ip_forward&#x3D;1</span><br></pre></td></tr></table></figure>
-
-<p>保存退出后执行以下命令</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo sysctl -p</span><br></pre></td></tr></table></figure>
-
-<p>修改UFW配置文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;default&#x2F;ufw</span><br></pre></td></tr></table></figure>
-
-<p>将“DEFAULT_FORWARD_POLICY” 的值改为 “ACCEPT” 修改UFW规则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">vi &#x2F;etc&#x2F;ufw&#x2F;before.rules</span><br></pre></td></tr></table></figure>
-
-<p>在*filter这个规则前添加以下内容</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"># NAT table rules</span><br><span class="line">*nat</span><br><span class="line">:POSTROUTING ACCEPT [0:0]</span><br><span class="line"># Allow forward traffic to eth0</span><br><span class="line">-A POSTROUTING -s 192.168.1.0&#x2F;24 -o eth0 -j MASQUERADE</span><br><span class="line"># Process the NAT table rules</span><br><span class="line">COMMIT</span><br></pre></td></tr></table></figure>
-
-<p>其中第5行改成地址池中的网段。 再次重启PPTPD服务就可以了</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2015/02/04/install-pptp-vpn-on-ubuntu/" class="archive-article-date">
-  	<time datetime="2015-02-03T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-02-04</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li></ul>
 	</div>
 
       

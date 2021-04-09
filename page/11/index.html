@@ -149,6 +149,66 @@
       <div class="body-wrap">
         
   
+    <article id="post-functional-sprite-system" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/04/22/functional-sprite-system/">functional programming and sprite system</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>How to make a sprite system with functional programming.</p>
+<p>function + data.</p>
+<p>数据+实现，配置+接口，是一种编程模型。OO在某种形式上，也是一种数据+实现的编程模式，但他将2者耦合在一起。而模板+数据，则是一种更加解耦的模式。</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    img: img,</span><br><span class="line">    rect:&#123;x,y,w,h&#125;</span><br><span class="line">    screenRect: &#123;x,y,w,h&#125;</span><br><span class="line">    children: [</span><br><span class="line">        &#123;</span><br><span class="line">            rect:&#123;x,y,w,h&#125;</span><br><span class="line">            img: img,</span><br><span class="line">        &#125;</span><br><span class="line">        &#123;</span><br><span class="line">            rect:&#123;x,y,w,h&#125;</span><br><span class="line">            screenRect:&#123;x,y,w,h&#125;</span><br><span class="line">            frame: <span class="number">0</span></span><br><span class="line">            frames: [</span><br><span class="line">                &#123;<span class="attr">img</span>: img1&#125;,</span><br><span class="line">                &#123;<span class="attr">img</span>: img2&#125;,</span><br><span class="line">            ]</span><br><span class="line">        &#125;</span><br><span class="line">    ]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>render</p>
+<p>scale</p>
+<p>animation</p>
+<p>tween:<br>    action:<br>        move<br>        rotate<br>        scale</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/04/22/functional-sprite-system/" class="archive-article-date">
+  	<time datetime="2014-04-21T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-04-22</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game/" rel="tag">game</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-mathematical-model-of-1024-game" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -817,90 +877,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/marketing/" rel="tag">marketing</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-static-site-generator" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2014/03/18/static-site-generator/">靜態網站生成器</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>靜態網頁依然應用的很廣，但是開發一個靜態網站並不像想象的那麼簡單，快速，易於維護。</p>
-<p>搭建慢。首先我們需要搭建項目的結構，引入我們需要的js，css，layout文件。</p>
-<p>復用難。也許同樣的網頁我們之前已經做過一個，但當我們需要再做一個的時候，我們還需要從頭再做一次。如果我們直接複製粘貼此前的代碼到新項目中，<br>對代碼的合併，網站名稱，logo等信息的修改，刪除不需要的代碼，要花去我們很多的時間。一個網站下的多個頁面在結構上應該是復用的。</p>
-<p>維護繁。對於一個已經完成的靜態網站，當我們想要修改它的時候，也並不是那麼簡單。比如我們要修改一個樣式，運氣好的話我們只需要修改一兩處css即可，<br>運氣差的話我們可能要修改DOM結構，但同一類頁面元素的DOM結構是分散在很多地方的，比如contact頁面，about頁面，某個landing page。<br>這就讓我們的代碼變得難以維護。</p>
-<p>如果我們對靜態網站做一個總結的話，一般來說包含以下內容。</p>
-<ul>
-<li>lyaout<br>網站的基本外觀框架。</li>
-<li>partial<br>網站的常用局部組件。</li>
-<li>data<br>網站基本配置，如標題，logo，base url，等。</li>
-<li>pages<br>幾個頁面，比如about，contact。</li>
-<li>posts<br>很多文章。</li>
-</ul>
-<p>於是靜態網站生成器（static site generator）產生了。</p>
-<p>現在比較常見的靜態網站生成器：</p>
-<ul>
-<li><p>jekyll Ruby 實現，github支持，插件豐富，支持諸如tag，分類，本博客使用的就是jekyll。</p>
-</li>
-<li><p>harp <a href="http://harpjs.com" target="_blank" rel="noopener">http://harpjs.com</a></p>
-</li>
-<li><p>hexo <a href="http://zespia.tw/hexo" target="_blank" rel="noopener">http://zespia.tw/hexo</a></p>
-</li>
-<li><p>docpad docpad.org 基於coffeescript</p>
-</li>
-<li><p>assemble assemble.io</p>
-</li>
-<li><p>cabin] cabinjs.com</p>
-</li>
-<li><p>Yeoman yeoman.io nodejs環境。yeoman不能算是一個靜態網站生成器，你可以叫它項目生成器。它可以生成諸如webapp，argularjs，assemble的东西。</p>
-</li>
-</ul>
-<p>我的選擇 Yeoman + x，Yeoman 的設計是面向開發者的。</p>
-<p>對於x的選擇，必須是nodejs的，從github關注量來看，docpad最多。但hexo和assemble产生较新，hexo关注人相对更多，看上去不错。</p>
-<p>yeoman + hexo 計劃用這種方式來實現項目主頁，Landing Page。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2014/03/18/static-site-generator/" class="archive-article-date">
-  	<time datetime="2014-03-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-18</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
 	</div>
 
       

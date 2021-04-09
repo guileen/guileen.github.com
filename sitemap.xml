@@ -2,6 +2,20 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://guileen.github.io/2021/04/09/recommend-system-architecture/</loc>
+    
+    <lastmod>2021-04-09T14:13:09.386Z</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/raft/index.html</loc>
+    
+    <lastmod>2021-03-24T07:02:05.845Z</lastmod>
+    
+  </url>
+  
+  <url>
     <loc>http://guileen.github.io/2021/03/11/distributed-transaction/</loc>
     
     <lastmod>2021-03-11T13:27:19.285Z</lastmod>

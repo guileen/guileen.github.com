@@ -149,6 +149,66 @@
       <div class="body-wrap">
         
   
+    <article id="post-recommend-system-architecture" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/04/09/recommend-system-architecture/">推荐系统架构</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="0x00-架构目标"><a href="#0x00-架构目标" class="headerlink" title="0x00 架构目标"></a>0x00 架构目标</h2><p>推荐系统的目标简而言之是从全量Item（商品、内容、人）中为用户找到一个最符合业务价值的一部分有序子集。这个最有价值，通常要综合考虑用户的兴趣以及平台的商业模式。比如对于视频网站而言，用户的观看时长是最能代表这个价值的，而影评网站则要推荐用户评分最高的那些影片。</p>
+<p>我们关心的问题是推荐效果和算法复杂度。</p>
+<h2 id="0x01-架构设计"><a href="#0x01-架构设计" class="headerlink" title="0x01 架构设计"></a>0x01 架构设计</h2><p>按数据来划分可分为：大数据平台 =&gt; 召回层 =&gt; 排序层 =&gt; 融合层。总数据量，亿级，召回层千级、万级，排序层百级，融合层十级。</p>
+<p>按计算来划分可分为：离线层=&gt; 近线层 =&gt; 在线层</p>
+<p><img src="/img/recsys/netflix.jpeg" alt=""></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/shengyang17/p/11546299.html">https://www.cnblogs.com/shengyang17/p/11546299.html</a></p>
+<h2 id="0x02-召回层算法"><a href="#0x02-召回层算法" class="headerlink" title="0x02 召回层算法"></a>0x02 召回层算法</h2><p>召回算法通常采用多种模型，尽可能多的召回物品。主要采用简单高效的算法，也包含一些简单的策略如热门物品、新发布物品等。协同过滤模型不适用用户和物品的特征数据，只使用用户行为数据。</p>
+<h3 id="矩阵分解"><a href="#矩阵分解" class="headerlink" title="矩阵分解"></a>矩阵分解</h3><p>经典的协同过滤算法，泛化能力不足，已不再流行。现在更多的是采用矩阵分解方法，将评分矩阵分解为用户矩阵和物品矩阵的叉乘，相当于有一个K维的隐含特征，用户与物品在这个K维特征上相契合，则会有很高的推荐度。优化目标是最小化评分矩阵与预测矩阵的距离。</p>
+<p><img src="/img/recsys/mf.png" alt=""></p>
+<p><a target="_blank" rel="noopener" href="https://antkillerfarm.github.io/ml/2016/12/29/Machine_Learning_16.html">ALS算法</a> 一个离线的可以并行的算法，但缺点是无法增量更新。<a target="_blank" rel="noopener" href="https://asset-pdf.scinapse.io/prod/30495595/30495595.pdf">Fast incremental matrix factorization forrecommendation with positive-only feedback</a> 这篇论文介绍了一种使用 ISGD 算法进行矩阵分解的增量更新算法。</p>
+<p><img src="/img/recsys/ISGD.png" alt=""></p>
+<p>这个算法仅考虑了正样本，其中的 $ err_(ui)=1-A_uB_i^T $ 可以改进为 $ err_(ui)=R_(ui)-A_uB_i^T $。采用这个算法可以使我们的模型增量更新。</p>
+<h2 id="0x03-排序层算法"><a href="#0x03-排序层算法" class="headerlink" title="0x03 排序层算法"></a>0x03 排序层算法</h2><p>在矩阵分解中，我们没有使用用户和物品的特征，这无疑是对信息的浪费。在排序层中，我们将问题转化为一个2分类问题，即 P(y=1|X)，用户喜欢一个物品的概率。其中X为 {用户特征、物品特征、场景特征}。这里有大量的机器学习方法可以使用，常用的有 LR（线性回归），FM/FFM（隐向量特征交叉），GBDT+LR（其中GBDT完成了特征工程部分，LR完成了回归部分）。</p>
+<p>深度学习在这一层也有越来越多的应用，Embedding技术主要使用在特征工程的阶段。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2021/04/09/recommend-system-architecture/" class="archive-article-date">
+  	<time datetime="2021-04-09T14:13:09.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-04-09</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-distributed-transaction" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -936,263 +996,6 @@ $$ b^2 = bc cos alpha + ab cos gamma $$<br>
 	<a class="article-category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
 	</div>
 
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-iptables" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/12/22/iptables/">iptables从入门到放弃(设置NAT)</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>iptables 的工作流程</p>
-<p><img src="/img/iptables/iptables-1.jpeg" alt="iptables flow"></p>
-<p>数据包在不同层间的时序</p>
-<p><img src="/img/iptables/netpacketflow.svg" alt="packet flow"></p>
-<p>基本语法：iptables [-t 表] [操作命令] [链][规则匹配器][-j 目标动作]</p>
-<h3 id="表"><a href="#表" class="headerlink" title="表"></a>表</h3><table>
-<thead>
-<tr>
-<th>表名</th>
-<th>说明</th>
-<th>支持的链</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>filter</td>
-<td>默认。用于过滤。</td>
-<td>INPUT、FORWARD、OUTPUT</td>
-</tr>
-<tr>
-<td>nat</td>
-<td>用于地址转换</td>
-<td>PREROUTING，INPUT，OUTPUT，POSTROUTING</td>
-</tr>
-<tr>
-<td>mangle</td>
-<td>用于修改包</td>
-<td>PREROUTING，INPUT，FORWARD，OUTPUT，POSTROUTING</td>
-</tr>
-<tr>
-<td>raw</td>
-<td>主要用于让iptables不再跟踪包以提高性能</td>
-<td>PREROUTING，OUTPUT</td>
-</tr>
-<tr>
-<td>security</td>
-<td>用于MAC地址相关的控制</td>
-<td>INPUT、FORWARD、OUTPUT</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>常用操作命令</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>-A</td>
-<td>在指定链尾部添加规则</td>
-</tr>
-<tr>
-<td>-D</td>
-<td>删除匹配的规则</td>
-</tr>
-<tr>
-<td>-R</td>
-<td>替换匹配的规则</td>
-</tr>
-<tr>
-<td>-I</td>
-<td>在指定位置插入规则例：iptables -I INPUT 1 –dport 80 -j ACCEPT（将规则插入到filter表INPUT链中的第一位上）</td>
-</tr>
-<tr>
-<td>-L/S</td>
-<td>列出指定链或所有链的规则</td>
-</tr>
-<tr>
-<td>-F</td>
-<td>删除指定链或所有链的规则</td>
-</tr>
-<tr>
-<td>-N</td>
-<td>创建用户自定义链例：iptables -N allowed</td>
-</tr>
-<tr>
-<td>-X</td>
-<td>删除指定的用户自定义链</td>
-</tr>
-<tr>
-<td>-P</td>
-<td>为指定链设置默认规则策略，对自定义链不起作用例：iptables -P OUTPUT DROP</td>
-</tr>
-<tr>
-<td>-Z</td>
-<td>将指定链或所有链的计数器清零</td>
-</tr>
-<tr>
-<td>-E</td>
-<td>更改自定义链的名称例：iptables -E allowed disallowed</td>
-</tr>
-<tr>
-<td>-n</td>
-<td>ip地址和端口号以数字方式显示例：iptables -Ln</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>常见规则匹配器</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>-p tcp|udp|icmp|all</td>
-<td>匹配协议，all会匹配所有协议</td>
-</tr>
-<tr>
-<td>-s addr[/mask]</td>
-<td>匹配源地址</td>
-</tr>
-<tr>
-<td>-d addr[/mask]</td>
-<td>匹配目标地址</td>
-</tr>
-<tr>
-<td>–sport port1[:port2]</td>
-<td>匹配源端口(可指定连续的端口）</td>
-</tr>
-<tr>
-<td>–dport port1[:port2]</td>
-<td>匹配目的端口(可指定连续的端口）</td>
-</tr>
-<tr>
-<td>-o interface</td>
-<td>匹配出口网卡，只适用FORWARD、POSTROUTING、OUTPUT。例：iptables -A FORWARD -o eth0</td>
-</tr>
-<tr>
-<td>-i interface</td>
-<td>匹配入口网卡，只使用PREROUTING、INPUT、FORWARD。</td>
-</tr>
-<tr>
-<td>–icmp-type</td>
-<td>匹配icmp类型（使用iptables -p icmp -h可查看可用的ICMP类型）</td>
-</tr>
-<tr>
-<td>–tcp-flags mask comp</td>
-<td>匹配TCP标记，mask表示检查范围，comp表示匹配mask中的哪些标记。例：iptables -A FORWARD -p tcp –tcp-flags ALL SYN，ACK -j ACCEPT（表示匹配SYN和ACK标记的数据包）</td>
-</tr>
-</tbody></table>
-<table>
-<thead>
-<tr>
-<th>目标动作</th>
-<th>说明</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>ACCEPT</td>
-<td>允许数据包通过</td>
-</tr>
-<tr>
-<td>DROP</td>
-<td>丢弃数据包</td>
-</tr>
-<tr>
-<td>REJECT</td>
-<td>丢弃数据包，并且将拒绝信息发送给发送方</td>
-</tr>
-<tr>
-<td>SNAT</td>
-<td>源地址转换（在nat表上）例：iptables -t nat -A POSTROUTING -d 192.168.0.102 -j SNAT –to 192.168.0.1</td>
-</tr>
-<tr>
-<td>DNAT</td>
-<td>目标地址转换（在nat表上）例：iptables -t nat -A PREROUTING -d 202.202.202.2 -j DNAT –to-destination 192.168.0.102</td>
-</tr>
-<tr>
-<td>REDIRECT</td>
-<td>目标端口转换（在nat表上）例：iptables -t nat -D PREROUTING -p tcp –dport 8080 -i eth2.2 -j REDIRECT –to 80</td>
-</tr>
-<tr>
-<td>MARK</td>
-<td>将数据包打上标记例：iptables -t mangle -A PREROUTING -s 192.168.1.3 -j MARK –set-mark 60</td>
-</tr>
-</tbody></table>
-<p>注意要点：</p>
-<p>  1、目标地址转换一般在PREROUTING链上操作</p>
-<p>  2、源地址转换一般在POSTROUTING链上操作</p>
-<p><strong>保存和恢复iptables规则</strong></p>
-<p>  使用iptables-save可以保存到特定文件中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables-save &gt; &#x2F;etc&#x2F;sysconfig&#x2F;iptables_save</span><br></pre></td></tr></table></figure>
-
-<p>  使用iptables-restore可以恢复规则</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">iptables-restore&lt; &#x2F;etc&#x2F;sysconfig&#x2F;iptables_save</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="配置VPN-NAT"><a href="#配置VPN-NAT" class="headerlink" title="配置VPN NAT"></a>配置VPN NAT</h3><p><strong>/etc/sysctl.conf</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">net.ipv4.ip_forward&#x3D;1</span><br></pre></td></tr></table></figure>
-
-<p>重启网络</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ sudo sysctl -p</span><br></pre></td></tr></table></figure>
-
-<h3 id="同端口-端口转发"><a href="#同端口-端口转发" class="headerlink" title="同端口 端口转发"></a>同端口 端口转发</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -p tcp --dport [本地端口] -j DNAT --to-destination [目标IP:目标端口]</span><br><span class="line">iptables -t nat -A PREROUTING -p udp --dport [本地端口] -j DNAT --to-destination [目标IP:目标端口]</span><br><span class="line">iptables -t nat -A POSTROUTING -p tcp -d [目标IP] --dport [目标端口] -j SNAT --to-source [本地服务器主网卡绑定IP]</span><br><span class="line">iptables -t nat -A POSTROUTING -p udp -d [目标IP] --dport [目标端口] -j SNAT --to-source [本地服务器主网卡绑定IP]</span><br></pre></td></tr></table></figure>
-
-<hr>
-<p>以下示例，假设你的国外服务器（被中转服务器）是<code>1.1.1.1</code>，你的SS端口是<code>10000</code>，而你这台正在操作的VPS的主网卡绑定IP（中转服务器）是<code>2.2.2.2</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -p tcp -m tcp --dport 10000 -j DNAT --to-destination 1.1.1.1:10000</span><br><span class="line">iptables -t nat -A PREROUTING -p udp -m udp --dport 10000 -j DNAT --to-destination 1.1.1.1:10000</span><br><span class="line">iptables -t nat -A POSTROUTING -d 1.1.1.1 -p tcp -m tcp --dport 10000 -j SNAT --to-source 2.2.2.2</span><br><span class="line">iptables -t nat -A POSTROUTING -d 1.1.1.1 -p udp -m udp --dport 10000 -j SNAT --to-source 2.2.2.2</span><br></pre></td></tr></table></figure>
-
-<h3 id="不同端口-端口转发"><a href="#不同端口-端口转发" class="headerlink" title="不同端口 端口转发"></a><strong>不同端口</strong> 端口转发</h3><p>将<strong>本地服务器(中转服务器<code>2.2.2.2</code>)</strong>的<code>10000~20000</code>端口转发至<strong>目标IP(被中转服务器)</strong>为<code>1.1.1.1</code>的<code>30000~40000</code>端口</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">iptables -t nat -A PREROUTING -p tcp -m tcp --dport 10000:20000 -j DNAT --to-destination 1.1.1.1:30000-40000</span><br><span class="line">iptables -t nat -A PREROUTING -p udp -m udp --dport 10000:20000 -j DNAT --to-destination 1.1.1.1:30000-40000</span><br><span class="line">iptables -t nat -A POSTROUTING -d 1.1.1.1 -p tcp -m tcp --dport 30000:40000 -j SNAT --to-source 2.2.2.2</span><br><span class="line">iptables -t nat -A POSTROUTING -d 1.1.1.1 -p udp -m udp --dport 30000:40000 -j SNAT --to-source 2.2.2.2</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-<h2 id="以上尝试以失败告终，最终采用了brook"><a href="#以上尝试以失败告终，最终采用了brook" class="headerlink" title="以上尝试以失败告终，最终采用了brook"></a>以上尝试以失败告终，最终采用了brook</h2><p><a href="https://github.com/txthinking/brook" target="_blank" rel="noopener">brook</a> 非常强大，不仅能作中继，还可以在手机上安装。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">nohup brook relay -f :4500 -t 1.2.3.4:4500 &amp;</span><br><span class="line">nohup brook relay -f :500 -t 1.2.3.4:500 &amp;</span><br></pre></td></tr></table></figure>
-
-
-
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2020/12/22/iptables/" class="archive-article-date">
-  	<time datetime="2020-12-22T13:01:52.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-12-22</time>
-</a>
-      
-      
 
       <div class="clearfix"></div>
     </div>

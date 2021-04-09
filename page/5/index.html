@@ -149,6 +149,61 @@
       <div class="body-wrap">
         
   
+    <article id="post-static-site-generators" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/08/static-site-generators/">开源静态网站生成工具</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>有博客订阅者反馈我的博客ATOM输出有问题，总有两篇已unpublish的博客出来诈尸。这个是个老问题，当时也是因为总是有这两篇博客捣乱所以unpublish了，但完全无效。</p>
+<p>自己的博客一直没有认真维护，只是偶尔随手记录，更没有想到有人订阅了，闻之顿感责任重大。计划认真整理一下自己的博客。</p>
+<p>那两篇诈尸的博客，或是github的bug，或是jekyll的bug，未能验证。细思之，将博客系统完全交予github管理，的确不够合理，于是考虑使用本地生成静态文件再行push的方式，代替先push再由github jekyll生成静态文件的方式。顺便也更新一下自己博客的样式。</p>
+<p>关于jekyll，也有不少问题，比如不能生存tag page等，也考虑更换一下生成器。奈何目前的静态网站生成器着实太多，无从选择。幸有有心人整理了一个列表，<a href="https://www.staticgen.com/" target="_blank" rel="noopener">staticgen.com</a>，包含了github的关注数、项目使用的语言，模版语言等信息，选择方便了许多。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/08/static-site-generators/" class="archive-article-date">
+  	<time datetime="2016-11-07T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-08</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/generator/" rel="tag">generator</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-classic-computer-sciense-books" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -925,68 +980,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-how-to-highlight-code-in-keynote" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/01/14/how-to-highlight-code-in-keynote/">如何在Keynote中高亮代码</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>要想在keynote中粘贴高亮的代码，你必须粘贴一个RTF的文本。Mac上有两种办法来复制一个高亮的RTF文本。</p>
-<h2 id="方法一：highlight"><a href="#方法一：highlight" class="headerlink" title="方法一：highlight"></a>方法一：highlight</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">brew install highlight </span><br><span class="line"></span><br><span class="line">pbpaste | highlight -O rtf -S js | pbcopy</span><br><span class="line">cat xxx.js | highlight -O rtf -S js | pbcopy</span><br></pre></td></tr></table></figure>
-
-<p>如果你了解Automator的话，你可以创建一个service，自动的完成这个过程。如下图，我选中一段文本，然后选择 services，然后选择我自己编写的highlight-rtf service，这段文本就会被高亮了。</p>
-<p><img src="http://guileen.github.io/upload/highlight-service.png" alt="Highlight Service"></p>
-<p>如果有人对这个技术很感兴趣（转发量大）的话，我会贴出这个service的详细做法，以及我编写好的脚本。</p>
-<p>##方法二：vim plugin CopyRTF</p>
-<p>但是有些时候highlight不一定支持你的语言。这时你可以使用vim插件来完成，如果你使用vim编写代码的话，你一定已经支持了相应语言的高亮。</p>
-<p>安装Vim 插件 <a href="https://github.com/zerowidth/vim-copy-as-rtf" target="_blank" rel="noopener">CopyRTF</a>。然后你只需要 <code>:CopyRTF</code> 即可复制当前文件或选中的文本到剪切板了。</p>
-<p>另外推荐一个样式，<a href="https://github.com/NLKNguyen/papercolor-theme" target="_blank" rel="noopener">PaperColor</a>，你可以自定义背景色。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">let g:PaperColor_Dark_Override &#x3D; &#123; &#39;background&#39; : &#39;#000000&#39;&#125;</span><br><span class="line">let g:PaperColor_Light_Override &#x3D; &#123; &#39;background&#39; : &#39;#ffffff&#39;&#125;</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/01/14/how-to-highlight-code-in-keynote/" class="archive-article-date">
-  	<time datetime="2016-01-13T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-01-14</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/slide/" rel="tag">slide</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tools/" rel="tag">tools</a></li></ul>
 	</div>
 
       

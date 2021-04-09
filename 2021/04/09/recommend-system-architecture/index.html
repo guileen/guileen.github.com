@@ -6,17 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://guileen.github.io">
-  <title>Archives | 桂糊涂的博客</title>
+  <title>推荐系统架构 | 桂糊涂的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="桂糊涂的博客">
-<meta property="og:url" content="http://guileen.github.io/archives/page/11/index.html">
+  <meta name="description" content="0x00 架构目标推荐系统的目标简而言之是从全量Item（商品、内容、人）中为用户找到一个最符合业务价值的一部分有序子集。这个最有价值，通常要综合考虑用户的兴趣以及平台的商业模式。比如对于视频网站而言，用户的观看时长是最能代表这个价值的，而影评网站则要推荐用户评分最高的那些影片。 我们关心的问题是推荐效果和算法复杂度。 0x01 架构设计按数据来划分可分为：大数据平台 &#x3D;&gt; 召回层 &#x3D;&amp;gt">
+<meta property="og:type" content="article">
+<meta property="og:title" content="推荐系统架构">
+<meta property="og:url" content="http://guileen.github.io/2021/04/09/recommend-system-architecture/index.html">
 <meta property="og:site_name" content="桂糊涂的博客">
-<meta property="og:description" content="Description">
+<meta property="og:description" content="0x00 架构目标推荐系统的目标简而言之是从全量Item（商品、内容、人）中为用户找到一个最符合业务价值的一部分有序子集。这个最有价值，通常要综合考虑用户的兴趣以及平台的商业模式。比如对于视频网站而言，用户的观看时长是最能代表这个价值的，而影评网站则要推荐用户评分最高的那些影片。 我们关心的问题是推荐效果和算法复杂度。 0x01 架构设计按数据来划分可分为：大数据平台 &#x3D;&gt; 召回层 &#x3D;&amp;gt">
 <meta property="og:locale">
+<meta property="og:image" content="http://guileen.github.io/img/recsys/netflix.jpeg">
+<meta property="og:image" content="http://guileen.github.io/img/recsys/mf.png">
+<meta property="og:image" content="http://guileen.github.io/img/recsys/ISGD.png">
+<meta property="article:published_time" content="2021-04-09T14:13:09.000Z">
+<meta property="article:modified_time" content="2021-04-09T14:13:09.386Z">
 <meta property="article:author" content="桂糊涂">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://guileen.github.io/img/recsys/netflix.jpeg">
   
     <link rel="alternative" href="/atom.xml" title="桂糊涂的博客" type="application/atom+xml">
   
@@ -28,7 +34,7 @@
 
   
 
-</head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 <body>
   <div id="container">
@@ -147,351 +153,113 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-recommend-system-architecture" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
+    <h1 class="article-title" itemprop="name">
+      推荐系统架构
+    </h1>
   
+
+      </header>
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="0x00-架构目标"><a href="#0x00-架构目标" class="headerlink" title="0x00 架构目标"></a>0x00 架构目标</h2><p>推荐系统的目标简而言之是从全量Item（商品、内容、人）中为用户找到一个最符合业务价值的一部分有序子集。这个最有价值，通常要综合考虑用户的兴趣以及平台的商业模式。比如对于视频网站而言，用户的观看时长是最能代表这个价值的，而影评网站则要推荐用户评分最高的那些影片。</p>
+<p>我们关心的问题是推荐效果和算法复杂度。</p>
+<h2 id="0x01-架构设计"><a href="#0x01-架构设计" class="headerlink" title="0x01 架构设计"></a>0x01 架构设计</h2><p>按数据来划分可分为：大数据平台 =&gt; 召回层 =&gt; 排序层 =&gt; 融合层。总数据量，亿级，召回层千级、万级，排序层百级，融合层十级。</p>
+<p>按计算来划分可分为：离线层=&gt; 近线层 =&gt; 在线层</p>
+<p><img src="/img/recsys/netflix.jpeg" alt=""></p>
+<p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/shengyang17/p/11546299.html">https://www.cnblogs.com/shengyang17/p/11546299.html</a></p>
+<h2 id="0x02-召回层算法"><a href="#0x02-召回层算法" class="headerlink" title="0x02 召回层算法"></a>0x02 召回层算法</h2><p>召回算法通常采用多种模型，尽可能多的召回物品。主要采用简单高效的算法，也包含一些简单的策略如热门物品、新发布物品等。协同过滤模型不适用用户和物品的特征数据，只使用用户行为数据。</p>
+<h3 id="矩阵分解"><a href="#矩阵分解" class="headerlink" title="矩阵分解"></a>矩阵分解</h3><p>经典的协同过滤算法，泛化能力不足，已不再流行。现在更多的是采用矩阵分解方法，将评分矩阵分解为用户矩阵和物品矩阵的叉乘，相当于有一个K维的隐含特征，用户与物品在这个K维特征上相契合，则会有很高的推荐度。优化目标是最小化评分矩阵与预测矩阵的距离。</p>
+<p><img src="/img/recsys/mf.png" alt=""></p>
+<p><a target="_blank" rel="noopener" href="https://antkillerfarm.github.io/ml/2016/12/29/Machine_Learning_16.html">ALS算法</a> 一个离线的可以并行的算法，但缺点是无法增量更新。<a target="_blank" rel="noopener" href="https://asset-pdf.scinapse.io/prod/30495595/30495595.pdf">Fast incremental matrix factorization forrecommendation with positive-only feedback</a> 这篇论文介绍了一种使用 ISGD 算法进行矩阵分解的增量更新算法。</p>
+<p><img src="/img/recsys/ISGD.png" alt=""></p>
+<p>这个算法仅考虑了正样本，其中的 $ err_(ui)=1-A_uB_i^T $ 可以改进为 $ err_(ui)=R_(ui)-A_uB_i^T $。采用这个算法可以使我们的模型增量更新。</p>
+<h2 id="0x03-排序层算法"><a href="#0x03-排序层算法" class="headerlink" title="0x03 排序层算法"></a>0x03 排序层算法</h2><p>在矩阵分解中，我们没有使用用户和物品的特征，这无疑是对信息的浪费。在排序层中，我们将问题转化为一个2分类问题，即 P(y=1|X)，用户喜欢一个物品的概率。其中X为 {用户特征、物品特征、场景特征}。这里有大量的机器学习方法可以使用，常用的有 LR（线性回归），FM/FFM（隐向量特征交叉），GBDT+LR（其中GBDT完成了特征工程部分，LR完成了回归部分）。</p>
+<p>深度学习在这一层也有越来越多的应用，Embedding技术主要使用在特征工程的阶段。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2021/04/09/recommend-system-architecture/" class="archive-article-date">
+  	<time datetime="2021-04-09T14:13:09.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-04-09</time>
+</a>
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2014" class="archive-year">2014</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/04/22/functional-sprite-system/" class="archive-article-date">
-  	<time datetime="2014-04-21T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-04-22</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/04/22/functional-sprite-system/">functional programming and sprite system</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game/" rel="tag">game</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/04/21/mathematical-model-of-1024-game/" class="archive-article-date">
-  	<time datetime="2014-04-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-04-21</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/04/21/mathematical-model-of-1024-game/">小游戏1024的AI数学模型</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/mathematics/" rel="tag">mathematics</a></li></ul>
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2021/03/11/distributed-transaction/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">分布式事务</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
-
-          
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/AI/">AI</a>
-	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/03/30/programmer-self-management/" class="archive-article-date">
-  	<time datetime="2014-03-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/03/30/programmer-self-management/">程序員的自我管理</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
-	</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/03/28/history-of-full-stack-web-developer/" class="archive-article-date">
-  	<time datetime="2014-03-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-28</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/03/28/history-of-full-stack-web-developer/">全端工程师一词出现的原因</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
-	</div>
 
-          
+<div class="duoshuo">
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/03/27/foreign-vps-for-chinese-developer/" class="archive-article-date">
-  	<time datetime="2014-03-26T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/03/27/foreign-vps-for-chinese-developer/">適合中國開發者的國外VPS</a>
-    </h1>
-  
+<script type="text/javascript">
+(function(){
+var url = "http://widget.weibo.com/distribution/comments.php?width=0&url=auto&brandline=y&fontsize=12&skin=9&ralateuid=1751113432&appkey=3729652156&iframskin=9&dpc=1";
+url = url.replace("url=auto", "url=" + encodeURIComponent(document.URL));
+document.write('<iframe id="WBCommentFrame" src="' + url + '" scrolling="no" frameborder="0" style="width:100%"></iframe>');
+})();
+</script>
+<script src="http://tjs.sjs.sinajs.cn/open/widget/js/widget/comment.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.WBComment.init({
+    "id": "WBCommentFrame"
+});
+</script>
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/VPS/" rel="tag">VPS</a></li></ul>
-	</div>
+</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/03/27/android-ui-animations/" class="archive-article-date">
-  	<time datetime="2014-03-26T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-27</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/03/27/android-ui-animations/">Android UI 动画</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/UI/" rel="tag">UI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/" rel="tag">android</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/03/26/java-package-manager-and-build-tools/" class="archive-article-date">
-  	<time datetime="2014-03-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-26</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/03/26/java-package-manager-and-build-tools/">Java包管理和構建工具</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/CI/" rel="tag">CI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/java/" rel="tag">java</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/03/25/about-apk/" class="archive-article-date">
-  	<time datetime="2014-03-24T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-25</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/03/25/about-apk/">About APK</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/android/" rel="tag">android</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/03/19/karam-multi-browser-test-runner/" class="archive-article-date">
-  	<time datetime="2014-03-18T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/03/19/karam-multi-browser-test-runner/">Karam：多瀏覽器平臺的測試工具</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2014/03/18/f-shaped-pattern-reading-web-content/" class="archive-article-date">
-  	<time datetime="2014-03-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-03-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2014/03/18/f-shaped-pattern-reading-web-content/">尼爾森F模型</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/marketing/" rel="tag">marketing</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
-
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/10/">&amp;laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/9/">9</a><a class="page-number" href="/archives/page/10/">10</a><span class="page-number current">11</span><a class="page-number" href="/archives/page/12/">12</a><a class="page-number" href="/archives/page/13/">13</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/15/">15</a><a class="extend next" rel="next" href="/archives/page/12/">Next &amp;raquo;</a>
-    </nav>
-  
 
 
       </div>
@@ -514,8 +282,8 @@
 		mathjax: true,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,
