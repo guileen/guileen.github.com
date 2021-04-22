@@ -149,6 +149,92 @@
       <div class="body-wrap">
         
   
+    <article id="post-fix-too-many-open-files" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/11/14/fix-too-many-open-files/">Too many open files 的解决办法</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在开发TCP网络应用的过程中，我们经常会遇到“Too many open files”这个问题。这说明你的程序以达到Linux所允许的打开文件数上限。你需要按照以下方式来提升：</p>
+<h3 id="每用户上限："><a href="#每用户上限：" class="headerlink" title="每用户上限："></a>每用户上限：</h3><p>打开 <code>/etc/security/limits.conf</code><br>在末尾添加：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">*         hard    nofile      500000</span><br><span class="line">*         soft    nofile      500000</span><br><span class="line">root      hard    nofile      500000</span><br><span class="line">root      soft    nofile      500000</span><br></pre></td></tr></table></figure>
+
+<p>修改后，你需要logout并重新login。</p>
+<h4 id="pam-limits"><a href="#pam-limits" class="headerlink" title="pam-limits"></a>pam-limits</h4><p>据说对于Daemon进程需要额外的步骤，但目前我并不需要。如果以上改动不能对你有所帮助，可能需要以下步骤。</p>
+<p>打开 <code>/etc/pam.d/common-session</code></p>
+<p>添加以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">session required pam_limits.so</span><br></pre></td></tr></table></figure>
+
+<h3 id="系统级限制"><a href="#系统级限制" class="headerlink" title="系统级限制"></a>系统级限制</h3><p>这项设置应该大于没用户限制。</p>
+<p>打开 <code>/etc/sysctl.conf</code></p>
+<p>添加以下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">fs.file-max &#x3D; 2097152</span><br></pre></td></tr></table></figure>
+
+<p>运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sysctl -p</span><br></pre></td></tr></table></figure>
+
+<p>这会增加系统级的最大打开文件数。</p>
+<h2 id="验证效果"><a href="#验证效果" class="headerlink" title="验证效果"></a>验证效果</h2><p>使用以下命令验证系统级最大打开文件数</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat &#x2F;proc&#x2F;sys&#x2F;fs&#x2F;file-max</span><br></pre></td></tr></table></figure>
+
+<p>Hard Limit</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -Hn</span><br></pre></td></tr></table></figure>
+
+<p>Soft Limit</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ulimit -Sn</span><br></pre></td></tr></table></figure>
+
+<h3 id="检测用户限制"><a href="#检测用户限制" class="headerlink" title="检测用户限制"></a>检测用户限制</h3><p>将<code>www-data</code>替换为你希望检测的用户。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">su - www-data -c &#39;ulimit -aHS&#39; -s &#39;&#x2F;bin&#x2F;bash&#39;</span><br></pre></td></tr></table></figure>
+
+<h3 id="检测运行中的进程限制"><a href="#检测运行中的进程限制" class="headerlink" title="检测运行中的进程限制"></a>检测运行中的进程限制</h3><p>将<code>XXX</code>替换为PID</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cat &#x2F;proc&#x2F;XXX&#x2F;limits</span><br></pre></td></tr></table></figure>
+
+<p>今日在一台新启动的服务器上，系统级、用户级配置都正常，唯独进程的limits仅为默认1024。进程使用的是supervisor守护启动，使用supervisor restart进程后，limits依然为1024，后重启了supervisor服务，limits恢复所设定数值。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/11/14/fix-too-many-open-files/" class="archive-article-date">
+  	<time datetime="2016-11-14T14:26:31.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-14</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/network/" rel="tag">network</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/ops/" rel="tag">ops</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tcp/" rel="tag">tcp</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-static-site-generators" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -918,68 +1004,6 @@
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
 		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/editor/" rel="tag">editor</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/vim/" rel="tag">vim</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-golang-time-format" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/01/19/golang-time-format/">Go语言的日期格式化问题</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Go语言的日期格式化是非常特别的（奇葩），不过也是很聪明的。</p>
-<ul>
-<li>1 月</li>
-<li>2 日</li>
-<li>3 时</li>
-<li>4 分</li>
-<li>5 秒</li>
-<li>6 年</li>
-<li>7 时区</li>
-</ul>
-<p>你可以这样格式化一个时间，<code>time.Format(d, &quot;2006-01-02 15:04:05Z07&quot;)</code>。我的一位同事写了这样的代码<code>time.Format(d, &quot;2006-01-02 15:04:02&quot;)</code>，发现哪里错了码？他把05写成了02，结果导致秒数始终不对。对于这个格式化API，也只能是醉了。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/01/19/golang-time-format/" class="archive-article-date">
-  	<time datetime="2016-01-18T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-01-19</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/go/" rel="tag">go</a></li></ul>
 	</div>
 
       

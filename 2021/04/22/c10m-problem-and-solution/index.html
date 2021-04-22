@@ -6,17 +6,23 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://guileen.github.io">
-  <title>Archives | 桂糊涂的博客</title>
+  <title>c10m单机千万连接问题及解决方案 | 桂糊涂的博客</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="Description">
-<meta property="og:type" content="website">
-<meta property="og:title" content="桂糊涂的博客">
-<meta property="og:url" content="http://guileen.github.io/archives/page/15/index.html">
+  <meta name="description" content="C10m是继c10k问题之后提出的新问题，指单机1000万连接问题。40gbps网卡、32核、256G内存，这样的配置理论上已经可以处理千万并发连接了。但虽然硬件已经能够满足条件了，但是软件系统依然是复杂的。这就是C10M问题。 使用Go语言开发的TCP server，可以比较轻松的保持1000万的连接。大约消耗56G内存，用于连接对象和goroutine，不包含业务对象。但仅仅保持空闲连接并不够">
+<meta property="og:type" content="article">
+<meta property="og:title" content="c10m单机千万连接问题及解决方案">
+<meta property="og:url" content="http://guileen.github.io/2021/04/22/c10m-problem-and-solution/index.html">
 <meta property="og:site_name" content="桂糊涂的博客">
-<meta property="og:description" content="Description">
+<meta property="og:description" content="C10m是继c10k问题之后提出的新问题，指单机1000万连接问题。40gbps网卡、32核、256G内存，这样的配置理论上已经可以处理千万并发连接了。但虽然硬件已经能够满足条件了，但是软件系统依然是复杂的。这就是C10M问题。 使用Go语言开发的TCP server，可以比较轻松的保持1000万的连接。大约消耗56G内存，用于连接对象和goroutine，不包含业务对象。但仅仅保持空闲连接并不够">
 <meta property="og:locale">
+<meta property="og:image" content="http://guileen.github.io/Users/admin/work/guileen.github.com/hexo/source/img/c10m/cpu-cache.png">
+<meta property="og:image" content="https://segmentfault.com/img/bVcNCKX/view">
+<meta property="og:image" content="https://segmentfault.com/img/bVcNCLf/view">
+<meta property="article:published_time" content="2021-04-22T06:24:01.000Z">
+<meta property="article:modified_time" content="2021-04-22T06:24:01.135Z">
 <meta property="article:author" content="桂糊涂">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://guileen.github.io/Users/admin/work/guileen.github.com/hexo/source/img/c10m/cpu-cache.png">
   
     <link rel="alternative" href="/atom.xml" title="桂糊涂的博客" type="application/atom+xml">
   
@@ -28,7 +34,7 @@
 
   
 
-</head>
+<meta name="generator" content="Hexo 5.4.0"></head>
 
 <body>
   <div id="container">
@@ -147,228 +153,120 @@
 </nav>
 
       <div class="body-wrap">
+        <article id="post-c10m-problem-and-solution" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
         
   
+    <h1 class="article-title" itemprop="name">
+      c10m单机千万连接问题及解决方案
+    </h1>
   
+
+      </header>
     
-    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>C10m是继c10k问题之后提出的新问题，指单机1000万连接问题。40gbps网卡、32核、256G内存，这样的配置理论上已经可以处理千万并发连接了。但虽然硬件已经能够满足条件了，但是软件系统依然是复杂的。这就是C10M问题。</p>
+<p>使用Go语言开发的TCP server，可以比较轻松的保持1000万的连接。大约消耗56G内存，用于连接对象和goroutine，不包含业务对象。但仅仅保持空闲连接并不够，最重要的是拥有更高的包处理速度（Packet per second），和更低的时延。</p>
+<p>Robert Graham的演讲<a target="_blank" rel="noopener" href="https://www.cs.dartmouth.edu/~sergey/cs258/2013/C10M-Defending-the-Internet-at-Scale-Dartmouth-2013.pdf">《C10M Defending The Internet At Scale》(pdf)</a> <a target="_blank" rel="noopener" href="https://www.youtube.com/watch?v=D09jdbS6oSI">(youtube)</a>回答了C10M的问题原因：内核不是解决方案，而是问题本身。因为内核处理数据包是经过了一个复杂的过程。对于C10m的定义如下：</p>
+<ul>
+<li>千万并发连接</li>
+<li>每秒百万连接接入</li>
+<li>每秒千万数据包</li>
+<li>10gb/s</li>
+<li>10微秒延迟</li>
+<li>10微秒抖动</li>
+<li>10核CPU并行</li>
+</ul>
+<p>其中最核心的指标，是前3项。而面临的挑战主要是<strong>用户态协议栈和多核并发问题</strong>。用户态协议栈可以在网关类、云原生等应用中发挥极大的价值，但是对于业务层的开发并不友好。用户态协议栈的技术有SDP、BPF、DPDK等。我们需要<strong>重点关注的是多核并发情况下的网络编程问题</strong>。</p>
+<h2 id="为什么多核编程是复杂的？"><a href="#为什么多核编程是复杂的？" class="headerlink" title="为什么多核编程是复杂的？"></a>为什么多核编程是复杂的？</h2><p>大多数的程序在高于4核的CPU上不能发挥更好的性能，有时甚至会降低性能。其中主要的影响因素是CPU的缓存流水线。L1 cache 4个cycle（cpu时钟），L2 cache 12个cycle，L3 30 cycles，内存 300 cycles。如果命中L1、L2缓存，性能则是很高的，若缓存miss性能则会降低。在高并发的情况下，我们最好是保证程序是绑定在某个CPU上执行的。</p>
+<p><img src="/Users/admin/work/guileen.github.com/hexo/source/img/c10m/cpu-cache.png" alt="img"></p>
+<p>在千万并发情况下，因为上下文的切换过于频繁，缓存miss的情况将大大增加。在上下文切换时，如果同一个连接的处理线程不是绑定在同一个CPU上的，那么将进一步加剧缓存miss的情况。</p>
+<p>除缓存miss情况外，cacheline还存在一种<strong>伪共享</strong>的问题，会造成性能的下降。当从内存中取单元到cache中时，会一次取一个cacheline大小的内存区域到cache中，然后存进相应的cacheline中, 所以当你读取一个变量的时候，可能会把它相邻的变量也读取到CPU的缓存中(如果正好在一个cacheline中)，因为有很大的几率你回继续访问相邻的变量，这样CPU利用缓存就可以加速对内存的访问。这本来是一种优化策略，避免加载相邻变量时多次访问内存。但是在多核并发的情况下，则可能造成性能下降。</p>
+<p><img src="https://segmentfault.com/img/bVcNCKX/view" alt="preview"></p>
+<p>当两个CPU操作两个相邻的变量时，这段相同的数据被加载到内存中。这将产生数据竞争，为了保证一致性，性能必然会下降。</p>
+<p><img src="https://segmentfault.com/img/bVcNCLf/view" alt="preview"></p>
+<p>因此，<strong>保持CPU亲和性</strong>，就成为了C10M中需要重点关注的问题。其中端口复用、prefork、taskset这些技术比较值得尝试。我将这些资料都整理在了 <a href="github.com/guileen/c10m-test">guileen/c10m-test</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2021/04/22/c10m-problem-and-solution/" class="archive-article-date">
+  	<time datetime="2021-04-22T06:24:01.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-04-22</time>
+</a>
       
       
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2013" class="archive-year">2013</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2013/03/02/lua-tools/" class="archive-article-date">
-  	<time datetime="2013-03-01T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-02</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2013/03/02/lua-tools/">Lua 工具集</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/lua/" rel="tag">lua</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
-  
-    
-    
-      
-        </div></section>
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2012" class="archive-year">2012</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2012/11/18/nltk/" class="archive-article-date">
-  	<time datetime="2012-11-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-11-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2012/11/18/nltk/">NLTK</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/machine-learning/" rel="tag">machine-learning</a></li></ul>
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2021/04/09/recommend-system-architecture/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">推荐系统架构</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
 	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2012/11/18/murmurhash-algorithm/" class="archive-article-date">
-  	<time datetime="2012-11-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-11-18</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2012/11/18/murmurhash-algorithm/">MurmurHash 算法</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/algorithm/" rel="tag">algorithm</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/hash/" rel="tag">hash</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2012/10/30/config-format/" class="archive-article-date">
-  	<time datetime="2012-10-29T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-10-30</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2012/10/30/config-format/">配置文件格式比较</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/data-format/" rel="tag">data-format</a></li></ul>
-	</div>
-
-          
-
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2012/10/08/notes-of-hackers-and-painters/" class="archive-article-date">
-  	<time datetime="2012-10-07T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-10-08</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2012/10/08/notes-of-hackers-and-painters/">《黑客与画家》读后感</a>
-    </h1>
-  
-
-        <div class="article-info info-on-right">
-          
-          
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
-	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
 
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2012/09/19/professional-github-blog-hosting-guide/" class="archive-article-date">
-  	<time datetime="2012-09-18T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-09-19</time>
-</a>
-        </div>
-    	 
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2012/09/19/professional-github-blog-hosting-guide/">github博客專業教程</a>
-    </h1>
-  
 
-        <div class="article-info info-on-right">
-          
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/generator/" rel="tag">generator</a></li></ul>
-	</div>
 
-          
 
-        </div>
-        <div class="clearfix"></div>
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
-    
-    <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/archives/page/14/">&amp;laquo; Prev</a><a class="page-number" href="/archives/">1</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/13/">13</a><a class="page-number" href="/archives/page/14/">14</a><span class="page-number current">15</span>
-    </nav>
-  
+<div class="duoshuo">
+
+<script type="text/javascript">
+(function(){
+var url = "http://widget.weibo.com/distribution/comments.php?width=0&url=auto&brandline=y&fontsize=12&skin=9&ralateuid=1751113432&appkey=3729652156&iframskin=9&dpc=1";
+url = url.replace("url=auto", "url=" + encodeURIComponent(document.URL));
+document.write('<iframe id="WBCommentFrame" src="' + url + '" scrolling="no" frameborder="0" style="width:100%"></iframe>');
+})();
+</script>
+<script src="http://tjs.sjs.sinajs.cn/open/widget/js/widget/comment.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.WBComment.init({
+    "id": "WBCommentFrame"
+});
+</script>
+
+</div>
+
+
+
+
+
 
 
       </div>
@@ -391,8 +289,8 @@
 		mathjax: true,
 		animate: true,
 		isHome: false,
-		isPost: false,
-		isArchive: true,
+		isPost: true,
+		isArchive: false,
 		isTag: false,
 		isCategory: false,
 		open_in_new: false,

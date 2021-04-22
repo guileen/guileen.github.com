@@ -149,6 +149,89 @@
       <div class="body-wrap">
         
   
+    <article id="post-introduce-reinforcement-learning-5" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/30/introduce-reinforcement-learning-5/">强化学习简介（五）：策略梯度Policy Gradient</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>DQN证明了深度学习在增强学习中的可行性。深度学习可以将复杂的概念隐含在网络之中。但是DQN并没有将所有的概念都隐含在网络之中，只是把Q值的计算放在了网络之中，比如`epsilon-greedy`动作选择策略。因为如何选择动作和如何通过Q值计算出目标值，都是DQN所面临的问题，而Q值的目的也是为了选择动作。我们可以将增加学习的问题简化为选择动作的问题。那么我们可否使用深度学习直接做出动作选择呢？显然，我们可以定义一个网络`pi_theta`，其中输入为状态`s`，输出为每个动作`a`的概率。</p>
+<p><img src="/img/rl-5/1.png" alt="策略梯度"></p>
+<p>因为这个网络与策略函数的定义一样，所以被称为策略网络。`pi_theta(a|s)`，表示在`s`状态下选择动作`a`的概率。只要这个网络能够收敛，我们就可以直接得到最佳策略。这个网络的奖励函数也就是最终游戏的总奖励。</p>
+<p>`J(theta) = sum_(s in S)d^pi(s)V^pi(s) = sum_(s in S)d^pi(s)sum_(a in A)pi_theta(a|s)Q^pi(s, a)`</p>
+<p>`d^pi(s)`指状态`s`在马尔科夫链上的稳定分布，`d^pi(s) = lim_(t-&gt;oo)P(s_t=s|s_0,pi_theta)`。</p>
+<p>但是这个表达式看上去是不可能计算的，因为状态的分布和Q值都是随着策略的更新而不断变化的。但是我们并不需要计算`J(theta)`，在梯度下降法中我们只需要计算梯度`grad_(theta)J(theta)`即可</p>
+<p>`grad_(theta)V^pi(s)`<br>`= grad_(theta)(sum_(a in A)pi_theta(a|s)Q^pi(s, a))`<br>根据导数乘法规则<br>`= sum_(a in A)(grad_(theta)pi_(theta)Q^pi(s, a)+pi_(theta)(a|s)grad_thetaQ^pi(s, a))`<br>展开`Q^pi(s,a)`为各各种可能的下一状态奖励之和<br>`= sum_(a in A)(grad_(theta)pi_(theta)Q^pi(s, a)+pi_(theta)(a|s)grad_(theta)sum_(s’,r)P(s’,r|s,a)(r+V^pi(s’)))`<br>而其中状态转移函数`P(s’,r|s,a)`、奖励`r`由环境决定，与`grad_theta`无关，所以<br>`= sum_(a in A)(grad_(theta)pi_(theta)Q^pi(s, a)+pi_(theta)(a|s)sum_(s’,r)P(s’,r|s,a)grad_(theta)V^pi(s’))`<br>`= sum_(a in A)(grad_(theta)pi_(theta)Q^pi(s, a)+pi_(theta)(a|s)sum_(s’)P(s’|s,a)grad_(theta)V^pi(s’))`</p>
+<p>现在我们有了一个形式非常好的递归表达式：<br>`grad_(theta)V^pi(s) = sum_(a in A)(grad_(theta)pi_(theta)Q^pi(s, a)+pi_(theta)(a|s)sum_(s’)P(s’|s,a)grad_(theta)V^pi(s’))`</p>
+<p>设 `rho^pi(s-&gt;x, k)` 表示在策略`pi^theta`下，`k`步以后状态`s`转移到状态`x`的概率。有：</p>
+<ul>
+<li>`rho^pi(s-&gt;s, k=0)=1`</li>
+<li>`rho^pi(s-&gt;s’, k=1)=sum_(a)pi_(theta)(a|s)P(s’|s,a)`</li>
+<li>`rho^pi(s-&gt;x, k+1) = sum_(s’)rho^pi(s-&gt;s’, k)rho^pi(s’-&gt;x, 1)`</li>
+</ul>
+<p>为了简化计算，令 `phi(s)=sum_(a in A)grad_(theta)pi_theta(a|s)Q^pi(s,a)`</p>
+<p>`grad_(theta)V^pi(s)`<br>`= phi(s) + sum_(a in A)pi_(theta)(a|s)sum_(s’)P(s’|s,a)grad_(theta)V^pi(s’) `<br>`= phi(s) + sum_(s’)sum_(a in A)pi_(theta)(a|s)P(s’|s,a)grad_(theta)V^pi(s’) `<br>`= phi(s) + sum_(s’)rho^pi(s-&gt;s’,1)grad_(theta)V^pi(s’) `<br>`= phi(s) + sum_(s’)rho^pi(s-&gt;s’,1)(phi(s’) + sum_(s’’)rho^pi(s’-&gt;s’’,1)grad_(theta)V^pi(s’’)) `<br>`= phi(s) + sum_(s’)rho^pi(s-&gt;s’,1)phi(s’) + sum_(s’’)rho^pi(s-&gt;s’’,2)grad_(theta)V^pi(s’’) `<br>`= phi(s) + sum_(s’)rho^pi(s-&gt;s’,1)phi(s’) + sum_(s’’)rho^pi(s-&gt;s’’,2)phi(s’’) + sum_(s’’’)rho^pi(s-&gt;s’’’,3)grad_(theta)V^pi(s’’’) `<br>`= …`<br>`= sum_(x in S)sum_(k=0)^(oo)rho^pi(s-&gt;x, k)phi(x)`</p>
+<p>令 `eta(s)=sum_(k=0)^(oo)rho^pi(s_0-&gt;s, k)`</p>
+<p>`grad_(theta)J(theta)=grad_(theta)V^pi(s_0)`<br>`= sum_(s)sum_(k=0)^(oo)rho^pi(s_0-&gt;s,k)phi(s)`<br>`= sum_(s)eta(s)phi(s)`<br>`= (sum_(s)eta(s))sum_(s)((eta(s))/(sum_(s)eta(s)))phi(s)`<br>因 `sum_(s)eta(s)` 属于常数，对于求梯度而言常数可以忽略。<br>`prop sum_(s)((eta(s))/(sum_(s)eta(s)))phi(s)`<br>因 `eta(s)/(sum_(s)eta(s))`表示`s`的稳定分布<br>`= sum_(s)d^pi(s)sum_a grad_(theta)pi_(theta)(a|s)Q^pi(s,a)`<br>`= sum_(s)d^pi(s)sum_a pi_(theta)(a|s)Q^pi(s,a)(grad_(theta)pi_(theta)(a|s))/(pi_(theta)(a|s))`<br>因 ` (ln x)’ = 1/x `<br>`= Err_pi[Q^pi(s,a)grad_theta ln pi_theta(a|s)]`</p>
+<p>所以得出策略梯度最重要的定理：</p>
+<p>` grad_(theta)J(theta)=Err_pi[Q^pi(s,a)grad_theta ln pi_theta(a|s)] `</p>
+<p>其中的`Q^pi(s,a)`也就是状态s的累计收益，可以在一次完整的动作轨迹中累计计算得出。</p>
+<h2 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h2><p>该算法被称为 REINFORCE</p>
+<ul>
+<li>随机初始化`theta`</li>
+<li>生成一个完整的策略`pi_theta`的轨迹: `S1,A1,R2,S2,A2,…,ST`。</li>
+<li>For t=1, 2, … , T-1:<ul>
+<li>` v_t = sum_(i=0)^(oo) gamma^i R_(t+i+1) `</li>
+<li>` theta larr theta + alpha v_t ln pi_theta (A_t|S_t) `</li>
+</ul>
+</li>
+</ul>
+<p>参考：<br><a href="https://lilianweng.github.io/lil-log/2018/04/08/policy-gradient-algorithms.html" target="_blank" rel="noopener">Lilian Weng:Policy Gradient Algorithms</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/12/30/introduce-reinforcement-learning-5/" class="archive-article-date">
+  	<time datetime="2019-12-30T06:37:07.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-30</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/AI/">AI</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-introduce-reinforcement-learning-4" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -855,67 +938,6 @@
       
       <a href="/2019/11/01/promise-in-cache-crash/" class="archive-article-date">
   	<time datetime="2019-10-31T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-11-01</time>
-</a>
-      
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-setup-gogs-with-docker-compose" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/03/29/setup-gogs-with-docker-compose/">使用docker-compose设置Gogs</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>创建 ~/gogs/docker-compose.yml</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">version: &#39;2&#39;</span><br><span class="line">services:</span><br><span class="line">  gogs:</span><br><span class="line">    container_name: gogs</span><br><span class="line">    image: gogs&#x2F;gogs</span><br><span class="line">    volumes:</span><br><span class="line">      - &#x2F;data&#x2F;gogs&#x2F;:&#x2F;data</span><br><span class="line">    ports:</span><br><span class="line">      - &quot;3080:3000&quot;</span><br><span class="line">      - &quot;3022:22&quot;</span><br><span class="line">    restart: always</span><br></pre></td></tr></table></figure>
-
-<p>执行</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo docker-compose up -d</span><br></pre></td></tr></table></figure>
-
-<p>Nginx配置</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">server &#123;</span><br><span class="line">  listen 80;</span><br><span class="line">  server_name git.example.com;</span><br><span class="line"></span><br><span class="line">  location &#x2F; &#123;</span><br><span class="line">        proxy_set_header Host $http_host;</span><br><span class="line">        proxy_pass http:&#x2F;&#x2F;127.0.0.1:3080;</span><br><span class="line">        proxy_redirect off;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>配置注意事项：</p>
-<ul>
-<li><em>SSH Port:</em> Use the exposed port from Docker container. For example, your SSH server listens on 22 inside Docker, but you expose it by 10022:22, then use 10022 for this value. Builtin SSH server is not recommended inside Docker Container</li>
-<li><em>HTTP Port:</em> Use port you want Gogs to listen on inside Docker container. For example, your Gogs listens on 3000 inside Docker, and you expose it by 10080:3000, but you still use 3000 for this value.</li>
-<li><em>Application URL:</em> Use combination of Domain and exposed HTTP Port values (e.g. <a href="http://192.168.99.100:10080/" target="_blank" rel="noopener">http://192.168.99.100:10080/</a>).</li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2019/03/29/setup-gogs-with-docker-compose/" class="archive-article-date">
-  	<time datetime="2019-03-29T08:58:02.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-03-29</time>
 </a>
       
       
