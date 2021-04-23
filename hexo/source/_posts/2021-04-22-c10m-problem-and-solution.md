@@ -37,5 +37,5 @@ Robert Graham的演讲[《C10M Defending The Internet At Scale》(pdf)](https://
 
 ![preview](/img/c10m/cacheline-2.png)
 
-因此，**保持CPU亲和性**，就成为了C10M中需要重点关注的问题。其中端口复用、prefork、taskset这些技术比较值得尝试。我将这些资料都整理在了 [guileen/c10m-test](github.com/guileen/c10m-test)
+因此，**保持CPU亲和性**，就成为了C10M中需要重点关注的问题。其中端口复用、prefork、taskset这些技术比较值得尝试。我将这些资料都整理在了 [guileen/c10m-test](https://github.com/guileen/c10m-test)
 
