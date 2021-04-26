@@ -19,7 +19,7 @@
 <meta property="og:image" content="http://guileen.github.io/img/c10m/cacheline-1.png">
 <meta property="og:image" content="http://guileen.github.io/img/c10m/cacheline-2.png">
 <meta property="article:published_time" content="2021-04-22T06:24:01.000Z">
-<meta property="article:modified_time" content="2021-04-23T02:43:54.520Z">
+<meta property="article:modified_time" content="2021-04-26T08:02:56.397Z">
 <meta property="article:author" content="桂糊涂">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://guileen.github.io/img/c10m/cpu-cache.png">
@@ -192,7 +192,7 @@
 <p>当两个CPU操作两个相邻的变量时，这段相同的数据被加载到内存中。这将产生数据竞争，为了保证一致性，性能必然会下降。</p>
 <p><img src="/img/c10m/cacheline-2.png" alt="preview"></p>
 <p>因此，<strong>保持CPU亲和性</strong>，就成为了C10M中需要重点关注的问题。其中端口复用、prefork、taskset这些技术比较值得尝试，这些方法可以将进程与CPU相绑定。我将这些资料都整理在了 <a target="_blank" rel="noopener" href="https://github.com/guileen/c10m-test">guileen/c10m-test</a></p>
-<p>此外，内存的数据结构，如何减少GC，也是一个重点要考虑的问题。每次内存访问都是一个cache miss，解决方案是减少指针的使用。</p>
+<p>每次内存访问都是一个cache miss，解决方案是减少指针的使用。此外，内存的数据结构，如何减少GC，也是一个重点要考虑的问题，主要优化方法在之前的《Golang GC优化策略》的文章里描述过，我认为对象池是最有效的手段。</p>
 
       
     </div>
