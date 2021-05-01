@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://guileen.github.io">
+  <title>分布式事务 | 桂糊涂的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="微服务架构中，分布式事务、全链路跟踪、监控报警、限流降级、灰度发布、服务网关等等都很重要，大多是比较简单的工程性问题，有成熟的解决方案。其中在理论上比较复杂的，主要就是分布式事务了。 异步场景的分布式事务主服务完成事务后将结果用事件（消息队列）通知从服务。从服务消费完成事务后，将事件删除（否则将持续收到事件通知）。这一模式的主要问题是，消息队列与主事务如何保持一致。解决方案是主事务中增加一个本地M">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式事务">
+<meta property="og:url" content="http://guileen.github.io/2021/03/11/distributed-transaction/index.html">
+<meta property="og:site_name" content="桂糊涂的博客">
+<meta property="og:description" content="微服务架构中，分布式事务、全链路跟踪、监控报警、限流降级、灰度发布、服务网关等等都很重要，大多是比较简单的工程性问题，有成熟的解决方案。其中在理论上比较复杂的，主要就是分布式事务了。 异步场景的分布式事务主服务完成事务后将结果用事件（消息队列）通知从服务。从服务消费完成事务后，将事件删除（否则将持续收到事件通知）。这一模式的主要问题是，消息队列与主事务如何保持一致。解决方案是主事务中增加一个本地M">
+<meta property="og:image" content="http://guileen.github.io/img/dtx/half-message.jpg">
+<meta property="og:image" content="http://guileen.github.io/img/dtx/2pc.png">
+<meta property="og:image" content="http://guileen.github.io/img/dtx/3pc.png">
+<meta property="og:image" content="http://guileen.github.io/img/dtx/tcc.png">
+<meta property="article:published_time" content="2021-03-11T13:24:22.000Z">
+<meta property="article:modified_time" content="2021-03-19T15:20:50.109Z">
+<meta property="article:author" content="桂糊涂">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://guileen.github.io/img/dtx/half-message.jpg">
+  
+    <link rel="alternative" href="/atom.xml" title="桂糊涂的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/avatar.jpg">
+  
+  
+<link rel="stylesheet" href="/main.css">
+
+  
+
+<meta name="generator" content="Hexo 4.1.1"></head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">桂糊涂</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">代码杂记</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/categories/AI">AI</a></li>
+	        
+				<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+	        
+				<li><a href="/balance-bot/">读心天平</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="github" target="_blank" href="https://github.com/guileen" title="github">github</a>
+		        
+					<a class="weibo" target="_blank" href="https://weibo.com/guileen" title="weibo">weibo</a>
+		        
+					<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">桂糊涂</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">桂糊涂</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">代码杂记</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/categories/AI">AI</a></li>
+		        
+					<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+		        
+					<li><a href="/balance-bot/">读心天平</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="github" target="_blank" href="https://github.com/guileen" title="github">github</a>
+			        
+						<a class="weibo" target="_blank" href="https://weibo.com/guileen" title="weibo">weibo</a>
+			        
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-distributed-transaction" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      分布式事务
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>微服务架构中，分布式事务、全链路跟踪、监控报警、限流降级、灰度发布、服务网关等等都很重要，大多是比较简单的工程性问题，有成熟的解决方案。其中在理论上比较复杂的，主要就是分布式事务了。</p>
+<h2 id="异步场景的分布式事务"><a href="#异步场景的分布式事务" class="headerlink" title="异步场景的分布式事务"></a>异步场景的分布式事务</h2><p>主服务完成事务后将结果用事件（消息队列）通知从服务。从服务消费完成事务后，将事件删除（否则将持续收到事件通知）。这一模式的主要问题是，消息队列与主事务如何保持一致。解决方案是主事务中增加一个本地Msg表，事件投递成功后，删除本地Msg。若事件投递失败，由消息补偿定时任务将未投递消息写入消息服务。</p>
+<p>目前看来是比较完美的，但是这一方案对主业务有很大的侵入性。因此可以考虑将Msg持久化独立为一个服务。在开始主事务前，先将Msg置为Prepare状态，然后主事务完成后，Commit Msg。如果Prepare Msg失败，则主事务不会开始，如果Msg Prepare失败，但没有Commit Msg，则Msg服务会向主服务回调检测任务是否完成。RocketMQ实现了类似的机制。这一模式的主要缺点是需要写一个回调检查方法。这种方法也被成为<strong>半投递</strong>。</p>
+<p><img src="/img/dtx/half-message.jpg" alt=""></p>
+<h2 id="同步场景分布式事务"><a href="#同步场景分布式事务" class="headerlink" title="同步场景分布式事务"></a>同步场景分布式事务</h2><h3 id="二阶段提交协议（2-Phase-Commit）（XA）"><a href="#二阶段提交协议（2-Phase-Commit）（XA）" class="headerlink" title="二阶段提交协议（2 Phase Commit）（XA）"></a>二阶段提交协议（2 Phase Commit）（XA）</h3><p><img src="/img/dtx/2pc.png" alt=""></p>
+<p>2PC协议中，用户与协调者通信。事务的执行分为准备阶段和提交阶段。在准备阶段，完成资源的锁定。协调者收到所有的投票都为Yes后，通知所有参与者提交事务，否则通知参与者取消事务。为了完成事务，需要实现以下几个接口</p>
+<ul>
+<li>[参与者]canCommit(trans) -&gt; Yes/No  协调者询问参与者能否开始任务。参与者若返回yes，需要锁定相关资源。</li>
+<li>[参与者]doCommit(trans)  协调者通知参与者执行他的事务。</li>
+<li>[参与者]doAbort(trans) 协调者通知参与者放弃事务。</li>
+<li>[协调者]haveCommitted(trans) 参与者调用协调者的该接口，通知协调者，自己已经完成了任务。</li>
+<li>[协调者]getDecision(trans) 参与者投Yes后一段时间未收到通知，参与者主动询问表决结果，主动恢复事务。</li>
+</ul>
+<p>我们必须要考虑超时的情况：</p>
+<ul>
+<li>每一个网络动作都要包含一个超时的动作，超时并不意味失败。</li>
+<li>当协调者调用canCommit超时时，事务将不会开始，协调者将向所有参与者发送doAbort。</li>
+<li>当参与者在canCommit返回了No之后，参与者终止事务（没有超时）</li>
+<li>当参与者在canCommit返回了Yes之后超时，我们称其进入了不确定状态，参与者需要调用getDecision来决定下一步的动作。如果协调者发生故障，需要继续检测getDecision，等待协调者恢复后则可恢复事务。（可能持续的等待）</li>
+</ul>
+<p>我们还需要考虑到进程崩溃的情况：</p>
+<ul>
+<li>当参与者回复了Yes之后崩溃，后继服务需要从数据库中恢复该事务。因此参与者在回复Yes之前必须将事务状态写入数据库。</li>
+<li>当协调者崩溃后，需要正确的处理getDecision</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>在一切正常的情况下，2PC的性能是2N次请求。但如果出现了异常，则可能出现长时间的等待，并锁定了相关资源。3PC用来解决这样的问题。</li>
+</ul>
+<h3 id="三阶段提交协议（3-Phase-Commit）"><a href="#三阶段提交协议（3-Phase-Commit）" class="headerlink" title="三阶段提交协议（3 Phase Commit）"></a>三阶段提交协议（3 Phase Commit）</h3><p><img src="/img/dtx/3pc.png" alt=""></p>
+<p>3PC与2PC的异同：</p>
+<ul>
+<li>3PC将2PC的准备阶段拆分为『询问』和『准备』两个阶段。</li>
+<li>在询问阶段，参与者不锁定资源，只返回是否可以执行。这一步避免了2PC最终表决为No却锁定了资源的情况。</li>
+<li>当询问所有参与者都可以执行的情况下，才要求参与者进行准备，锁定资源。</li>
+<li>询问、准备必须都成功，才会执行Commit，否则执行Abort。这与2PC是类似的。</li>
+</ul>
+<h3 id="TCC协议"><a href="#TCC协议" class="headerlink" title="TCC协议"></a>TCC协议</h3><p>TCC本质上依然是2PC，他们的区别是TCC是服务级别的，而2PC是资源级别的（也可以是服务级别的）。在2PC、3PC中，都会对资源进行长时间的占用，同一时间只能有一个事务执行，有一个锁竞争的问题。为了解决这个问题，TCC在Try阶段，就将事务所需的资源进行预留，后续的锁只发生在预留的资源上。</p>
+<p><img src="/img/dtx/tcc.png" alt=""></p>
+<p>为了解释这个问题，我们先来想象这样一种场景，用户在电商网站购买商品1000元，使用余额支付800元，使用红包支付200元。我们看一下在 2PC 中的流程：</p>
+<p>Prepare 阶段：</p>
+<ul>
+<li>下单系统插入一条订单记录，不提交</li>
+<li>余额系统减 800 元，给记录加锁，写 redo 和 undo 日志，不提交</li>
+<li>红包系统减 200 元，给记录加锁，写 redo 和 undo 日志，不提交</li>
+</ul>
+<p>Commit 阶段：</p>
+<ul>
+<li>下单系统提交订单记录</li>
+<li>余额系统提交，释放锁</li>
+<li>红包系统提交，释放锁</li>
+</ul>
+<p>我们在事务执行过程中，锁定了整个用户账户。而TCC 在该场景中的流程：</p>
+<p>Try操作</p>
+<ul>
+<li>tryX 下单系统创建待支付订单</li>
+<li>tryY 冻结账户红包 200 元</li>
+<li>tryZ 冻结资金账户 800 元</li>
+</ul>
+<p>Confirm操作</p>
+<ul>
+<li>confirmX 订单更新为支付成功</li>
+<li>confirmY 扣减账户红包 200 元</li>
+<li>confirmZ 扣减资金账户 800 元</li>
+</ul>
+<p>Cancel操作</p>
+<ul>
+<li>cancelX 订单处理异常，资金红包退回，订单支付失败</li>
+<li>cancelY 冻结红包失败，账户余额退回，订单支付失败</li>
+<li>cancelZ 冻结余额失败，账户红包退回，订单支付失败</li>
+</ul>
+<p>我们只对参与事务的部分资源进行了锁定，因此极大的降低了锁竞争的情况，也就提升了系统的性能。缺点是，TCC的实现对业务的侵入性较强，必须由开发人员来编写。而2PC、3PC则可以抽象为统一的框架。</p>
+<h2 id="AT-模式"><a href="#AT-模式" class="headerlink" title="AT 模式"></a>AT 模式</h2><p>本地关系型数据库   [Seata AT模式]<a href="http://seata.io/zh-cn/docs/dev/mode/at-mode.html" target="_blank" rel="noopener">http://seata.io/zh-cn/docs/dev/mode/at-mode.html</a></p>
+<p>两阶段提交协议的演变：</p>
+<ul>
+<li>一阶段：业务数据和回滚日志记录在同一个本地事务中提交，释放本地锁和连接资源。</li>
+<li>二阶段：<ul>
+<li>提交异步化，非常快速地完成。</li>
+<li>回滚通过一阶段的回滚日志进行反向补偿。</li>
+</ul>
+</li>
+</ul>
+<p>TODO</p>
+<h2 id="SAGA"><a href="#SAGA" class="headerlink" title="SAGA"></a>SAGA</h2><p>长事务解决方案，订机票的例子</p>
+<p>TODO</p>
+<p><a href="https://huzb.me/2019/06/30/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E2%80%94%E2%80%942PC%E3%80%813PC%E5%92%8CTCC/#%E4%BA%94%E3%80%81TCC-%E5%8D%8F%E8%AE%AE" target="_blank" rel="noopener">[1]分布式事务——2PC、3PC 和 TCC</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2021/03/11/distributed-transaction/" class="archive-article-date">
+  	<time datetime="2021-03-11T13:24:22.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-03-11</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2021/04/09/recommend-system-architecture/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          推荐系统架构
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2021/02/23/why-taichi-is-good/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">为什么『太极』是一门好语言？</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+
+<script type="text/javascript">
+(function(){
+var url = "http://widget.weibo.com/distribution/comments.php?width=0&url=auto&brandline=y&fontsize=12&skin=9&ralateuid=1751113432&appkey=3729652156&iframskin=9&dpc=1";
+url = url.replace("url=auto", "url=" + encodeURIComponent(document.URL));
+document.write('<iframe id="WBCommentFrame" src="' + url + '" scrolling="no" frameborder="0" style="width:100%"></iframe>');
+})();
+</script>
+<script src="http://tjs.sjs.sinajs.cn/open/widget/js/widget/comment.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.WBComment.init({
+    "id": "WBCommentFrame"
+});
+</script>
+
+</div>
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2021 桂糊涂
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+
+<script src="/./main.js"></script>
+
+
+
+<!-- <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script> -->
+
+<script>
+  MathJax = {
+    loader: {load: ['input/asciimath', 'output/chtml', 'ui/menu']},
+    asciimath: {
+    delimiters: [['`','`'], ['$$', '$$'], ['$','$']]
+  }
+  };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js">
+  </script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/OpenGL-Game-development/" style="font-size: 10px;">OpenGL,Game development</a> <a href="/tags/OpenGL-math/" style="font-size: 10px;">OpenGL,math</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/computer-graphics/" style="font-size: 10px;">computer-graphics</a> <a href="/tags/cpp/" style="font-size: 11.25px;">cpp</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
+    			</div>
+    	</section>
+    
+
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">联系我：&lt;br&gt; guileen AT qq DOT com</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>
