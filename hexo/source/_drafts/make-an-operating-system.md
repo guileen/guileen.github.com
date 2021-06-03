@@ -89,3 +89,10 @@ megs: 148
 至此，我们就可以看到一个虚拟机启动画面了
 
 <img src="/img/make-os/boot.png" alt="image-20210423220327443" style="zoom:50%;" />
+
+### day2：
+
+进入Loader时对可执行文件需要有更多的了解。
+
+
+
