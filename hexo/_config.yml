@@ -92,12 +92,10 @@ theme_config:
 
 # SubNav
   subnav:
-    github: "https://github.com/guileen"
-    #weibo: "https://weibo.com/guileen"
+    #github: "https://github.com/guileen"
     rss: "/atom.xml"
-    #zhihu: "#"
     #douban: "#"
-    mail: "guileen@qq.com"
+    mail: "mailto:guileen@qq.com"
     #facebook: "#"
     #google: "#"
     #twitter: "#"
