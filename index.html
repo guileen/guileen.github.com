@@ -27,7 +27,7 @@
 
   
 
-<meta name="generator" content="Hexo 4.1.1"></head>
+<meta name="generator" content="Hexo 4.2.1"></head>
 
 <body>
   <div id="container">
@@ -54,9 +54,9 @@
 			
 				<li><a href="/">主页</a></li>
 	        
-				<li><a href="/categories/AI">AI</a></li>
-	        
 				<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+	        
+				<li><a href="/categories/AI">AI</a></li>
 	        
 				<li><a href="/balance-bot/">读心天平</a></li>
 	        
@@ -92,6 +92,8 @@
 		        
 					<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
 		        
+					<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+		        
 			</div>
 		</nav>
 	</header>		
@@ -122,9 +124,9 @@
 				
 					<li><a href="/">主页</a></li>
 		        
-					<li><a href="/categories/AI">AI</a></li>
-		        
 					<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+		        
+					<li><a href="/categories/AI">AI</a></li>
 		        
 					<li><a href="/balance-bot/">读心天平</a></li>
 		        
@@ -139,6 +141,8 @@
 			        
 						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
 			        
+						<a class="zhihu" target="_blank" href="#" title="zhihu">zhihu</a>
+			        
 				</div>
 			</nav>
 		</header>				
@@ -148,7 +152,7 @@
       <div class="body-wrap">
         
   
-    <article id="post-c10m-problem-and-solution" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-childrens-song" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -158,7 +162,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/22/c10m-problem-and-solution/">c10m单机千万连接问题及解决方案</a>
+      <a class="article-title" href="/2020/12/22/childrens-song/">儿歌</a>
     </h1>
   
 
@@ -166,35 +170,22 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>C10m是继c10k问题之后提出的新问题，指单机1000万连接问题。40gbps网卡、32核、256G内存，这样的配置理论上已经可以处理千万并发连接了。但虽然硬件已经能够满足条件了，但是软件系统依然是复杂的。这就是C10M问题。</p>
-<p>使用Go语言开发的TCP server，可以比较轻松的保持1000万的连接。大约消耗56G内存，用于连接对象和goroutine，不包含业务对象。但仅仅保持空闲连接并不够，最重要的是拥有更高的包处理速度（Packet per second），和更低的时延。</p>
-<p>Robert Graham的演讲<a href="https://www.cs.dartmouth.edu/~sergey/cs258/2013/C10M-Defending-the-Internet-at-Scale-Dartmouth-2013.pdf" target="_blank" rel="noopener">《C10M Defending The Internet At Scale》(pdf)</a> <a href="https://www.youtube.com/watch?v=D09jdbS6oSI" target="_blank" rel="noopener">(youtube)</a>回答了C10M的问题原因：内核不是解决方案，而是问题本身。因为内核处理数据包是经过了一个复杂的过程。对于C10m的定义如下：</p>
-<ul>
-<li>千万并发连接</li>
-<li>每秒百万连接接入</li>
-<li>每秒千万数据包</li>
-<li>10gb/s</li>
-<li>10微秒延迟</li>
-<li>10微秒抖动</li>
-<li>10核CPU并行</li>
-</ul>
-<p>其中最核心的指标，是前3项。而面临的挑战主要是<strong>用户态协议栈和多核并发问题</strong>。用户态协议栈可以在网关类、云原生等应用中发挥极大的价值，但是对于业务层的开发并不友好。用户态协议栈的技术有SDP、BPF、DPDK等。我们需要<strong>重点关注的是多核并发情况下的网络编程问题</strong>。</p>
-<h2 id="为什么多核编程是复杂的？"><a href="#为什么多核编程是复杂的？" class="headerlink" title="为什么多核编程是复杂的？"></a>为什么多核编程是复杂的？</h2><p>大多数的程序在高于4核的CPU上不能发挥更好的性能，有时甚至会降低性能。其中主要的影响因素是CPU的缓存流水线。L1 cache 4个cycle（cpu时钟），L2 cache 12个cycle，L3 30 cycles，内存 300 cycles。如果命中L1、L2缓存，性能则是很高的，若缓存miss性能则会降低。在高并发的情况下，我们最好是保证程序是绑定在某个CPU上执行的。</p>
-<p><img src="/img/c10m/cpu-cache.png" alt="img"></p>
-<p>在千万并发情况下，因为上下文的切换过于频繁，缓存miss的情况将大大增加。在上下文切换时，如果同一个连接的处理线程不是绑定在同一个CPU上的，那么将进一步加剧缓存miss的情况。</p>
-<p>除缓存miss情况外，cacheline还存在一种<strong>伪共享</strong>的问题，会造成性能的下降。当从内存中取单元到cache中时，会一次取一个cacheline大小的内存区域到cache中，然后存进相应的cacheline中, 所以当你读取一个变量的时候，可能会把它相邻的变量也读取到CPU的缓存中(如果正好在一个cacheline中)，因为有很大的几率你回继续访问相邻的变量，这样CPU利用缓存就可以加速对内存的访问。这本来是一种优化策略，避免加载相邻变量时多次访问内存。但是在多核并发的情况下，则可能造成性能下降。</p>
-<p><img src="/img/c10m/cacheline-1.png" alt="preview"></p>
-<p>当两个CPU操作两个相邻的变量时，这段相同的数据被加载到内存中。这将产生数据竞争，为了保证一致性，性能必然会下降。</p>
-<p><img src="/img/c10m/cacheline-2.png" alt="preview"></p>
-<p>因此，<strong>保持CPU亲和性</strong>，就成为了C10M中需要重点关注的问题。其中端口复用、prefork、taskset这些技术比较值得尝试，这些方法可以将进程与CPU相绑定。我将这些资料都整理在了 <a href="https://github.com/guileen/c10m-test" target="_blank" rel="noopener">guileen/c10m-test</a></p>
-<p>每次内存访问都是一个cache miss，解决方案是减少指针的使用。此外，内存的数据结构，如何减少GC，也是一个重点要考虑的问题，主要优化方法在之前的《Golang GC优化策略》的文章里描述过，我认为对象池是最有效的手段。</p>
+        <p>这是描述一群天启儿童降世后如何夺权的故事。天启之后出生的儿童，虽然未受到天启，但是天启一代已经对他们造成了不可逆的影响。</p>
+<p>异象出现的那个夜晚，出生了百万个孩子。这是最近百年来出生人口最多的一天。全球实现城市化已经有一百年了，一百年来人类预期寿命不断增加，人口出生率则不断下降。（此处可展开描写，兼叙历史）</p>
+<p>异象五年，一首儿歌在孩子们间流传：『XXX，XXX，XXXXXXX,XXX,XXX,XXXXXXX』言辞似无意义，其中『立约』又似有所指。孩童嬉戏玩闹，皆歌之。孩子们天真无邪，他们似乎并不知道他们的歌中有种可怕的气息。（此处可展开描写）</p>
+<p>异象十二年，这一批刚刚进入青春期的孩子，开始制造自己的流行文化。他们用发型、衣着与年长自己的人区隔开。那些仅比他们大一两岁的学长学姐们，也有些人受到了这种文化的影响。那些仍然当红的流行明星，成为了他们嘲笑的对象。A（一个女孩）因为他的鼻子长得像Y（一个明星）而倍感苦恼。这种原本被视为漂亮的鼻型在这群孩子种被视为是不自然的。</p>
+<p>从异象十五年开始，高中辍学率不断上升，留在学校的学生也对老师教授的所谓知识毫无兴趣。『科学是暴力的工具，与智慧无关』这种奇怪的反智论调在学生中流传。但这并不意味着这些学生是无知的，他们可以随时从互联网上获取自己想要的知识。『我们要自我教育』一些老师们对于这种危险的口号忧心忡忡又无可奈何，更多的教师则认为这不过是年轻人的躁动，不足为奇。这些学生建立起了自己的P2P社交网络，完全匿名，技术上无法监控。有一些校风颇为严格的学校，直接在非教学时间关闭了供电系统，但这激起了学生们的反抗，让人无法理解的是，反抗的积极分子大多是低年级的学生，而高年级的学生则多是观望的角色。</p>
+<p>异象十八年，这一年的一流大学的招生遇到了很大的困难，报考者大多资质平平。这些曾经高高在上的学府对此大惑不解。据一名各项测试成绩平平，却轻松进入一流大学的幸运者称，这是他们刻意为之，目的是把水搅混，把这些名牌大学的牌子搞臭，至于为什么要把这些名牌大学的牌子搞臭，他们并没有说，似乎认为这都是公开的秘密了。而那些成绩优异的人，不过这一届的成绩有多少可信之处呢？而那些被认为聪慧敏捷的，则有目的的『占领』那些中低端的学校，</p>
+<p>异象二十年的选美结果出炉了，令富豪们大跌眼镜。现在的正常的年轻人，有几个人会参加上一代人创建的选美比赛呢？今年又有几家面向年轻人的时尚公司倒闭了，他们完全搞不明白这些年轻人想要穿什么，似乎他们的设计总是完美的避开了年轻人的审美。这些年轻人总是穿着一些不知名的小品牌的服装，他们甚至以穿着旧衣服、与他人交换服装为时尚。这简直就是要他们的命。『天下皆知美之为美，斯恶矣』一位蓬头垢面，衣着污秽的艺术家如是对记者说。</p>
+<p>异象二十二年，一年比一年差的就业形势，到了这一年跌倒了最低点。虽然很多的岗位都已经用机器人代替了人工，但『精英企业家』们依然为了『社会公益』而『创造了大量的就业岗位』。与异象前二十年的人们不同，这届人民似乎丝毫不懂得什么叫做『感恩之心』，若没有他们『创造』出如此多的就业岗位，他们的父母怎么可能有能力供养他们长大。每念及此，年近一百二十岁的企业家老李就倍感痛心。『我还能为社会再干30年』他面对镜头时既谦逊又绅士。</p>
+<p>（TODO）</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2021/04/22/c10m-problem-and-solution/" class="archive-article-date">
-  	<time datetime="2021-04-22T06:24:01.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-04-22</time>
+      <a href="/2020/12/22/childrens-song/" class="archive-article-date">
+  	<time datetime="2020-12-22T13:17:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-12-22</time>
 </a>
       
       
@@ -216,7 +207,7 @@
 
 
   
-    <article id="post-recommend-system-architecture" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-tao-at-the-very-begining" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -226,7 +217,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/04/09/recommend-system-architecture/">推荐系统架构</a>
+      <a class="article-title" href="/2020/10/29/tao-at-the-very-begining/">太初有道</a>
     </h1>
   
 
@@ -234,27 +225,22 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="0x00-架构目标"><a href="#0x00-架构目标" class="headerlink" title="0x00 架构目标"></a>0x00 架构目标</h2><p>推荐系统的目标简而言之是从全量Item（商品、内容、人）中为用户找到一个最符合业务价值的一部分有序子集。这个最有价值，通常要综合考虑用户的兴趣以及平台的商业模式。比如对于视频网站而言，用户的观看时长是最能代表这个价值的，而影评网站则要推荐用户评分最高的那些影片。</p>
-<p>我们关心的问题是推荐效果和算法复杂度。</p>
-<h2 id="0x01-架构设计"><a href="#0x01-架构设计" class="headerlink" title="0x01 架构设计"></a>0x01 架构设计</h2><p>按数据来划分可分为：大数据平台 =&gt; 召回层 =&gt; 排序层 =&gt; 融合层。总数据量，亿级，召回层千级、万级，排序层百级，融合层十级。</p>
-<p>按计算来划分可分为：离线层=&gt; 近线层 =&gt; 在线层</p>
-<p><img src="/img/recsys/netflix.jpeg" alt=""></p>
-<p><a href="https://www.cnblogs.com/shengyang17/p/11546299.html" target="_blank" rel="noopener">https://www.cnblogs.com/shengyang17/p/11546299.html</a></p>
-<h2 id="0x02-召回层算法"><a href="#0x02-召回层算法" class="headerlink" title="0x02 召回层算法"></a>0x02 召回层算法</h2><p>召回算法通常采用多种模型，尽可能多的召回物品。主要采用简单高效的算法，也包含一些简单的策略如热门物品、新发布物品等。协同过滤模型不适用用户和物品的特征数据，只使用用户行为数据。</p>
-<h3 id="矩阵分解"><a href="#矩阵分解" class="headerlink" title="矩阵分解"></a>矩阵分解</h3><p>经典的协同过滤算法，泛化能力不足，已不再流行。现在更多的是采用矩阵分解方法，将评分矩阵分解为用户矩阵和物品矩阵的叉乘，相当于有一个K维的隐含特征，用户与物品在这个K维特征上相契合，则会有很高的推荐度。优化目标是最小化评分矩阵与预测矩阵的距离。</p>
-<p><img src="/img/recsys/mf.png" alt=""></p>
-<p><a href="https://antkillerfarm.github.io/ml/2016/12/29/Machine_Learning_16.html" target="_blank" rel="noopener">ALS算法</a> 一个离线的可以并行的算法，但缺点是无法增量更新。<a href="https://asset-pdf.scinapse.io/prod/30495595/30495595.pdf" target="_blank" rel="noopener">Fast incremental matrix factorization forrecommendation with positive-only feedback</a> 这篇论文介绍了一种使用 ISGD 算法进行矩阵分解的增量更新算法。</p>
-<p><img src="/img/recsys/ISGD.png" alt=""></p>
-<p>这个算法仅考虑了正样本，其中的 $ err_(ui)=1-A_uB_i^T $ 可以改进为 $ err_(ui)=R_(ui)-A_uB_i^T $。采用这个算法可以使我们的模型增量更新。</p>
-<h2 id="0x03-排序层算法"><a href="#0x03-排序层算法" class="headerlink" title="0x03 排序层算法"></a>0x03 排序层算法</h2><p>在矩阵分解中，我们没有使用用户和物品的特征，这无疑是对信息的浪费。在排序层中，我们将问题转化为一个2分类问题，即 P(y=1|X)，用户喜欢一个物品的概率。其中X为 {用户特征、物品特征、场景特征}。这里有大量的机器学习方法可以使用，常用的有 LR（线性回归），FM/FFM（隐向量特征交叉），GBDT+LR（其中GBDT完成了特征工程部分，LR完成了回归部分）。</p>
-<p>深度学习在这一层也有越来越多的应用，Embedding技术主要使用在特征工程的阶段。</p>
-<h2 id="0x04-如何抽象一个推荐系统"><a href="#0x04-如何抽象一个推荐系统" class="headerlink" title="0x04 如何抽象一个推荐系统"></a>0x04 如何抽象一个推荐系统</h2>
+        <p>人类在数万年前进入了一个新的状态，太初之人，完满自足，而后散布天下。</p>
+<p>庄子天下篇说，上古之人真是完备啊，可惜后世的人很不幸，他们将看到道术在天下分裂。</p>
+<p>古希腊哲学、古印度思想、中国古代思想，有一个更统一的源头。那就是上古太初之人。</p>
+<p>我们今天的思想是东西方思想的结合，依然不够完满，缺失了重要的部分。</p>
+<p>美洲文化受到了破坏。非洲有一部分上古文化留存，苗瑶族也有一些上古之道留存。但都不完整。</p>
+<p>我们的目标应该是恢复一个人类上古之道，而不是自称独立发展的，自绝于世界。</p>
+<p>也不是盲目的学习他人，放弃自己，因为他人也不过是缺憾的存在。</p>
+<p>人类无论从基因上，还是从思想上，都是残缺的。</p>
+<p>我们需要追求圆满自足，这是人所遗忘的功能。</p>
+
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2021/04/09/recommend-system-architecture/" class="archive-article-date">
-  	<time datetime="2021-04-09T14:13:09.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-04-09</time>
+      <a href="/2020/10/29/tao-at-the-very-begining/" class="archive-article-date">
+  	<time datetime="2020-10-29T07:30:57.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-10-29</time>
 </a>
       
       
@@ -276,7 +262,7 @@
 
 
   
-    <article id="post-distributed-transaction" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-limitation-of-rl-in-long-term" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -286,7 +272,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/03/11/distributed-transaction/">分布式事务</a>
+      <a class="article-title" href="/2020/04/05/limitation-of-rl-in-long-term/">强化学习在长时间运行系统中的限制</a>
     </h1>
   
 
@@ -294,99 +280,22 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>微服务架构中，分布式事务、全链路跟踪、监控报警、限流降级、灰度发布、服务网关等等都很重要，大多是比较简单的工程性问题，有成熟的解决方案。其中在理论上比较复杂的，主要就是分布式事务了。</p>
-<h2 id="异步场景的分布式事务"><a href="#异步场景的分布式事务" class="headerlink" title="异步场景的分布式事务"></a>异步场景的分布式事务</h2><p>主服务完成事务后将结果用事件（消息队列）通知从服务。从服务消费完成事务后，将事件删除（否则将持续收到事件通知）。这一模式的主要问题是，消息队列与主事务如何保持一致。解决方案是主事务中增加一个本地Msg表，事件投递成功后，删除本地Msg。若事件投递失败，由消息补偿定时任务将未投递消息写入消息服务。</p>
-<p>目前看来是比较完美的，但是这一方案对主业务有很大的侵入性。因此可以考虑将Msg持久化独立为一个服务。在开始主事务前，先将Msg置为Prepare状态，然后主事务完成后，Commit Msg。如果Prepare Msg失败，则主事务不会开始，如果Msg Prepare失败，但没有Commit Msg，则Msg服务会向主服务回调检测任务是否完成。RocketMQ实现了类似的机制。这一模式的主要缺点是需要写一个回调检查方法。这种方法也被成为<strong>半投递</strong>。</p>
-<p><img src="/img/dtx/half-message.jpg" alt=""></p>
-<h2 id="同步场景分布式事务"><a href="#同步场景分布式事务" class="headerlink" title="同步场景分布式事务"></a>同步场景分布式事务</h2><h3 id="二阶段提交协议（2-Phase-Commit）（XA）"><a href="#二阶段提交协议（2-Phase-Commit）（XA）" class="headerlink" title="二阶段提交协议（2 Phase Commit）（XA）"></a>二阶段提交协议（2 Phase Commit）（XA）</h3><p><img src="/img/dtx/2pc.png" alt=""></p>
-<p>2PC协议中，用户与协调者通信。事务的执行分为准备阶段和提交阶段。在准备阶段，完成资源的锁定。协调者收到所有的投票都为Yes后，通知所有参与者提交事务，否则通知参与者取消事务。为了完成事务，需要实现以下几个接口</p>
-<ul>
-<li>[参与者]canCommit(trans) -&gt; Yes/No  协调者询问参与者能否开始任务。参与者若返回yes，需要锁定相关资源。</li>
-<li>[参与者]doCommit(trans)  协调者通知参与者执行他的事务。</li>
-<li>[参与者]doAbort(trans) 协调者通知参与者放弃事务。</li>
-<li>[协调者]haveCommitted(trans) 参与者调用协调者的该接口，通知协调者，自己已经完成了任务。</li>
-<li>[协调者]getDecision(trans) 参与者投Yes后一段时间未收到通知，参与者主动询问表决结果，主动恢复事务。</li>
-</ul>
-<p>我们必须要考虑超时的情况：</p>
-<ul>
-<li>每一个网络动作都要包含一个超时的动作，超时并不意味失败。</li>
-<li>当协调者调用canCommit超时时，事务将不会开始，协调者将向所有参与者发送doAbort。</li>
-<li>当参与者在canCommit返回了No之后，参与者终止事务（没有超时）</li>
-<li>当参与者在canCommit返回了Yes之后超时，我们称其进入了不确定状态，参与者需要调用getDecision来决定下一步的动作。如果协调者发生故障，需要继续检测getDecision，等待协调者恢复后则可恢复事务。（可能持续的等待）</li>
-</ul>
-<p>我们还需要考虑到进程崩溃的情况：</p>
-<ul>
-<li>当参与者回复了Yes之后崩溃，后继服务需要从数据库中恢复该事务。因此参与者在回复Yes之前必须将事务状态写入数据库。</li>
-<li>当协调者崩溃后，需要正确的处理getDecision</li>
-</ul>
-<p>缺点：</p>
-<ul>
-<li>在一切正常的情况下，2PC的性能是2N次请求。但如果出现了异常，则可能出现长时间的等待，并锁定了相关资源。3PC用来解决这样的问题。</li>
-</ul>
-<h3 id="三阶段提交协议（3-Phase-Commit）"><a href="#三阶段提交协议（3-Phase-Commit）" class="headerlink" title="三阶段提交协议（3 Phase Commit）"></a>三阶段提交协议（3 Phase Commit）</h3><p><img src="/img/dtx/3pc.png" alt=""></p>
-<p>3PC与2PC的异同：</p>
-<ul>
-<li>3PC将2PC的准备阶段拆分为『询问』和『准备』两个阶段。</li>
-<li>在询问阶段，参与者不锁定资源，只返回是否可以执行。这一步避免了2PC最终表决为No却锁定了资源的情况。</li>
-<li>当询问所有参与者都可以执行的情况下，才要求参与者进行准备，锁定资源。</li>
-<li>询问、准备必须都成功，才会执行Commit，否则执行Abort。这与2PC是类似的。</li>
-</ul>
-<h3 id="TCC协议"><a href="#TCC协议" class="headerlink" title="TCC协议"></a>TCC协议</h3><p>TCC本质上依然是2PC，他们的区别是TCC是服务级别的，而2PC是资源级别的（也可以是服务级别的）。在2PC、3PC中，都会对资源进行长时间的占用，同一时间只能有一个事务执行，有一个锁竞争的问题。为了解决这个问题，TCC在Try阶段，就将事务所需的资源进行预留，后续的锁只发生在预留的资源上。</p>
-<p><img src="/img/dtx/tcc.png" alt=""></p>
-<p>为了解释这个问题，我们先来想象这样一种场景，用户在电商网站购买商品1000元，使用余额支付800元，使用红包支付200元。我们看一下在 2PC 中的流程：</p>
-<p>Prepare 阶段：</p>
-<ul>
-<li>下单系统插入一条订单记录，不提交</li>
-<li>余额系统减 800 元，给记录加锁，写 redo 和 undo 日志，不提交</li>
-<li>红包系统减 200 元，给记录加锁，写 redo 和 undo 日志，不提交</li>
-</ul>
-<p>Commit 阶段：</p>
-<ul>
-<li>下单系统提交订单记录</li>
-<li>余额系统提交，释放锁</li>
-<li>红包系统提交，释放锁</li>
-</ul>
-<p>我们在事务执行过程中，锁定了整个用户账户。而TCC 在该场景中的流程：</p>
-<p>Try操作</p>
-<ul>
-<li>tryX 下单系统创建待支付订单</li>
-<li>tryY 冻结账户红包 200 元</li>
-<li>tryZ 冻结资金账户 800 元</li>
-</ul>
-<p>Confirm操作</p>
-<ul>
-<li>confirmX 订单更新为支付成功</li>
-<li>confirmY 扣减账户红包 200 元</li>
-<li>confirmZ 扣减资金账户 800 元</li>
-</ul>
-<p>Cancel操作</p>
-<ul>
-<li>cancelX 订单处理异常，资金红包退回，订单支付失败</li>
-<li>cancelY 冻结红包失败，账户余额退回，订单支付失败</li>
-<li>cancelZ 冻结余额失败，账户红包退回，订单支付失败</li>
-</ul>
-<p>我们只对参与事务的部分资源进行了锁定，因此极大的降低了锁竞争的情况，也就提升了系统的性能。缺点是，TCC的实现对业务的侵入性较强，必须由开发人员来编写。而2PC、3PC则可以抽象为统一的框架。</p>
-<h2 id="AT-模式"><a href="#AT-模式" class="headerlink" title="AT 模式"></a>AT 模式</h2><p>本地关系型数据库   [Seata AT模式]<a href="http://seata.io/zh-cn/docs/dev/mode/at-mode.html" target="_blank" rel="noopener">http://seata.io/zh-cn/docs/dev/mode/at-mode.html</a></p>
-<p>两阶段提交协议的演变：</p>
-<ul>
-<li>一阶段：业务数据和回滚日志记录在同一个本地事务中提交，释放本地锁和连接资源。</li>
-<li>二阶段：<ul>
-<li>提交异步化，非常快速地完成。</li>
-<li>回滚通过一阶段的回滚日志进行反向补偿。</li>
-</ul>
-</li>
-</ul>
-<p>TODO</p>
-<h2 id="SAGA"><a href="#SAGA" class="headerlink" title="SAGA"></a>SAGA</h2><p>长事务解决方案，订机票的例子</p>
-<p>TODO</p>
-<p><a href="https://huzb.me/2019/06/30/%E5%88%86%E5%B8%83%E5%BC%8F%E4%BA%8B%E5%8A%A1%E2%80%94%E2%80%942PC%E3%80%813PC%E5%92%8CTCC/#%E4%BA%94%E3%80%81TCC-%E5%8D%8F%E8%AE%AE" target="_blank" rel="noopener">[1]分布式事务——2PC、3PC 和 TCC</a></p>
+        <p>近日尝试使用强化学习解决8x8大小的2048游戏。游戏环境是一个8x8的方格，环境每回合随机生成2个方块，方块的值为2或4，AI的决策空间是上、下、左、右四个操作，所有方块都将向所指示的方向堆叠，如果两个相邻的值相同方块在堆叠方向挤压，则这两个方块合并为1个方块，值是两个方块值的和。如果任何方向都无法移动方块，则游戏结束。游戏的目标是尽可能久的玩下去，合并出最大的方块。</p>
+<p>最初我尝试用PG来训练这个看似简单的游戏。每一步，都视为1点奖励，如果失败则给予-1000惩罚。算法很快习得了一个偷懒的方法，每一步都进行无效的移动，以此来苟延残喘。于是将无效的移动操作，视为重大的失误，也同样给予-1000的惩罚。算法很快学会了在一个局面下的有效移动操作。但这个游戏，哪怕只是随机的移动也能够取得一个普通的结果，如果要突破极限，则需要使用一些特殊的策略，我期待算法是否能在训练中学会这些策略。</p>
+<p><img src="/img/2048/pg.gif" alt="初次训练，类似随机运动"></p>
+<p>对于这个游戏，达到2048，需要大约500次移动，达到4096，则需要1000，达到1M，也就大约需要20多万次移动，达到4M，则需要上百万次移动。每到达一个新的难度，面临的局面都不同，之前所习得的经验就不一定继续有效了。2048游戏是一个比围棋要简单很多的游戏，围棋拥有更多的选点，2048只有4个操作选择。他们的主要区别在于围棋一般在100多手内结束，而2048的游戏时间则近乎无限长。理想的游戏结果如下图所示：</p>
+<p><img src="/img/2048/perfect.png" alt=""></p>
+<p>这一游戏是存在理想玩法的，经过很多局的游戏，我已总结出一些经验。但是这些经验是感性的，很难使用逻辑规则表达出来，很多时候是凭直觉的。我手段操作达到了512K的结果，虽然我依然可以挑战更高的游戏记录，但显然我不能将如此多的时间浪费在滑动手指上。这也是我要编程解决这个问题的初衷，但是强化学习算法，只能在一次次的失败中得到教训，可是这个游戏的特点是，训练的越好，游戏时间越长，获得失败经验的成本就越大。所以无论该算法在理论上是多么的正确，但在实际操作过程中已经变得不可行了。</p>
+<p>DQN、PG等强化学习算法的基本过程是根据系统给予的奖励，努力最大化收益。但是对于一个没有明确获胜终点的系统，如果验证训练结果的有效性却是一个非常大的问题。由于强化学习本质上是通过过往的经验来调整自己的策略的，如果有明显的获胜路径，则算法可以有充分的胜利经验可供借鉴。但如果目标是永远安全的运行下去，没有获胜的路径，只有失败的惩罚，那么算法只能在有限的教训中得到学习。假设我们正在训练一个自动飞行系统，获取每一个经验教训的成本都非常巨大，强化学习在这一方面的应用，必须要搭配一些人类的理性评估作为辅助，但是将人类的意识转化为可以实施的程序逻辑又是非常复杂的事情。</p>
+<p>如果我们训练的是一个自动驾驶系统呢？在未来无人驾驶会应用的越来越多。无人驾驶的安全性会很快超越人类，随即人们期望可以进一步提升驾驶的平均速度或其他一些智能驾驶的指标。因为无人驾驶的安全性已经超越了人类，所以无法再依赖于人类的驾驶经验给予其帮助，只能依赖于自身驾驶中的经验（尤其是事故）作为训练依据。那么这时这个系统还可能是安全的吗？</p>
+<p>在未来的相关强化学习领域，一个好的环境模拟系统、事故全息信息的采集和共享系统，才是提升人工智能的关键，而不是算法。</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2021/03/11/distributed-transaction/" class="archive-article-date">
-  	<time datetime="2021-03-11T13:24:22.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-03-11</time>
+      <a href="/2020/04/05/limitation-of-rl-in-long-term/" class="archive-article-date">
+  	<time datetime="2020-04-04T16:43:34.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-04-05</time>
 </a>
       
       
@@ -408,7 +317,7 @@
 
 
   
-    <article id="post-why-taichi-is-good" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-how-mass-thinking-works" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -418,7 +327,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/23/why-taichi-is-good/">为什么『太极』是一门好语言？</a>
+      <a class="article-title" href="/2020/03/19/how-mass-thinking-works/">大众想象如何毁掉生活？</a>
     </h1>
   
 
@@ -426,29 +335,22 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p><a href="https://github.com/taichi-dev/taichi" target="_blank" rel="noopener">太极</a> 是由MIT的中国小伙胡渊鸣开发的一门编程语言。这不仅仅是又一个新的编程语言，我实在已经厌倦了不断有人造新的语言，来满足每个作者不同的语言怪癖。有许多的编程语言是没有存在的价值的，他们继续存在往往只是因为遗留历史项目还在维护。而『太极』是有开创性和工程价值的。</p>
-<p>我认为太极有以下几个关键的<strong>有价值</strong>的特性：</p>
-<ol>
-<li>跨平台的GPU加速支持。同时支持CUDA、OpenGL、Metal，在Windows、Linux、MacOSX上都能很好的运行。我此前发现大部分的深度学习框架的GPU加速都是基于CUDA，这意味着我的macbook的GPU无法发挥作用。</li>
-<li>性能卓越，比PyTorch快13.4倍、Tensorflow要快188倍<a href="https://www.qbitai.com/2020/01/10534.html" target="_blank" rel="noopener">[1]</a>。这两点都有着实实在在的经济价值。</li>
-<li>简洁易学。作者并没有想要特地标新立异，而是基于python的语法来开发，与python完全兼容。这是非常务实的，但并非没有追求的，代码是会被静态编译执行的，性能与C++代码并没有太多差别。</li>
-</ol>
-<p>我认为太极在以下领域会有很好的应用：</p>
-<ol>
-<li>学术研究。</li>
-<li>机器学习、图形学、物理引擎、游戏编程的教学和实验。</li>
-<li>工具开发。可能作为最终产品的打包发布仍要探索，但制作工具是效率极高的。</li>
-<li>深度学习、离线渲染等离线任务的工程级应用。</li>
-</ol>
-<p>对于一名仍在不断学习的中老年人而言，我不希望仅仅是学会一两个重复的工具，而是能够更高效的去实践、探索未知的世界。与其学习tensorflow这种集成式的深度学习框架，不如用太极自己实现一个，这样我们才能更深刻的理解其中的过程。我们还可以用太极将数据可视化的展示出来。</p>
-<p>学习API是非常无趣的，但对于每一个学习编程的孩子来说，却是一道很高的门槛。很多人都无法实现在屏幕上绘制一个像素，这使我们哪怕拥有了足够的知识，依然缺乏表现力。有了太极，就仿佛打开了一道科研的大门。在科研过程中，我们需要的是快速实验、快速试错。太极就是为此而生的。</p>
+        <p>勤劳致富、知识改变命运，这在很多年里是人的信条。</p>
+<p>如果说中国的贫富差距问题，都是政府的问题，我觉得是不恰当的，中国的贫富差距深层次的原因在于民众的思想。大众在思想上并没有真正的完成社会主义改造，很多人只是迫于形势暂时屈从于社会主义集体思想，但本质上并没有放弃发家致富的思想。依然是用私欲在驱使自己，与那些真正拥有共产主义理想甚至愿意为之献生的人是完全不可以相提并论的。这种思想的不同自然会导致经济制度的不同。</p>
+<p>资本主义本质上是一种达尔文主义，也就是物竞天择、适者生存的那一套说辞。其漏洞是把人作为独立个体看待忽略了人的社会性，也忽略了人的思想是可以改变的而基因只能突变这种本质区别，这些本质的区别使达尔文的生物进化过程不能够直接的套用于人类的思想演化过程。生物只能依靠随机的不可控的突变来进化，但是人类可以在伟大的哲人带领下通过思辩来改造大众的思想进而改变社会制度。</p>
+<p>历史已经证明，只要一种思想能够被普遍的接受哪怕是错误的思想，都会引起社会巨大的改变，比如各种有神论的宗教。而有些思想即便他是更加正确的，只要不能够被大众接受，也就依然无济于事，比如墨子的思想。孟子曾经说过，杨朱和墨翟两个人的言论充斥天下，天下人要么信奉杨朱的思想，要么信奉墨翟的思想。孟子还说：杨朱为我，是无君也，墨翟兼爱，是无父也，无君无父，是禽兽也。杨朱是讲利己主义的，如果拔他小腿上的一根毛能够有利于天下的话，他也不会拔。杨朱这个人留下的话不多，主要是其他诸子骂了他，所以他有些话留了下来，很明显当时是个显学。列子杨朱篇上记载，有人问，做人干嘛要求名呢？杨朱说：求名为了富。又问：已经富了，为什么还不停止呢？答：为贵。又问：已经贵了，为什么不停止？答：为死。（可能是指为了厚葬）。又问：已经死了还为什么呢？答：为子孙。各位看看，杨朱的思想是不是符合世界上大多数人的想法呢？尤其是当代的中国人，所以诸子们没有不鄙视杨朱的。国人以前比较贫穷，有些人因为贫穷而自卑，以为富起来就会受人尊重，但是最后发现，富起来之后，人家照样瞧不起你。为什么呢？这个问题是值得思考的。有些人则不同，即使贫穷却依然受到全世界的尊敬，比如墨子。</p>
+<p>除了孟子骂过墨子，其他人都是尊敬墨子的。我想孟子也不是要骂墨子，而是为了捍卫儒家思想不得已的反击，因为墨子反对礼乐，反对亲疏贵贱。但事实上儒家和墨家有很多共同的价值观，儒家大同社会的理想和墨家思想几乎没什么区别“大道之行也，天下为公。选贤与能，讲信修睦。故人不独亲其亲，不独子其子……是谓『大同』。”，“今大道既隐，天下为家。各亲其亲，各子其子；……是谓『小康』”。这些话是什么意思呢？意思是不是我们不喜欢墨家，而是墨家实现不了，我们只能暂时降低一下要求，追求小康。所以说儒家是一个妥协的理论，但妥协多了，就会出问题。那些读书人，一旦飞黄腾达了，就过上了“精英”的生活，哪里还会有什么大同的理想呢？妥协只能让不合理的制度继续存在下去，直到达到社会承受的极限才会发生革命。当然儒家也是支持汤武革命的。所以儒家思想是既妥协又革命的，这样究竟好不好，这个我们可以讨论。</p>
+<p>墨子认为，你要爱你的父母，最好也爱别人的父母，那么别人也会爱你的父母，这样就可以交相利，兼相爱。有些人是认为人都是怎样的，所以我也要怎样。而墨子认为这样更好，所以你应该这样。比如墨子也有天志明鬼的思想，教人信鬼神，墨子是怎么证明的呢？墨子认为人如果信鬼神的话，会有所敬畏，行善去恶，还能联络感情，加强团结。依然是认为信鬼神更好，所以人应该信奉鬼神。墨子的思想都是从对整个社会更有利的角度去分析，然后认为人应该是什么思想的。因为墨子的思想逻辑严谨，加上墨子本人身体力行，所以墨子的门徒全都是信仰坚定，赴汤蹈火，死不旋踵。墨子的组织是可以存在的，但这种组织的存在建立在墨家的共同信仰基础上，如果没有这种共同信仰，这种组织也就无法存在了。简而言之，你相信，他就会实现，你不相信，他就不会实现。庄子天下篇评价墨子，“其生也勤，其死也薄，其道大觳，使人忧，使人悲，其行难为也，恐其不可以为圣人之道，反天下之心，天下不堪。墨子虽能独任，奈天下何！”。他认为，墨子的道太惊人了，使人担忧，又使人悲哀，与天下人的想法都是相反的，墨子你虽然能吃得了那些苦，对天下又有什么办法呢？</p>
+<p>庄子的评价不是没有道理，天下人不信墨子，害怕受墨子之苦，那么天下人的结局是什么呢？不受墨子之苦，就要受秦法之苦。商君有法，墨子也有法。商鞅的法是等级制，墨子的法是平均制、供给制。（引用一个故事：墨者巨子腹，居秦，其子杀人。惠王曰：‘先生年长矣，非有他子也，寡人已令吏勿诛矣。’腹对曰：‘墨者之法，杀人者死，伤人者刑，王虽为赐，腹不可不行墨者之法。’遂杀其子） 商鞅和墨子没有能够相互辩论，但是曾经有两位湖南人就此事发生过巨大的分歧。</p>
+<p>人们没有选择墨子之法，选择了商君之法，秦国一统六国。对商君之法不满意，高祖斩白蛇而起义。汉初信奉道家的自由主义，自由主义导致豪族逐渐产生，国力削弱。汉武帝随后又开始拿出妥协的儒家，无论是举孝廉还是九品中正，还是科举，但依然向着门阀社会不可逆转的滑落了下去，虽有赤眉起义、黄巾起义依然不能阻止。然后是五胡乱华，几乎是亡国灭种。按照天下人心自然发展下去，结果就是如此。西晋的石崇富可敌国，名士王导和王敦去他家作客，石崇让美人劝酒，如果客人不喝，石崇就会杀掉美人。王敦根本不管这一套，就是不喝，石崇连杀了三个美人，他仍然不喝。王导责备王敦，王敦说：“他杀他家的人，和你有什么关系？”人已经彻底沦为了奴隶，成了某些人的私有财产，而这些知识分子也对此是无动于衷的。</p>
+<p>墨子被人遗忘了很多很多年，统治者绝对不会提起墨子。商君之法和儒家的妥协，可以保证社会稳定几百年，然后再重来一次。天下人总是不愿意放弃自己的幻想，以为自己有一天也可以王侯将相，或者如石崇富可敌国，抑或如王谢名士风流，只有发现权、利、名都与自己无关时，依然不能醒悟。其实他们不知道，就算是石崇等人，也都没有什么善终，为什么还要抱这种幻想呢？无论是举孝廉还是科举制，无论提供怎样的晋升阶梯，这种旧制度的修修补补都进一步延长了这种旧制度。直到一场全球范围的更大的战国乱世出现，才有人提出了和墨子类似的主张，那就是共产国际。但是，只要天下人心未变，墨子之道，就永远没有实现的一天，人类就必须困在相互倾轧的循环中万劫不复。</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2021/02/23/why-taichi-is-good/" class="archive-article-date">
-  	<time datetime="2021-02-23T14:08:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-02-23</time>
+      <a href="/2020/03/19/how-mass-thinking-works/" class="archive-article-date">
+  	<time datetime="2020-03-19T05:48:06.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-03-19</time>
 </a>
       
       
@@ -470,7 +372,7 @@
 
 
   
-    <article id="post-design-a-3d-game-engine" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-associated-culture" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -480,7 +382,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/20/design-a-3d-game-engine/">设计一个3D游戏引擎</a>
+      <a class="article-title" href="/2020/03/19/associated-culture/">伴生基因与伴生文化</a>
     </h1>
   
 
@@ -488,40 +390,211 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>最近学习了一些计算机图形学的知识，重新点燃了自己想要学习游戏开发的热情。但是，计算机图形学与游戏开发还是有很大区别的。计算机图形学关心的是如何高质量的还原真实世界的视觉效果，而游戏开发则要求一个可编程性更强的系统。因此游戏引擎，首先是为开发服务的。</p>
-<p>游戏引擎，应该允许游戏开发者，轻松的定义实体，操控这些实体的位置、模型、滤镜，最终通过渲染引擎渲染到屏幕上。甚至要提供一些易用的图形化制作工具，比如关卡编辑器，地图编辑器，实体编辑器，脚本语言，配置表，这些输出成数据文件。这些数据将被加载到内存，通过渲染引擎输出到屏幕。</p>
-<p><strong>[制作工具]</strong>–&gt;静态数据–&gt;<strong>[用户输入处理、AI update、物理引擎]</strong>–&gt;动态数据–&gt;<strong>[渲染引擎]</strong>–&gt;最终画面。</p>
-<p>游戏引擎=制作工具+程序API+渲染引擎。</p>
-<p>而游戏引擎的关键，就在于处理数据。</p>
-<p>哪怕一个最简单的<a href="https://github.com/louis-gui/louis-gui.github.io/blob/main/likeasnakegame.cpp" target="_blank" rel="noopener">终端贪食蛇游戏</a>(这是我11岁的儿子写的)也需要符合这个标准。这个终端游戏制作工具不需要，他的素材是一些终端字符，google担任了这个制作工具的角色。程序API更新贪食蛇的动态数据，然后渲染引擎将动态数据映射成特定的终端字符打印在屏幕上。</p>
-<p>开发一个3D游戏，数据结构更加复杂一些。理清了这个结构之后，3D游戏可能比2D游戏更容易开发一些，因为3D数据结构毕竟更接近真实世界。我们将整个待渲染的世界，称为【场景】，场景中摆放着各种【模型】。对于物理引擎部分，只需要模型的数据就可以了，而对于渲染引擎，则还需要【光源】和【摄像机】。</p>
-<h2 id="物理引擎"><a href="#物理引擎" class="headerlink" title="物理引擎"></a>物理引擎</h2><p>一个粒子由*位置position、速度velocity、质量mass、力force（加速度acceleration）、阻尼damping（简化一个物体在一个环境中的摩擦力如0.999）等属性，还需要考虑地心引力gravity的影响。</p>
-<p>用反质量invertMass模拟无限质量？</p>
-<p><em>位置更新公式：</em>$$ p’=p+dot p t + 1/2 ddot p t^2 $$ 其中，$dot p$表示速度，$ddot p$表示加速度。在30fps时，t=0.033 后一项可以忽略。简化为 $$ p’=p+dot p t$$</p>
-<p><em>速度更新公式:</em> $$ dot p’ = dot p d^t + ddot p t $$  d为阻尼，</p>
-<p>以上模拟对于慢速物体没有问题，但对于子弹、炮弹这种高速物体则不适用，因为可能在一帧之内子弹已穿过物体，无法与目标发生碰撞。因此对于这种情况，我们则需要将子弹想象为一个激光（或抛物线）。对于目标所受到的冲击，则需要通过动量守恒、能量守恒公式进行计算（TODO）。</p>
-<p>重力是恒定的，但还有很多其他的力是动态生成的，爆炸、发射、风。因此我们要创造一个『力生成器』在每一帧执行它的updateForce方法，来设定物体受到的外力。</p>
-<p><strong>弹簧</strong>是一种普遍的模型，那些柔软的材质都可以抽象为大量的弹簧。根据胡克定理$$f=-k Delta l$$，我们可以写一个弹簧力生成器。</p>
-<p>除了弹簧系统外，还有一类硬约束是紧密连接的对象，比如铁链、四肢。他们的关键在于连接点的速度是一致的。</p>
-<p>然后我们要将所有的东西整合到一起成为一个物理引擎，在每一帧updatePhysics()</p>
-<p>我们要将物理引擎从点升级到体，刚体的碰撞盒与他的质点。刚体的旋转。</p>
-<p>碰撞检测（TODO）</p>
-<p>参考：</p>
-<p>《Game Physics Engine Development》2nd Edition by Ian Millington</p>
+        <p>因为智齿不影响自然选择，所以智齿会一直存在于人的口中。那么和智齿一样，还有很多的特征也伴随着人类的演化流传了下来。</p>
+<p>人为装饰越多，问题越多。人为装饰导致一个错误的基因得到了遗传。</p>
+<p>天启宗教是现代文明的伴生文化。</p>
+<p>现在继承中国传统文化，你继承和恢复的可能不是中华文化，而是中华文化的伴生文化。</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2021/02/20/design-a-3d-game-engine/" class="archive-article-date">
-  	<time datetime="2021-02-20T13:22:04.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-02-20</time>
+      <a href="/2020/03/19/associated-culture/" class="archive-article-date">
+  	<time datetime="2020-03-19T03:59:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-03-19</time>
 </a>
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenGL-Game-development/" rel="tag">OpenGL,Game development</a></li></ul>
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-complete-understanding-of-darwinism" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2020/03/19/complete-understanding-of-darwinism/">完整地理解道家思想和达尔文主义</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>看到标题，有的人可能会奇怪，为什么要把道家思想和达尔文主义并列。我这里简单引用几句话大家就明白了：“圣人处无为之事，行不言之教”，“天地不仁，以万物为刍狗；圣人不仁，以百姓为刍狗”，“道常无为而无不为，侯王若能守之，万物将自化”，“其政闷闷，其民淳淳；其政察察，其民缺缺”，“圣人之道，为而不争”，这些都是道德经里面的话，道家是崇尚无为的，认为万物可以自化。再看看达尔文的进化论：“物竞天择，适者生存”，是不是同一个道理，我们都知道进化论不是基督教的信仰，而当时的欧洲的有识之士普遍对中国文化有所研究，达尔文的思想是不是受道家启发呢？暂时不得而知，但是逻辑是一样的。除了达尔文，还有重农学派提倡的放任自由的经济制度，亚当斯密的自由市场理论，都是和道家思想类似的。还有一句话中国人比较熟悉“不管白猫和黑猫，能抓到老鼠就是好猫”，这句话是为了证明市场经济合理性的。显然，以上思想都是可以归为一类的。</p>
+<p>四十年前，有人提出要全面的理解伟人的思想，并在伟人著作的选集中增加一篇《反对本本主义》，并强调“实践是检验真理的唯一标准”，当然“实践论”也依然是伟人的名篇，但说法却不是这个说法，《实践论》强调的是“理论要结合实际，经验是理论的前提”是有很深的哲学方法论的，但是“实践是检验真理的唯一标准”这句话则有着强烈的成王败寇色彩。但必须承认这些话都是非常雄辩的，观点是非常有力的。于是受此启发，也就写了这篇“完整的理解道家思想和达尔文主义”。我认为，道家思想和达尔文主义是右派的最根本的理论基础，这是他们雄辩的部分，而他们错误的部分则是未能完整的理解道家思想和达尔文主义。</p>
+<p>儒生和道家的争论。。。。汉景帝也是很没出息，他应该说如果朕做出违背人民的事情，也会受到一样的下场。这个道生的意思，就是君王再坏也是君王，臣下也不能弑君。这个感觉就像，有钱就是厉害，贪污也是人家的本事，口气是不是很像？就很明显没有真正理解道德经，汤武革命正是天地不仁以万物为刍狗的合理性结果。而圣人不仁所以百姓为刍狗的百姓，显然是包含贵族在内的，那时如果说下等人那叫做黎民，不叫百姓，有姓的都是贵族。所谓以百姓为刍狗，就是不管你是王公贵族还是黎民百姓，在圣人眼中都是刍狗，都是平等的。我这么解释也许有人会认为我是附会老子的意思，那么我们看看庄子的思想是什么。庄子是道家仅次于老子的重要人物。庄子在齐物论充分表达了什么叫做以万物为刍狗，那就是万物都是平等的，没有高低贵贱之别，这样怎么会存在一个不可以被推翻的君主呢？</p>
+<p>社会达尔文主义的普遍错误。</p>
+<p>进化论的翻译有问题，应该翻译为演化论。</p>
+<p>演化论的意思是，把你丢到大草原上，你要么成为狮子，要么成为鬣狗，或者成为斑马，把你丢到猪圈里面，你必须变成一只猪才是适应环境的。把你丢到猪圈里面，你还想做人可以吗？按照演化论的规律来说，你在猪圈里面做人，就会饿死。演化论没有错，但把在猪圈里面做猪当作理想社会，那就是你的错了。</p>
+<p>庄子在达生篇有一个小寓言，祭祀官穿着黑色礼服，一本正经地来到猪圈，劝说猪：“你干嘛厌恶死亡呢？我要饲养你三个月，然后戒十天，斋三天，用白茅作垫席，准备一张雕绘精美的案几，把你摆在上面去祭祀神灵，那么你愿意做吗？”替猪着想的话，一定会说，这样还不如拿糟糠喂养它，把它关在猪圈里呢；为人自身考虑的话，假如活着能享有高官厚禄的尊贵，死了能用华丽的装载灵柩的车子拉着，下葬时享受豪华的棺椁，那么就会去做。替猪着想的话，那就抛弃白茅彫俎；为自己打算就拼命追求轩冕腞楯聚偻。人与猪的不同之处是什么呢？庄子的意思很明显，追求自由，不是让你们在那里自我摧残的，连猪都知道不该追求那些虚头巴脑的东西，人干嘛要整那些没用的呢？</p>
+<p>道家思想从来都是讲为而不争，而不是自由竞争。什么叫为而不争，我觉得和孔子说的君子和而不同，是一个意思。孔子说，君子和而不同，小人同而不和。小人都是一个样的，整体就知道争。君子呢，努力做事，但是从来不争。</p>
+<p>丛林法则的有效的基础是绝对公平的游戏规则。基因的进化是不可以父传子的，更是不可以窃取公器的。达尔文主义是个体的竞争，田径比赛，高考，并且要禁止开小灶，才能达到优选优育的目的。公平是进化论的基础。关于生育部分也就不多说了，达尔文主义也要求一部分人应该多生育。基督教的一夫一妻制根本就不符合进化论的思想。在一夫一妻制下谈社会达尔文主义是没有意义的，因为你再怎么竞争也没有扩大你的遗传优势，没有遗传优势也就没有所谓演化。</p>
+<p>优胜劣汰是市场经济的常用话语，但究竟是优胜劣汰还是劣币驱逐良币，我觉得要一分为二的看。大量的事实已经证明在没有强力监管的情况下是劣币驱逐良币而不是优胜劣汰。比如说，环境污染，那肯定是不治理污染的成本低，驱逐主动治理污染的，抄袭盗版的成本低驱逐自主研发的，无视劳工人权的成本低驱逐福利优厚的，官商勾结的成本低驱逐合法经营的。</p>
+<p>人与动物最大的区别之一就是人可以制定规则，也可以改变规则，但动物无法改变人类给他们制定的规则。既然人有了动物所不具有的制定规则的能力，那么人类就应该制定一个属于人类的规则，而不是给人类制定一个动物的规则。</p>
+<p>老子强调，为而不有，功成而弗居，老子是反对私有财产的，老子也是反对物质享受的。那么消费主义就不符合道家思想。</p>
+<p>完整的理解猫论。不管白猫黑猫抓到老鼠就是好猫。这里的猫和老鼠究竟指什么？白猫黑猫是计划与市场，老鼠就是目标，这个目标是什么？这个目标是社会主义。让一部分人先富起来，这个目标就是最终实现共同富裕。如果你认为老鼠是一部分人先富起来，那么就大错特错了。</p>
+<p>为什么闲的没事写这些玩意儿呢？因为市场竞争挺无聊的，以我们这些智商和那些蝇营狗苟的人竞争，一群野狗争抢食物，对外杀敌的时候，没多少输出，抢起食物来却非常起劲，我们的力量是用来对外的，不是用来对内的。还是老子那句话，为而不争。搞内部倾轧的竞争，厚黑学，对有修养的人来说，是很丢脸的一件事。</p>
+<p>孔孟为什么伟大，因为孔孟肯定了革命的合法性。为什么要批孔呢？因为儒家已经被后生所篡改，将忠君变成了儒家教条的一部分，其实儒家一直认为民为贵、社稷次之、君为轻，而且肯定汤武革命，既然肯定汤武革命就不可能把忠君作为教条，即便董仲舒的天人感应，五德终始，也是劝喻君王，不好好干就要下台。但是后来儒家被偷换概念，成为了精英的代名词，这个转换与科举制有一定关系。也就是通过垄断知识来垄断权力，皇权与知识分子结成了牢固的联盟，这个在宋朝发展到了顶点。所以文革批孔，批的其实是精英意识，而不是批的革命意识。</p>
+<p>汤武当然可以革命！</p>
+<p>今天的新儒学复兴，一定要注意甄别，复兴的是精英意识还是革命意识，如果是精英意识，那么就要毫不留情的打倒他，如果是革命意识，那么说明就领悟到了儒家的精髓，就可以拥护他。</p>
+<p>明朝时，儒生们积极的评议朝政，只可惜明朝仍然有很多制度上的缺陷，还是覆亡了。明朝覆亡后，孔孟的精神没有消失，西移到了法国。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2020/03/19/complete-understanding-of-darwinism/" class="archive-article-date">
+  	<time datetime="2020-03-19T03:59:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-03-19</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-2019-predict" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/12/25/2019-predict/">2019年度预测：新思潮的前夜</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我们正站在世界巨变的前夜，这个巨变将以我们意向不到的方式出现。</p>
+<p>美国会倒下，但我们不知道美国将会如何倒下。中美最根本的战争在金融领域，人民币国际化就是在争夺全球铸币权份额。美元可能会崩溃，但中国拥有的大量美元资产需要安全置换。如果美元霸权能够缓缓的衰落，对中国的影响最小，如果美元霸权骤然终结，也将对中国带来冲击。</p>
+<p>在现在的国际环境下，依靠出口拉动经济的方式是不可持续的，最重要的是提振内需，但目前老百姓手里没钱，内需也拉不动。所以现在必须要平衡贫富差距。缩小贫富差距就要有人掏钱，因此有钱的人都想着抽逃资金。严打不仅稳定社会治安，也会收回大量不法收入。</p>
+<p>房价不会大涨也不会大跌，上涨会让还没买房的人不满意，下跌会让已经买了房的人不满意，所以就锁住，不涨不跌。房子已经进入了计划时代，就像火车票必须凭身份证购买来抑制黄牛是一样的。信息化使计划经济具有了更大的可行性。即使通货膨胀了，房价也不会涨，因为已经不再是市场化环境了。所以本质上，房价在缓缓下跌。</p>
+<p>需要优化财富分配，医疗养老之类的福利会加强，教育科研投入会加大，贫困人口持续扶贫。</p>
+<p>大量高科技依然掌握在欧美手中。中国的普及教育很好，但是高等教育与欧美差距较大，教育改革也是困难重重。仅从本人专业来看，编程语言、操作系统、深度学习框架，都是美国人的。</p>
+<p>生产过剩、人工智能，会影响就业率。新增人口下滑，老龄化加速。</p>
+<p>创业会越来越难，基本上属于解决就业的公益事业。体制内、大平台的职工相当于新的铁饭碗，同时临时工也会越来越多。</p>
+<p>创业的最佳阶段是GDP高速增长的阶段，只要入局基本都有得赚。如果宏观上的财富没有增加，那么创业相当于是在存量市场与其他人竞争。除非有压倒性的武器，找到可以战胜的敌人，否则不要创业。海外市场机会较大。</p>
+<p>创新是有闲阶级特权，有闲不一定是非常富有，但需要有一份保证基本生活的、时间投入少的收入，即“睡后收入”。如果创新可立刻获得回报，则可以进入增强回路循环。</p>
+<p>随着机器人取代越来越多的低端就业，UBI即无条件基本收入的概念会被越来越多的人接受。今年参加美国总统竞选的杨安泽使用了UBI的口号，别人问他钱从哪来，他说向富人收税。桑德斯再次参加大选，美国民主社会主义近年快速崛起。</p>
+<p>传统发达国家因为后发国家的追赶，导致本国产业受到影响，就业率下滑。从而产生越来越多的社会运动，希望获得更高的社会福利，有的地方甚至为了几毛钱的地铁涨价就闹了起来。但这些国家由于债务压力已经很大，经济环境恶化，无法给到更多的社会福利。富人们则利用国际避税手段，来躲避社会责任。一场全球性的萧条和左派革命正在酝酿，那些小政府的发达地区问题最严重（比如香港、韩国是小政府、新加坡是大政府）。</p>
+<p>中美的竞争不会转化为热战，因为中国不想打，美国打不赢。中美握手后，将联手打击国际避税，共治天下。</p>
+<p>资本因其可以转移，在国际共运中，虽然一部分资产被没收，但更多的则逃到了避风港中。苏联解体、改革开放也使大量的公有资产再次被私有化。美国衰落将使资本最大的避风港消失，所有的资本都将处于监管之下。</p>
+<p>中国国内思想分歧增大。近几十年的高速增长，右派认为前人有罪，自己有功，而问题则留给后人处理，大力宣传，所以右派思想居主流。近十年文革一代领导人上台，左派思想逐渐兴起，加之贫富差距、环保、贪腐等问题的存在，助推了左派思潮的壮大。我也是因为近几年的反腐、扶贫、强军才开始重新认识这个国家。</p>
+<p>如果说这一代领导人的思想是在文革中形成的话，那么下一届领导人的思想又是在何时形成的呢？文革给中国续了命，修正主义则给苏联送了命。戈尔巴乔夫说“我们是苏共二十大的孩子，苏联六十年代的历史对我们影响很大”，六十年代的苏联就相当于八十年代的中国，赫鲁晓夫教出了戈尔巴乔夫，戈尔巴乔夫一手送走了苏联。下一届领导人是左还是右？改革开放中形成的利益集团是否已经可以左右政治格局，形成类似日韩的财阀统治？这是未来最大的不确定因素。</p>
+<p>正因为这是未来最大的不确定因素，所以伟人在晚年才要发动文革。不断受人非议的文革，完成了一代人的政治教育，奠定了一代人的思想基础，顶住了世界范围的社会主义颠覆潮。伟人看得太远了，我们无法企及。但是我们虽然顶住了颠覆，却也经历了改革，大量国有资产被私有化，形成了利益集团。几十年过去了，人心不古。既得利益者一定会想方设法垄断政治权力，不加控制结局与明朝无异。解决方案伟人都说过了，而我们首先要做的就是正确评价文革。反对文革的人常拿文革中的极端案例来举例，犯罪案件每个时代都有，我们要注意到文革时期的犯罪率是远低于改革之后的，即便把群众运动中极端案件算上，也比改革之后的犯罪率低。就连当时“受迫害”的人都没有反对文革（比如现任领导人），那些不了解文革的人又凭什么反对呢？妖魔化文革的本质就是妖魔化群众运动，从而顺理成章的剥夺了民众的政治权力。</p>
+<p>扯远了，看来可以写的主题有很多。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/12/25/2019-predict/" class="archive-article-date">
+  	<time datetime="2019-12-25T02:38:44.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-25</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
 	</div>
 
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-how-company-works" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/04/how-company-works/">企业是如何运作的？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我一直很好奇人类社会是如何组织运作起来的，在历史中我们王朝的更迭，在现在一家公司的成败。我们很幸运，如果我们希望成就一番事业不再需要像古代的野心家那样，一定要冒着杀头的风险才能获得，也无需像古代的官僚一样必须依附于一个人情系统才能生存。因为现代的法律和企业制度给我们提供了必要的保护。</p>
+<p>人是一个社会性动物。因此人与人之间进行是系统性的对抗。于是人们结成集体，依靠集体的合力获取胜利，使每个个体获取大于单独行动的收益。因此企业首先是一群人集体谋利的手段。我们不能否认这一点，不能将所谓情怀、价值观放在集体谋利手段的更优先的位置。即便有一个组织的确是将其价值观置于最优先的位置，那么只能说其价值观代表了这个组织的最高利益，而价值观是手段，利益才是目的。</p>
+<p>当劫掠能够产生比生产更大的收益时，草原上原本松散的社会结构，就会很快结成联盟，经过仪式性的战争选出头领，带领大军南下，劫掠中原。驱动他们凝结在一起的力量就是谋生。当他们凝聚在一起之后，他们劫掠的资源可以支撑他们更大的野心。十三世纪，蒙古帝国迅速的崛起，横扫亚欧大陆，令人惊叹。蒙古帝国既没有大英帝国先进科技，也没有中国、欧洲先进的思想，也没有丰富的资源，是什么让他们成就了如此伟业？</p>
+<p>最新的考古学证据表明，成吉思汗崛起之时，漠北草原迎来了15年的持续降雨和温和天气，温和的天气带来了丰富的牧草，丰富的牧草带来了充沛的战马。而战马是当时最重要的战略物资。这一切都给蒙古帝国的崛起创造了条件。但我依然想知道一点，如果条件适宜，这一切是必然会产生的吗？</p>
+<p>我的答案是，如果一个民族的人数达到了临界值，并且当时的条件适合这个民族崛起，那么这个民族一定会崛起。一定有一些民族错过了他们的机遇，那么这些民族甚至将因此失去其原本所拥有的东西。为什么需要一个临界值？这个临界值是用于确保有足够多的竞争者，而最终胜出的竞争者将带领这个民族走上崛起之路。</p>
+<p>在战争这件事上充分的体现了集体的力量是大于个人的，而如果成功，领导者的收益也必然是大于普通个体的。那么又有一个问题，既然领导者的收益最大，为什么一个集体之中参与领导者竞争的只有一小部分人，而不是全部？原因很简单，参与领导者竞争是存在巨大风险的。不同的人选择了不同的风险收益比，总体来说这个风险收益是均衡的。每个人都是由自己的禀赋做出了选择，而那些选择参与领导者竞争的人，正是由其先天性格禀赋所决定的，他们对于未知与冒险有着天然的适应性。他们未必是群体中最强壮、最聪明的人，也未必是群体中最勇敢的人，但他们是群体中最有魄力的人，魄力是一种综合的能力，他使整个集体朝着同一个方向前进，并扫除那些阻碍集体向前的障碍。他使集体围绕在他的周围，他个人就代表了集体。在一个由众人构成的战车面前，个体的聪明、勇敢，都是微不足道的。</p>
+<p>当有了核心之后，这群人就不再是松散的个体，集体从这一刻诞生，他们以集体的名义捕猎，而后分配。</p>
+<p>一个领导者需要几名得力的助手，才可以统御整个系统。每个系统都是多个组件所构成的，</p>
+<p>一家公司的员工，并非都属于一个集体，正如一个王朝，并非所有人都属于王朝组织，</p>
+<p>对于一个组织来说，相比于个体是一个更加不稳定的系统，必须要更大的能量才能维持其稳定的存在，否则组织将走向覆灭。因此获取更大的能量就是这个组织必须要解决的一个问题。对于一个人类社会组织，我们可以用财富来对应这种能量。财富只有两种方式获取，第一种是创造，第二种是掠夺。决定采用哪一种形式并不由这个组织的道德水平决定，而是由收益成本比决定，如果创造财富的收益比更高，则选择创造财富，如果掠夺财富的收益比更高则选择掠夺财富。人们看到这一说法可能会不以为然，或者想当然的认为掠夺财富的收益更大，事实上掠夺财富要承担巨大的风险，因为每个组织都为自己的财富设置了各种保护。获取到的财富可以用于进一步扩大组织的边界与能力，当获取财富的速度不足以支撑更大的组织结构时，组织的边界将稳定或者减少。比如蒙古人用他们的军事力量征服了一个又一个城市后，又将掠夺来的物资和人力融入到自己的组织中。使组织进一步扩大。</p>
+<p>当我们说掠夺财富时，并非一定单纯指蒙古人式的野蛮掠夺，现代社会也存在着很多形式合法的掠夺，比如金融系统，比如各种服务平台的服务费，竞争对手之间争夺市场份额等。不得不说，在一个竞争激烈的红海市场中，掠夺能力才是王道，而创造只是为他人做嫁衣。</p>
+<p>一个企业永远要将争夺市场当作最核心的能力，正如一个王朝不能忘了战争的重要性。</p>
+<p>金融和法律框架下的进行的，离开了法律的保护，我们所拥有的财富都是泡影。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/02/04/how-company-works/" class="archive-article-date">
+  	<time datetime="2019-02-03T16:39:36.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-02-04</time>
+</a>
+      
       
 
       <div class="clearfix"></div>
@@ -541,7 +614,7 @@
 
 
   
-    <article id="post-brdf-pbr" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-conscious-of-machine" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -551,7 +624,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/18/brdf-pbr/">BRDF双向反射分布函数</a>
+      <a class="article-title" href="/2018/06/01/conscious-of-machine/">机器的意识</a>
     </h1>
   
 
@@ -559,102 +632,33 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>双向反射分布函数（bidirectional reflectance distribution function）$f_r(omega_i,omega_r)$是一个计算光照反射量的函数。$omega_i$表示输入光角度，$omega_r$表示反射光角度，函数返回反射光辐射率。$omega$由球面坐标系的$phi$,$theta$角度表示，因此brdf函数共有4个参数。brdf的单位是每立体角$sr^(-1)$。</p>
-<img src="/img/brdf/spherical-coordinates.png" style="width:50%;" />
-
-<img src="/img/brdf/solid-angle-1sr.png" style="width:45%;margin-top:5%;" />
-
-<h3 id="辐射度量学-Radiometry"><a href="#辐射度量学-Radiometry" class="headerlink" title="辐射度量学(Radiometry)"></a>辐射度量学(Radiometry)</h3><table>
-<thead>
-<tr>
-<th>物理量</th>
-<th>符号</th>
-<th>公式</th>
-<th>国际单位制</th>
-<th>单位符号</th>
-<th>注释</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><a href="https://zh.wikipedia.org/wiki/辐射能" target="_blank" rel="noopener">辐射能</a>（Radiant energy）</td>
-<td>$Q_e$</td>
-<td></td>
-<td><a href="https://zh.wikipedia.org/wiki/焦耳" target="_blank" rel="noopener">焦耳</a></td>
-<td>$J$</td>
-<td>能量。</td>
-</tr>
-<tr>
-<td><a href="https://zh.wikipedia.org/wiki/辐射通量" target="_blank" rel="noopener">辐射通量</a>（Radiant flux）</td>
-<td>$Phi_e$</td>
-<td>$Phi=(dQ)/(dt)$</td>
-<td><a href="https://zh.wikipedia.org/wiki/瓦特" target="_blank" rel="noopener">瓦特</a></td>
-<td>$W$</td>
-<td>每单位时间的辐射能量，亦作“辐射功率”。</td>
-</tr>
-<tr>
-<td><a href="https://zh.wikipedia.org/wiki/辐射强度" target="_blank" rel="noopener">辐射强度</a>（Radiant intensity）</td>
-<td>$I_e$</td>
-<td>$I=(dPhi)/(d omega)</td>
-<td><a href="https://zh.wikipedia.org/wiki/瓦特" target="_blank" rel="noopener">瓦特</a>每<a href="https://zh.wikipedia.org/wiki/球面度" target="_blank" rel="noopener">球面度</a></td>
-<td>$W*sr^(-1)$</td>
-<td>每单位<a href="https://zh.wikipedia.org/wiki/立體角" target="_blank" rel="noopener">立体角</a>的辐射通量。</td>
-</tr>
-<tr>
-<td><a href="https://zh.wikipedia.org/wiki/輻照度" target="_blank" rel="noopener">辐照度</a>（Irradiance）（辉度）</td>
-<td>$E_e$</td>
-<td>$E=(dPhi)/(dA)=int_(Omega)  L(omega)cos theta d omega$</td>
-<td><a href="https://zh.wikipedia.org/wiki/瓦特" target="_blank" rel="noopener">瓦特</a>每平方米</td>
-<td>$W*m^(-2)$</td>
-<td>入射表面的辐射通量</td>
-</tr>
-<tr>
-<td><a href="https://zh.wikipedia.org/wiki/辐射率" target="_blank" rel="noopener">辐射率</a>（Radiance）(光亮度）</td>
-<td>$L_e$</td>
-<td>$(d^2Phi)/(dAcos theta d omega)$</td>
-<td><a href="https://zh.wikipedia.org/wiki/瓦特" target="_blank" rel="noopener">瓦特</a>每<a href="https://zh.wikipedia.org/wiki/球面度" target="_blank" rel="noopener">球面度</a>每平方米</td>
-<td>$W*sr^(-1)*m^(-2)$</td>
-<td>每单位<a href="https://zh.wikipedia.org/wiki/立體角" target="_blank" rel="noopener">立体角</a>每单位投射表面的<a href="https://zh.wikipedia.org/wiki/辐射通量" target="_blank" rel="noopener">辐射通量</a>。<strong>相当于辐射强度在dA上的微分</strong></td>
-</tr>
-<tr>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-<td></td>
-</tr>
-</tbody></table>
-<p>BRDF由Fred Nicodemus在1965年提出，函数如下：</p>
-<p>$$f_r(omega_i,omega_r) = (dL_r(omega_r))/(dE_i(omega_i)) = (dL_r(omega_r))/(L_i(omega_i)cos theta_i d omega_i) $$</p>
-<img src="/Users/admin/work/guileen.github.com/hexo/source/img/brdf/brdf-diagram.png" style="width:50%;" />
-
-<p>这个公式之所以定义为辐射率（radiance）和辐照度（irradiance）之比，而不是radiance和radiance之比，或irradiance和irradiance之比。是因为当考虑入射时，我们需要考虑入射光在面积上的分量，所以irradiance译为辐<strong>照</strong>度。当考虑反射时，我们需要考虑每立体角的辐射通量，并且这个辐射通量最终投影在屏幕（视网膜）面积上的辐射通量，因此我们用辐射率。如果我们用点光源，入射光的计算似乎也是可以用辐射率的，但有时我们还要考虑平行光的情况，那么对于入射光就不存在每立体角的概念了，因此对于入射光照我们用辐照度，反射我们用辐射率。</p>
-<h3 id="基于物理的BRDF模型-PBR，Physically-based-rendering"><a href="#基于物理的BRDF模型-PBR，Physically-based-rendering" class="headerlink" title="基于物理的BRDF模型(PBR，Physically-based rendering)"></a>基于物理的BRDF模型(PBR，Physically-based rendering)</h3><h4 id="次表面散射（Subsurface-scattering）"><a href="#次表面散射（Subsurface-scattering）" class="headerlink" title="次表面散射（Subsurface scattering）"></a>次表面散射（Subsurface scattering）</h4><p>是一些半透明物质比如皮肤、玉石、大理石、塑料等。当光入射到材料表面后，一部分被反射、一部分被吸收、还有一部分经历透射，透射光在材料内部进行多次不规则的反射之后，又从不同角度反射了回来。</p>
-<h4 id="菲涅尔反射（Fresnel-Reflectance）"><a href="#菲涅尔反射（Fresnel-Reflectance）" class="headerlink" title="菲涅尔反射（Fresnel Reflectance）"></a>菲涅尔反射（Fresnel Reflectance）</h4><p>当光从一种折射率为$n_1$的介质向另一种折射率为$n_2$的介质传播时，在两者的交界处可能会同时发生光的反射和折射。<a href="https://zh.wikipedia.org/wiki/%E8%8F%B2%E6%B6%85%E8%80%B3%E6%96%B9%E7%A8%8B" target="_blank" rel="noopener">菲涅尔方程</a>描述了光波的不同分量被折射和反射的情况，也描述了波反射时的相变。光线会随着我们的观察角度而反射不同的亮度，当我们以垂直与水面的角度观察池塘时，我们可以看到池塘的底部，但当我们以平行于水面的角度观察水面时，反射光则会很强我们无法看到池底。</p>
-<h4 id="微表面理论（Microfacet-Theory）"><a href="#微表面理论（Microfacet-Theory）" class="headerlink" title="微表面理论（Microfacet Theory）"></a>微表面理论（Microfacet Theory）</h4><p>微表面理论假设材质的表面是由不同方向的微小细节平面（microfacet）所构成，反射光线由这些微表面的法线分布决定。我们用法线分布函数（Normal Distribution Function，NDF），D(h) 来描述表面的法线分布概率。h表示视角与入射光角度之间的半程向量。</p>
-<p><img src="/img/brdf/microfacet.jpg" alt=""></p>
-<p>$$f(i,o) = (F(i,h)G(i,o,h)D(h))/(4(n,i)(n,o))$$ </p>
-<p>其中F(i,h)表示菲涅尔项，表示所有反射的比例。G(i,o,h) 表示自投影项，当光线几乎平射于微表面时，光线则将被粗糙的表面自我遮挡掉。D(h)表示法线分布。</p>
-<p>参考:</p>
-<p><a href="https://en.wikipedia.org/wiki/Bidirectional_reflectance_distribution_function" target="_blank" rel="noopener">Wikipedia:《Bidirectional reflectance distribution function》</a></p>
-<p>《Real-Time Rendering, 4th edition》</p>
-<p><a href="https://github.com/QianMo/Real-Time-Rendering-3rd-CN-Summary-Ebook" target="_blank" rel="noopener">《Real-Time Rendering 3rd》提炼总结</a></p>
-<p><a href="https://zhuanlan.zhihu.com/p/20119162" target="_blank" rel="noopener"> Microfacet材质和多层材质——文刀秋二</a></p>
+        <p>机器学习当下是非常火热的课题，大量的模型被设计出来令人眼花缭乱。诸如SVM，随机森林，贝叶斯网络，神经网络只不过是这个领域的基础知识，在这些基础方法之上的各种优化分支方法更是数不胜数。大量的所谓机器学习的研究者，在某个问题上，通过对现有方法的小修小补，达到了一些微不足道的提升，或仅仅是对几种模型／优化方法／特征分析／问题领域进行一些常规的比较分析，便可以一本正经的发布一篇学术论文。为了这些方法应用到实际的工程中时，通常需要消耗大量的人力用于前期的数据分析和处理，这一过程被称为“特征工程”。对于此类人员的专业度要求非常高，需求量也非常大，因此这类人才的溢价也非常高，以致于一个刚刚毕业的研究生的薪酬可以轻松超越一个有多年经验的软件工程师。然而这类人力工作通常并没有太多的创新性可言。这是在当前的科技背景下产生的独特的现象——一大批资质平平的智力工作者受到了疯狂的追捧。这一现象必然在机器学习真正取得突破性进展后终结，本文将讨论突破性进展可能的方向。</p>
+<p>科技发展有两种驱动力，其一是资本对于更高生产力的追求，其二是纯粹的为了智力上的满足感或是对于某种超自然信仰而展开的对于真理本质的追求。前者更长于将科学成果转化为实际应用，而后者才是实现技术爆炸的真正内核。机器学习领域也是如此，目前正处于科学成果转化的高峰期，是基于前些年的一些基础研究进行的转化。但也是瓶颈期，因为我们感受到了现有方法的局限。目前人们对于人工智能的态度行业内外的看法截然相反：业外的人大部分担心人工智能将超越、统治甚至毁灭人类，业内大部分则恰恰相反。因为专业人士更加清楚，现有方法大多是非常愚蠢的，所谓智能不过是一种魔术。你一定体验过魔术被揭秘的感觉，这就是我兴致勃勃的了解了许多机器学习方法后的感受。可以很负责任的说，我们距离人工智能的本质还差的很远很远。大部分的人醉心于如何更好的表演魔术，只有很少的人去追求真正的本质，而这些追求本质的方法如果在魔术表演上不够精彩，是很容易被忽视的。</p>
+<p>人工智能概念最早由约翰·麦卡锡（John McCarthy，1927年9月4日－2011年10月24日）在1956年由他自己召集的达特矛斯会议上提出的：“人工智能就是要让机器的行为看起来就像是人所表现出的智能行为一样”。这是人工智能的早期定义，人们后来意识到这个定义忽略了强人工智能的可能性。所谓强人工智能是指机器拥有真正的智能而不仅仅是“看起来像”，与之相对的则被称为弱人工智能，而目前实现的都是弱人工智能。这引发了一系列的哲学问题——什么是智能？强人工智能是否有可能实现？强人工智能是不是人类的灾难？即便我们出于伦理和人类安全的考虑，不追求实现强人工智能，而只是追求弱人工智能的“看起来像”的目的，也不得不借鉴强人工智能的思路，也就不可避免的不断的朝着强人工智能方向前进。本文不讨论人工智能是否对人类构成威胁的问题，仅从方向和方法上讨论强人工智能的可行性。</p>
+<p>人工智能本质上属于仿生学范畴的。智能本身就是很复杂的，而人类仅能认识到自己的智能，不可能理解龙虾或者外星人的智能。所以对人工智能本质的追求，应该是对人类自身深入认识的过程。并且这种认识不能仅仅停留于哲学解构的层面，必须通过工程手段加以重新建构，我们用哲学上和工程上都能理解的语言进行表达，而这种语言我们称之为模型。</p>
+<p>人类智能可划分为一些层次，无意识的精神、意识、自我、逻辑、知识、表达、知觉、经验。这些划分并不存在清晰的界限。通过真正的智能与现有弱人工智能的比较，我们可以更好的理解这些概念。</p>
+<p>当AlphaGo轻松打败人类棋手时，人类棋手感到压力、恐惧、伤心、绝望。我们为AlphaGo的棋艺感到惊叹，但事实上二者在智能上相比，人类棋手的情绪反应才是真正令人惊叹的。AlphaGo不会为胜利而感到骄傲，也不会为失败而羞耻，他不会为存在而感到快乐，也不会为消失感到痛苦。他甚至根本没有想要胜利的欲望，更不会有人类各种复杂的情感。这些就是无意识的精神，精神在不自觉的驱动着我们的意识，或纵情声色，或知耻而勇，或趋利避害，或舍生忘死。虽然我们看起来是由理智所控制的动物，但精神不受理智的控制。这点在恋爱中的人身上尤为明显，即便他们的理智告诉他们不要对另一方过于依恋，但他们却无法控制自己所思所想。对于音乐的感受也是类似的，不过是不同频率的声波的组合，竟能使人不由自主的感到快乐或悲伤，多么的神奇。生物学家认为，当多巴胺分泌增加时，人就会感到快乐。多巴胺是一种神经传导物质，这就像是给神经系统的奖励，以刺激我们更加努力的工作。但这并不能解释快乐的本质，我们可以想象我们给车添加了燃油和润滑油，这相当于是给了车奖励，但是车并不会感到快乐。我们在训练AlphaGo时，每次他获胜，我们也会给他一个反馈，告诉他这次做的结果不错，他就会更加靠近这个结果，但他并不会感到快乐。那么为什么多巴胺分泌增加人就会感到快乐呢？显然多巴胺不是快乐的本质，只是快乐的使者而已。</p>
+<p>人类诸多行为有可能是后天习得的，但有些则是在被创造时就存在的。食欲、快乐、痛觉、饥饿感、自我、对母亲的依恋，这些都是与生俱来的。所以我们可以认为某种无意识的精神在母体中被创造时就存在了。但是从那一刻这种精神开始存在呢？我们很难想象单细胞状态的受精卵拥有这种精神。当基因代码一层层展开，从单细胞到多细胞，脊椎动物，鱼、两栖、哺乳类、灵长目、人科、智人属的基因片段开始逐步表达，胚胎的结构从简单到复杂，直到降生时我们依然没有发育完全，经历长时间的幼态持续，青春期，我们更多的情绪和欲望被展现出来。当我们回忆我们成长阶段的各种性格变化，这一切究竟是在哪一刻如何产生的呢？我们可以肯定这种精神不是来自于单一的细胞，而是来自大量脑细胞的集体创造。在我们大脑中有一个部分，是在基因中硬编码的部分，做出一些基本的身体机能感受判断、审美判断、情感判断。这部分不受理智控制的部分，我们称为精神。如果没有这种本能的精神，我们的智力也就没有了用武之地。我们可以设想任何的人工智能程序，必须拥有某个目标，这就是他的欲望，在欲望被满足时会得到某种激励。但人类的欲望是如此的不同，在欲望被满足时得到的奖励感受也是如此不同。他不是一个简单弱人工智能所能解释的，以梯度下降法举例：当错误率很高时，函数会修正自己的参数朝着错误率更低的方向前进一小步，直到错误率不再有明显下降。错误率最小是他的目标，但是这个函数是如此机械，我们不可能他是有精神的。</p>
+<p><em>精神是目标，但目标不一定是精神，精神本身就是复杂的，是在长期进化中形成的一种复杂的多细胞集体创造。</em></p>
+<p><em>人类的意识是一系列智能子系统的集合</em>。佛教所谓六根即：眼耳鼻舌身意，意识是起到总控的作用。意识可以连接我们的视觉、听觉、触觉、味觉、嗅觉，可以控制我们的肌肉，意识是用来做出决策的。精神是意识的内核，是引擎，为意识指出明确的方向。精神是底层的，意识是上层的。当我们在梦境时，我们的意识模糊，但是精神却是清醒的，梦境混乱无序，我们对身体的控制减弱，但我们对于快乐悲伤的感受依然真实。意识不仅仅是各个单元的连接器，其自身也是复杂的，可能是某种层垒的结构，最低级的意识就是对于感觉的条件反射，更高级的意识活动则包含知识、经验、逻辑。意识不等于记忆、知识、逻辑、推理的能力。草原上的野兽，尤其是那些捕猎者，它们都拥有很强的意识，但不等于他们拥有人类一样的高级智力活动。</p>
+<p>感觉系统大体是类似的，目前的人工智能在某种程度上已经能够做到一些感知能力，尤其是视觉、听觉方面。对于视觉而言，如果在你的周围空间随便选取一个点，那么通过这个点的只有一些杂乱的电磁波而已，我们称之为光线，但是当我们的眼睛置于这个点，我们能够从这堆杂乱的电磁波中提取出周围物体的信息，投射在我们的视网膜上，视网膜将这些刺激信号传递到我们的视觉处理系统，我们能够分辨“颜色”，“形状”，“材质”，“种类”，“运动”。听觉也是同样神奇，我们的双耳中的空气分子不过是在无序的震动，我们却能从中提取出音色、音高，如果有多种声音同时存在，我们也能很好的将这些声音分离。在一个混乱的环境下，如果我们想要看清或听清一些东西，我们必须付出更多的注意力，也就是我们需要投入更多的意识。这说明我们的感觉系统不仅仅是一个物理系统，更加是一个信息处理的系统。我们通过信息的时间变化，组合，特征分离和重新组合，得出结论。因此对于同一事物的感受，不同的个体是不一样的，这也就是我们说的主观感受。比如我们对于颜色的感受，在意识中的投射是不一样的，一个很明显的证据就是色盲。所以我们虽然都认同某个物体是红色的，红色在我的意识中与在你的意识中可能是完全不同的。在跨越物种之时，感受的区别必然更加明显。有些物种则拥有完全不同的感觉器官，比如可以看到地球磁场的知更鸟（引用）。感觉系统的模拟，首先需要有相应的仪器设备采集信号，信号必须经过无意识的处理，转化为抽象的特征，将抽象特征交给意识体来处理。</p>
+<p>假设我们已经能够创造出具有精神、意识、感觉的系统，我们可以开始讨论“自我”这个问题。这个问题看起来非常诡异，一个具有精神、意识、感觉的系统，难道会没有自我的概念吗？如果一个意识体就是整个世界的全部，除了自身之外再无其他，他还会有自我的概念存在吗？自我相对于非我而存在的，没有非我，也就没有自我。如果一个意识体置于一个容器之内，他对容器外的世界一无所知，在他看来他就是全部。当我们沉浸于某个目标时，我们也会忘记了自己的存在。当我们进入竞争环境，自我概念就会强化。自我与存在是同一个问题，保持自我存在是一个本能的精神元素之一。   。。。必须区分内外，头发是不是我，指甲是不是手臂是不是我？</p>
+<p>未完待续。。。</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2021/02/18/brdf-pbr/" class="archive-article-date">
-  	<time datetime="2021-02-18T13:12:37.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-02-18</time>
+      <a href="/2018/06/01/conscious-of-machine/" class="archive-article-date">
+  	<time datetime="2018-06-01T03:49:41.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-06-01</time>
 </a>
       
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/computer-graphics/" rel="tag">computer-graphics</a></li></ul>
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/AI/">AI</a><a class="article-category-link" href="/categories/AI/%E9%9A%8F%E7%AC%94/">随笔</a>
 	</div>
 
-      
 
       <div class="clearfix"></div>
     </div>
@@ -673,7 +677,7 @@
 
 
   
-    <article id="post-the-essence-of-linear-algebra" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-public-avatar" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -683,7 +687,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/13/the-essence-of-linear-algebra/">线性代数的本质</a>
+      <a class="article-title" href="/2016/12/19/public-avatar/">人设——下一个现象级产品会是谁？</a>
     </h1>
   
 
@@ -691,305 +695,36 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>当我在大学中学习线性代数的时候，我不知所云且不以为然。然后随着不断的学习，我发现不懂线性代数是没法在更深的技术领域里混的。比如机器学习、计算机图形学等等，对于其他的科研领域也都是同样的。如果学不好线性代数既不是我的问题，也不是线性代数的问题，那到底是什么问题？最近学些了<a href="https://www.bilibili.com/video/BV1X7411F744" target="_blank" rel="noopener">现代计算机图形学入门-闫令琪</a> <a href="https://www.bilibili.com/video/BV1ib411t7YR" target="_blank" rel="noopener">线性代数的本质-3blue1brown</a> 这两个系列视频使我对线性代数多了更多的感性认识，而<a href="https://www.marxists.org/chinese/maozedong/marxist.org-chinese-mao-193707.htm" target="_blank" rel="noopener">《实践论》</a> 告诉我们，<strong>理性认识是要依赖于感性认识的</strong>。传统的线性代数教材则希望构建一套完全自洽的纯粹的数学理论，它不依赖于现实世界的知识。这或许可以满足一些数学家的成就感，但这种马后炮式的“创造”是脱离历史的。线性代数就像其他的学科一样，不可能是仅凭想象产生的，虽然数学家可以伪装成不依赖历史发展而独立自洽，但这除了是一种智力游戏外，对于认识世界、传播知识并没有任何帮助。我们就在这种缺乏感性认识的数学教育中丧失了对数学理论的兴趣，岂不哀哉？</p>
-<p>吐槽结束，进入正题。谈谈我此刻对线性代数的理解，探讨一下他的本质到底是什么。我们是否会问自己，加减乘除的本质到底是什么？我们之所以不这么问，是因为我们已经理解了四则运算的本质。我们不会问关于十进制的本质，因为日常生活中已经给我们建立了足够多的经验。但我们在学龄前的阶段，我们则可能对十进制和加减乘除充满了困惑。但我们接触线性代数太晚，我们并没有足够的练习和日常应用使我们建立起感性认识。当我们在商店里消费的时候四则运算不断强化着我们的认知，但线性代数缺少这样的机会。当我们被教授四则运算时，老师把我们当作一个普通的人类，会告诉我们3个苹果+2个苹果=5个苹果，这种现实世界的例子帮助我们更好的理解了四则运算。但当我们学习线性代数时，我们则变成了一个个抽象的理性机器，这个系统只告诉我们各种定义、运算规则，然后要求我们像计算机一样的运行，计算出结果。What are we doing？我们怎么可能不懵圈呢？线性代数就是一个增强版的加减乘除，但没有足够的案例使我们不知道我们的计算究竟代表着什么？AlphaGo就算赢了李世石，但他不知道自己在干什么。我们作为人类的尊严在哪里？我又没控制好自己的情绪，让我们回到正题。《线性代数及其应用》是一本很好的教材，他和国内教材最大的区别就在于“应用”上，这本书中列举了大量的例子来说明线性代数的应用。这本书的开头说道“<strong>线性代数是一门语言，必须用学习外语的方法每天学习这种语言</strong>”。</p>
-<h3 id="鸡兔同笼与线性变换"><a href="#鸡兔同笼与线性变换" class="headerlink" title="鸡兔同笼与线性变换"></a>鸡兔同笼与线性变换</h3><p>我们从鸡兔同笼来举个例子。鸡兔同笼是小学阶段的奥数题，也就是在小学的数学语言中，这是一道很难描述的题。到了中学阶段我们可以用未知数x表示鸡的数量，未知数y表示兔的数量，并列出方程。而对于线性代数的语言，我们用向量$$((a),(b))$$表示鸡和兔的数量，如果我们有非常多的未知数，我们不希望定义太多的未知数符号，我们直接用$$x$$表示这个n维变量。我们有一个变换矩阵$$[[1,1],[2,4]]$$ 表示鸡有1个头2只脚，兔有1个头4只脚 。如果有3只鸡5只兔则 $$[[1,1],[2,4]]*[[3],[5]]=[[3*1+5*1],[3*2+5*4]]=[[8],[26]]$$，它代表着我们将一个“鸡兔向量”映射到了“头脚向量”的空间中，共有8只头，26只脚。</p>
-<p>我们知道函数是一种映射，$$f(x)=y$$代表将$x$到$y$的映射关系。矩阵乘法叫做线性变换，线性变换是一种函数映射，但函数映射不一定是线性变化。因此线性变换是符合函数的性质的。如果函数是可逆的，则有$$x=f^(-1)(y)$$，同样的，对于矩阵而言，$$若A是可逆的，且Ax=b，则x=A^(-1)b。设A=[[a,b],[c,d]]，则A^(-1)=1/(ad-bc)[[d,-b],[-c,a]]$$。</p>
-<p>对于鸡兔同笼问题，$$A=[[1,1],[2,4]]，则A^(-1)=1/2[[4,-1],[-2,1]]$$。$$当有8头26脚时，x=1/2[[4,-1],[-2,1]]*[[8],[26]]=1/2[[4*8-26],[-2*8+26]]=1/2[[6],[10]]=[[3],[5]]$$，即3只鸡5只兔。最重要的是，这整个计算过程，计算机可以轻松的完成，并且可以用定义标准化的操作，因为操作标准化，计算机可以被设计的更加擅长处理这类操作。这就是线性代数得到广泛应用的一个最重要原因。</p>
-<p>线性变换可能进行多次，就像映射可以进行多次一样。因为矩阵的乘法就是一种特殊的函数，函数满足结合律$$g(f(h(x)))=((g @ f)(h(x)))$$，所以矩阵乘法也符合结合律$$A(BC)=(AB)C$$。多次映射之后是一个新的映射，多次变换之后也是一个新的变换，所以我们可以将这些变换矩阵预先乘好，以增加每次计算的效率。也可以将一个复杂变换拆解为多个简单变换，使我们能更好的理解其性质。</p>
-<p>我们可以从鸡兔变换到头脚，我们也可以从产量变换到成本收益（这是经济学的应用），我们也可以从速度变换到阻力（这是空气动力学的应用），我们也可以将3D空间变换到3D或2D空间（这是计算机图形学的应用），我们也可以将用户行为维度变换到兴趣标签维度（这是机器学习推荐系统的应用）。这都说明了线性代数是一门“语言”，是一个工具。并不是因为线性代数，所以这些定理存在，而是因为这些规律本身存在，才能有线性代数这门工具。人类是巧妙的“发明”了线性代数，而不是“发现”了线性代数。线性代数这门语言可以使我们避免基本代数语言的变量名爆炸。人类日常语言中有你我他这那等代词，中文有甲乙丙丁这种天干地支可以用作代词，英文则有a,b,cd可以使用。日常的代词使用是随意的，很多时候是不严谨的。代数学的代词在使用前则需要对它进行准确的定义。而线性代数则将最常使用的一些操作提取了出来，使我们免于重复的定义大量性质类似的代词。在线性代数中，鸡兔数量，头脚数量与空间中点的xyz轴位置都是同一种性质的。研究飞机表面的气流的过程包含了反复求解大型的线性方程组$$Ax=b$$，涉及的变量个数达到2百万个。可以说线性代数的发展完全是随着其应用发展的，如果有一本按照历史发展顺序描述线性代数的书，一定可以达到很好的教学效果。</p>
-<h3 id="行列式（determinant）"><a href="#行列式（determinant）" class="headerlink" title="行列式（determinant）"></a>行列式（determinant）</h3><p>行列式的出现是远早于矩阵的。Determinant是决定的意思，（下文称之为决定值，“行列式”翻译的无味，既没有描述其决定性质，也没有说明其结果是特定的值）：决定值是否不为0决定了一个线性方程组是否有唯一解。所谓线性方程组，就是一次方程组。这个结论最早见于《九章算术》（有一种观点认为很多思想是在明朝由中国传至欧洲，而清朝恰好是中国的一个倒退，而欧洲则顺势伪造了一套其文明独立发展的历史叙事，这里不展开描述了）。决定值的这个性质在欧洲由莱布尼茨最早提出（莱布尼茨在中学西传中扮演着重要角色）。高斯首先使用了determinant这个词，他在数论理论中大量用到了决定值。后来这个词就更多的指一个特殊的函数，即某个表达式，因此中文将其翻译为行列式。</p>
-<p>观察我们在鸡兔同笼中得出的结论：$$设A=[[a,b],[c,d]]，则A^(-1)=1/(ad-bc)[[d,-b],[-c,a]]$$。因此矩阵A当且仅当$$ad-bc!=0$$时存在逆矩阵，我们记为$$det(A)=|A|=|[a,b],[c,d]|=ad-bc$$。我们继续推广研究$3xx3$矩阵，可以得到：</p>
-<p>$$|[a,b,c],[d,e,f],[h,i,j]|=a|[e,f],[h,i]|-b|[d,f],[g,i]|+c|[d,e],[g,h]|=aei+bfg+cdh-ceg-bdi-afh=|[a,d,h],[b,e,i],[c,f,j]|$$</p>
-<p>对$4xx4$矩阵则有：</p>
-<p>$$|[a,b,c,d],[e,f,g,h],[i,j,k,l],[m,n,o,p]|=a|[f,g,h],[j,k,l],[n,o,p]|-b|[e,g,h],[i,k,l],[m,o,p]|+c|[e,f,h],[i,j,l],[m,n,p]|-d|[e,f,g],[i,j,k],[m,n,o]|$$</p>
-<p>依此类推，决定值的公式是一个递归。决定值的几何意义代表代表$1xx1$矩阵变换后的平行四边形的面积，或者说是矩阵变换后面积的放大倍数，即变换矩阵围成的四边形的面积。简单的证明如下图：$S=(a+c)(b+d)-ab-cd-2bc=ad-bc$。推广到3维则表示变换矩阵的围成的立方体的体积。</p>
-<img src="/img/math/transform-determinant-opt.png" style="width:45%;" />
-
-<img src="/img/math/determinant-area.gif" style="width:45%;" />
-
-<p>如果determinant=0，则说明变换之后由面变为了线，或由体变为了面。而线或面无法再变换回面或体。我们同样以鸡兔同笼问题来举例，我们把题目中的兔换成鸭，则变换矩阵为$$A=[[1,1],[2,2]], det(A)=0$$。这个方程组是没有唯一解的，因为无论鸡鸭的比例如何，头脚的比例都是$1:2$。对于这样的矩阵，我们称他的秩为1，秩代表矩阵的维数。一个二维矩阵，可能秩为1，一个三维矩阵可能秩为2也就是一个面，也可能秩为1也就是一条线，甚至秩为0。</p>
-<p>TODO 叉乘表示面积和垂直与平面的向量，特征值与特征向量，表示空间中在线性变换中保持稳定的轴，最小二乘法</p>
+        <p>Update 2019-12：此文预见了新社交软件抖音的崛起。红人霸场的现象使社交平台被红人绑架，新人也被压制。抖音能够成功，首先是4G移动网络的进一步普及，提供了短视频社交的需求，但这一赛道的玩家众多，并不能保证抖音胜出。真正保证抖音胜出的是其“捧红新人“的能力，完全基于推荐算法的产品设计，将流量分发的控制权从红人手中收回到平台，可以根据算法计划性的将流量分配给新人进行实验。至于其滤镜、音乐之类的辅助运营手段，并非其制霸全球的根本原因。</p>
+<p>另在清理微博时，看见了自己在2012年对游戏收费模式的看法。王者荣耀的成功从另一个角度印证了我的预见性。<br><img src="/img/screen_shot/wb2012.jpeg" alt=""></p>
+<h2 id="原文："><a href="#原文：" class="headerlink" title="原文："></a>原文：</h2><p>什么是SNS的本质？当我们看待一个SNS的时候，我们看到的是什么？</p>
+<p>信息、状态、转发、私信、粉丝、评论，我们看到的是这些产品功能吗？还是这些数据？他的价值在哪里？</p>
+<p>一个SNS，我们看到的是，我们自己的公共形象，或者是某些人的公共形象。SNS为这些红人提供了舞台。</p>
+<p>而且，每个SNS所提供的舞台是不一样的，往来的红人也是不一样的。</p>
+<p>SNS就像一个主题酒吧，来往形形色色的人，但他们身上或多或少会有一些共同点。在同一个SNS上，他们有同样的期许。</p>
+<p>粉丝是一个两难的设计。没有粉丝，红人们没有动力在SNS上奋斗，而有了粉丝之后，任何的SNS最终会走向固化，<strong>红人霸占了主要的SNS资源</strong>。</p>
+<p>这也是各种SNS会不断推陈出新的原因，因为有一批有潜质的红人，无论他／她是什么类别的红人，他需要一个舞台。但是有些场子，已经被人霸占，于是他们不得不寻找新的舞台。而总有一些SNS平台会抓住一些机会，提供某个类别的小舞台，这就是垂直SNS。</p>
+<p>是否有可能干翻霸主级的社交网络？Facebook，twitter，国内的腾讯、微博。<strong>答案是能！</strong>本质上腾讯就被自己干翻了，微信取代QQ，本质上就是对霸主的挑战，虽然这一切发生在腾讯内部。但是微信取代QQ，这样的现象是难以复制的，为什么呢？因为微信取代QQ是发生在<strong>移动互联网与传统互联网更替的阶段的，是大事因缘</strong>，没有微信取代QQ，也会有其他应用取代QQ，但机会只有一次。</p>
+<p>陌陌，用陌生人社交的方式占领了一定的市场，但是陌陌本身的名称定位已经把自己钉死了，就是陌生人社交。微信早期用摇一摇也达到了同样的爆发式增长，但用户规模上去之后，微信就可以弱化了这一个功能。</p>
+<p>SNS下一个风口在哪里？SNS不是风口，但机会永远存在。挑战霸主级的社交网络，需要的是天时地利人和。产品与用户，双方共同成就了一个霸主级社交产品。得红人者得天下，微博的发展正是这样的模式。</p>
+<p>但红人是本身就存在的，还是通过平台而红的，这个问题很关键。<strong>一个优秀的SNS平台应该有制造红人的能力，或者是让红人可以成长起来的能力</strong>。当你知道的红人越来越多的来自微信公众号，而不是来自微博的时候，那么说明微博的影响力降低了。</p>
+<p>因此霸主级的似乎不可撼动的庞然大物其实是可以被打败的。</p>
+<p>如何再造一个现象级的社交网络，我们不应该从产品模式上来思考这个问题，而是需要从人性的角度上来思考这个问题。人性是社交网络之所以成立的本质。更具体的说，<strong>人的社会性，情绪化，是社交网络的根本驱动力</strong>。人渴望被关注，渴望交流，渴望存在感，或只是渴望来自他人的声音。找到人在精神上的未被充分满足的需求点，强化这种概念，就有机会在社交产品中找到一席之地。</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2021/02/13/the-essence-of-linear-algebra/" class="archive-article-date">
-  	<time datetime="2021-02-13T04:03:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-02-13</time>
+      <a href="/2016/12/19/public-avatar/" class="archive-article-date">
+  	<time datetime="2016-12-19T04:15:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-19</time>
 </a>
       
       
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-law-of-cosines-and-phong-reflection-model" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/02/07/law-of-cosines-and-phong-reflection-model/">从余弦定理到冯氏光照模型</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <h3 id="1-勾股定理——宇宙的密码"><a href="#1-勾股定理——宇宙的密码" class="headerlink" title="1.勾股定理——宇宙的密码"></a>1.勾股定理——宇宙的密码</h3><p>$a^2+b^2=c^2$。下图是勾股定理的一个直观证明。</p>
-<p><img src="/img/math/ggdl.png" alt=""></p>
-<h3 id="2-余弦定理，角与边的关系"><a href="#2-余弦定理，角与边的关系" class="headerlink" title="2. 余弦定理，角与边的关系"></a>2. 余弦定理，角与边的关系</h3><img src="/img/math/q-cosine.svg.png" width="30%">
-
-<img src="/img/math/cosine-1.png" width="30%">
-
- <img src="/img/math/cos-sin.png" width="30%">
-
-<p>三条边可以确定一个三角形，已知三角形的三条边长，如何求出其角度呢？</p>
-<p>由$cos,sin$定义可知<br>
-  $$ c = a * cos beta + b * cos alpha $$<br>
-  两边同乘c得：<br>
-$$ c^2 = ac * cos beta + bc * cos alpha $$<br>
-  同理可得：<br>
-$$ a^2 = ac cos beta + ab * cos gamma $$<br>
-$$ b^2 = bc cos alpha + ab cos gamma $$<br>
-  故：$$ a^2+b^2-c^2 = 2abcosgamma $$<br>
-  可得：$$ c^2 = a^2 + b^2 - 2ab cos gamma $$<br>
-</p>
-
-
-<h3 id="3-向量的定义（方向）"><a href="#3-向量的定义（方向）" class="headerlink" title="3. 向量的定义（方向）"></a>3. 向量的定义（方向）</h3><img src="/img/math/vector_subtraction.svg.png" width="45%">
-
-<img src="/img/math/vector_addition.svg.png" width="45%">
-
-<p>$$令 vec c = vec a - vec b$$, $$theta$$为$$vec a$$ $$vec b$$ 的夹角。余弦定理可以用向量形式写成 $$ | vec c |^2 = |vec a|^2 + |vec b|^2 -  2 |vec a| |vec b| cos theta $$ </p>
-<h3 id="4-点积（dot-product）的代数定义"><a href="#4-点积（dot-product）的代数定义" class="headerlink" title="4. 点积（dot product）的代数定义"></a>4. 点积（dot product）的代数定义</h3><p>两个向量的点积是一个标量。向量$$vec a=[a_1, a_2, … a_n]$$与向量$$vec b=[b_1, b_2, … b_n]$$的点积定义为: $$ vec a * vec b = sum_(i=1)^n a_i b_i = a_1 b_1 + a_2 b_2 + … a_n b_n $$。</p>
-<p>点积有以下性质（证略）：</p>
-<ol>
-<li>满足交换律 $$vec a * vec b = vec b * vec a$$</li>
-<li>满足分配律 $$vec a * (vec b + vec c) = vec a * vec b + vec a * vec c$$</li>
-<li>乘以标量时满足 $$ (c_1 vec a) * (c_2 vec b) = (c_1 c_2)(vec a * vec b)$$</li>
-<li>不满足结合律。因为标量 $$ vec a * vec b $$ 与向量 $$ vec c $$ 的点积没有定义，所以$$(vec a * vec b) * vec c=vec a * (vec b * vec c)$$ 没有意义。</li>
-</ol>
-<p>点积的代数定义简单实用，易于表示，也易于使用计算机程序处理。是线性代数的基本操作之一。</p>
-<h3 id="5-点积的几何意义"><a href="#5-点积的几何意义" class="headerlink" title="5. 点积的几何意义"></a>5. 点积的几何意义</h3><p>对于任何一个n维向量有 $|vec a|^2=a_1^2+a_2^2+…+a_n^2$。根据勾股定理，这是很显然的。换个角度<strong>说如果没有勾股定理，这一步就不存在，后面的内容也不存在了。而勾股定理不是由代数方法证明的，而是独立于代数系统之外的空间基本性质。而空间和时间是宇宙最根本的本质。这就是勾股定理最神奇的地方</strong>。</p>
-<p>我们根据点积的定义可知：$$ vec a * vec a = a_1 * a_1 + a_2 * a_2 + … a_n * a_n = |vec a|^2$$ 即 $$ vec a * vec a == |vec a|^2$$</p>
-<p>我们根据余弦定理的向量表示可得：$$ vec c * vec c = vec a * vec a + vec b * vec b - 2 |vec a| |vec b| cos theta . (1)$$ </p>
-<p>根据向量的定义 $$ vec c = vec a - vec b $$ 有 $$ vec c * vec c = (vec a - vec b) * (vec a - vec b) = vec a * vec a + vec b * vec b - 2 vec a * vec b . (2)$$</p>
-<p>结合等式$$(1)$$、$$(2)$$有 $$vec a * vec b = |vec a| |vec b| cos theta$$。一个看似简单的代数点积操作，竟然和夹角余弦相关，真是不可思议。</p>
-<p>点积的几何意义是什么呢？关键就在这个$cos theta$，如果$$|vec b|$$为1时候，我们可以将$$vec a * vec b$$视为$$vec a $$在$$vec b$$方向上的投影长度。</p>
-<p><img src="/img/math/dot_product_1.png" width="45%"> <img src="/img/math/dot_product_2.png" width="45%"></p>
-<h3 id="6-点积的物理意义（从数学到宇宙）"><a href="#6-点积的物理意义（从数学到宇宙）" class="headerlink" title="6. 点积的物理意义（从数学到宇宙）"></a>6. 点积的物理意义（从数学到宇宙）</h3><p>点积的物理意义就是向量在某方向上的投影长度。这在物理上可以表达力在某方向上的投影，光在某方向的投影，速度、加速度在某方向的投影。而点积的操作，可以使我们只需要关心这些物理量的向量表示，而不需要去关心夹角，不需要去计算三角函数。而在统计学、机器学习等方面，余弦可以表示两个向量之间的相似性，比如两个词向量，两个用户的兴趣向量等，应用非常广泛。下面就以计算机图形学举例来说明点积的应用。</p>
-<p>冯氏光照模型将一个物体的光照分解为环境光+漫反射光+镜面反射光。</p>
-<p><img src="/img/math/Phong_components_version_4.png" alt=""></p>
-<p>环境光比较简单就是一个常量。而漫反射光，则为光照强度在平面的法线方向的投影，与法线方向一致则光照最强。镜面反射光则为反射光方向在视角方向上的投影，与视角完全一致，则反射光最强。</p>
-<p><img src="/img/math/diffuse_light.png" width="45%"> <img src="/img/math/specular_light.png" width="45%"></p>
-<p>OpenGL的shader大致如下：</p>
-<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">vec3</span> CalcDirLight(DirLight light, <span class="type">vec3</span> normal, <span class="type">vec3</span> viewDir) &#123;</span><br><span class="line">    <span class="comment">// normalize 归一化，使法线向量的长度为1</span></span><br><span class="line">    <span class="type">vec3</span> lightDir = <span class="built_in">normalize</span>(-light.direction);</span><br><span class="line">    <span class="comment">// 漫反射光. dot 计算cos* 强度， max把负值最多降到0，表示全黑。</span></span><br><span class="line">    <span class="type">float</span> diff = <span class="built_in">max</span>(<span class="built_in">dot</span>(normal, lightDir), <span class="number">0.0</span>);</span><br><span class="line">    <span class="type">vec3</span> reflectDir = <span class="built_in">reflect</span>(-lightDir, normal);</span><br><span class="line">    <span class="comment">// dot 计算反射光在视角上的cos分量，至少为0。使用pow，模拟镜面光焦点分布集中度，shininess越高要求反射分量越接近于1</span></span><br><span class="line">    <span class="comment">// 反射分量==1 表示必须视角恰巧与反射角完全一致才能看到反射光，也就是绝对镜面</span></span><br><span class="line">    <span class="type">float</span> spec = <span class="built_in">pow</span>(<span class="built_in">max</span>(<span class="built_in">dot</span>(viewDir, reflectDir), <span class="number">0.0</span>), material.shininess);</span><br><span class="line">    <span class="comment">// 合并冯氏光照结果</span></span><br><span class="line">    <span class="type">vec3</span> ambient = light.ambient * <span class="type">vec3</span>(<span class="built_in">texture</span>(material.diffuse, TexCoords));</span><br><span class="line">    <span class="type">vec3</span> diffuse = light.diffuse * diff * <span class="type">vec3</span>(<span class="built_in">texture</span>(material.diffuse, TexCoords));</span><br><span class="line">    <span class="type">vec3</span> specular = light.specular * spec * <span class="type">vec3</span>(<span class="built_in">texture</span>(material.specular, TexCoords));</span><br><span class="line">    <span class="keyword">return</span> (ambient + diffuse + specular);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2021/02/07/law-of-cosines-and-phong-reflection-model/" class="archive-article-date">
-  	<time datetime="2021-02-06T17:01:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-02-07</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenGL-math/" rel="tag">OpenGL,math</a></li></ul>
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
 	</div>
 
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-learn-cmake" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/11/learn-cmake/">学习CMake</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><a href="https://hsf-training.github.io/hsf-training-cmake-webpage/" target="_blank" rel="noopener">https://hsf-training.github.io/hsf-training-cmake-webpage/</a></p>
-<h2 id="1-构建"><a href="#1-构建" class="headerlink" title="1. 构建"></a>1. 构建</h2><h3 id="构建"><a href="#构建" class="headerlink" title="构建"></a>构建</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">git clone --recursive https://github.com/CLIUtils/CLI11.git</span><br><span class="line">cd CLI11</span><br><span class="line">cmake -S . -B build</span><br><span class="line">cmake --build build</span><br><span class="line">cmake --build build --target test</span><br></pre></td></tr></table></figure>
-
-<h3 id="另一种构建"><a href="#另一种构建" class="headerlink" title="另一种构建"></a>另一种构建</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">mkdir build</span><br><span class="line">cd build</span><br><span class="line">cmake ..</span><br><span class="line">make</span><br><span class="line">make test</span><br></pre></td></tr></table></figure>
-
-<p><strong>永远不要</strong>在源码目录直接 <code>cmake .</code> 这样会污染源码目录。</p>
-<h3 id="选择编译器"><a href="#选择编译器" class="headerlink" title="选择编译器"></a>选择编译器</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CC=clang CXX=clang++ cmake -S . -B build</span><br></pre></td></tr></table></figure>
-
-<h3 id="设置选项-D-列出选项-L"><a href="#设置选项-D-列出选项-L" class="headerlink" title="设置选项 -D 列出选项 -L"></a>设置选项 <code>-D</code> 列出选项 <code>-L</code></h3><ul>
-<li><a href="https://cmake.org/cmake/help/latest/variable/CMAKE_BUILD_TYPE.html" target="_blank" rel="noopener"><code>CMAKE_BUILD_TYPE</code></a>:  <code>Release</code>, <code>RelWithDebInfo</code>, <code>Debug</code>, 或其他编译选项。</li>
-<li><a href="https://cmake.org/cmake/help/latest/variable/CMAKE_INSTALL_PREFIX.html" target="_blank" rel="noopener"><code>CMAKE_INSTALL_PREFIX</code></a>: 安装位置，Unix上默认是 <code>/usr/local</code> , 用户安装目录常是 <code>~/.local</code> </li>
-<li><a href="https://cmake.org/cmake/help/latest/variable/BUILD_SHARED_LIBS.html" target="_blank" rel="noopener"><code>BUILD_SHARED_LIBS</code></a>:  <code>ON</code> or <code>OFF</code> </li>
-<li><a href="https://cmake.org/cmake/help/latest/module/CTest.html" target="_blank" rel="noopener"><code>BUILD_TESTING</code></a>: </li>
-</ul>
-<h3 id="调试Cmake-files-在source目录执行下面的命令："><a href="#调试Cmake-files-在source目录执行下面的命令：" class="headerlink" title="调试Cmake files 在source目录执行下面的命令："></a>调试Cmake files 在source目录执行下面的命令：</h3><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake build --trace-source="CMakeLists.txt"</span><br></pre></td></tr></table></figure>
-
-<h2 id="2-编写-CMakeLists-txt"><a href="#2-编写-CMakeLists-txt" class="headerlink" title="2. 编写 CMakeLists.txt"></a>2. 编写 CMakeLists.txt</h2><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.14</span>)</span><br><span class="line"><span class="comment"># 项目名称，未设置LANGUAGES的话，则是 C, CXX 的混合项目</span></span><br><span class="line"><span class="keyword">project</span>(MyProject)</span><br><span class="line"><span class="comment"># 至少一个 add_executeable 或 add_library 来作为target。</span></span><br><span class="line"><span class="keyword">add_executable</span>(myexample simple.cpp)</span><br></pre></td></tr></table></figure>
-
-<p>可以设置更多信息</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 最小。。最大版本</span></span><br><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.14</span>...<span class="number">3.18</span>)</span><br><span class="line"><span class="comment"># 更详细的项目信息</span></span><br><span class="line"><span class="keyword">project</span>(MyProject</span><br><span class="line">  VERSION</span><br><span class="line">    <span class="number">1.0</span></span><br><span class="line">  DESCRIPTION</span><br><span class="line">    <span class="string">"Very nice project"</span></span><br><span class="line">  LANGUAGES</span><br><span class="line">    CXX</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 可添加 STATIC, SHARED, or MODULE; 默认通过 BUILD_SHARED_LIBS 选择.</span></span><br><span class="line"><span class="keyword">add_library</span>(mylibrary simplelib.cpp)</span><br></pre></td></tr></table></figure>
-
-<h3 id="Target可用的设置"><a href="#Target可用的设置" class="headerlink" title="Target可用的设置"></a>Target可用的设置</h3><ul>
-<li><a href="https://cmake.org/cmake/help/latest/command/target_link_libraries.html" target="_blank" rel="noopener"><code>target_link_libraries</code></a>: Other targets; can also pass library names directly</li>
-<li><a href="https://cmake.org/cmake/help/latest/command/target_include_directories.html" target="_blank" rel="noopener"><code>target_include_directories</code></a>: Include directories</li>
-<li><a href="https://cmake.org/cmake/help/latest/command/target_compile_features.html" target="_blank" rel="noopener"><code>target_compile_features</code></a>: The compiler features you need activated, like <code>cxx_std_11</code></li>
-<li><a href="https://cmake.org/cmake/help/latest/command/target_compile_definitions.html" target="_blank" rel="noopener"><code>target_compile_definitions</code></a>: Definitions</li>
-<li><a href="https://cmake.org/cmake/help/latest/command/target_compile_options.html" target="_blank" rel="noopener"><code>target_compile_options</code></a>: More general compile flags</li>
-<li><a href="https://cmake.org/cmake/help/latest/command/target_link_directories.html" target="_blank" rel="noopener"><code>target_link_directories</code></a>: Don’t use, give full paths instead (CMake 3.13+)</li>
-<li><a href="https://cmake.org/cmake/help/latest/command/target_link_options.html" target="_blank" rel="noopener"><code>target_link_options</code></a>: General link flags (CMake 3.13+)</li>
-<li><a href="https://cmake.org/cmake/help/latest/command/target_sources.html" target="_blank" rel="noopener"><code>target_sources</code></a>: Add source files</li>
-</ul>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 不需要添加任何source，导出一个 header-only library。</span></span><br><span class="line"><span class="keyword">add_library</span>(some_header_only_lib INTERFACE)</span><br></pre></td></tr></table></figure>
-
-<h4 id="什么是-INTERFACE-IMPORETED？？"><a href="#什么是-INTERFACE-IMPORETED？？" class="headerlink" title="什么是 INTERFACE IMPORETED？？"></a>什么是 INTERFACE IMPORETED？？</h4><h3 id="Script"><a href="#Script" class="headerlink" title="Script"></a>Script</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># cache.cmake</span></span><br><span class="line"><span class="comment"># 设置变量</span></span><br><span class="line"><span class="keyword">set</span>(MY_VARIABLE <span class="string">"I am a variable"</span>)</span><br><span class="line"><span class="keyword">message</span>(STATUS <span class="string">"$&#123;MY_VARIABLE&#125;"</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">set</span>(MY_CACHE_VAR <span class="string">"I am a cached variable"</span> CACHE <span class="keyword">STRING</span> <span class="string">"Description"</span>)</span><br><span class="line"><span class="keyword">message</span>(STATUS <span class="string">"$&#123;MY_CACHE_VAR&#125;"</span>)</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cmake -DMY_CACHE_VAR="command line" -P cache.cmake</span><br></pre></td></tr></table></figure>
-
-<p>Try setting a cached variable using <code>-DMY_VARIABLE=something</code> <em>before</em> the <code>-P</code>. Which variable is shown?</p>
-<figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">option</span>(MY_OPTION <span class="string">"On or off"</span> <span class="keyword">OFF</span>)</span><br><span class="line"><span class="comment"># $ENV&#123;name&#125;</span></span><br><span class="line"><span class="comment"># if(DEFINED ENV&#123;name&#125;)  </span></span><br><span class="line"><span class="keyword">file</span>(GLOB OUTPUT_VAR *.cxx)</span><br><span class="line"><span class="keyword">file</span>(GLOB_RECURSE  OUTPU_VAR *.cxx)</span><br></pre></td></tr></table></figure>
-
-
-
-<h2 id="3-项目结构"><a href="#3-项目结构" class="headerlink" title="3. 项目结构"></a>3. 项目结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">code&#x2F;03-structure&#x2F;</span><br><span class="line">├── CMakeLists.txt</span><br><span class="line">├── README.md</span><br><span class="line">├── apps</span><br><span class="line">│   ├── CMakeLists.txt</span><br><span class="line">│   └── app.cpp</span><br><span class="line">├── cmake</span><br><span class="line">│   └── FindSomeLib.cmake</span><br><span class="line">├── docs</span><br><span class="line">│   ├── CMakeLists.txt</span><br><span class="line">│   └── mainpage.md</span><br><span class="line">├── include</span><br><span class="line">│   └── modern</span><br><span class="line">│       └── lib.hpp</span><br><span class="line">├── src</span><br><span class="line">│   ├── CMakeLists.txt</span><br><span class="line">│   └── lib.cpp</span><br><span class="line">└── tests</span><br><span class="line">    ├── CMakeLists.txt</span><br><span class="line">    └── testlib.cpp</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="CMakeLists-txt"><a href="#CMakeLists-txt" class="headerlink" title="/CMakeLists.txt"></a>/CMakeLists.txt</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Works with 3.14 and tested through 3.18</span></span><br><span class="line"><span class="keyword">cmake_minimum_required</span>(VERSION <span class="number">3.14</span>...<span class="number">3.18</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Project name and a few useful settings. Other commands can pick up the results</span></span><br><span class="line"><span class="keyword">project</span>(</span><br><span class="line">  ModernCMakeExample</span><br><span class="line">  VERSION <span class="number">0.1</span></span><br><span class="line">  DESCRIPTION <span class="string">"An example project with CMake"</span></span><br><span class="line">  LANGUAGES CXX)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 仅在主项目中运行，若是子项目中 add_subdirectory 则忽略</span></span><br><span class="line"><span class="keyword">if</span>(CMAKE_PROJECT_NAME <span class="keyword">STREQUAL</span> PROJECT_NAME)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Optionally set things like CMAKE_CXX_STANDARD,</span></span><br><span class="line">  <span class="comment"># CMAKE_POSITION_INDEPENDENT_CODE here</span></span><br><span class="line"></span><br><span class="line">  <span class="comment"># Let's ensure -std=c++xx instead of -std=g++xx</span></span><br><span class="line">  <span class="keyword">set</span>(CMAKE_CXX_EXTENSIONS <span class="keyword">OFF</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Let's nicely support folders in IDE's</span></span><br><span class="line">  <span class="keyword">set_property</span>(GLOBAL PROPERTY USE_FOLDERS <span class="keyword">ON</span>)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Testing only available if this is the main app. Note this needs to be done</span></span><br><span class="line">  <span class="comment"># in the main CMakeLists since it calls enable_testing, which must be in the</span></span><br><span class="line">  <span class="comment"># main CMakeLists.</span></span><br><span class="line">  <span class="keyword">include</span>(CTest)</span><br><span class="line"></span><br><span class="line">  <span class="comment"># Docs only available if this is the main app</span></span><br><span class="line">  <span class="keyword">find_package</span>(Doxygen)</span><br><span class="line">  <span class="keyword">if</span>(Doxygen_FOUND)</span><br><span class="line">    <span class="keyword">add_subdirectory</span>(docs)</span><br><span class="line">  <span class="keyword">else</span>()</span><br><span class="line">    <span class="keyword">message</span>(STATUS <span class="string">"Doxygen not found, not building docs"</span>)</span><br><span class="line">  <span class="keyword">endif</span>()</span><br><span class="line"><span class="keyword">endif</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment"># FetchContent added in CMake 3.11, downloads during the configure step</span></span><br><span class="line"><span class="comment"># FetchContent_MakeAvailable was not added until CMake 3.14</span></span><br><span class="line"><span class="keyword">include</span>(FetchContent)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Accumulator library This is header only, so could be replaced with git</span></span><br><span class="line"><span class="comment"># submodules or FetchContent</span></span><br><span class="line"><span class="keyword">find_package</span>(Boost REQUIRED)</span><br><span class="line"><span class="comment"># Adds Boost::boost / Boost::headers (newer FindBoost / BoostConfig 3.15 name)</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Formatting library, adds fmt::fmt</span></span><br><span class="line">FetchContent_Declare(</span><br><span class="line">  fmtlib</span><br><span class="line">  GIT_REPOSITORY https://github.com/fmtlib/fmt.git</span><br><span class="line">  GIT_TAG <span class="number">7.0</span>.<span class="number">2</span>)</span><br><span class="line">FetchContent_MakeAvailable(fmtlib)</span><br><span class="line"></span><br><span class="line"><span class="comment"># The compiled library code is here</span></span><br><span class="line"><span class="keyword">add_subdirectory</span>(src)</span><br><span class="line"></span><br><span class="line"><span class="comment"># The executable code is here</span></span><br><span class="line"><span class="keyword">add_subdirectory</span>(apps)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Testing only available if this is the main app</span></span><br><span class="line"><span class="keyword">if</span>(BUILD_TESTING)</span><br><span class="line">  <span class="keyword">add_subdirectory</span>(tests)</span><br><span class="line"><span class="keyword">endif</span>()</span><br></pre></td></tr></table></figure>
-
-<h3 id="src-CMakeLists-txt"><a href="#src-CMakeLists-txt" class="headerlink" title="/src/CMakeLists.txt"></a>/src/CMakeLists.txt</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Note that headers are optional, and do not affect add_library, but they will</span></span><br><span class="line"><span class="comment"># not show up in IDEs unless they are listed in add_library.</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Optionally glob, but only for CMake 3.12 or later: file(GLOB HEADER_LIST</span></span><br><span class="line"><span class="comment"># CONFIGURE_DEPENDS "$&#123;ModernCMakeExample_SOURCE_DIR&#125;/include/modern/*.hpp")</span></span><br><span class="line"><span class="keyword">set</span>(HEADER_LIST <span class="string">"$&#123;ModernCMakeExample_SOURCE_DIR&#125;/include/modern/lib.hpp"</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Make an automatic library - will be static or dynamic based on user setting</span></span><br><span class="line"><span class="keyword">add_library</span>(modern_library lib.cpp <span class="variable">$&#123;HEADER_LIST&#125;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># We need this directory, and users of our library will need it too</span></span><br><span class="line"><span class="keyword">target_include_directories</span>(modern_library PUBLIC ../<span class="keyword">include</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># This depends on (header only) boost</span></span><br><span class="line"><span class="keyword">target_link_libraries</span>(modern_library PRIVATE Boost::boost)</span><br><span class="line"></span><br><span class="line"><span class="comment"># All users of this library will need at least C++11</span></span><br><span class="line"><span class="keyword">target_compile_features</span>(modern_library PUBLIC cxx_std_11)</span><br><span class="line"></span><br><span class="line"><span class="comment"># IDEs should put the headers in a nice place</span></span><br><span class="line"><span class="keyword">source_group</span>(</span><br><span class="line">  TREE <span class="string">"$&#123;PROJECT_SOURCE_DIR&#125;/include"</span></span><br><span class="line">  PREFIX <span class="string">"Header Files"</span></span><br><span class="line">  FILES <span class="variable">$&#123;HEADER_LIST&#125;</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="apps-CMakeLists-txt"><a href="#apps-CMakeLists-txt" class="headerlink" title="/apps/CMakeLists.txt"></a>/apps/CMakeLists.txt</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">add_executable</span>(app app.cpp)</span><br><span class="line"><span class="keyword">target_compile_features</span>(app PRIVATE cxx_std_17)</span><br><span class="line"></span><br><span class="line"><span class="keyword">target_link_libraries</span>(app PRIVATE modern_library fmt::fmt)</span><br></pre></td></tr></table></figure>
-
-<h3 id="docs-CMakeLists-txt"><a href="#docs-CMakeLists-txt" class="headerlink" title="/docs/CMakeLists.txt"></a>/docs/CMakeLists.txt</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="keyword">set</span>(DOXYGEN_EXTRACT_ALL YES)</span><br><span class="line"><span class="keyword">set</span>(DOXYGEN_BUILTIN_STL_SUPPORT YES)</span><br><span class="line"></span><br><span class="line">doxygen_add_docs(docs modern/lib.hpp <span class="string">"$&#123;CMAKE_CURRENT_SOURCE_DIR&#125;/mainpage.md"</span></span><br><span class="line">                 WORKING_DIRECTORY <span class="string">"$&#123;PROJECT_SOURCE_DIR&#125;/include"</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="tests-CMakeLists-txt"><a href="#tests-CMakeLists-txt" class="headerlink" title="/tests/CMakeLists.txt"></a>/tests/CMakeLists.txt</h3><figure class="highlight cmake"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># Testing library</span></span><br><span class="line">FetchContent_Declare(</span><br><span class="line">  catch2</span><br><span class="line">  GIT_REPOSITORY https://github.com/catchorg/Catch2.git</span><br><span class="line">  GIT_TAG v2.<span class="number">9.1</span>)</span><br><span class="line">FetchContent_MakeAvailable(catch2)</span><br><span class="line"><span class="comment"># Adds Catch2::Catch2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># Tests need to be added as executables first</span></span><br><span class="line"><span class="keyword">add_executable</span>(testlib testlib.cpp)</span><br><span class="line"></span><br><span class="line"><span class="comment"># I'm using C++17 in the test</span></span><br><span class="line"><span class="keyword">target_compile_features</span>(testlib PRIVATE cxx_std_17)</span><br><span class="line"></span><br><span class="line"><span class="comment"># Should be linked to the main library, as well as the Catch2 testing library</span></span><br><span class="line"><span class="keyword">target_link_libraries</span>(testlib PRIVATE modern_library Catch2::Catch2)</span><br><span class="line"></span><br><span class="line"><span class="comment"># If you register a test, then ctest and make test will run it. You can also run</span></span><br><span class="line"><span class="comment"># examples and check the output, as well.</span></span><br><span class="line"><span class="keyword">add_test</span>(NAME testlibtest <span class="keyword">COMMAND</span> testlib) <span class="comment"># Command can be a target</span></span><br></pre></td></tr></table></figure>
-
-
-
-<p><a href="https://hsf-training.github.io/hsf-training-cmake-webpage/" target="_blank" rel="noopener">更多内容</a></p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2021/01/11/learn-cmake/" class="archive-article-date">
-  	<time datetime="2021-01-11T12:56:32.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-01-11</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-cpp-build-systems" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2021/01/08/cpp-build-systems/">C++构建工具比较</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>近日，又对C++产生了兴趣。</p>
-<p>C++可以说是我内心的阴影，之所以是内心的阴影，倒不是C++的语言本身使我无法理解，或不喜欢C++的某些特性。相反我一直对C++怀有很高的敬意。之所以说C++是我的阴影，主要是因为C++的工具链实在是太长太杂了。我不介意多花点时间来学习C++的语言特性，但是我实在不想浪费时间在工具的学习上面。我屡屡在尝试用C++做点东西的时候，都被环境的配置而感到厌烦而放弃。</p>
-<p>最近，感觉 <a href="https://github.com/ocornut/imgui" target="_blank" rel="noopener">Dear ImGui</a> 这个项目有点意思，可以用来做点有趣的事情。于是我想再次挑战一下C++的项目，顺便看看社区是否有新的构建工具出来简化我的工作。</p>
-<p>此前的工具 Make 缺点是项目越大越复杂，需要学习很多东西。还有 autotools , scons，也有一定学习成本。</p>
-<p>最近出现的 google的Bazel、facebook的Buck 两个build system都可以用来构建C++。看了些对比主要缺点是对原有的生态兼容性比较差，往往需要源码导入。</p>
-<p>可以选择的有CMake和Meson。目前看来是比较合适的选择，我决定有空尝试一下meson。</p>
-<p>找到两个template项目 <a href="https://github.com/tiernemi/meson-sample-project" target="_blank" rel="noopener">meson-sample-project</a>  、 <a href="https://github.com/kigster/cmake-project-template" target="_blank" rel="noopener">cmake-project-template</a> 。拿这个模板直接改一改就可以创建一个c++项目了，这样我内心的恐惧感减少了很多。 </p>
-<p>— 2021-01-26 更新 —<br>最终我选择了 <a href="https://github.com/kigster/cmake-project-template" target="_blank" rel="noopener">cmake-project-template</a> 来作为当前的C++<br>项目模板。今天github的发现页给我推荐了<a href="https://github.com/lefticus/cpp_starter_project" target="_blank" rel="noopener">cpp_starter_project</a> ，还能直接使用 github 的 use this template 功能，貌似不错，下次试试。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2021/01/08/cpp-build-systems/" class="archive-article-date">
-  	<time datetime="2021-01-08T08:26:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-01-08</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/cpp/" rel="tag">cpp</a></li></ul>
-	</div>
-
-      
 
       <div class="clearfix"></div>
     </div>
@@ -1010,7 +745,7 @@ $$ b^2 = bc cos alpha + ab cos gamma $$<br>
   
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/14/">14</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -1020,7 +755,7 @@ $$ b^2 = bc cos alpha + ab cos gamma $$<br>
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2021 桂糊涂
+    		&copy; 2023 桂糊涂
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -1106,7 +841,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/3D/" style="font-size: 10px;">3D</a> <a href="/tags/AI/" style="font-size: 11.25px;">AI</a> <a href="/tags/CI/" style="font-size: 12.5px;">CI</a> <a href="/tags/HTTP/" style="font-size: 10px;">HTTP</a> <a href="/tags/IM/" style="font-size: 10px;">IM</a> <a href="/tags/Objective-C/" style="font-size: 10px;">Objective-C</a> <a href="/tags/OpenGL-Game-development/" style="font-size: 10px;">OpenGL,Game development</a> <a href="/tags/OpenGL-math/" style="font-size: 10px;">OpenGL,math</a> <a href="/tags/React/" style="font-size: 10px;">React</a> <a href="/tags/UI/" style="font-size: 10px;">UI</a> <a href="/tags/VPS/" style="font-size: 10px;">VPS</a> <a href="/tags/algorithm/" style="font-size: 12.5px;">algorithm</a> <a href="/tags/algorithms/" style="font-size: 11.25px;">algorithms</a> <a href="/tags/android/" style="font-size: 12.5px;">android</a> <a href="/tags/architecture/" style="font-size: 18.75px;">architecture</a> <a href="/tags/books/" style="font-size: 10px;">books</a> <a href="/tags/cloud-services/" style="font-size: 10px;">cloud-services</a> <a href="/tags/cluster/" style="font-size: 10px;">cluster</a> <a href="/tags/computer-graphics/" style="font-size: 10px;">computer-graphics</a> <a href="/tags/cpp/" style="font-size: 11.25px;">cpp</a> <a href="/tags/data/" style="font-size: 10px;">data</a> <a href="/tags/data-format/" style="font-size: 12.5px;">data-format</a> <a href="/tags/editor/" style="font-size: 15px;">editor</a> <a href="/tags/education/" style="font-size: 10px;">education</a> <a href="/tags/engineering/" style="font-size: 10px;">engineering</a> <a href="/tags/ffmpeg/" style="font-size: 10px;">ffmpeg</a> <a href="/tags/font/" style="font-size: 10px;">font</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 17.5px;">game-dev</a> <a href="/tags/game-dev-books/" style="font-size: 10px;">game-dev, books</a> <a href="/tags/generator/" style="font-size: 12.5px;">generator</a> <a href="/tags/git/" style="font-size: 10px;">git</a> <a href="/tags/go/" style="font-size: 13.75px;">go</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/greek/" style="font-size: 10px;">greek</a> <a href="/tags/hack/" style="font-size: 11.25px;">hack</a> <a href="/tags/hash/" style="font-size: 10px;">hash</a> <a href="/tags/iOS/" style="font-size: 10px;">iOS</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/java/" style="font-size: 10px;">java</a> <a href="/tags/js/" style="font-size: 12.5px;">js</a> <a href="/tags/live-dev/" style="font-size: 10px;">live-dev</a> <a href="/tags/lua/" style="font-size: 10px;">lua</a> <a href="/tags/machine-learning/" style="font-size: 12.5px;">machine-learning</a> <a href="/tags/makefile/" style="font-size: 10px;">makefile</a> <a href="/tags/marketing/" style="font-size: 11.25px;">marketing</a> <a href="/tags/mathematics/" style="font-size: 13.75px;">mathematics</a> <a href="/tags/mysql/" style="font-size: 12.5px;">mysql</a> <a href="/tags/network/" style="font-size: 16.25px;">network</a> <a href="/tags/nginx/" style="font-size: 11.25px;">nginx</a> <a href="/tags/node-js/" style="font-size: 12.5px;">node.js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/ops/" style="font-size: 20px;">ops</a> <a href="/tags/python/" style="font-size: 10px;">python</a> <a href="/tags/redis/" style="font-size: 11.25px;">redis</a> <a href="/tags/security/" style="font-size: 11.25px;">security</a> <a href="/tags/slide/" style="font-size: 10px;">slide</a> <a href="/tags/svn/" style="font-size: 10px;">svn</a> <a href="/tags/tcp/" style="font-size: 12.5px;">tcp</a> <a href="/tags/terminal/" style="font-size: 10px;">terminal</a> <a href="/tags/tools/" style="font-size: 12.5px;">tools</a> <a href="/tags/udp/" style="font-size: 10px;">udp</a> <a href="/tags/video/" style="font-size: 10px;">video</a> <a href="/tags/vim/" style="font-size: 11.25px;">vim</a> <a href="/tags/web/" style="font-size: 17.5px;">web</a>
+    				<a href="/tags/AI/" style="font-size: 13.33px;">AI</a> <a href="/tags/architecture/" style="font-size: 10px;">architecture</a> <a href="/tags/game/" style="font-size: 16.67px;">game</a> <a href="/tags/game-dev/" style="font-size: 20px;">game-dev</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/web/" style="font-size: 10px;">web</a>
     			</div>
     	</section>
     
@@ -1116,7 +851,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-me">
   	  	
-  	  		<div class="aboutme-wrap" id="js-aboutme">联系我：&lt;br&gt; guileen AT qq DOT com</div>
+  	  		<div class="aboutme-wrap" id="js-aboutme">联系我：&lt;br&gt; 微信 guileen</div>
   	  	
     	</section>
     
