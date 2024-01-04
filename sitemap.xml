@@ -2,6 +2,15 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   
   <url>
+    <loc>http://guileen.github.io/2020/04/05/limitation-of-rl-in-long-term/</loc>
+    
+    <lastmod>2024-01-04</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://guileen.github.io/2020/03/19/how-mass-thinking-works/</loc>
     
     <lastmod>2023-05-21</lastmod>
@@ -74,6 +83,42 @@
   </url>
   
   <url>
+    <loc>http://guileen.github.io/2021/02/13/the-essence-of-linear-algebra/</loc>
+    
+    <lastmod>2021-03-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2021/02/20/design-a-3d-game-engine/</loc>
+    
+    <lastmod>2021-03-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2021/02/23/why-taichi-is-good/</loc>
+    
+    <lastmod>2021-03-07</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2021/02/18/brdf-pbr/</loc>
+    
+    <lastmod>2021-02-18</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
     <loc>http://guileen.github.io/course/index.html</loc>
     
     <lastmod>2021-02-11</lastmod>
@@ -92,7 +137,97 @@
   </url>
   
   <url>
-    <loc>http://guileen.github.io/2020/04/05/limitation-of-rl-in-long-term/</loc>
+    <loc>http://guileen.github.io/2021/02/07/law-of-cosines-and-phong-reflection-model/</loc>
+    
+    <lastmod>2021-02-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2019/12/30/introduce-reinforcement-learning-5/</loc>
+    
+    <lastmod>2021-02-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2020/01/03/introduce-reinforcement-learning-6/</loc>
+    
+    <lastmod>2021-02-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2019/12/28/introduce-reinforcement-learning-3/</loc>
+    
+    <lastmod>2021-02-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2019/12/30/introduce-reinforcement-learning-4/</loc>
+    
+    <lastmod>2021-02-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2019/12/27/introduce-reinforcement-learning-1/</loc>
+    
+    <lastmod>2021-02-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2019/12/27/introduce-reinforcement-learning-2/</loc>
+    
+    <lastmod>2021-02-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2019/12/24/understanding-cnn/</loc>
+    
+    <lastmod>2021-02-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2019/11/01/promise-in-cache-crash/</loc>
+    
+    <lastmod>2021-02-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2019/12/24/torch-output-loss-optimizer/</loc>
+    
+    <lastmod>2021-02-11</lastmod>
+    
+    <changefreq>monthly</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/2019/11/01/alpha-go-zero/</loc>
     
     <lastmod>2021-02-11</lastmod>
     
@@ -274,7 +409,7 @@
 
   <url>
     <loc>http://guileen.github.io/</loc>
-    <lastmod>2023-05-21</lastmod>
+    <lastmod>2024-01-04</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
@@ -282,63 +417,84 @@
   
   <url>
     <loc>http://guileen.github.io/tags/gossip/</loc>
-    <lastmod>2023-05-21</lastmod>
+    <lastmod>2024-01-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://guileen.github.io/tags/game-dev/</loc>
-    <lastmod>2023-05-21</lastmod>
+    <lastmod>2024-01-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://guileen.github.io/tags/nosql/</loc>
-    <lastmod>2023-05-21</lastmod>
+    <lastmod>2024-01-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://guileen.github.io/tags/game/</loc>
-    <lastmod>2023-05-21</lastmod>
+    <lastmod>2024-01-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://guileen.github.io/tags/AI/</loc>
-    <lastmod>2023-05-21</lastmod>
+    <lastmod>2024-01-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://guileen.github.io/tags/architecture/</loc>
-    <lastmod>2023-05-21</lastmod>
+    <lastmod>2024-01-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://guileen.github.io/tags/web/</loc>
-    <lastmod>2023-05-21</lastmod>
+    <lastmod>2024-01-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://guileen.github.io/tags/js/</loc>
-    <lastmod>2023-05-21</lastmod>
+    <lastmod>2024-01-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://guileen.github.io/tags/input-methods/</loc>
-    <lastmod>2023-05-21</lastmod>
+    <lastmod>2024-01-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/tags/OpenGL-math/</loc>
+    <lastmod>2024-01-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/tags/computer-graphics/</loc>
+    <lastmod>2024-01-04</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.2</priority>
+  </url>
+  
+  <url>
+    <loc>http://guileen.github.io/tags/OpenGL-Game-development/</loc>
+    <lastmod>2024-01-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
@@ -347,21 +503,21 @@
   
   <url>
     <loc>http://guileen.github.io/categories/AI/</loc>
-    <lastmod>2023-05-21</lastmod>
+    <lastmod>2024-01-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://guileen.github.io/categories/%E9%9A%8F%E7%AC%94/</loc>
-    <lastmod>2023-05-21</lastmod>
+    <lastmod>2024-01-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>
   
   <url>
     <loc>http://guileen.github.io/categories/AI/%E9%9A%8F%E7%AC%94/</loc>
-    <lastmod>2023-05-21</lastmod>
+    <lastmod>2024-01-04</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.2</priority>
   </url>

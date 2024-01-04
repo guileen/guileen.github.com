@@ -144,7 +144,7 @@
       <div class="body-wrap">
         
   
-    <article id="post-everything-is-fate" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-alpha-go-zero" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -154,7 +154,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2014/08/05/everything-is-fate/">尽人事 听天命</a>
+      <a class="article-title" href="/2019/11/01/alpha-go-zero/">AlphaGo Zero 工作原理</a>
     </h1>
   
 
@@ -162,22 +162,295 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>从十几岁开始，思考人为什么要活着这个问题，很快这个问题的答案显得不那么重要，因为思考的结果直接导致我相信命中注定。因为我是单纯从哲学的角度思考这个问题，而不是因为自身经历而产生的厌世情绪，所以我觉得有必要说一下。注意不是宿命，不是命运，而是命中注定，我觉得这几个词之间是有微妙的差别的，宿命与命运是一个范畴，而命中注定，是对宿命观的一个具体定义。</p>
-<p>从微观物理学的角度上来说，一切物理现象都是有规律的，虽然在量子物理的层次上，有诸如测不准、不可知、不连续、等现象，但这都只能说明人类认知的极限，不能否定“一切物理现象都是有规律”的这一定律，爱因斯坦说“上帝不掷骰子”。人类可能以为自己的行为是有主观能动性的，不受规律限制的，但事实上，生物学基于化学，化学基于物理学，我们人类的一切活动都已经由最微观的粒子所决定了。</p>
-<p>再从宏观系统论角度来分析。一个微观系统很难对一个宏观系统产生巨大的影响，除非这些微观系统体现出惊人的一致性。比如太阳系的活动很难影响到整个银河系，但反过来则影响很大。而人类社会看起来是一个复杂的系统，但依然是符合这种宏观系统与微观系统的制约规律的。</p>
-<p> 人类社会目前还是局限于地球这个环境的，而且目前人类也是无法操控气候的，人类社会系统无法过多的影响地球的气候系统，但地球气候系统的细微变化都会对人类社会产生巨大的影响。人类的生死往往只在瞬间。</p>
-<p> 人类社会由各种政体国家所统治，由几大主流的价值观所统治，人类的经济活动和思维模式都受这些大系统的影响。我们都是被各种经济活动和思潮变迁裹挟着在前进。人类社会的变迁往往只在一个很短的时代内完成。</p>
-<p> 人类社会资源的分配方式，是由下层聚集到上层，并由上层分配到下层的一个循环。你可以看出这种资源分配方式是多么不合理了吗？你获得的资源，与你付出的努力关系很小，而只与你所处的资源分配层次关系最大。而决定你分配层次的往往只是一两个瞬间：出生、升学、第一份工作、面试的表现。这点 赵劼 举了很多例子。</p>
-<p>  你的伴侣会陪伴你的一生，影响你很多的决定，而你和你伴侣的相识只在某一个瞬间。</p>
-<p>  我们的人生由太多的瞬间所决定。而这一瞬，有太多的巧合，这种巧合其实都是命中注定。</p>
-<h2 id="如何正确处理命中注定这一观点："><a href="#如何正确处理命中注定这一观点：" class="headerlink" title="如何正确处理命中注定这一观点："></a>如何正确处理命中注定这一观点：</h2><p>  你努力了，不一定会成功（你可以随意定义什么是成功），但是不努力，有很大可能不成功。中国古人是很早认识到天命的，六个字概括的太好：<strong>“尽人事，听天命”</strong></p>
+        <p>本文写于2017年12月，获<a href="https://zhuanlan.zhihu.com/p/32952677" target="_blank" rel="noopener">Udacity专栏转载</a>。今将其搬运至我的博客。</p>
+<p>2016年3月，Alpha Go Master击败最强的人类围棋选手之一李世石。击败李的版本，在训练过程中使用了大量人类棋手的棋谱。2017年10月19日，DeepMind公司在《自然》杂志发布了一篇新的论文，AlphaGo Zero——它完全不依赖人类棋手的经验，经过3天的训练，Alpha Go Zero击败了Master版本。AlphaGo Zero最重要的价值在于，它不仅仅可以解决围棋问题，它可以在不需要知识预设的情况下，解决一切棋类问题，经过几个小时的训练，已击败最强国际象棋冠军程序Stockfish。其应用场景非常广泛。</p>
+<p>AlphaGo Zero 采用了蒙特卡洛树搜索＋深度学习算法，本文将尽可能用简单易懂的语言解释其工作原理。</p>
+<h2 id="树搜索"><a href="#树搜索" class="headerlink" title="树搜索"></a>树搜索</h2><p><img src="http://upload-images.jianshu.io/upload_images/31319-b9de3b3bde6ac1c2.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="treesearch"></p>
+<p>从一个棋盘的初始状态，开始思考下一步如何走。我们可以回顾一下我们思考的过程，我们会思考自己可以有哪几种走法，如果我走了这里，对手可能会走哪里，那么我还可以在哪里走。我和对手都会选择最有利的走法，最终价值最大的那一手，就是我要选择的下法。很明显这个思维过程是一颗树，为了寻找最佳的行棋点的过程，就是树搜索。</p>
+<p>围棋第一手有361种下法，第二手有360种，第三手有359，依次类推，即一共有 361! 种下法，考虑到存在大量不合规则的棋子分布，合理的棋局约占这个数字的1.2%(<a href="https://link.zhihu.com/?target=https%3A//tromp.github.io/go/legal.html">Counting Legal Positions in Go</a>). 约为2.081681994 * 10^170。这个一个天文数字，比目前可观测宇宙的所有原子数还要多。要进行完全树搜索，是不可能的。因此我们必须进行剪枝，并限制思考的深度。所谓剪枝，就是指没必要考虑每种下法，我们只需考虑最有价值的几手下法。所谓限制思考的深度，就是我们最多只思考5步，10步，20步。常见的算法是Alpha-beta剪枝算法。但是，剪枝算法也有它的缺陷，它很有可能过早的剪掉了后期价值很大走法。</p>
+<h2 id="蒙特卡洛方法"><a href="#蒙特卡洛方法" class="headerlink" title="蒙特卡洛方法"></a>蒙特卡洛方法</h2><p>简而言之，蒙特卡洛方法(Monte Carlo method)，是一种“统计模拟方法”。20世纪40年代，为建造核武器，冯.诺伊曼 等人发明了该算法。因赌城蒙特卡洛而得名，暗示其以概率作为算法的基础。</p>
+<p>假设我们要计算一个不规则形状的面积，我们只需在包含这个不规则形状的矩形内，随机的掷出一个点，每掷出一个点，则N+1，如果这个点在不规则图形内则W+1。落入不规则图形的概率即为 W/N。当掷出足够多的点之后，我们可以认为：不规则图形面积＝矩形面积＊W/N。</p>
+<p>要应用蒙特卡洛算法的问题，首先要将问题转化为概率问题，然后通过统计方法将其问题的解估计出来。</p>
+<h2 id="蒙特卡洛树搜索（MCTS）"><a href="#蒙特卡洛树搜索（MCTS）" class="headerlink" title="蒙特卡洛树搜索（MCTS）"></a>蒙特卡洛树搜索（MCTS）</h2><p>1987年Bruce Abramson在他的博士论文中提出了基于蒙特卡洛方法的树搜索这一想法。这种算法简而言之是用蒙特卡洛方法估算每一种走法的胜率。如果描述的再具体一些，通过不断的模拟每一种走法，直至终局，该走法的模拟总次数N，与胜局次数W，即可推算出该走法的胜率为 W/N。</p>
+<p>该算法的每个循环包含4个步骤：选择、扩展、仿真、反向传播。一图胜千言。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/31319-08a2e9e9174b591f.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="MCTS"></p>
+<p>图中N表示总模拟次数，W表示胜局次数。每次都选择胜率最大的节点进行模拟。但是这样会导致新节点无法被探索到。为了在最大胜率和新节点探索上保持平衡，UCT（Upper Confidence Bound，上限置信区间算法）被引入。所谓置信区间，就是概率计算结果的可信度。打个比方，如果掷了3次硬币，都是正面朝上，我们就认为掷硬币正面朝上概率是100%，那肯定是错误的，因为我们的样本太少了。所以UCT就是用来修正这个样本太少的问题。具体公式如下：</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/31319-dbbfb7db809a4111.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="UCT公式"></p>
+<p>其中wi 是i节点的胜利次数，ni是i节点的模拟次数，Ni是所有模拟次数，c是探索常数，理论值为 √2，可根据经验调整。公式的后半部分，探索次数越少，值会越大，所以，那些被探索比较少的点，会获得更多的探索机会。</p>
+<p>蒙特卡洛树搜索算法因为是直接模拟到游戏终局，所以这种算法更加的准确，而且并不需要一个明确的“估值函数”，你只需要实现游戏机制就足够了。而且，蒙特卡洛算法，可以随时终止，根据其训练的时间给予近似的最优结果。</p>
+<p>但是对于围棋这种游戏而言，它的选择点依然太多，这棵树会非常的大。可能有一个分支早已被丢弃，那么它将不会被统计，这可能是李世石能够在第四局击败AlphaGo的主要原因。对于这类情况，我们依然需要依赖一个好的估值函数来辅助。</p>
+<h2 id="深度学习"><a href="#深度学习" class="headerlink" title="深度学习"></a>深度学习</h2><p>近年来，深度卷积神经网络在视觉领域取得很大的成功，如图片分类，人脸识别等。深度学习的网络结构在此不赘述，简而言之，深度学习是一个最优化算法。</p>
+<p>我们可以将深度神经网络理解为一个黑盒，这个黑盒接收一批输入，得到一个输出，并根据输出计算出损失（误差），这个误差会反馈给黑盒，当给了足够多的数据之后，这个黑盒将具备一个特性，就是使误差最小化。</p>
+<p>如果这么说还是难以理解的话，可以打个比方：深度神经网络是一种生物，它喜欢吃糖，有学习的能力，你给它看一张图片，它告诉你是猫还是狗，如果它猜对了，你就给它一颗糖，猜错了，就不给糖，久而久之，它就有了分辨猫狗的能力。作为创造者，你甚至不知道它是如何分辨猫狗的，但是它做到了，看得越多，识别的就越准。</p>
+<p>这里至关重要的是——输入是什么？输出是什么？什么时候给糖的动作，也就是损失函数如何设计？在实际的操作过程中，网络结构的设计也很重要，这里不再细述。</p>
+<p>对于围棋来说，深度网络可以用来评估下一步的主要选点（降低树的宽度），以及评估当前局面的值。</p>
+<h2 id="AlphaGo-Zero"><a href="#AlphaGo-Zero" class="headerlink" title="AlphaGo Zero"></a>AlphaGo Zero</h2><p>在AlphaGo Lee版本，有两个神经网络，一个是策略网络，是一个有监督学习，它利用了大量的人类高手的对弈棋局来评估下一步的可能性，另一个是价值网络，用来评价当前局面的评分。而在AlphaGo Zero版本，除了围棋规则外，没有任何背景知识，并且只使用一个神经网络。</p>
+<p>这个神经网络以19x19棋盘为输入，以下一步各下法的概率以及胜率为输出，这个网络有多个batch normalization卷积层以及全连接层。</p>
+<p>AlphaGo Zero的核心思想是：<em>MCTS算法生成的对弈可以作为神经网络的训练数据。</em> 还记得我们前面说过的深度学习最重要的部分吗？输入、输出、损失！随着MCTS的不断执行，下法概率及胜率会趋于稳定，而深度神经网络的输出也是下法概率和胜率，而两者之差即为损失。随着训练的不断进行，网络对于胜率的下法概率的估算将越来越准确。这意味着什么呢？这意味着，即便某个下法AGZ没有模拟过，但是通过神经网络依然可以达到蒙特卡洛的模拟效果！也就是说，我虽然没下过这手棋，但凭借我在神经网络中训练出的“棋感”，我可以估算出这么走的胜率是多少！</p>
+<p>AlphaGo Zero的对弈过程只需应用深度网络计算出的下法概率、胜率、MCTS的置信区间等数据即可进行选点。</p>
+<h2 id="AlphaGo-Zero-论文节选"><a href="#AlphaGo-Zero-论文节选" class="headerlink" title="AlphaGo Zero 论文节选"></a>AlphaGo Zero 论文节选</h2><p><img src="http://upload-images.jianshu.io/upload_images/31319-caf7b3f0dffdabac.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="AlphaGo Zero增强学习过程"></p>
+<p>a:自我对弈过程s1，…，sT。 在每个状态st, 使用最近一次的网络fθ，执行一次MCTS αθ （见图2）。 下法根据MCTS计算的搜索概率而选择，at ~ πt. 评价终止状态sT，根据游戏规则来计算胜利者z。<br>b: AlphaGo Zero的神经网络训练。网络使用原始的棋盘状态st作为输入，通过数个卷积层，使用参数θ，输出有向量 pt, 表示下法的分布概率，以及一个标量vt，表示当前玩家在st的胜率。网络参数θ将自动更新，以最大化策略向量pt和搜索概率πt的相似性，并最小化预测赢家vt与实际赢家z的误差。新参数将应用于下一次自我对弈a的迭代。</p>
+<p><img src="http://upload-images.jianshu.io/upload_images/31319-540aea408a78ee1c.png?imageMogr2/auto-orient/strip%7CimageView2/2/w/1240" alt="AlphaGo Zero 蒙特卡洛树搜索过程"></p>
+<p>a: 每次模拟选择的分支，有最大Q+U, 其中Q是动作价值，U是上限置信，U依赖于一个存储在分支上的优先概率P和该分支的访问次数N（每访问一次N+1）。<br>b: 扩展叶节点，神经网络（P(s, .), V(s)) = fθ(s)评估s; 将向量P的值被存储在s的扩展边上。<br>c: 根据V更新动作价值（action-value)Q，反映所有该动作的子树的平均值。<br>d: 一旦搜索结束，搜索概率π被返回，与 Ν^(1/τ) 成正比，N是每个分支的访问次数，而τ是一个参数控制着温度（temperature）。</p>
+<h2 id="AlphaGo-Zero的应用"><a href="#AlphaGo-Zero的应用" class="headerlink" title="AlphaGo Zero的应用"></a>AlphaGo Zero的应用</h2><p>AGZ算法本质上是一个最优化搜索算法，对于所有开放信息的离散的最优化问题，只要我们可以写出完美的模拟器，就可以应用AGZ算法。所谓开放信息，就像围棋象棋，斗地主不是开放信息，德扑虽然不是开放信息，但本身主要是概率问题，也可以应用。所谓离散问题，下法是一步一步的，变量是一格一格，可以有限枚举的，比如围棋361个点是可以枚举的，而股票、无人驾驶、星际争霸，则不是这类问题。Deepmind要攻克的下一个目标是星际争霸，因为它是不完全信息，连续性操作，没有完美模拟器（随机性），目前在这方面AI还是被人类完虐</p>
+<p>所以看到AG打败人类，AGZ打败AG，就认为人工智能要打败人类了，这种观点在未来可能成立，但目前还有点危言耸听。距离真正打败人类，AGZ还差得很远。</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2014/08/05/everything-is-fate/" class="archive-article-date">
-  	<time datetime="2014-08-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-08-05</time>
+      <a href="/2019/11/01/alpha-go-zero/" class="archive-article-date">
+  	<time datetime="2019-10-31T17:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-11-01</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/AI/">AI</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-promise-in-cache-crash" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/11/01/promise-in-cache-crash/">Promise模式在防止缓存雪崩中的应用</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>对大多数高并发架构而言，缓存是不可或缺的。在数据持久化层，其核心是保证数据一致性，而吞吐能力往往较弱。而在缓存层，因其逻辑简单，则具备较高的吞吐能力，但为了保证数据的时效性，则必须设置缓存的过期时间。在缓存过期后，程序会从持久化层读取数据，填充缓存。我们通常称这种缓存加载方式为懒加载（lazy load）。</p>
+<p>在缓存失效的瞬间，如果突然爆发大量缓存请求，则会导致所有请求穿透至持久化层，给持久化层带来巨大压力，这种现象叫做缓存雪崩。</p>
+<p><img src="/img/promise/1.png" alt="缓存雪崩"></p>
+<h2 id="解决缓存雪崩的几种方案"><a href="#解决缓存雪崩的几种方案" class="headerlink" title="解决缓存雪崩的几种方案"></a>解决缓存雪崩的几种方案</h2><ol>
+<li>在预加载时设置锁状态。后至的缓存请求，将获得锁状态，在一段时间后重试加载缓存。但这一方法不能保证第一时间返回数据。</li>
+</ol>
+<p><img src="/img/promise/2.png" alt="穿透锁"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">def lazyload(key):</span><br><span class="line">    value &#x3D; cache.get(key)</span><br><span class="line">    if(!value):</span><br><span class="line">        cache.set(key, &#39;__lock__&#39;)</span><br><span class="line">        value &#x3D; db.get(key)</span><br><span class="line">        cache.set(key, value)</span><br><span class="line">    if(value &#x3D;&#x3D; &#39;__lock__&#39;):</span><br><span class="line">        sleep(100)</span><br><span class="line">        return lazyload(key)</span><br><span class="line">    return value</span><br></pre></td></tr></table></figure>
+
+<ol start="2">
+<li>这里重点介绍的Promise解决缓存穿透的思路，这种方法将使同一进程内对同一缓存的访问进行汇总，不仅减少对持久层的缓存穿透，而且也可以降低对缓存层的请求量。拥有极强的汇聚效果。</li>
+</ol>
+<p><img src="/img/promise/3.png" alt="Promise解决缓存雪崩"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">def _lazyload(key):</span><br><span class="line">    value &#x3D; cache.get(key)</span><br><span class="line">    if(!value):</span><br><span class="line">        value &#x3D; db.get(key)</span><br><span class="line">        cache.set(key, value)</span><br><span class="line"></span><br><span class="line">promiseMap &#x3D; &#123;&#125;</span><br><span class="line">def lazyload(key):</span><br><span class="line">    def clearPromiseMap:</span><br><span class="line">        delete promiseMap[key]</span><br><span class="line">    promise &#x3D; promiseMap[key]</span><br><span class="line">    if(!promise):</span><br><span class="line">        promise &#x3D; Promise(_lazyload, key)</span><br><span class="line">        promise.then(clearPromiseMap)</span><br><span class="line">        promiseMap[key] &#x3D; promise</span><br><span class="line">    return promise.resolve()</span><br></pre></td></tr></table></figure>
+
+<p>本文所有代码为伪代码！</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/11/01/promise-in-cache-crash/" class="archive-article-date">
+  	<time datetime="2019-10-31T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-11-01</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-how-company-works" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2019/02/04/how-company-works/">企业是如何运作的？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>我一直很好奇人类社会是如何组织运作起来的，在历史中我们王朝的更迭，在现在一家公司的成败。我们很幸运，如果我们希望成就一番事业不再需要像古代的野心家那样，一定要冒着杀头的风险才能获得，也无需像古代的官僚一样必须依附于一个人情系统才能生存。因为现代的法律和企业制度给我们提供了必要的保护。</p>
+<p>人是一个社会性动物。因此人与人之间进行是系统性的对抗。于是人们结成集体，依靠集体的合力获取胜利，使每个个体获取大于单独行动的收益。因此企业首先是一群人集体谋利的手段。我们不能否认这一点，不能将所谓情怀、价值观放在集体谋利手段的更优先的位置。即便有一个组织的确是将其价值观置于最优先的位置，那么只能说其价值观代表了这个组织的最高利益，而价值观是手段，利益才是目的。</p>
+<p>当劫掠能够产生比生产更大的收益时，草原上原本松散的社会结构，就会很快结成联盟，经过仪式性的战争选出头领，带领大军南下，劫掠中原。驱动他们凝结在一起的力量就是谋生。当他们凝聚在一起之后，他们劫掠的资源可以支撑他们更大的野心。十三世纪，蒙古帝国迅速的崛起，横扫亚欧大陆，令人惊叹。蒙古帝国既没有大英帝国先进科技，也没有中国、欧洲先进的思想，也没有丰富的资源，是什么让他们成就了如此伟业？</p>
+<p>最新的考古学证据表明，成吉思汗崛起之时，漠北草原迎来了15年的持续降雨和温和天气，温和的天气带来了丰富的牧草，丰富的牧草带来了充沛的战马。而战马是当时最重要的战略物资。这一切都给蒙古帝国的崛起创造了条件。但我依然想知道一点，如果条件适宜，这一切是必然会产生的吗？</p>
+<p>我的答案是，如果一个民族的人数达到了临界值，并且当时的条件适合这个民族崛起，那么这个民族一定会崛起。一定有一些民族错过了他们的机遇，那么这些民族甚至将因此失去其原本所拥有的东西。为什么需要一个临界值？这个临界值是用于确保有足够多的竞争者，而最终胜出的竞争者将带领这个民族走上崛起之路。</p>
+<p>在战争这件事上充分的体现了集体的力量是大于个人的，而如果成功，领导者的收益也必然是大于普通个体的。那么又有一个问题，既然领导者的收益最大，为什么一个集体之中参与领导者竞争的只有一小部分人，而不是全部？原因很简单，参与领导者竞争是存在巨大风险的。不同的人选择了不同的风险收益比，总体来说这个风险收益是均衡的。每个人都是由自己的禀赋做出了选择，而那些选择参与领导者竞争的人，正是由其先天性格禀赋所决定的，他们对于未知与冒险有着天然的适应性。他们未必是群体中最强壮、最聪明的人，也未必是群体中最勇敢的人，但他们是群体中最有魄力的人，魄力是一种综合的能力，他使整个集体朝着同一个方向前进，并扫除那些阻碍集体向前的障碍。他使集体围绕在他的周围，他个人就代表了集体。在一个由众人构成的战车面前，个体的聪明、勇敢，都是微不足道的。</p>
+<p>当有了核心之后，这群人就不再是松散的个体，集体从这一刻诞生，他们以集体的名义捕猎，而后分配。</p>
+<p>一个领导者需要几名得力的助手，才可以统御整个系统。每个系统都是多个组件所构成的，</p>
+<p>一家公司的员工，并非都属于一个集体，正如一个王朝，并非所有人都属于王朝组织，</p>
+<p>对于一个组织来说，相比于个体是一个更加不稳定的系统，必须要更大的能量才能维持其稳定的存在，否则组织将走向覆灭。因此获取更大的能量就是这个组织必须要解决的一个问题。对于一个人类社会组织，我们可以用财富来对应这种能量。财富只有两种方式获取，第一种是创造，第二种是掠夺。决定采用哪一种形式并不由这个组织的道德水平决定，而是由收益成本比决定，如果创造财富的收益比更高，则选择创造财富，如果掠夺财富的收益比更高则选择掠夺财富。人们看到这一说法可能会不以为然，或者想当然的认为掠夺财富的收益更大，事实上掠夺财富要承担巨大的风险，因为每个组织都为自己的财富设置了各种保护。获取到的财富可以用于进一步扩大组织的边界与能力，当获取财富的速度不足以支撑更大的组织结构时，组织的边界将稳定或者减少。比如蒙古人用他们的军事力量征服了一个又一个城市后，又将掠夺来的物资和人力融入到自己的组织中。使组织进一步扩大。</p>
+<p>当我们说掠夺财富时，并非一定单纯指蒙古人式的野蛮掠夺，现代社会也存在着很多形式合法的掠夺，比如金融系统，比如各种服务平台的服务费，竞争对手之间争夺市场份额等。不得不说，在一个竞争激烈的红海市场中，掠夺能力才是王道，而创造只是为他人做嫁衣。</p>
+<p>一个企业永远要将争夺市场当作最核心的能力，正如一个王朝不能忘了战争的重要性。</p>
+<p>金融和法律框架下的进行的，离开了法律的保护，我们所拥有的财富都是泡影。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/02/04/how-company-works/" class="archive-article-date">
+  	<time datetime="2019-02-03T16:39:36.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-02-04</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-conscious-of-machine" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2018/06/01/conscious-of-machine/">机器的意识</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>机器学习当下是非常火热的课题，大量的模型被设计出来令人眼花缭乱。诸如SVM，随机森林，贝叶斯网络，神经网络只不过是这个领域的基础知识，在这些基础方法之上的各种优化分支方法更是数不胜数。大量的所谓机器学习的研究者，在某个问题上，通过对现有方法的小修小补，达到了一些微不足道的提升，或仅仅是对几种模型／优化方法／特征分析／问题领域进行一些常规的比较分析，便可以一本正经的发布一篇学术论文。为了这些方法应用到实际的工程中时，通常需要消耗大量的人力用于前期的数据分析和处理，这一过程被称为“特征工程”。对于此类人员的专业度要求非常高，需求量也非常大，因此这类人才的溢价也非常高，以致于一个刚刚毕业的研究生的薪酬可以轻松超越一个有多年经验的软件工程师。然而这类人力工作通常并没有太多的创新性可言。这是在当前的科技背景下产生的独特的现象——一大批资质平平的智力工作者受到了疯狂的追捧。这一现象必然在机器学习真正取得突破性进展后终结，本文将讨论突破性进展可能的方向。</p>
+<p>科技发展有两种驱动力，其一是资本对于更高生产力的追求，其二是纯粹的为了智力上的满足感或是对于某种超自然信仰而展开的对于真理本质的追求。前者更长于将科学成果转化为实际应用，而后者才是实现技术爆炸的真正内核。机器学习领域也是如此，目前正处于科学成果转化的高峰期，是基于前些年的一些基础研究进行的转化。但也是瓶颈期，因为我们感受到了现有方法的局限。目前人们对于人工智能的态度行业内外的看法截然相反：业外的人大部分担心人工智能将超越、统治甚至毁灭人类，业内大部分则恰恰相反。因为专业人士更加清楚，现有方法大多是非常愚蠢的，所谓智能不过是一种魔术。你一定体验过魔术被揭秘的感觉，这就是我兴致勃勃的了解了许多机器学习方法后的感受。可以很负责任的说，我们距离人工智能的本质还差的很远很远。大部分的人醉心于如何更好的表演魔术，只有很少的人去追求真正的本质，而这些追求本质的方法如果在魔术表演上不够精彩，是很容易被忽视的。</p>
+<p>人工智能概念最早由约翰·麦卡锡（John McCarthy，1927年9月4日－2011年10月24日）在1956年由他自己召集的达特矛斯会议上提出的：“人工智能就是要让机器的行为看起来就像是人所表现出的智能行为一样”。这是人工智能的早期定义，人们后来意识到这个定义忽略了强人工智能的可能性。所谓强人工智能是指机器拥有真正的智能而不仅仅是“看起来像”，与之相对的则被称为弱人工智能，而目前实现的都是弱人工智能。这引发了一系列的哲学问题——什么是智能？强人工智能是否有可能实现？强人工智能是不是人类的灾难？即便我们出于伦理和人类安全的考虑，不追求实现强人工智能，而只是追求弱人工智能的“看起来像”的目的，也不得不借鉴强人工智能的思路，也就不可避免的不断的朝着强人工智能方向前进。本文不讨论人工智能是否对人类构成威胁的问题，仅从方向和方法上讨论强人工智能的可行性。</p>
+<p>人工智能本质上属于仿生学范畴的。智能本身就是很复杂的，而人类仅能认识到自己的智能，不可能理解龙虾或者外星人的智能。所以对人工智能本质的追求，应该是对人类自身深入认识的过程。并且这种认识不能仅仅停留于哲学解构的层面，必须通过工程手段加以重新建构，我们用哲学上和工程上都能理解的语言进行表达，而这种语言我们称之为模型。</p>
+<p>人类智能可划分为一些层次，无意识的精神、意识、自我、逻辑、知识、表达、知觉、经验。这些划分并不存在清晰的界限。通过真正的智能与现有弱人工智能的比较，我们可以更好的理解这些概念。</p>
+<p>当AlphaGo轻松打败人类棋手时，人类棋手感到压力、恐惧、伤心、绝望。我们为AlphaGo的棋艺感到惊叹，但事实上二者在智能上相比，人类棋手的情绪反应才是真正令人惊叹的。AlphaGo不会为胜利而感到骄傲，也不会为失败而羞耻，他不会为存在而感到快乐，也不会为消失感到痛苦。他甚至根本没有想要胜利的欲望，更不会有人类各种复杂的情感。这些就是无意识的精神，精神在不自觉的驱动着我们的意识，或纵情声色，或知耻而勇，或趋利避害，或舍生忘死。虽然我们看起来是由理智所控制的动物，但精神不受理智的控制。这点在恋爱中的人身上尤为明显，即便他们的理智告诉他们不要对另一方过于依恋，但他们却无法控制自己所思所想。对于音乐的感受也是类似的，不过是不同频率的声波的组合，竟能使人不由自主的感到快乐或悲伤，多么的神奇。生物学家认为，当多巴胺分泌增加时，人就会感到快乐。多巴胺是一种神经传导物质，这就像是给神经系统的奖励，以刺激我们更加努力的工作。但这并不能解释快乐的本质，我们可以想象我们给车添加了燃油和润滑油，这相当于是给了车奖励，但是车并不会感到快乐。我们在训练AlphaGo时，每次他获胜，我们也会给他一个反馈，告诉他这次做的结果不错，他就会更加靠近这个结果，但他并不会感到快乐。那么为什么多巴胺分泌增加人就会感到快乐呢？显然多巴胺不是快乐的本质，只是快乐的使者而已。</p>
+<p>人类诸多行为有可能是后天习得的，但有些则是在被创造时就存在的。食欲、快乐、痛觉、饥饿感、自我、对母亲的依恋，这些都是与生俱来的。所以我们可以认为某种无意识的精神在母体中被创造时就存在了。但是从那一刻这种精神开始存在呢？我们很难想象单细胞状态的受精卵拥有这种精神。当基因代码一层层展开，从单细胞到多细胞，脊椎动物，鱼、两栖、哺乳类、灵长目、人科、智人属的基因片段开始逐步表达，胚胎的结构从简单到复杂，直到降生时我们依然没有发育完全，经历长时间的幼态持续，青春期，我们更多的情绪和欲望被展现出来。当我们回忆我们成长阶段的各种性格变化，这一切究竟是在哪一刻如何产生的呢？我们可以肯定这种精神不是来自于单一的细胞，而是来自大量脑细胞的集体创造。在我们大脑中有一个部分，是在基因中硬编码的部分，做出一些基本的身体机能感受判断、审美判断、情感判断。这部分不受理智控制的部分，我们称为精神。如果没有这种本能的精神，我们的智力也就没有了用武之地。我们可以设想任何的人工智能程序，必须拥有某个目标，这就是他的欲望，在欲望被满足时会得到某种激励。但人类的欲望是如此的不同，在欲望被满足时得到的奖励感受也是如此不同。他不是一个简单弱人工智能所能解释的，以梯度下降法举例：当错误率很高时，函数会修正自己的参数朝着错误率更低的方向前进一小步，直到错误率不再有明显下降。错误率最小是他的目标，但是这个函数是如此机械，我们不可能他是有精神的。</p>
+<p><em>精神是目标，但目标不一定是精神，精神本身就是复杂的，是在长期进化中形成的一种复杂的多细胞集体创造。</em></p>
+<p><em>人类的意识是一系列智能子系统的集合</em>。佛教所谓六根即：眼耳鼻舌身意，意识是起到总控的作用。意识可以连接我们的视觉、听觉、触觉、味觉、嗅觉，可以控制我们的肌肉，意识是用来做出决策的。精神是意识的内核，是引擎，为意识指出明确的方向。精神是底层的，意识是上层的。当我们在梦境时，我们的意识模糊，但是精神却是清醒的，梦境混乱无序，我们对身体的控制减弱，但我们对于快乐悲伤的感受依然真实。意识不仅仅是各个单元的连接器，其自身也是复杂的，可能是某种层垒的结构，最低级的意识就是对于感觉的条件反射，更高级的意识活动则包含知识、经验、逻辑。意识不等于记忆、知识、逻辑、推理的能力。草原上的野兽，尤其是那些捕猎者，它们都拥有很强的意识，但不等于他们拥有人类一样的高级智力活动。</p>
+<p>感觉系统大体是类似的，目前的人工智能在某种程度上已经能够做到一些感知能力，尤其是视觉、听觉方面。对于视觉而言，如果在你的周围空间随便选取一个点，那么通过这个点的只有一些杂乱的电磁波而已，我们称之为光线，但是当我们的眼睛置于这个点，我们能够从这堆杂乱的电磁波中提取出周围物体的信息，投射在我们的视网膜上，视网膜将这些刺激信号传递到我们的视觉处理系统，我们能够分辨“颜色”，“形状”，“材质”，“种类”，“运动”。听觉也是同样神奇，我们的双耳中的空气分子不过是在无序的震动，我们却能从中提取出音色、音高，如果有多种声音同时存在，我们也能很好的将这些声音分离。在一个混乱的环境下，如果我们想要看清或听清一些东西，我们必须付出更多的注意力，也就是我们需要投入更多的意识。这说明我们的感觉系统不仅仅是一个物理系统，更加是一个信息处理的系统。我们通过信息的时间变化，组合，特征分离和重新组合，得出结论。因此对于同一事物的感受，不同的个体是不一样的，这也就是我们说的主观感受。比如我们对于颜色的感受，在意识中的投射是不一样的，一个很明显的证据就是色盲。所以我们虽然都认同某个物体是红色的，红色在我的意识中与在你的意识中可能是完全不同的。在跨越物种之时，感受的区别必然更加明显。有些物种则拥有完全不同的感觉器官，比如可以看到地球磁场的知更鸟（引用）。感觉系统的模拟，首先需要有相应的仪器设备采集信号，信号必须经过无意识的处理，转化为抽象的特征，将抽象特征交给意识体来处理。</p>
+<p>假设我们已经能够创造出具有精神、意识、感觉的系统，我们可以开始讨论“自我”这个问题。这个问题看起来非常诡异，一个具有精神、意识、感觉的系统，难道会没有自我的概念吗？如果一个意识体就是整个世界的全部，除了自身之外再无其他，他还会有自我的概念存在吗？自我相对于非我而存在的，没有非我，也就没有自我。如果一个意识体置于一个容器之内，他对容器外的世界一无所知，在他看来他就是全部。当我们沉浸于某个目标时，我们也会忘记了自己的存在。当我们进入竞争环境，自我概念就会强化。自我与存在是同一个问题，保持自我存在是一个本能的精神元素之一。   。。。必须区分内外，头发是不是我，指甲是不是手臂是不是我？</p>
+<p>未完待续。。。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2018/06/01/conscious-of-machine/" class="archive-article-date">
+  	<time datetime="2018-06-01T03:49:41.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-06-01</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/AI/">AI</a><a class="article-category-link" href="/categories/AI/%E9%9A%8F%E7%AC%94/">随笔</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-public-avatar" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/12/19/public-avatar/">人设——下一个现象级产品会是谁？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>Update 2019-12：此文预见了新社交软件抖音的崛起。红人霸场的现象使社交平台被红人绑架，新人也被压制。抖音能够成功，首先是4G移动网络的进一步普及，提供了短视频社交的需求，但这一赛道的玩家众多，并不能保证抖音胜出。真正保证抖音胜出的是其“捧红新人“的能力，完全基于推荐算法的产品设计，将流量分发的控制权从红人手中收回到平台，可以根据算法计划性的将流量分配给新人进行实验。至于其滤镜、音乐之类的辅助运营手段，并非其制霸全球的根本原因。</p>
+<p>另在清理微博时，看见了自己在2012年对游戏收费模式的看法。王者荣耀的成功从另一个角度印证了我的预见性。<br><img src="/img/screen_shot/wb2012.jpeg" alt=""></p>
+<h2 id="原文："><a href="#原文：" class="headerlink" title="原文："></a>原文：</h2><p>什么是SNS的本质？当我们看待一个SNS的时候，我们看到的是什么？</p>
+<p>信息、状态、转发、私信、粉丝、评论，我们看到的是这些产品功能吗？还是这些数据？他的价值在哪里？</p>
+<p>一个SNS，我们看到的是，我们自己的公共形象，或者是某些人的公共形象。SNS为这些红人提供了舞台。</p>
+<p>而且，每个SNS所提供的舞台是不一样的，往来的红人也是不一样的。</p>
+<p>SNS就像一个主题酒吧，来往形形色色的人，但他们身上或多或少会有一些共同点。在同一个SNS上，他们有同样的期许。</p>
+<p>粉丝是一个两难的设计。没有粉丝，红人们没有动力在SNS上奋斗，而有了粉丝之后，任何的SNS最终会走向固化，<strong>红人霸占了主要的SNS资源</strong>。</p>
+<p>这也是各种SNS会不断推陈出新的原因，因为有一批有潜质的红人，无论他／她是什么类别的红人，他需要一个舞台。但是有些场子，已经被人霸占，于是他们不得不寻找新的舞台。而总有一些SNS平台会抓住一些机会，提供某个类别的小舞台，这就是垂直SNS。</p>
+<p>是否有可能干翻霸主级的社交网络？Facebook，twitter，国内的腾讯、微博。<strong>答案是能！</strong>本质上腾讯就被自己干翻了，微信取代QQ，本质上就是对霸主的挑战，虽然这一切发生在腾讯内部。但是微信取代QQ，这样的现象是难以复制的，为什么呢？因为微信取代QQ是发生在<strong>移动互联网与传统互联网更替的阶段的，是大事因缘</strong>，没有微信取代QQ，也会有其他应用取代QQ，但机会只有一次。</p>
+<p>陌陌，用陌生人社交的方式占领了一定的市场，但是陌陌本身的名称定位已经把自己钉死了，就是陌生人社交。微信早期用摇一摇也达到了同样的爆发式增长，但用户规模上去之后，微信就可以弱化了这一个功能。</p>
+<p>SNS下一个风口在哪里？SNS不是风口，但机会永远存在。挑战霸主级的社交网络，需要的是天时地利人和。产品与用户，双方共同成就了一个霸主级社交产品。得红人者得天下，微博的发展正是这样的模式。</p>
+<p>但红人是本身就存在的，还是通过平台而红的，这个问题很关键。<strong>一个优秀的SNS平台应该有制造红人的能力，或者是让红人可以成长起来的能力</strong>。当你知道的红人越来越多的来自微信公众号，而不是来自微博的时候，那么说明微博的影响力降低了。</p>
+<p>因此霸主级的似乎不可撼动的庞然大物其实是可以被打败的。</p>
+<p>如何再造一个现象级的社交网络，我们不应该从产品模式上来思考这个问题，而是需要从人性的角度上来思考这个问题。人性是社交网络之所以成立的本质。更具体的说，<strong>人的社会性，情绪化，是社交网络的根本驱动力</strong>。人渴望被关注，渴望交流，渴望存在感，或只是渴望来自他人的声音。找到人在精神上的未被充分满足的需求点，强化这种概念，就有机会在社交产品中找到一席之地。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/12/19/public-avatar/" class="archive-article-date">
+  	<time datetime="2016-12-19T04:15:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-19</time>
 </a>
       
       
@@ -204,7 +477,7 @@
 
 
   
-    <article id="post-wow-design" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-bimozhishang" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -214,7 +487,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/26/wow-design/">再探魔兽世界</a>
+      <a class="article-title" href="/2016/11/24/bimozhishang/">笔墨之殇</a>
     </h1>
   
 
@@ -222,23 +495,23 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>日常任务</p>
-<p>货币、声望、荣誉。。。</p>
-<p>副本、英雄副本、团队副本</p>
-<p>社交、公会</p>
-<p>商业技能</p>
+        <p>说点什么好呢？这两天我开始，翻阅以前我读过的书，我发现，有很多的书，只是草草看过，还有一些书，根本没有看过。原来自己有做读书笔记的习惯，可是当我把阅读的时间放到地铁上之后，这个习惯，也随之消失了。以至于我根本不知道这本书，有没有读过。纸质书，可以有记录笔记的空间，而电子书，阅读起来比较方便，我想这就是纸质书和电子书的区别吧！</p>
+<p>以前我总想写点文字。可是我发现自己，写作的速度越来越慢了，也找不到合适的输入法。拼音输入法，当你想打一些，书面语，或者是文言文的时候，就很难输入。而，五笔输入法或者其他的字型输入法，都有一个问题，就是，学起来太麻烦了，我根本记不住那些字码表，而且，当我，去回忆那些字码的时候，我的思路已经被打断了。</p>
+<p>我还是喜欢拿着笔在纸上写字的感觉。在这种状态下，我的思路是最流畅的。</p>
+<p>一直以来，我都想写一两本小说，可是构思了很久，却迟迟没有动笔。自己内心真正想表达的东西，和整个故事的结构，往往存在冲突。我不愿意写一些，没有人想看的东西，但我也不想，完全是为了迎合别人的口味，而写作。</p>
+<p>其实，这并不是什么文章，我这是在测试一种新的输入法，一种，新的写作方式，那就是，直接把我想写的，念出来。你所看到的一切，都是我通过语音输入的。好吧，今天就说到这里，我的脚也泡好了。</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/03/26/wow-design/" class="archive-article-date">
-  	<time datetime="2013-03-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-26</time>
+      <a href="/2016/11/24/bimozhishang/" class="archive-article-date">
+  	<time datetime="2016-11-23T16:16:01.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-11-24</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/" rel="tag">game-dev</a></li></ul>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/gossip/" rel="tag">gossip</a></li></ul>
 	</div>
 
       
@@ -260,7 +533,7 @@
 
 
   
-    <article id="post-game-gambling-design" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-employee-with-employer" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -270,7 +543,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/23/game-gambling-design/">游戏赌博设计</a>
+      <a class="article-title" href="/2016/08/28/employee-with-employer/">雇主与雇员的关系</a>
     </h1>
   
 
@@ -278,26 +551,150 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>暗黑创造了赌博系统。这个概念被暗黑刻意弱化了，赌博概率过低，页游将他发扬光大。<br>打怪物掉随机掉装备。<br>打怪掉装备与赌博系统有差别吗？一个投入的是时间，一个投入的是金钱。</p>
-<p>暗黑符文系统，宝石系统，插槽系统。个性化。<br>英雄联盟符文系统，天赋系统。个性化。</p>
-<p>神仙道命格系统————赌博+个性化。</p>
-<p>抢劫系统与竞技场系统。同为PvP。</p>
-<p>天梯、竞技场 与 抢劫是两条不同的线。</p>
-<p>天梯是目标。天梯是单向的。<br>抢劫是手段。抢劫是乱斗。</p>
-<p>活动战，仙道会，帮派战。</p>
-<p>世界boss与副本。</p>
+        <p>  通常，我们认为雇主与雇员之间的关系是一种管理者和被管理者的关系，但在作者看来，雇主与雇员之间的关系并非如此，在很多时候雇员往往拥有更多的主动权。</p>
+<p>  在法制社会中，当我们成立一家公司时，股东之间通过契约联系在了一起，向同一个目标共同努力，同时实现股东个体的成功。可以说，契约精神是公司赖以存在的基础。</p>
+<p>  在公司与员工的关系上，契约精神同样是重要的基础。在公司与员工形成雇佣关系，这种契约关系就建立了。</p>
+<p>  在一个人成为管理者之前，应该对这一事实有充分的认识。你与下属是平等的，你只有一种权利那就是聘用和解聘的权利。如果公司没有赋予管理者这种权利，本质上，管理者只是个为员工提供服务的人员。员工会向你索取各种资源配合他们的工作，而你提供资源的过程和服务人员递上餐具和食物的过程并没有太大区别。</p>
+<p>  人事部门应该按市场规则与员工进行互动，本质上就和买菜时侃价行为类似。是一种交易行为。如果你要对其进行职位和薪资的调整，本质上是一种内部重新聘用的过程，即使是升职加薪，也需要征得员工的同意，然后才可执行。如果要进行合理的避税，这些事项必须在签订契约（也就是聘用）之前达成共识。对于辞退员工，各种处理方法亦必须要按照契约精神进行，无论是劝退或是辞退，本质上就是一种公司违约行为，理应给予赔偿。对于一些曾经有过突出贡献的员工，在辞退时不仅要给予法律内规定的赔偿，甚至要给予更多的“补偿”。这种补偿本质上也是基于一条根本契约：员工向公司提供劳动，公司为这种劳动支付报酬。违反这种契约，或许不会受到法律的惩罚，但会使某一方丧失在市场上的信用，无论是公司方还是员工方。</p>
+<p>  No Blame Culture，它的基础在于，人和人之间是平等。人们通过不同的分工在一起协作，人们不应因理念、方法的差别而受到羞辱或讽刺。</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/03/23/game-gambling-design/" class="archive-article-date">
-  	<time datetime="2013-03-22T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-23</time>
+      <a href="/2016/08/28/employee-with-employer/" class="archive-article-date">
+  	<time datetime="2016-08-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-08-28</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-what-a-cto-should-be" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/08/28/what-a-cto-should-be/">CTO应该是一个什么样的角色</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>首席技术官（英语：Chief Technology Officer，英文缩写：CTO，又常称为技术官、技术总监）是企业团体里的高阶主管职位之一，是企业内负责技术的最高负责人。这个名称是在1980年代时从美国开始兴起，起源于一些有大规模投资在研究与发展（R&amp;D）项目的大型公司，如通用电气（General Electric, GE），美国电话电报（AT&amp;T）与美国铝业（ALCOA），主要责任是将科学研究成果转为营利项目。</p>
+<p>1990年代，因计算机和软件公司热门，很多公司把CTO的名称给予管理计算机系统和软件的负责人。有时CTO和CIO（Chief Information Officer，是信息管理最高负责人）是同一个人（尤其在软件公司），有时CTO会归于比较精通科学技术的CIO手下。在不同领域的公司，CTO工作性质不同；即使在同一领域，工作性质也可能大不相同。一般CTO会有以下责任：</p>
+<ul>
+<li>长期技术方向（战略性）</li>
+<li>短期技术方向（战术性）</li>
+<li>管理研究对公司经营活动和营利的影响</li>
+<li>公司中使用的软件</li>
+</ul>
+<p>——维基百科</p>
+<p>不负责直接管理任何人的技术合伙人</p>
+<p>国外CTO的职能，除取决于公司规模外，还与高科技企业的发展模式相关联。硅谷很多公司创始人都是技术出身，但公司做大之后并不想转为技术团队管理者，所以除了从外面请来专业经理人担任CEO外，还有可能聘请专门负责研发管理的VP，这样创始人就可以把自己定为CTO角色，以便脱离管理中的琐事，专心研究技术走向。例如，Google的创始人之一Sergey Brin就专门负责研究技术的走向。</p>
+<hr>
+<p>更新：2019-12-25</p>
+<p>CTO在计划经济时代，有的类似于总工程师之类的角色，也有可能类似于科学院院长这样的角色。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/08/28/what-a-cto-should-be/" class="archive-article-date">
+  	<time datetime="2016-08-27T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-08-28</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-sxx-input-method-design" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/01/21/sxx-input-method-design/">一种声形输入法设计</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h2 id="总体规则"><a href="#总体规则" class="headerlink" title="总体规则"></a>总体规则</h2><p>1码声母，2码主部，3码次部，4码取次次码或字形码, … 结束字型码。</p>
+<h2 id="特点："><a href="#特点：" class="headerlink" title="特点："></a>特点：</h2><p>音形合用，书写顺序无关，完全从汉字结构出发。</p>
+<h3 id="声母编码"><a href="#声母编码" class="headerlink" title="声母编码"></a>声母编码</h3><p>声母的，zh用v，ch用i，sh用u。第一码无需思考。</p>
+<h3 id="部首编码"><a href="#部首编码" class="headerlink" title="部首编码"></a>部首编码</h3><p>主部指主偏旁，不在于上下左右，比如桂，主部取木。剑，主部取立刀。这样规则虽然有时不严谨，但大部分情况易于辨识。基本可以在不需要思考的情况下输入第二码。如无主次之分，则从左到右，从上到下，如吉，取士。左右皆为部首，首先取含义最匹配的为部首，其次取不需拆解的。如果不易分辨，左右结构优先取笔画少的为部首，否则遵循从上到下，从左到右规则。</p>
+<p>次部取剩余部分的主码。依次类推。</p>
+<p>没有剩余部分，但依然需要进一步区分的，取自身所包含的次要部件。</p>
+<h3 id="字型编码"><a href="#字型编码" class="headerlink" title="字型编码"></a>字型编码</h3><p>结束字型码只会出现在结尾。你可以跳过中间的码直接输入结束字型码。结束字型码有3个，左右字，独体字和上下字，其他。你可以直接输入声母和结束字型码。</p>
+<p>三个码表，相互独立。用户可以选择性的配置是否包含“声码”，“韵码”，“部首码”，“字型码”。主要难度在于字根部首分布的设计和字符集的编码完善。</p>
+<p>工作方式可以采用分布式工作方式，将字符集分割为200个文件，开放的人工的方式对200个文件进行修改提交。</p>
+<p>为了避免字根表设计不合理，导致码表分布不均匀的情况。工作应采用，先进行部首拆解，再进行字根合并编码的过程。<br>比如：型，土，刀，开。避，之（辟左）辛。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2016/01/21/sxx-input-method-design/" class="archive-article-date">
+  	<time datetime="2016-01-20T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-01-21</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/" rel="tag">game-dev</a></li></ul>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/input-methods/" rel="tag">input-methods</a></li></ul>
 	</div>
 
       
@@ -319,7 +716,7 @@
 
 
   
-    <article id="post-redis-leveldb" class="article article-type-post" itemscope itemprop="blogPost">
+    <article id="post-js-the-future" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
       <input type="hidden" class="isFancy" />
@@ -329,7 +726,7 @@
         
   
     <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/17/redis-leveldb/">redis leveldb</a>
+      <a class="article-title" href="/2016/01/11/js-the-future/">JS与未来</a>
     </h1>
   
 
@@ -337,292 +734,39 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>redis protocol + leveldb storage = perfect key/value database</p>
+        <blockquote>
+<p>人类文化的发展，经过新人阶段的旧石器时代晚期以后，先后进入新石器时代及金属时代。愈到后来发展愈为迅猛。从新石器时代的开始到现在至多不过一万年左右，金属时代的开始到现在不过数千年，人们开始利用电能到现在不过一百多年，原子能的利用则仅是最近几十年的事；而新石器时代以前的发展阶段，则动辄以数十万年到千百万年计。由此可见，人类的发展不是等速度运动，而是类似一种加速度运动，即愈到后来前进的速度愈是成倍地增加。 ————李四光《人类的出现》</p>
+</blockquote>
+<p>前端革命不会停止，技术的发展呈现的是一种加速发展的趋势，以javascript为主的web技术在最近几年有了非常快速的发展，新技术新名词不断出现，让人眼花缭乱。这种快速的变化也让人在技术选型时无所适从，担心今天的选择会在明天被淘汰。</p>
+<p>jquery,mootools,grunt,gulp,webpack,angularjs,React…</p>
+<p>纵观整个web技术的发展过程，基本遵循从静态到动态，从后端模版到前端模版，从前端模版到组件化，从组件化到工程化这样的过程。下一步的发展会是虚拟化。</p>
+<p>所谓虚拟化，就是把浏览器当作一台虚拟机，我们需要建立一个与浏览器无关的抽象语言层。</p>
+<p>如果我们将浏览器看作一台机器，那么这个机器只有最简单的渲染接口，和编程语言，他的可编程设计并不友好，并且存在着“操作系统”间的不兼容的现象。开发社区顽强的从这一套冗杂的js语言运行环境和DOM渲染接口上，搭建起了跨平台系统（兼容框架），包管理基础设施（npm），高级语言及其编译器（coffeescript, ES6/7，typescript, 以及babel编译器，各种css编译器），各种开发框架（react），工程管理工具（webpack）。</p>
+<p>当这一整套设施完善之后，这一整套js生态高级工具是通用的，而不同的浏览器只是一个目标系统而已（target）。同理，我们可以将js生态编译到浏览器的目标系统，我们也可以将js生态编译到非浏览器的目标系统，原生的iOS，原生的Android (react-native)，我相信也必然可以将js编译到PC桌面操作系统。虽然目前js可以基于webkit技术开发桌面应用，但如果可以将js直接应用在native的桌面窗口系统，性能必然大大改善。</p>
+<p>React 与 Angular 的不同在于，Angular还只是在玩web前端的开发模式问题，而React在玩的是JS语言生态的问题，这完全是更高的维度。</p>
+<p>编程语言五花八门，种类繁多，我认为有3种语言在编程语言的历史上占有至关重要的地位：</p>
+<p>首先是汇编语言，它让人们可以用更易理解的方式与机器沟通，不需要再使用难以理解的2进制的机器语言，不同指令的CPU可以使用“相近的”汇编语言进行编写，实现了CPU指令的抽象化；</p>
+<p>然后是C语言，它是一门高级语言，最重要的是它使用指针等形式对内存分配和访问进行了抽象，而它也理所当然的成为了操作系统内核开发的不二之选，C取得了极大的成功，提供了文件系统、网络等重要的标准接口，在某种意义上说，C在一定程度上实现了操作系统的抽象化；</p>
+<p>第三种语言，它不是java，虽然它提出了很好的愿景————跨平台，面向对象，并且也取得了巨大的成功，但它并不具有多少特殊的意义。第三种语言，就是JavaScript，也可以说是ECMAScript，它是一种动态语言，这并不新鲜，但它是一种与生俱来使用互联网进行分发的动态语言，它实现了浏览器的抽象化，随着发展，它已经逐渐实现了对客户端而不仅仅是浏览器端的抽象化，更进一步的，它实现了对运行环境的抽象化。能完成这个任务的，并不是JS的特权，从理论上来说，任何嵌入式脚本语言，都可以完成和JS同样的功能，比如lua。但是只有JS才能完成这个历史使命，而不是lua，因为JS天生是通过网络部署的，天生是需要兼容多种运行环境的。</p>
+<p>这3种语言有一个共同的特点：他们都有多种不同的实现，甚至一度缺少标准，或标准形同虚设。简而言之，非常混乱。无法解释究竟是因为太成功而产生了混乱，或恰恰是因为这种混乱而促使了它的成功？</p>
+<p>今天我们已经可以看到JS被应用在了越来越多的地方，web，移动开发，服务端开发，硬件开发。</p>
+<p>我们可以大胆的畅想，未来的桌面环境都将由JS来开发。但是那个JS也许不是今天的JS，而是一种重新定义的高级语言，也许也会有一个全新的名字（比如JSX，TypeScript），而且它一定是由社区力量建立的语言，靠社区的分布式的民主系统共同推动发展的语言系统。这种语言天生具有贯穿前后端的功能，它既有js的灵活，也有C的性能，它既能很好的描述界面，捕捉输入，开发网络交互，也能很好的操作硬件，它不仅适合做逻辑处理，也适合用于科学计算以及量子算法。它会被用于开发桌面系统，硬件，操作系统，航天器控制程序，机器人。</p>
+<p>除了这种几乎万能的编程语言，还会产生一种更高级的机器会话语言。IDE将会彻底的革命，未来的IDE可能是一种对话式的IDE，你需要用IDE能够理解的简洁的语言来告诉IDE你的想法，IDE会比那些愚蠢的投资人更能听懂你的想法，利用丰富的基础设施(如云）快速的给出你一个简单的原型，你需要再次告诉IDE你所需要做的调整，你也可以描述你的业务需求，IDE会自动的帮你生成代码与测试代码，它不会犯人类会犯的各种低级错误。你编写的代码高效且安全。一套会话式的IDE交互语言。一个聪明的孩子可以掌握一门几乎万能的编程语言，一个人就可以作出令人惊艳的作品。</p>
+<p>这就是未来，由分布式的黑客所共同创造的未来。</p>
 
       
     </div>
     <div class="article-info article-info-index">
       
-      <a href="/2013/03/17/redis-leveldb/" class="archive-article-date">
-  	<time datetime="2013-03-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-17</time>
+      <a href="/2016/01/11/js-the-future/" class="archive-article-date">
+  	<time datetime="2016-01-10T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-01-11</time>
 </a>
       
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li></ul>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/js/" rel="tag">js</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/web/" rel="tag">web</a></li></ul>
 	</div>
 
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-game-object-properties-adapter" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/05/game-object-properties-adapter/">GameObject properties adapter ———— 游戏数值开发要点</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>游戏数值是动态的，可叠加的，物品，天赋，被动技能，Buff，光环，都会改变一个GameObject的属性。</p>
-<p>游戏数值开发的难点在于抽象。程序员必须将策划的语言抽象出来，否则物品、天赋、技能、Buff、等等会让你的代码千头万绪，错综复杂。</p>
-<p>而如果能够很好的抽象出这些东西，将会一目了然，胸有成竹。</p>
-<p>鄙人曾在一款塔防游戏中负责数值系统的开发。</p>
-<h2 id="数据抽象"><a href="#数据抽象" class="headerlink" title="数据抽象"></a>数据抽象</h2><ul>
-<li><p>静态数据 - 设定 - Settings - S</p>
-</li>
-<li><p>游戏对象 - 实例 - Instance - I</p>
-</li>
-<li><p>实例的设定 - 实例的静态数据 - Instance Settings - IS</p>
-</li>
-<li><p>实例当前的未叠加基本状态 - 实例裸体状态 - Instance Naked Data - IND</p>
-</li>
-<li><p>状态叠加器们 - Instance Adapters - IA</p>
-</li>
-</ul>
-<h2 id="配置数据"><a href="#配置数据" class="headerlink" title="配置数据"></a>配置数据</h2><p>将策划语言转变为可被程序识别的数据，做到技能、物品可配置。</p>
-<ul>
-<li>物品 - 技能 - 天赋 - Adapters<ul>
-<li>[选择器] - [Selector] 定义作用对象，比如某天赋影响所有士兵，而另一技能只影响兽人士兵<ul>
-<li>[修改器] - [Modifier]<ul>
-<li>属性</li>
-<li>操作符 + （增加x点） +% （增加x%）= （改变为x）</li>
-<li>值 x</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/05/game-object-properties-adapter/" class="archive-article-date">
-  	<time datetime="2013-03-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-05</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/" rel="tag">game-dev</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-game-essence-theory" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2013/03/02/game-essence-theory/">网络游戏本质论</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>网络游戏的本质是什么？</p>
-<h2 id="游戏的本质"><a href="#游戏的本质" class="headerlink" title="游戏的本质?"></a>游戏的本质?</h2><p>游戏的历史比人类的历史还要久远。玩游戏并不是人类才有的行为，猫猫狗狗都喜欢玩游戏。人类的游戏花样更多，<br>在计算机和互联网的时代，这种变化更加复杂。</p>
-<ul>
-<li>游戏心理学</li>
-</ul>
-<p>游戏制作不是胡乱拼凑。最后出来的东西四不像，没人玩。</p>
-<ul>
-<li>情景 体验无法体验的生活、世界。 神话、故事、小说、动漫、电影</li>
-<li>好奇 探险、解谜</li>
-<li>挑战 Puzzle。Boss。无尽。</li>
-<li>归属 与人一起玩，不想脱离群体</li>
-<li>战争 模拟战争。野心家、君主、策略。</li>
-<li>战斗 好战者。鼓励进攻。对战的策略感，紧张感。斗智为主。</li>
-<li>杀戮 角色扮演，ARPG，Dota</li>
-<li>收集 别人有的我也想有。</li>
-<li>炫耀 向周围的人、好友炫耀自己的战果。</li>
-<li>名望 让尽可能多的人注意到自己。</li>
-<li>休闲 打发时间。</li>
-<li>贪婪 投机取巧，用最少的成本获得大家都想要的东西。2，占小便宜</li>
-<li>恐惧 害怕失去、害怕死亡、害怕孤独</li>
-<li>赌博</li>
-<li>狂欢</li>
-<li>自信 寻找自信。</li>
-<li>色欲</li>
-</ul>
-<ul>
-<li><p>游戏反心理学</p>
-<ul>
-<li>挫败 挫败感是游戏大敌。要让人越战越勇，宁可杀红眼，不能让人一蹶不振。</li>
-<li>不公 不公平。成长类的游戏，要阶段性的公平。</li>
-<li>作弊</li>
-<li>懒惰</li>
-<li>重复 重复性的事情，令人厌倦。</li>
-</ul>
-</li>
-<li><p>网络游戏的必要元素</p>
-</li>
-</ul>
-<p>游戏的特点</p>
-<ul>
-<li>真正的虚拟世界，与现实关联少</li>
-<li>发展、成长、进步</li>
-<li>变化</li>
-<li></li>
-<li>时间越长忠诚度越高</li>
-</ul>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2013/03/02/game-essence-theory/" class="archive-article-date">
-  	<time datetime="2013-03-01T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-02</time>
-</a>
-      
-	<div class="article-tag tagcloud">
-		<i class="icon-price-tags"></i>
-		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/" rel="tag">game-dev</a></li></ul>
-	</div>
-
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-notes-of-hackers-and-painters" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2012/10/08/notes-of-hackers-and-painters/">《黑客与画家》读后感</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>《黑客与画家——硅谷创业之父Paul Graham文集》英文原名是 《Hackers and Painters —— Big ideas from the computer age》，中文版由<a href="http://www.ruanyifeng.com/blog/" target="_blank" rel="noopener">阮一峰</a>翻译。</p>
-<p>许多人对“黑客与画家”这个标题感到不知所云，很难将黑客与画家放在一起进行对比。我初次见到这个标题，以为仅仅是描写编程与绘画之间的一些相通之处：思考方式或是创作过程。然而开卷之后，才发现有太多的惊喜，或是引人深思，或是感同身受。初看时觉得每章都是独立的，看完发现其实是环环相扣的。因为阅读多是在路上进行的，所以没有圈点，有必要再看一遍，找出那些绝妙的观点细细品味。</p>
-<p>目录：</p>
-<ol>
-<li>为什么书呆子不受欢迎</li>
-<li>黑客与画家</li>
-<li>不能说的话</li>
-<li>良好的坏习惯</li>
-<li>另一条路</li>
-<li>如何创造财富</li>
-<li>关注贫富分化</li>
-<li>防止垃圾邮件的另一种方法</li>
-<li>设计者的品味</li>
-<li>编程语言解析</li>
-<li>一百年后的编程语言</li>
-<li>拒绝平庸</li>
-<li>书呆子的复仇</li>
-<li>梦寐以求的编程语言</li>
-<li>设计与研究</li>
-</ol>
-<p>第9章的几个小节标题：</p>
-<ul>
-<li>好设计是简单的设计</li>
-<li>好设计是永不过时的设计</li>
-<li>好设计是解决主要问题的设计</li>
-<li>好设计是启发性的设计</li>
-<li>好设计通常是有点趣味性的设计</li>
-<li>好设计是艰苦的设计</li>
-<li>好设计是看似容易的设计</li>
-<li>好设计是对称的设计</li>
-<li>好设计是模仿大自然的设计</li>
-<li>好设计是一种再设计</li>
-<li>好设计是能够复制的设计</li>
-<li>好设计常常是奇特的设计</li>
-<li>好设计是成批出现的</li>
-<li>好设计常常是大胆的设计</li>
-</ul>
-<p>导读：</p>
-<ul>
-<li>1-4章 黑客、Nerd的内心与社会的偏见。</li>
-<li>5-7章 互联网时代的财富创造。</li>
-<li>8-9章 巧妙、简单的设计。</li>
-<li>10-15章 编程语言的设计与选择。</li>
-</ul>
-<p>阅读此书时，连脚注都是不能放过的。</p>
-<p>“画作永远没有完成的一天，你只是不再画下去了而已”。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2012/10/08/notes-of-hackers-and-painters/" class="archive-article-date">
-  	<time datetime="2012-10-07T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2012-10-08</time>
-</a>
-      
       
 	<div class="article-category tagcloud">
 	<i class="icon-price-tags"></i>
@@ -649,7 +793,7 @@
   
   
     <nav id="page-nav">
-      <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+      <a class="extend prev" rel="prev" href="/page/2/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/4/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -659,7 +803,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2023 桂糊涂
+    		&copy; 2024 桂糊涂
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -745,7 +889,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/AI/" style="font-size: 13.33px;">AI</a> <a href="/tags/architecture/" style="font-size: 10px;">architecture</a> <a href="/tags/game/" style="font-size: 16.67px;">game</a> <a href="/tags/game-dev/" style="font-size: 20px;">game-dev</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/web/" style="font-size: 10px;">web</a>
+    				<a href="/tags/AI/" style="font-size: 15px;">AI</a> <a href="/tags/OpenGL-Game-development/" style="font-size: 10px;">OpenGL,Game development</a> <a href="/tags/OpenGL-math/" style="font-size: 10px;">OpenGL,math</a> <a href="/tags/architecture/" style="font-size: 10px;">architecture</a> <a href="/tags/computer-graphics/" style="font-size: 10px;">computer-graphics</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 20px;">game-dev</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/web/" style="font-size: 10px;">web</a>
     			</div>
     	</section>
     

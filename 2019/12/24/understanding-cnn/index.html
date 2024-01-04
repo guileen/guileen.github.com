@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://guileen.github.io">
+  <title>理解CNN参数及PyTorch实例 | 桂糊涂的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="本文假设读者已经了解了CNN的基本原理。在实际的项目中，会发现CNN有多个参数需要调整，本文主要目的在于理清各个参数的作用。 卷积核 kernelKernel，卷积核，有时也称为filter。在迭代过程中，学习的结果就保存在kernel里面。深度学习，学习的就是一个权重。kernel的尺寸越小，计算量越小，一般选择3x3，更小就没有意义了。 结果是对卷积核与一小块输入数据的点积。 层数 Chann">
+<meta property="og:type" content="article">
+<meta property="og:title" content="理解CNN参数及PyTorch实例">
+<meta property="og:url" content="http://guileen.github.io/2019/12/24/understanding-cnn/index.html">
+<meta property="og:site_name" content="桂糊涂的博客">
+<meta property="og:description" content="本文假设读者已经了解了CNN的基本原理。在实际的项目中，会发现CNN有多个参数需要调整，本文主要目的在于理清各个参数的作用。 卷积核 kernelKernel，卷积核，有时也称为filter。在迭代过程中，学习的结果就保存在kernel里面。深度学习，学习的就是一个权重。kernel的尺寸越小，计算量越小，一般选择3x3，更小就没有意义了。 结果是对卷积核与一小块输入数据的点积。 层数 Chann">
+<meta property="og:image" content="http://guileen.github.io/img/cnn/kernel_2.png">
+<meta property="og:image" content="http://guileen.github.io/img/cnn/channel_1.png">
+<meta property="og:image" content="http://guileen.github.io/img/cnn/channel_2.png">
+<meta property="og:image" content="http://guileen.github.io/img/cnn/kernel.gif">
+<meta property="og:image" content="http://guileen.github.io/img/cnn/pad.jpg">
+<meta property="og:image" content="http://guileen.github.io/img/cnn/pooling.jpg">
+<meta property="og:image" content="http://guileen.github.io/img/cnn/mnist_convet.png">
+<meta property="article:published_time" content="2019-12-24T07:56:21.000Z">
+<meta property="article:modified_time" content="2021-02-11T13:15:24.852Z">
+<meta property="article:author" content="桂糊涂">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://guileen.github.io/img/cnn/kernel_2.png">
+  
+    <link rel="alternative" href="/atom.xml" title="桂糊涂的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/avatar.jpg">
+  
+  
+<link rel="stylesheet" href="/main.css">
+
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">桂糊涂</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">代码杂记</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+	        
+				<li><a href="/categories/AI">AI</a></li>
+	        
+				<li><a href="/balance-bot/">读心天平</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+		        
+					<a class="mail" target="_blank" href="mailto:guileen@qq.com" title="mail">mail</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">桂糊涂</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">桂糊涂</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">代码杂记</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+		        
+					<li><a href="/categories/AI">AI</a></li>
+		        
+					<li><a href="/balance-bot/">读心天平</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="mail" target="_blank" href="mailto:guileen@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-understanding-cnn" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      理解CNN参数及PyTorch实例
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本文假设读者已经了解了CNN的基本原理。在实际的项目中，会发现CNN有多个参数需要调整，本文主要目的在于理清各个参数的作用。</p>
+<h2 id="卷积核-kernel"><a href="#卷积核-kernel" class="headerlink" title="卷积核 kernel"></a>卷积核 kernel</h2><p>Kernel，卷积核，有时也称为filter。在迭代过程中，学习的结果就保存在kernel里面。深度学习，学习的就是一个权重。kernel的尺寸越小，计算量越小，一般选择3x3，更小就没有意义了。<br><img src="/img/cnn/kernel_2.png" alt=""></p>
+<p>结果是对卷积核与一小块输入数据的点积。</p>
+<h2 id="层数-Channels"><a href="#层数-Channels" class="headerlink" title="层数 Channels"></a>层数 Channels</h2><p><img src="/img/cnn/channel_1.png" alt=""></p>
+<p>所有位置的点积构成一个激活层。</p>
+<p><img src="/img/cnn/channel_2.png" alt=""></p>
+<p>如果我们有6个卷积核，我们就会有6个激活层。</p>
+<h2 id="步长-Stride"><a href="#步长-Stride" class="headerlink" title="步长 Stride"></a>步长 Stride</h2><p><img src="/img/cnn/kernel.gif" alt=""><br>上图是每次向右移动一格，一行结束向下移动一行，所以stride是1x1，如果是移动2格2行则是2x2。</p>
+<h2 id="填充-Padding"><a href="#填充-Padding" class="headerlink" title="填充 Padding"></a>填充 Padding</h2><p>Padding的作用是为了获取图片上下左右边缘的特征。<br><img src="/img/cnn/pad.jpg" alt=""></p>
+<h2 id="池化-Pooling"><a href="#池化-Pooling" class="headerlink" title="池化 Pooling"></a>池化 Pooling</h2><p>卷积层为了提取特征，但是卷积层提取完特征后特征图层依然很大。为了减少计算量，我们可以用padding的方式来减小特征图层。Pooling的方法有MaxPooling核AveragePooling。<br><img src="/img/cnn/pooling.jpg" alt=""></p>
+<p>推荐看一下李飞飞的<a href="http://cs231n.stanford.edu/slides/2017/cs231n_2017_lecture5.pdf" target="_blank" rel="noopener">这篇slide</a></p>
+<h2 id="PyTorch-中的相关方法"><a href="#PyTorch-中的相关方法" class="headerlink" title="PyTorch 中的相关方法"></a>PyTorch 中的相关方法</h2><ul>
+<li><p>torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode=’zeros’)</p>
+</li>
+<li><p>torch.nn.MaxPool2d(kernel_size, stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False)</p>
+<ul>
+<li>stride 默认与kernel_size相等</li>
+</ul>
+</li>
+<li><p>torch.nn.AvgPool2d(kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True, divisor_override=None)</p>
+</li>
+<li><p>Tensor.view(*shape) -&gt; Tensor</p>
+<ul>
+<li>用于将卷积层展开为全连接层<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; x &#x3D; torch.randn(4, 4)</span><br><span class="line">&gt;&gt;&gt; x.size()</span><br><span class="line">torch.Size([4, 4])</span><br><span class="line">&gt;&gt;&gt; y &#x3D; x.view(16)</span><br><span class="line">&gt;&gt;&gt; y.size()</span><br><span class="line">torch.Size([16])</span><br><span class="line">&gt;&gt;&gt; z &#x3D; x.view(-1, 8)  # the size -1 is inferred from other dimensions</span><br><span class="line">&gt;&gt;&gt; z.size()</span><br><span class="line">torch.Size([2, 8])</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="MNIST例子"><a href="#MNIST例子" class="headerlink" title="MNIST例子"></a>MNIST例子</h2><p>MNIST 数据集的输入是 1x28x28 的数据集。在实际开发中必须要清楚每一次的输出结构。</p>
+<ul>
+<li>我们第一层使用 5x5的卷积核，步长为1，padding为0，28-5+1 = 24，那么输出就是 24x24。计算方法是 (input_size - kernel_size)/ stride + 1。</li>
+<li>我们第二层使用 2x2的MaxPool，那么输出为 12x12.</li>
+<li>第三层再使用5x5，卷积核，输出则为 12-5+1，即 8x8。</li>
+<li>再使用 2x2 MaxPool，输出则为 4x4。</li>
+</ul>
+<p><img src="/img/cnn/mnist_convet.png" alt=""></p>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Net</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="string">"""ConvNet -&gt; Max_Pool -&gt; RELU -&gt; ConvNet -&gt; Max_Pool -&gt; RELU -&gt; FC -&gt; RELU -&gt; FC -&gt; SOFTMAX"""</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super(Net, self).__init__()</span><br><span class="line">        self.conv1 = nn.Conv2d(<span class="number">1</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">1</span>)</span><br><span class="line">        self.conv2 = nn.Conv2d(<span class="number">10</span>, <span class="number">20</span>, <span class="number">5</span>, <span class="number">1</span>)</span><br><span class="line">        self.fc1 = nn.Linear(<span class="number">4</span>*<span class="number">4</span>*<span class="number">20</span>, <span class="number">50</span>)</span><br><span class="line">        self.fc2 = nn.Linear(<span class="number">50</span>, <span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        x = F.relu(self.conv1(x))</span><br><span class="line">        x = F.max_pool2d(x, <span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line">        x = F.relu(self.conv2(x))</span><br><span class="line">        x = F.max_pool2d(x, <span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line">        x = x.view(<span class="number">-1</span>, <span class="number">4</span>*<span class="number">4</span>*<span class="number">20</span>)</span><br><span class="line">        x = F.relu(self.fc1(x))</span><br><span class="line">        x = self.fc2(x)</span><br><span class="line">        <span class="keyword">return</span> F.log_softmax(x, dim=<span class="number">1</span>)</span><br></pre></td></tr></table></figure>
+
+<p>以上代码摘自 <a href="https://github.com/floydhub/mnist" target="_blank" rel="noopener">https://github.com/floydhub/mnist</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2019/12/24/understanding-cnn/" class="archive-article-date">
+  	<time datetime="2019-12-24T07:56:21.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-24</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/AI/">AI</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2019/12/24/torch-output-loss-optimizer/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          Torch的损失函数和优化器
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2019/11/01/alpha-go-zero/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">AlphaGo Zero 工作原理</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+
+<script type="text/javascript">
+(function(){
+var url = "http://widget.weibo.com/distribution/comments.php?width=0&url=auto&brandline=y&fontsize=12&skin=9&ralateuid=1751113432&appkey=3729652156&iframskin=9&dpc=1";
+url = url.replace("url=auto", "url=" + encodeURIComponent(document.URL));
+document.write('<iframe id="WBCommentFrame" src="' + url + '" scrolling="no" frameborder="0" style="width:100%"></iframe>');
+})();
+</script>
+<script src="http://tjs.sjs.sinajs.cn/open/widget/js/widget/comment.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.WBComment.init({
+    "id": "WBCommentFrame"
+});
+</script>
+
+</div>
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2024 桂糊涂
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+
+<script src="/./main.js"></script>
+
+
+
+<!-- <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script> -->
+
+<script>
+  MathJax = {
+    loader: {load: ['input/asciimath', 'output/chtml', 'ui/menu']},
+    asciimath: {
+    delimiters: [['`','`'], ['$$', '$$'], ['$','$']]
+  }
+  };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js">
+  </script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/AI/" style="font-size: 15px;">AI</a> <a href="/tags/OpenGL-Game-development/" style="font-size: 10px;">OpenGL,Game development</a> <a href="/tags/OpenGL-math/" style="font-size: 10px;">OpenGL,math</a> <a href="/tags/architecture/" style="font-size: 10px;">architecture</a> <a href="/tags/computer-graphics/" style="font-size: 10px;">computer-graphics</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 20px;">game-dev</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/web/" style="font-size: 10px;">web</a>
+    			</div>
+    	</section>
+    
+
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">联系我：&lt;br&gt; 微信 guileen</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

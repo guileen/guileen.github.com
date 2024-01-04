@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://guileen.github.io">
+  <title>桂糊涂的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="Description">
+<meta property="og:type" content="website">
+<meta property="og:title" content="桂糊涂的博客">
+<meta property="og:url" content="http://guileen.github.io/page/4/index.html">
+<meta property="og:site_name" content="桂糊涂的博客">
+<meta property="og:description" content="Description">
+<meta property="article:author" content="桂糊涂">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternative" href="/atom.xml" title="桂糊涂的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/avatar.jpg">
+  
+  
+<link rel="stylesheet" href="/main.css">
+
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">桂糊涂</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">代码杂记</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+	        
+				<li><a href="/categories/AI">AI</a></li>
+	        
+				<li><a href="/balance-bot/">读心天平</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+		        
+					<a class="mail" target="_blank" href="mailto:guileen@qq.com" title="mail">mail</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">桂糊涂</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">桂糊涂</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">代码杂记</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+		        
+					<li><a href="/categories/AI">AI</a></li>
+		        
+					<li><a href="/balance-bot/">读心天平</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="mail" target="_blank" href="mailto:guileen@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        
+  
+    <article id="post-ddzai-notes" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/09/29/ddzai-notes/">ddz AI notes</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>`C` is all cards.</p>
+<p>`p` is the part of playing cards.</p>
+<p>`C_1` is all cards after play `p`.</p>
+<p>求：</p>
+<p>`P_a(C) = P_”activeWin”`</p>
+<p>`P_p(C) = P_”passiveWin”`</p>
+<p>设：</p>
+<p>`P_d(p) = P_”dominate”`</p>
+<p>`P_”f”(p) = P_”follow”`</p>
+<p>`P_a(C) = max(P_a(p in C))`</p>
+<p>`P_p(C) = max(P_p(p in C))`</p>
+<p>`P_a(p,C) = P_d(p) * P_a(C_1) + (1-P_d(p)) * P_p(C_1)`</p>
+<p>`P_p(p,C) = P_”f”(p) * P_a(p, C)`</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/09/29/ddzai-notes/" class="archive-article-date">
+  	<time datetime="2015-09-28T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-09-29</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game/" rel="tag">game</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-architect-for-testing" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/02/10/architect-for-testing/">为测试而架构</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>软件架构的目标是什么？为了解耦？解耦的目标是为了什么？为了测试！</p>
+<p>所以我意识到软件架构的根本目标是为了测试。如果代码是可测试的，那么这个软件架构就是好的，如果这个软件架构是难以测试的，那么就是垃圾。</p>
+<p>定理：软件架构质量=最大测试覆盖率</p>
+<p>一个不健壮的难以维护的软件架构，也必然是难以测试的，他所能达到的最大测试覆盖率必然是很低的。</p>
+<p>一个测试覆盖率高的软件架构，其模块必然是解耦的，因此也必然是灵活的，必然是一个高质量的软件架构。</p>
+<h2 id="常见架构"><a href="#常见架构" class="headerlink" title="常见架构"></a>常见架构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">--------------------------</span><br><span class="line">* APP UI, API </span><br><span class="line">-------------------|------</span><br><span class="line">Service       |         |</span><br><span class="line">Facility      - Context |</span><br><span class="line">ORM           |         |</span><br><span class="line">--------------|         |</span><br><span class="line">* 配置        |         |</span><br><span class="line">--------------------------</span><br></pre></td></tr></table></figure>
+
+
+
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/02/10/architect-for-testing/" class="archive-article-date">
+  	<time datetime="2015-02-09T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-02-10</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/architecture/" rel="tag">architecture</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-guileen-texasholdem-ai" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/19/guileen-texasholdem-ai/">桂糊涂的德州扑克AI</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>如何编写德州扑克的AI。</p>
+<p>德州扑克与其他的棋牌类游戏不同，他不一定存在着最优解，更多的是一种心理竞技。这对于人类来说可能很简单，但对于电脑来说却并不擅长。我的目标就是将人类的思维用代码的方式重现出来。</p>
+<p>对德州的分析，首先是概率。一手牌的胜率是多少。在底牌，翻牌，转牌，河牌阶段的算法依次如下：</p>
+<p>底牌阶段的算法采用查表法。13不同花色的牌组合共有169种，分为，对子面，同花面，杂花面。这里有个小技巧，13可以用4个bit来表示，两张底牌的组合，正好可以用一个字节来表示。我用高位在前表示同花，低位在前表示杂花。</p>
+<p>河牌阶段的胜率算法也比较简单。我采用的是穷举法————去除自己的底牌和公牌后，组合遍历对手可能的底牌，将对手的底牌与自己的底牌比较，胜率=获胜次数/组合数。组合数共有995种。这里的关键是如何高效比较我方牌与对手牌的大小。</p>
+<p>转牌阶段的胜率，依然采用穷举法————组合遍历河牌，并计算河牌胜率的平均值。河牌共有46种可能，因此算法复杂度为O(45540)。这一切比较都依赖于快速比较手牌，如果手牌比较速度慢，将无法快速计算出这一胜率。</p>
+<p>翻牌阶段胜率，无法再采用转牌阶段胜率的算法，这里有个技巧，翻牌阶段胜率近似=发一张牌后的胜率。</p>
+<p>如何快速比较自己和对方的手牌。这里也使用了一个小技巧，就是将每张牌面的大小数值化。德州牌面比较是先比较牌型，再比较牌值。因此，将牌型的值作为最高位，将牌面的值作为后5位，即可形成一个比较值。如红3黑5方A梅5方5，牌值为=3555e3。3代表3条牌型，555e3是牌面值。A一般作为14牌值处理。从高牌，对子，两对，三条，顺子，葫芦，同花，四条，同花顺，依次是0，1，2，3，4，5，6，7，8。牌面值直接用2,3,4,5,6,7,8,9,A,B,C,D,E。以16进制表示依然可以有很好的可读性。</p>
+<p>在做牌型检测时，同花，顺子比较特殊，其他的4条，3条，葫芦，两对，对子，高牌，都是相似的。</p>
+<p>同花检测，将同样花色的牌放进桶里，一个桶里的牌大于等于5张，则为同花，若这5张还能成顺，则为同花顺。</p>
+<p>顺子检测时，A较为特殊，既可以和10，J，Q，K搭配，也可以和2，3，4，5，6搭配。将14位数组，设置1，0，1表示存在该牌，0表示不存在。从大到小遍历计数，连续计数5次则为顺子。之所以从大到小遍历是为了找到最大的顺子而不是最小的顺子。</p>
+<p>其他牌型比较，先将牌放进13个桶里，然后将这些桶排序。排序方法是，桶里的牌越多越大，牌一样多比较桶本身的编号。这样我们就得出了[3个3，2个J，2个8，1个K]的桶列表。如果第一个桶是4张，那我们的牌型就是4条。第一个桶是3张就是3条，同时第二个桶是2张就是葫芦，前两个桶是两张就是两对，第一个桶是两张是一对，否则就是杂牌。</p>
+<p>但是仅仅知道胜率是远远不够的，这只是人类思维的开始。人类对于胜率的判断很多是基于经验，但这种经验非常高效，综合考虑了很多数学概率中没考虑到的因素：比如，玩家数量，底池大小，对手下注量。人类有恐惧感，也有冒险精神，这都是电脑所不具备的。</p>
+<p>有没有可能设计一种AI，只根据标准的概率下注，完全不考虑人类心理因素呢？</p>
+<p>德州高手会研究对手。如果一个玩家从来不Bluff（诈赌），并且他的下注量和他的胜率相关。有经验的牌手，可以根据他的下注量反推出他的胜率，再根据他的胜率反推出他的手牌。与一个透明的玩家玩牌，要赢可能要看手气，要输真的很难。</p>
+<p>另一方面，一个绝不冒险的玩家，也会被轻易的Bluff掉，从而使对手的实际胜率远大于理论上的胜率。</p>
+<p>还有一方面，那就是恐惧。电脑不会恐惧，当对手ALLIN的时候，人类会忌惮，会重新评估对手的牌力。但电脑不会，他认为的大牌，无论多大的注都会跟。</p>
+<p>因此，学会冒险与恐惧是编写德州AI的最大难点。</p>
+<p>人数概率修正。人数影响概率。<br>恐惧修正。<br>安全跟注值计算。<br>Value控制。<br>Balnace。<br>BLUFF。Bluff的时机。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/01/19/guileen-texasholdem-ai/" class="archive-article-date">
+  	<time datetime="2015-01-18T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-01-19</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game/" rel="tag">game</a></li></ul>
+	</div>
+
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/AI/">AI</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-stretegy-of-texasholdem" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/18/stretegy-of-texasholdem/">德州扑克策略心得</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>德州扑克是个概率的游戏，更是心理的游戏。</p>
+<p>了解德州的概率只是基础，更重要的是心理战。</p>
+<p>数学上的概率是不完整的，必须要结合实际的战斗得出更准确的概率。</p>
+<p>比如某个选手比较谨慎，那么他Bet的时候，有大牌的概率明显更大，这是和数学上的概率不同的。</p>
+<p>某个选手喜欢Bluff，那么他下大注的时候，有大牌的概率就会相对更小。</p>
+<p>场上选手越多，获胜概率越小。有时为了提高胜率会Bet把一些对手挤出局。</p>
+<p>出手的先后影响胜负。同样胜率的牌，先下注的人可能吓跑比自己略大的牌。但是最后下注的人，虽然是小牌，也会因为其他选手的Fold而提高胜率，所以最后的玩家会Call。</p>
+<p>Allin 不一定是Bluff, 也是博弈策略。在底牌，翻牌阶段，当底池很大时Allin，自己的牌面也很大，可以起到Bluff收底的效果，如果别人跟住，也有很大胜算。</p>
+<p>加20%~50%底池量的注，是兼顾攻击性和安全性的下注。太少无关痛痒，太多得不偿失。</p>
+<p>Bluff 不一定要Allin, 对手在Call的时候，用Raise策略，让他非常痛苦。</p>
+<p>Bluff一定要判断好局势，当对手比较弱的时候Bluff，但永远不要在最后一轮Bluff Allin。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/01/18/stretegy-of-texasholdem/" class="archive-article-date">
+  	<time datetime="2015-01-17T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-01-18</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game/" rel="tag">game</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-mathematics-vs-experience" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2015/01/17/mathematics-vs-experience/">数学与直觉</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>数学与直觉到底哪个更可靠？</p>
+<p>交换门的实验说明直觉不太可靠。还有很多这样的例子。</p>
+<p>德州扑克。胜率计算。一副牌的胜率，用数学计算出来的，但是实际上胜率并没有这么高。因为你本来面对的是5个对手，现在其中的4个人已经弃牌了，现在你虽然只有一个对手，但是这个对手是经过多轮淘汰剩下的。根据直觉，我们会判断这个人的牌会很强，但是数学上我们却忽视了这一点。</p>
+<p>数学没有错，错的是我们的数学模型。</p>
+<p>我们拿到了一手普通牌，胜率是50%。这时，一个玩家加注了，在数学逻辑上，我的胜率是没有改变的。但是在经验上，我的胜率降低了，我开始紧张。如果他加了一个大注，我可能就要弃牌了，因为我觉得赢的希望已经变小。我还是谨慎的跟了注，又发了一张牌，我得到了两对，这是一个不小的牌，我感觉胜率提升了，加注。可是这时对手全押。我感觉我的胜率又降低了，我想要弃牌，可是我又不甘心，我决定相信数学上的概率，我又80%的胜率，我跟了全押。开牌，我输了。我懊悔不已。那么问题来了，我的胜率真的有80%吗？</p>
+<p>我们直觉的工作原理：当我抓到两对时，对手全押，我跟全押的胜率是45%，主动全押的情况下胜率是60%。</p>
+<p>经验的数学原理。样本统计，相似度参照。似是而非的样本，会干扰我们的判断，形成偏见。女性的胼胝体更发达，能够更好的交换左右脑的信息，这也赋予了女人更强的直觉能力，不过有利有弊，胼胝体强的人可能偏见也会更多，因为他们将很多无关信息综合起来进行了利用。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2015/01/17/mathematics-vs-experience/" class="archive-article-date">
+  	<time datetime="2015-01-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2015-01-17</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-everything-is-fate" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2014/08/05/everything-is-fate/">尽人事 听天命</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>从十几岁开始，思考人为什么要活着这个问题，很快这个问题的答案显得不那么重要，因为思考的结果直接导致我相信命中注定。因为我是单纯从哲学的角度思考这个问题，而不是因为自身经历而产生的厌世情绪，所以我觉得有必要说一下。注意不是宿命，不是命运，而是命中注定，我觉得这几个词之间是有微妙的差别的，宿命与命运是一个范畴，而命中注定，是对宿命观的一个具体定义。</p>
+<p>从微观物理学的角度上来说，一切物理现象都是有规律的，虽然在量子物理的层次上，有诸如测不准、不可知、不连续、等现象，但这都只能说明人类认知的极限，不能否定“一切物理现象都是有规律”的这一定律，爱因斯坦说“上帝不掷骰子”。人类可能以为自己的行为是有主观能动性的，不受规律限制的，但事实上，生物学基于化学，化学基于物理学，我们人类的一切活动都已经由最微观的粒子所决定了。</p>
+<p>再从宏观系统论角度来分析。一个微观系统很难对一个宏观系统产生巨大的影响，除非这些微观系统体现出惊人的一致性。比如太阳系的活动很难影响到整个银河系，但反过来则影响很大。而人类社会看起来是一个复杂的系统，但依然是符合这种宏观系统与微观系统的制约规律的。</p>
+<p> 人类社会目前还是局限于地球这个环境的，而且目前人类也是无法操控气候的，人类社会系统无法过多的影响地球的气候系统，但地球气候系统的细微变化都会对人类社会产生巨大的影响。人类的生死往往只在瞬间。</p>
+<p> 人类社会由各种政体国家所统治，由几大主流的价值观所统治，人类的经济活动和思维模式都受这些大系统的影响。我们都是被各种经济活动和思潮变迁裹挟着在前进。人类社会的变迁往往只在一个很短的时代内完成。</p>
+<p> 人类社会资源的分配方式，是由下层聚集到上层，并由上层分配到下层的一个循环。你可以看出这种资源分配方式是多么不合理了吗？你获得的资源，与你付出的努力关系很小，而只与你所处的资源分配层次关系最大。而决定你分配层次的往往只是一两个瞬间：出生、升学、第一份工作、面试的表现。这点 赵劼 举了很多例子。</p>
+<p>  你的伴侣会陪伴你的一生，影响你很多的决定，而你和你伴侣的相识只在某一个瞬间。</p>
+<p>  我们的人生由太多的瞬间所决定。而这一瞬，有太多的巧合，这种巧合其实都是命中注定。</p>
+<h2 id="如何正确处理命中注定这一观点："><a href="#如何正确处理命中注定这一观点：" class="headerlink" title="如何正确处理命中注定这一观点："></a>如何正确处理命中注定这一观点：</h2><p>  你努力了，不一定会成功（你可以随意定义什么是成功），但是不努力，有很大可能不成功。中国古人是很早认识到天命的，六个字概括的太好：<strong>“尽人事，听天命”</strong></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2014/08/05/everything-is-fate/" class="archive-article-date">
+  	<time datetime="2014-08-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2014-08-05</time>
+</a>
+      
+      
+	<div class="article-category tagcloud">
+	<i class="icon-price-tags"></i>
+	<a class="article-category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
+	</div>
+
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-wow-design" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/26/wow-design/">再探魔兽世界</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>日常任务</p>
+<p>货币、声望、荣誉。。。</p>
+<p>副本、英雄副本、团队副本</p>
+<p>社交、公会</p>
+<p>商业技能</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/26/wow-design/" class="archive-article-date">
+  	<time datetime="2013-03-25T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-26</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/" rel="tag">game-dev</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-game-gambling-design" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/23/game-gambling-design/">游戏赌博设计</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>暗黑创造了赌博系统。这个概念被暗黑刻意弱化了，赌博概率过低，页游将他发扬光大。<br>打怪物掉随机掉装备。<br>打怪掉装备与赌博系统有差别吗？一个投入的是时间，一个投入的是金钱。</p>
+<p>暗黑符文系统，宝石系统，插槽系统。个性化。<br>英雄联盟符文系统，天赋系统。个性化。</p>
+<p>神仙道命格系统————赌博+个性化。</p>
+<p>抢劫系统与竞技场系统。同为PvP。</p>
+<p>天梯、竞技场 与 抢劫是两条不同的线。</p>
+<p>天梯是目标。天梯是单向的。<br>抢劫是手段。抢劫是乱斗。</p>
+<p>活动战，仙道会，帮派战。</p>
+<p>世界boss与副本。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/23/game-gambling-design/" class="archive-article-date">
+  	<time datetime="2013-03-22T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-23</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/" rel="tag">game-dev</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-redis-leveldb" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/17/redis-leveldb/">redis leveldb</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>redis protocol + leveldb storage = perfect key/value database</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/17/redis-leveldb/" class="archive-article-date">
+  	<time datetime="2013-03-16T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-17</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/nosql/" rel="tag">nosql</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-game-object-properties-adapter" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2013/03/05/game-object-properties-adapter/">GameObject properties adapter ———— 游戏数值开发要点</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>游戏数值是动态的，可叠加的，物品，天赋，被动技能，Buff，光环，都会改变一个GameObject的属性。</p>
+<p>游戏数值开发的难点在于抽象。程序员必须将策划的语言抽象出来，否则物品、天赋、技能、Buff、等等会让你的代码千头万绪，错综复杂。</p>
+<p>而如果能够很好的抽象出这些东西，将会一目了然，胸有成竹。</p>
+<p>鄙人曾在一款塔防游戏中负责数值系统的开发。</p>
+<h2 id="数据抽象"><a href="#数据抽象" class="headerlink" title="数据抽象"></a>数据抽象</h2><ul>
+<li><p>静态数据 - 设定 - Settings - S</p>
+</li>
+<li><p>游戏对象 - 实例 - Instance - I</p>
+</li>
+<li><p>实例的设定 - 实例的静态数据 - Instance Settings - IS</p>
+</li>
+<li><p>实例当前的未叠加基本状态 - 实例裸体状态 - Instance Naked Data - IND</p>
+</li>
+<li><p>状态叠加器们 - Instance Adapters - IA</p>
+</li>
+</ul>
+<h2 id="配置数据"><a href="#配置数据" class="headerlink" title="配置数据"></a>配置数据</h2><p>将策划语言转变为可被程序识别的数据，做到技能、物品可配置。</p>
+<ul>
+<li>物品 - 技能 - 天赋 - Adapters<ul>
+<li>[选择器] - [Selector] 定义作用对象，比如某天赋影响所有士兵，而另一技能只影响兽人士兵<ul>
+<li>[修改器] - [Modifier]<ul>
+<li>属性</li>
+<li>操作符 + （增加x点） +% （增加x%）= （改变为x）</li>
+<li>值 x</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2013/03/05/game-object-properties-adapter/" class="archive-article-date">
+  	<time datetime="2013-03-04T16:00:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2013-03-05</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/game-dev/" rel="tag">game-dev</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <nav id="page-nav">
+      <a class="extend prev" rel="prev" href="/page/3/">&amp;laquo; Prev</a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="page-number current">4</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/5/">Next &amp;raquo;</a>
+    </nav>
+  
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2024 桂糊涂
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: true,
+		isPost: false,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+
+<script src="/./main.js"></script>
+
+
+
+<!-- <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script> -->
+
+<script>
+  MathJax = {
+    loader: {load: ['input/asciimath', 'output/chtml', 'ui/menu']},
+    asciimath: {
+    delimiters: [['`','`'], ['$$', '$$'], ['$','$']]
+  }
+  };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js">
+  </script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/AI/" style="font-size: 15px;">AI</a> <a href="/tags/OpenGL-Game-development/" style="font-size: 10px;">OpenGL,Game development</a> <a href="/tags/OpenGL-math/" style="font-size: 10px;">OpenGL,math</a> <a href="/tags/architecture/" style="font-size: 10px;">architecture</a> <a href="/tags/computer-graphics/" style="font-size: 10px;">computer-graphics</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 20px;">game-dev</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/web/" style="font-size: 10px;">web</a>
+    			</div>
+    	</section>
+    
+
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">联系我：&lt;br&gt; 微信 guileen</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

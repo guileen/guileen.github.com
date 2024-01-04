@@ -1,0 +1,434 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://guileen.github.io">
+  <title>为什么『太极』是一门好语言？ | 桂糊涂的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="太极 是由MIT的中国小伙胡渊鸣开发的一门编程语言。这不仅仅是又一个新的编程语言，我实在已经厌倦了不断有人造新的语言，来满足每个作者不同的语言怪癖。有许多的编程语言是没有存在的价值的，他们继续存在往往只是因为遗留历史项目还在维护。而『太极』是有开创性和工程价值的。 我认为太极有以下几个关键的有价值的特性：  跨平台的GPU加速支持。同时支持CUDA、OpenGL、Metal，在Windows、Li">
+<meta property="og:type" content="article">
+<meta property="og:title" content="为什么『太极』是一门好语言？">
+<meta property="og:url" content="http://guileen.github.io/2021/02/23/why-taichi-is-good/index.html">
+<meta property="og:site_name" content="桂糊涂的博客">
+<meta property="og:description" content="太极 是由MIT的中国小伙胡渊鸣开发的一门编程语言。这不仅仅是又一个新的编程语言，我实在已经厌倦了不断有人造新的语言，来满足每个作者不同的语言怪癖。有许多的编程语言是没有存在的价值的，他们继续存在往往只是因为遗留历史项目还在维护。而『太极』是有开创性和工程价值的。 我认为太极有以下几个关键的有价值的特性：  跨平台的GPU加速支持。同时支持CUDA、OpenGL、Metal，在Windows、Li">
+<meta property="article:published_time" content="2021-02-23T14:08:00.000Z">
+<meta property="article:modified_time" content="2021-03-07T15:05:12.999Z">
+<meta property="article:author" content="桂糊涂">
+<meta name="twitter:card" content="summary">
+  
+    <link rel="alternative" href="/atom.xml" title="桂糊涂的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/avatar.jpg">
+  
+  
+<link rel="stylesheet" href="/main.css">
+
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">桂糊涂</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">代码杂记</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+	        
+				<li><a href="/categories/AI">AI</a></li>
+	        
+				<li><a href="/balance-bot/">读心天平</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+		        
+					<a class="mail" target="_blank" href="mailto:guileen@qq.com" title="mail">mail</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">桂糊涂</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">桂糊涂</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">代码杂记</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+		        
+					<li><a href="/categories/AI">AI</a></li>
+		        
+					<li><a href="/balance-bot/">读心天平</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="mail" target="_blank" href="mailto:guileen@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-why-taichi-is-good" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      为什么『太极』是一门好语言？
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/taichi-dev/taichi" target="_blank" rel="noopener">太极</a> 是由MIT的中国小伙胡渊鸣开发的一门编程语言。这不仅仅是又一个新的编程语言，我实在已经厌倦了不断有人造新的语言，来满足每个作者不同的语言怪癖。有许多的编程语言是没有存在的价值的，他们继续存在往往只是因为遗留历史项目还在维护。而『太极』是有开创性和工程价值的。</p>
+<p>我认为太极有以下几个关键的<strong>有价值</strong>的特性：</p>
+<ol>
+<li>跨平台的GPU加速支持。同时支持CUDA、OpenGL、Metal，在Windows、Linux、MacOSX上都能很好的运行。我此前发现大部分的深度学习框架的GPU加速都是基于CUDA，这意味着我的macbook的GPU无法发挥作用。</li>
+<li>性能卓越，比PyTorch快13.4倍、Tensorflow要快188倍<a href="https://www.qbitai.com/2020/01/10534.html" target="_blank" rel="noopener">[1]</a>。这两点都有着实实在在的经济价值。</li>
+<li>简洁易学。作者并没有想要特地标新立异，而是基于python的语法来开发，与python完全兼容。这是非常务实的，但并非没有追求的，代码是会被静态编译执行的，性能与C++代码并没有太多差别。</li>
+</ol>
+<p>我认为太极在以下领域会有很好的应用：</p>
+<ol>
+<li>学术研究。</li>
+<li>机器学习、图形学、物理引擎、游戏编程的教学和实验。</li>
+<li>工具开发。可能作为最终产品的打包发布仍要探索，但制作工具是效率极高的。</li>
+<li>深度学习、离线渲染等离线任务的工程级应用。</li>
+</ol>
+<p>对于一名仍在不断学习的中老年人而言，我不希望仅仅是学会一两个重复的工具，而是能够更高效的去实践、探索未知的世界。与其学习tensorflow这种集成式的深度学习框架，不如用太极自己实现一个，这样我们才能更深刻的理解其中的过程。我们还可以用太极将数据可视化的展示出来。</p>
+<p>学习API是非常无趣的，但对于每一个学习编程的孩子来说，却是一道很高的门槛。很多人都无法实现在屏幕上绘制一个像素，这使我们哪怕拥有了足够的知识，依然缺乏表现力。有了太极，就仿佛打开了一道科研的大门。在科研过程中，我们需要的是快速实验、快速试错。太极就是为此而生的。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2021/02/23/why-taichi-is-good/" class="archive-article-date">
+  	<time datetime="2021-02-23T14:08:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-02-23</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+  
+    <a href="/2021/02/20/design-a-3d-game-engine/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">设计一个3D游戏引擎</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+
+<script type="text/javascript">
+(function(){
+var url = "http://widget.weibo.com/distribution/comments.php?width=0&url=auto&brandline=y&fontsize=12&skin=9&ralateuid=1751113432&appkey=3729652156&iframskin=9&dpc=1";
+url = url.replace("url=auto", "url=" + encodeURIComponent(document.URL));
+document.write('<iframe id="WBCommentFrame" src="' + url + '" scrolling="no" frameborder="0" style="width:100%"></iframe>');
+})();
+</script>
+<script src="http://tjs.sjs.sinajs.cn/open/widget/js/widget/comment.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.WBComment.init({
+    "id": "WBCommentFrame"
+});
+</script>
+
+</div>
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2024 桂糊涂
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+
+<script src="/./main.js"></script>
+
+
+
+<!-- <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script> -->
+
+<script>
+  MathJax = {
+    loader: {load: ['input/asciimath', 'output/chtml', 'ui/menu']},
+    asciimath: {
+    delimiters: [['`','`'], ['$$', '$$'], ['$','$']]
+  }
+  };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js">
+  </script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/AI/" style="font-size: 15px;">AI</a> <a href="/tags/OpenGL-Game-development/" style="font-size: 10px;">OpenGL,Game development</a> <a href="/tags/OpenGL-math/" style="font-size: 10px;">OpenGL,math</a> <a href="/tags/architecture/" style="font-size: 10px;">architecture</a> <a href="/tags/computer-graphics/" style="font-size: 10px;">computer-graphics</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 20px;">game-dev</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/web/" style="font-size: 10px;">web</a>
+    			</div>
+    	</section>
+    
+
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">联系我：&lt;br&gt; 微信 guileen</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

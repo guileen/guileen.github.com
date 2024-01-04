@@ -144,6 +144,437 @@
       <div class="body-wrap">
         
   
+    <article id="post-why-taichi-is-good" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/23/why-taichi-is-good/">为什么『太极』是一门好语言？</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><a href="https://github.com/taichi-dev/taichi" target="_blank" rel="noopener">太极</a> 是由MIT的中国小伙胡渊鸣开发的一门编程语言。这不仅仅是又一个新的编程语言，我实在已经厌倦了不断有人造新的语言，来满足每个作者不同的语言怪癖。有许多的编程语言是没有存在的价值的，他们继续存在往往只是因为遗留历史项目还在维护。而『太极』是有开创性和工程价值的。</p>
+<p>我认为太极有以下几个关键的<strong>有价值</strong>的特性：</p>
+<ol>
+<li>跨平台的GPU加速支持。同时支持CUDA、OpenGL、Metal，在Windows、Linux、MacOSX上都能很好的运行。我此前发现大部分的深度学习框架的GPU加速都是基于CUDA，这意味着我的macbook的GPU无法发挥作用。</li>
+<li>性能卓越，比PyTorch快13.4倍、Tensorflow要快188倍<a href="https://www.qbitai.com/2020/01/10534.html" target="_blank" rel="noopener">[1]</a>。这两点都有着实实在在的经济价值。</li>
+<li>简洁易学。作者并没有想要特地标新立异，而是基于python的语法来开发，与python完全兼容。这是非常务实的，但并非没有追求的，代码是会被静态编译执行的，性能与C++代码并没有太多差别。</li>
+</ol>
+<p>我认为太极在以下领域会有很好的应用：</p>
+<ol>
+<li>学术研究。</li>
+<li>机器学习、图形学、物理引擎、游戏编程的教学和实验。</li>
+<li>工具开发。可能作为最终产品的打包发布仍要探索，但制作工具是效率极高的。</li>
+<li>深度学习、离线渲染等离线任务的工程级应用。</li>
+</ol>
+<p>对于一名仍在不断学习的中老年人而言，我不希望仅仅是学会一两个重复的工具，而是能够更高效的去实践、探索未知的世界。与其学习tensorflow这种集成式的深度学习框架，不如用太极自己实现一个，这样我们才能更深刻的理解其中的过程。我们还可以用太极将数据可视化的展示出来。</p>
+<p>学习API是非常无趣的，但对于每一个学习编程的孩子来说，却是一道很高的门槛。很多人都无法实现在屏幕上绘制一个像素，这使我们哪怕拥有了足够的知识，依然缺乏表现力。有了太极，就仿佛打开了一道科研的大门。在科研过程中，我们需要的是快速实验、快速试错。太极就是为此而生的。</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2021/02/23/why-taichi-is-good/" class="archive-article-date">
+  	<time datetime="2021-02-23T14:08:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-02-23</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-design-a-3d-game-engine" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/20/design-a-3d-game-engine/">设计一个3D游戏引擎</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>最近学习了一些计算机图形学的知识，重新点燃了自己想要学习游戏开发的热情。但是，计算机图形学与游戏开发还是有很大区别的。计算机图形学关心的是如何高质量的还原真实世界的视觉效果，而游戏开发则要求一个可编程性更强的系统。因此游戏引擎，首先是为开发服务的。</p>
+<p>游戏引擎，应该允许游戏开发者，轻松的定义实体，操控这些实体的位置、模型、滤镜，最终通过渲染引擎渲染到屏幕上。甚至要提供一些易用的图形化制作工具，比如关卡编辑器，地图编辑器，实体编辑器，脚本语言，配置表，这些输出成数据文件。这些数据将被加载到内存，通过渲染引擎输出到屏幕。</p>
+<p><strong>[制作工具]</strong>–&gt;静态数据–&gt;<strong>[用户输入处理、AI update、物理引擎]</strong>–&gt;动态数据–&gt;<strong>[渲染引擎]</strong>–&gt;最终画面。</p>
+<p>游戏引擎=制作工具+程序API+渲染引擎。</p>
+<p>而游戏引擎的关键，就在于处理数据。</p>
+<p>哪怕一个最简单的<a href="https://github.com/louis-gui/louis-gui.github.io/blob/main/likeasnakegame.cpp" target="_blank" rel="noopener">终端贪食蛇游戏</a>(这是我11岁的儿子写的)也需要符合这个标准。这个终端游戏制作工具不需要，他的素材是一些终端字符，google担任了这个制作工具的角色。程序API更新贪食蛇的动态数据，然后渲染引擎将动态数据映射成特定的终端字符打印在屏幕上。</p>
+<p>开发一个3D游戏，数据结构更加复杂一些。理清了这个结构之后，3D游戏可能比2D游戏更容易开发一些，因为3D数据结构毕竟更接近真实世界。我们将整个待渲染的世界，称为【场景】，场景中摆放着各种【模型】。对于物理引擎部分，只需要模型的数据就可以了，而对于渲染引擎，则还需要【光源】和【摄像机】。</p>
+<h2 id="物理引擎"><a href="#物理引擎" class="headerlink" title="物理引擎"></a>物理引擎</h2><p>一个粒子由*位置position、速度velocity、质量mass、力force（加速度acceleration）、阻尼damping（简化一个物体在一个环境中的摩擦力如0.999）等属性，还需要考虑地心引力gravity的影响。</p>
+<p>用反质量invertMass模拟无限质量？</p>
+<p><em>位置更新公式：</em>$$ p’=p+dot p t + 1/2 ddot p t^2 $$ 其中，$dot p$表示速度，$ddot p$表示加速度。在30fps时，t=0.033 后一项可以忽略。简化为 $$ p’=p+dot p t$$</p>
+<p><em>速度更新公式:</em> $$ dot p’ = dot p d^t + ddot p t $$  d为阻尼，</p>
+<p>以上模拟对于慢速物体没有问题，但对于子弹、炮弹这种高速物体则不适用，因为可能在一帧之内子弹已穿过物体，无法与目标发生碰撞。因此对于这种情况，我们则需要将子弹想象为一个激光（或抛物线）。对于目标所受到的冲击，则需要通过动量守恒、能量守恒公式进行计算（TODO）。</p>
+<p>重力是恒定的，但还有很多其他的力是动态生成的，爆炸、发射、风。因此我们要创造一个『力生成器』在每一帧执行它的updateForce方法，来设定物体受到的外力。</p>
+<p><strong>弹簧</strong>是一种普遍的模型，那些柔软的材质都可以抽象为大量的弹簧。根据胡克定理$$f=-k Delta l$$，我们可以写一个弹簧力生成器。</p>
+<p>除了弹簧系统外，还有一类硬约束是紧密连接的对象，比如铁链、四肢。他们的关键在于连接点的速度是一致的。</p>
+<p>然后我们要将所有的东西整合到一起成为一个物理引擎，在每一帧updatePhysics()</p>
+<p>我们要将物理引擎从点升级到体，刚体的碰撞盒与他的质点。刚体的旋转。</p>
+<p>碰撞检测（TODO）</p>
+<p>参考：</p>
+<p>《Game Physics Engine Development》2nd Edition by Ian Millington</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2021/02/20/design-a-3d-game-engine/" class="archive-article-date">
+  	<time datetime="2021-02-20T13:22:04.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-02-20</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenGL-Game-development/" rel="tag">OpenGL,Game development</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-brdf-pbr" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/18/brdf-pbr/">BRDF双向反射分布函数</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>双向反射分布函数（bidirectional reflectance distribution function）$f_r(omega_i,omega_r)$是一个计算光照反射量的函数。$omega_i$表示输入光角度，$omega_r$表示反射光角度，函数返回反射光辐射率。$omega$由球面坐标系的$phi$,$theta$角度表示，因此brdf函数共有4个参数。brdf的单位是每立体角$sr^(-1)$。</p>
+<img src="/img/brdf/spherical-coordinates.png" style="width:50%;" />
+
+<img src="/img/brdf/solid-angle-1sr.png" style="width:45%;margin-top:5%;" />
+
+<h3 id="辐射度量学-Radiometry"><a href="#辐射度量学-Radiometry" class="headerlink" title="辐射度量学(Radiometry)"></a>辐射度量学(Radiometry)</h3><table>
+<thead>
+<tr>
+<th>物理量</th>
+<th>符号</th>
+<th>公式</th>
+<th>国际单位制</th>
+<th>单位符号</th>
+<th>注释</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><a href="https://zh.wikipedia.org/wiki/辐射能" target="_blank" rel="noopener">辐射能</a>（Radiant energy）</td>
+<td>$Q_e$</td>
+<td></td>
+<td><a href="https://zh.wikipedia.org/wiki/焦耳" target="_blank" rel="noopener">焦耳</a></td>
+<td>$J$</td>
+<td>能量。</td>
+</tr>
+<tr>
+<td><a href="https://zh.wikipedia.org/wiki/辐射通量" target="_blank" rel="noopener">辐射通量</a>（Radiant flux）</td>
+<td>$Phi_e$</td>
+<td>$Phi=(dQ)/(dt)$</td>
+<td><a href="https://zh.wikipedia.org/wiki/瓦特" target="_blank" rel="noopener">瓦特</a></td>
+<td>$W$</td>
+<td>每单位时间的辐射能量，亦作“辐射功率”。</td>
+</tr>
+<tr>
+<td><a href="https://zh.wikipedia.org/wiki/辐射强度" target="_blank" rel="noopener">辐射强度</a>（Radiant intensity）</td>
+<td>$I_e$</td>
+<td>$I=(dPhi)/(d omega)</td>
+<td><a href="https://zh.wikipedia.org/wiki/瓦特" target="_blank" rel="noopener">瓦特</a>每<a href="https://zh.wikipedia.org/wiki/球面度" target="_blank" rel="noopener">球面度</a></td>
+<td>$W*sr^(-1)$</td>
+<td>每单位<a href="https://zh.wikipedia.org/wiki/立體角" target="_blank" rel="noopener">立体角</a>的辐射通量。</td>
+</tr>
+<tr>
+<td><a href="https://zh.wikipedia.org/wiki/輻照度" target="_blank" rel="noopener">辐照度</a>（Irradiance）（辉度）</td>
+<td>$E_e$</td>
+<td>$E=(dPhi)/(dA)=int_(Omega)  L(omega)cos theta d omega$</td>
+<td><a href="https://zh.wikipedia.org/wiki/瓦特" target="_blank" rel="noopener">瓦特</a>每平方米</td>
+<td>$W*m^(-2)$</td>
+<td>入射表面的辐射通量</td>
+</tr>
+<tr>
+<td><a href="https://zh.wikipedia.org/wiki/辐射率" target="_blank" rel="noopener">辐射率</a>（Radiance）(光亮度）</td>
+<td>$L_e$</td>
+<td>$(d^2Phi)/(dAcos theta d omega)$</td>
+<td><a href="https://zh.wikipedia.org/wiki/瓦特" target="_blank" rel="noopener">瓦特</a>每<a href="https://zh.wikipedia.org/wiki/球面度" target="_blank" rel="noopener">球面度</a>每平方米</td>
+<td>$W*sr^(-1)*m^(-2)$</td>
+<td>每单位<a href="https://zh.wikipedia.org/wiki/立體角" target="_blank" rel="noopener">立体角</a>每单位投射表面的<a href="https://zh.wikipedia.org/wiki/辐射通量" target="_blank" rel="noopener">辐射通量</a>。<strong>相当于辐射强度在dA上的微分</strong></td>
+</tr>
+<tr>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table>
+<p>BRDF由Fred Nicodemus在1965年提出，函数如下：</p>
+<p>$$f_r(omega_i,omega_r) = (dL_r(omega_r))/(dE_i(omega_i)) = (dL_r(omega_r))/(L_i(omega_i)cos theta_i d omega_i) $$</p>
+<img src="/Users/admin/work/guileen.github.com/hexo/source/img/brdf/brdf-diagram.png" style="width:50%;" />
+
+<p>这个公式之所以定义为辐射率（radiance）和辐照度（irradiance）之比，而不是radiance和radiance之比，或irradiance和irradiance之比。是因为当考虑入射时，我们需要考虑入射光在面积上的分量，所以irradiance译为辐<strong>照</strong>度。当考虑反射时，我们需要考虑每立体角的辐射通量，并且这个辐射通量最终投影在屏幕（视网膜）面积上的辐射通量，因此我们用辐射率。如果我们用点光源，入射光的计算似乎也是可以用辐射率的，但有时我们还要考虑平行光的情况，那么对于入射光就不存在每立体角的概念了，因此对于入射光照我们用辐照度，反射我们用辐射率。</p>
+<h3 id="基于物理的BRDF模型-PBR，Physically-based-rendering"><a href="#基于物理的BRDF模型-PBR，Physically-based-rendering" class="headerlink" title="基于物理的BRDF模型(PBR，Physically-based rendering)"></a>基于物理的BRDF模型(PBR，Physically-based rendering)</h3><h4 id="次表面散射（Subsurface-scattering）"><a href="#次表面散射（Subsurface-scattering）" class="headerlink" title="次表面散射（Subsurface scattering）"></a>次表面散射（Subsurface scattering）</h4><p>是一些半透明物质比如皮肤、玉石、大理石、塑料等。当光入射到材料表面后，一部分被反射、一部分被吸收、还有一部分经历透射，透射光在材料内部进行多次不规则的反射之后，又从不同角度反射了回来。</p>
+<h4 id="菲涅尔反射（Fresnel-Reflectance）"><a href="#菲涅尔反射（Fresnel-Reflectance）" class="headerlink" title="菲涅尔反射（Fresnel Reflectance）"></a>菲涅尔反射（Fresnel Reflectance）</h4><p>当光从一种折射率为$n_1$的介质向另一种折射率为$n_2$的介质传播时，在两者的交界处可能会同时发生光的反射和折射。<a href="https://zh.wikipedia.org/wiki/%E8%8F%B2%E6%B6%85%E8%80%B3%E6%96%B9%E7%A8%8B" target="_blank" rel="noopener">菲涅尔方程</a>描述了光波的不同分量被折射和反射的情况，也描述了波反射时的相变。光线会随着我们的观察角度而反射不同的亮度，当我们以垂直与水面的角度观察池塘时，我们可以看到池塘的底部，但当我们以平行于水面的角度观察水面时，反射光则会很强我们无法看到池底。</p>
+<h4 id="微表面理论（Microfacet-Theory）"><a href="#微表面理论（Microfacet-Theory）" class="headerlink" title="微表面理论（Microfacet Theory）"></a>微表面理论（Microfacet Theory）</h4><p>微表面理论假设材质的表面是由不同方向的微小细节平面（microfacet）所构成，反射光线由这些微表面的法线分布决定。我们用法线分布函数（Normal Distribution Function，NDF），D(h) 来描述表面的法线分布概率。h表示视角与入射光角度之间的半程向量。</p>
+<p><img src="/img/brdf/microfacet.jpg" alt=""></p>
+<p>$$f(i,o) = (F(i,h)G(i,o,h)D(h))/(4(n,i)(n,o))$$ </p>
+<p>其中F(i,h)表示菲涅尔项，表示所有反射的比例。G(i,o,h) 表示自投影项，当光线几乎平射于微表面时，光线则将被粗糙的表面自我遮挡掉。D(h)表示法线分布。</p>
+<p>参考:</p>
+<p><a href="https://en.wikipedia.org/wiki/Bidirectional_reflectance_distribution_function" target="_blank" rel="noopener">Wikipedia:《Bidirectional reflectance distribution function》</a></p>
+<p>《Real-Time Rendering, 4th edition》</p>
+<p><a href="https://github.com/QianMo/Real-Time-Rendering-3rd-CN-Summary-Ebook" target="_blank" rel="noopener">《Real-Time Rendering 3rd》提炼总结</a></p>
+<p><a href="https://zhuanlan.zhihu.com/p/20119162" target="_blank" rel="noopener"> Microfacet材质和多层材质——文刀秋二</a></p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2021/02/18/brdf-pbr/" class="archive-article-date">
+  	<time datetime="2021-02-18T13:12:37.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-02-18</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/computer-graphics/" rel="tag">computer-graphics</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-the-essence-of-linear-algebra" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/13/the-essence-of-linear-algebra/">线性代数的本质</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>当我在大学中学习线性代数的时候，我不知所云且不以为然。然后随着不断的学习，我发现不懂线性代数是没法在更深的技术领域里混的。比如机器学习、计算机图形学等等，对于其他的科研领域也都是同样的。如果学不好线性代数既不是我的问题，也不是线性代数的问题，那到底是什么问题？最近学些了<a href="https://www.bilibili.com/video/BV1X7411F744" target="_blank" rel="noopener">现代计算机图形学入门-闫令琪</a> <a href="https://www.bilibili.com/video/BV1ib411t7YR" target="_blank" rel="noopener">线性代数的本质-3blue1brown</a> 这两个系列视频使我对线性代数多了更多的感性认识，而<a href="https://www.marxists.org/chinese/maozedong/marxist.org-chinese-mao-193707.htm" target="_blank" rel="noopener">《实践论》</a> 告诉我们，<strong>理性认识是要依赖于感性认识的</strong>。传统的线性代数教材则希望构建一套完全自洽的纯粹的数学理论，它不依赖于现实世界的知识。这或许可以满足一些数学家的成就感，但这种马后炮式的“创造”是脱离历史的。线性代数就像其他的学科一样，不可能是仅凭想象产生的，虽然数学家可以伪装成不依赖历史发展而独立自洽，但这除了是一种智力游戏外，对于认识世界、传播知识并没有任何帮助。我们就在这种缺乏感性认识的数学教育中丧失了对数学理论的兴趣，岂不哀哉？</p>
+<p>吐槽结束，进入正题。谈谈我此刻对线性代数的理解，探讨一下他的本质到底是什么。我们是否会问自己，加减乘除的本质到底是什么？我们之所以不这么问，是因为我们已经理解了四则运算的本质。我们不会问关于十进制的本质，因为日常生活中已经给我们建立了足够多的经验。但我们在学龄前的阶段，我们则可能对十进制和加减乘除充满了困惑。但我们接触线性代数太晚，我们并没有足够的练习和日常应用使我们建立起感性认识。当我们在商店里消费的时候四则运算不断强化着我们的认知，但线性代数缺少这样的机会。当我们被教授四则运算时，老师把我们当作一个普通的人类，会告诉我们3个苹果+2个苹果=5个苹果，这种现实世界的例子帮助我们更好的理解了四则运算。但当我们学习线性代数时，我们则变成了一个个抽象的理性机器，这个系统只告诉我们各种定义、运算规则，然后要求我们像计算机一样的运行，计算出结果。What are we doing？我们怎么可能不懵圈呢？线性代数就是一个增强版的加减乘除，但没有足够的案例使我们不知道我们的计算究竟代表着什么？AlphaGo就算赢了李世石，但他不知道自己在干什么。我们作为人类的尊严在哪里？我又没控制好自己的情绪，让我们回到正题。《线性代数及其应用》是一本很好的教材，他和国内教材最大的区别就在于“应用”上，这本书中列举了大量的例子来说明线性代数的应用。这本书的开头说道“<strong>线性代数是一门语言，必须用学习外语的方法每天学习这种语言</strong>”。</p>
+<h3 id="鸡兔同笼与线性变换"><a href="#鸡兔同笼与线性变换" class="headerlink" title="鸡兔同笼与线性变换"></a>鸡兔同笼与线性变换</h3><p>我们从鸡兔同笼来举个例子。鸡兔同笼是小学阶段的奥数题，也就是在小学的数学语言中，这是一道很难描述的题。到了中学阶段我们可以用未知数x表示鸡的数量，未知数y表示兔的数量，并列出方程。而对于线性代数的语言，我们用向量$$((a),(b))$$表示鸡和兔的数量，如果我们有非常多的未知数，我们不希望定义太多的未知数符号，我们直接用$$x$$表示这个n维变量。我们有一个变换矩阵$$[[1,1],[2,4]]$$ 表示鸡有1个头2只脚，兔有1个头4只脚 。如果有3只鸡5只兔则 $$[[1,1],[2,4]]*[[3],[5]]=[[3*1+5*1],[3*2+5*4]]=[[8],[26]]$$，它代表着我们将一个“鸡兔向量”映射到了“头脚向量”的空间中，共有8只头，26只脚。</p>
+<p>我们知道函数是一种映射，$$f(x)=y$$代表将$x$到$y$的映射关系。矩阵乘法叫做线性变换，线性变换是一种函数映射，但函数映射不一定是线性变化。因此线性变换是符合函数的性质的。如果函数是可逆的，则有$$x=f^(-1)(y)$$，同样的，对于矩阵而言，$$若A是可逆的，且Ax=b，则x=A^(-1)b。设A=[[a,b],[c,d]]，则A^(-1)=1/(ad-bc)[[d,-b],[-c,a]]$$。</p>
+<p>对于鸡兔同笼问题，$$A=[[1,1],[2,4]]，则A^(-1)=1/2[[4,-1],[-2,1]]$$。$$当有8头26脚时，x=1/2[[4,-1],[-2,1]]*[[8],[26]]=1/2[[4*8-26],[-2*8+26]]=1/2[[6],[10]]=[[3],[5]]$$，即3只鸡5只兔。最重要的是，这整个计算过程，计算机可以轻松的完成，并且可以用定义标准化的操作，因为操作标准化，计算机可以被设计的更加擅长处理这类操作。这就是线性代数得到广泛应用的一个最重要原因。</p>
+<p>线性变换可能进行多次，就像映射可以进行多次一样。因为矩阵的乘法就是一种特殊的函数，函数满足结合律$$g(f(h(x)))=((g @ f)(h(x)))$$，所以矩阵乘法也符合结合律$$A(BC)=(AB)C$$。多次映射之后是一个新的映射，多次变换之后也是一个新的变换，所以我们可以将这些变换矩阵预先乘好，以增加每次计算的效率。也可以将一个复杂变换拆解为多个简单变换，使我们能更好的理解其性质。</p>
+<p>我们可以从鸡兔变换到头脚，我们也可以从产量变换到成本收益（这是经济学的应用），我们也可以从速度变换到阻力（这是空气动力学的应用），我们也可以将3D空间变换到3D或2D空间（这是计算机图形学的应用），我们也可以将用户行为维度变换到兴趣标签维度（这是机器学习推荐系统的应用）。这都说明了线性代数是一门“语言”，是一个工具。并不是因为线性代数，所以这些定理存在，而是因为这些规律本身存在，才能有线性代数这门工具。人类是巧妙的“发明”了线性代数，而不是“发现”了线性代数。线性代数这门语言可以使我们避免基本代数语言的变量名爆炸。人类日常语言中有你我他这那等代词，中文有甲乙丙丁这种天干地支可以用作代词，英文则有a,b,cd可以使用。日常的代词使用是随意的，很多时候是不严谨的。代数学的代词在使用前则需要对它进行准确的定义。而线性代数则将最常使用的一些操作提取了出来，使我们免于重复的定义大量性质类似的代词。在线性代数中，鸡兔数量，头脚数量与空间中点的xyz轴位置都是同一种性质的。研究飞机表面的气流的过程包含了反复求解大型的线性方程组$$Ax=b$$，涉及的变量个数达到2百万个。可以说线性代数的发展完全是随着其应用发展的，如果有一本按照历史发展顺序描述线性代数的书，一定可以达到很好的教学效果。</p>
+<h3 id="行列式（determinant）"><a href="#行列式（determinant）" class="headerlink" title="行列式（determinant）"></a>行列式（determinant）</h3><p>行列式的出现是远早于矩阵的。Determinant是决定的意思，（下文称之为决定值，“行列式”翻译的无味，既没有描述其决定性质，也没有说明其结果是特定的值）：决定值是否不为0决定了一个线性方程组是否有唯一解。所谓线性方程组，就是一次方程组。这个结论最早见于《九章算术》（有一种观点认为很多思想是在明朝由中国传至欧洲，而清朝恰好是中国的一个倒退，而欧洲则顺势伪造了一套其文明独立发展的历史叙事，这里不展开描述了）。决定值的这个性质在欧洲由莱布尼茨最早提出（莱布尼茨在中学西传中扮演着重要角色）。高斯首先使用了determinant这个词，他在数论理论中大量用到了决定值。后来这个词就更多的指一个特殊的函数，即某个表达式，因此中文将其翻译为行列式。</p>
+<p>观察我们在鸡兔同笼中得出的结论：$$设A=[[a,b],[c,d]]，则A^(-1)=1/(ad-bc)[[d,-b],[-c,a]]$$。因此矩阵A当且仅当$$ad-bc!=0$$时存在逆矩阵，我们记为$$det(A)=|A|=|[a,b],[c,d]|=ad-bc$$。我们继续推广研究$3xx3$矩阵，可以得到：</p>
+<p>$$|[a,b,c],[d,e,f],[h,i,j]|=a|[e,f],[h,i]|-b|[d,f],[g,i]|+c|[d,e],[g,h]|=aei+bfg+cdh-ceg-bdi-afh=|[a,d,h],[b,e,i],[c,f,j]|$$</p>
+<p>对$4xx4$矩阵则有：</p>
+<p>$$|[a,b,c,d],[e,f,g,h],[i,j,k,l],[m,n,o,p]|=a|[f,g,h],[j,k,l],[n,o,p]|-b|[e,g,h],[i,k,l],[m,o,p]|+c|[e,f,h],[i,j,l],[m,n,p]|-d|[e,f,g],[i,j,k],[m,n,o]|$$</p>
+<p>依此类推，决定值的公式是一个递归。决定值的几何意义代表代表$1xx1$矩阵变换后的平行四边形的面积，或者说是矩阵变换后面积的放大倍数，即变换矩阵围成的四边形的面积。简单的证明如下图：$S=(a+c)(b+d)-ab-cd-2bc=ad-bc$。推广到3维则表示变换矩阵的围成的立方体的体积。</p>
+<img src="/img/math/transform-determinant-opt.png" style="width:45%;" />
+
+<img src="/img/math/determinant-area.gif" style="width:45%;" />
+
+<p>如果determinant=0，则说明变换之后由面变为了线，或由体变为了面。而线或面无法再变换回面或体。我们同样以鸡兔同笼问题来举例，我们把题目中的兔换成鸭，则变换矩阵为$$A=[[1,1],[2,2]], det(A)=0$$。这个方程组是没有唯一解的，因为无论鸡鸭的比例如何，头脚的比例都是$1:2$。对于这样的矩阵，我们称他的秩为1，秩代表矩阵的维数。一个二维矩阵，可能秩为1，一个三维矩阵可能秩为2也就是一个面，也可能秩为1也就是一条线，甚至秩为0。</p>
+<p>TODO 叉乘表示面积和垂直与平面的向量，特征值与特征向量，表示空间中在线性变换中保持稳定的轴，最小二乘法</p>
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2021/02/13/the-essence-of-linear-algebra/" class="archive-article-date">
+  	<time datetime="2021-02-13T04:03:51.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-02-13</time>
+</a>
+      
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+    <article id="post-law-of-cosines-and-phong-reflection-model" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2021/02/07/law-of-cosines-and-phong-reflection-model/">从余弦定理到冯氏光照模型</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-勾股定理——宇宙的密码"><a href="#1-勾股定理——宇宙的密码" class="headerlink" title="1.勾股定理——宇宙的密码"></a>1.勾股定理——宇宙的密码</h3><p>$a^2+b^2=c^2$。下图是勾股定理的一个直观证明。</p>
+<p><img src="/img/math/ggdl.png" alt=""></p>
+<h3 id="2-余弦定理，角与边的关系"><a href="#2-余弦定理，角与边的关系" class="headerlink" title="2. 余弦定理，角与边的关系"></a>2. 余弦定理，角与边的关系</h3><img src="/img/math/q-cosine.svg.png" width="30%">
+
+<img src="/img/math/cosine-1.png" width="30%">
+
+ <img src="/img/math/cos-sin.png" width="30%">
+
+<p>三条边可以确定一个三角形，已知三角形的三条边长，如何求出其角度呢？</p>
+<p>由$cos,sin$定义可知<br>
+  $$ c = a * cos beta + b * cos alpha $$<br>
+  两边同乘c得：<br>
+$$ c^2 = ac * cos beta + bc * cos alpha $$<br>
+  同理可得：<br>
+$$ a^2 = ac cos beta + ab * cos gamma $$<br>
+$$ b^2 = bc cos alpha + ab cos gamma $$<br>
+  故：$$ a^2+b^2-c^2 = 2abcosgamma $$<br>
+  可得：$$ c^2 = a^2 + b^2 - 2ab cos gamma $$<br>
+</p>
+
+
+<h3 id="3-向量的定义（方向）"><a href="#3-向量的定义（方向）" class="headerlink" title="3. 向量的定义（方向）"></a>3. 向量的定义（方向）</h3><img src="/img/math/vector_subtraction.svg.png" width="45%">
+
+<img src="/img/math/vector_addition.svg.png" width="45%">
+
+<p>$$令 vec c = vec a - vec b$$, $$theta$$为$$vec a$$ $$vec b$$ 的夹角。余弦定理可以用向量形式写成 $$ | vec c |^2 = |vec a|^2 + |vec b|^2 -  2 |vec a| |vec b| cos theta $$ </p>
+<h3 id="4-点积（dot-product）的代数定义"><a href="#4-点积（dot-product）的代数定义" class="headerlink" title="4. 点积（dot product）的代数定义"></a>4. 点积（dot product）的代数定义</h3><p>两个向量的点积是一个标量。向量$$vec a=[a_1, a_2, … a_n]$$与向量$$vec b=[b_1, b_2, … b_n]$$的点积定义为: $$ vec a * vec b = sum_(i=1)^n a_i b_i = a_1 b_1 + a_2 b_2 + … a_n b_n $$。</p>
+<p>点积有以下性质（证略）：</p>
+<ol>
+<li>满足交换律 $$vec a * vec b = vec b * vec a$$</li>
+<li>满足分配律 $$vec a * (vec b + vec c) = vec a * vec b + vec a * vec c$$</li>
+<li>乘以标量时满足 $$ (c_1 vec a) * (c_2 vec b) = (c_1 c_2)(vec a * vec b)$$</li>
+<li>不满足结合律。因为标量 $$ vec a * vec b $$ 与向量 $$ vec c $$ 的点积没有定义，所以$$(vec a * vec b) * vec c=vec a * (vec b * vec c)$$ 没有意义。</li>
+</ol>
+<p>点积的代数定义简单实用，易于表示，也易于使用计算机程序处理。是线性代数的基本操作之一。</p>
+<h3 id="5-点积的几何意义"><a href="#5-点积的几何意义" class="headerlink" title="5. 点积的几何意义"></a>5. 点积的几何意义</h3><p>对于任何一个n维向量有 $|vec a|^2=a_1^2+a_2^2+…+a_n^2$。根据勾股定理，这是很显然的。换个角度<strong>说如果没有勾股定理，这一步就不存在，后面的内容也不存在了。而勾股定理不是由代数方法证明的，而是独立于代数系统之外的空间基本性质。而空间和时间是宇宙最根本的本质。这就是勾股定理最神奇的地方</strong>。</p>
+<p>我们根据点积的定义可知：$$ vec a * vec a = a_1 * a_1 + a_2 * a_2 + … a_n * a_n = |vec a|^2$$ 即 $$ vec a * vec a == |vec a|^2$$</p>
+<p>我们根据余弦定理的向量表示可得：$$ vec c * vec c = vec a * vec a + vec b * vec b - 2 |vec a| |vec b| cos theta . (1)$$ </p>
+<p>根据向量的定义 $$ vec c = vec a - vec b $$ 有 $$ vec c * vec c = (vec a - vec b) * (vec a - vec b) = vec a * vec a + vec b * vec b - 2 vec a * vec b . (2)$$</p>
+<p>结合等式$$(1)$$、$$(2)$$有 $$vec a * vec b = |vec a| |vec b| cos theta$$。一个看似简单的代数点积操作，竟然和夹角余弦相关，真是不可思议。</p>
+<p>点积的几何意义是什么呢？关键就在这个$cos theta$，如果$$|vec b|$$为1时候，我们可以将$$vec a * vec b$$视为$$vec a $$在$$vec b$$方向上的投影长度。</p>
+<p><img src="/img/math/dot_product_1.png" width="45%"> <img src="/img/math/dot_product_2.png" width="45%"></p>
+<h3 id="6-点积的物理意义（从数学到宇宙）"><a href="#6-点积的物理意义（从数学到宇宙）" class="headerlink" title="6. 点积的物理意义（从数学到宇宙）"></a>6. 点积的物理意义（从数学到宇宙）</h3><p>点积的物理意义就是向量在某方向上的投影长度。这在物理上可以表达力在某方向上的投影，光在某方向的投影，速度、加速度在某方向的投影。而点积的操作，可以使我们只需要关心这些物理量的向量表示，而不需要去关心夹角，不需要去计算三角函数。而在统计学、机器学习等方面，余弦可以表示两个向量之间的相似性，比如两个词向量，两个用户的兴趣向量等，应用非常广泛。下面就以计算机图形学举例来说明点积的应用。</p>
+<p>冯氏光照模型将一个物体的光照分解为环境光+漫反射光+镜面反射光。</p>
+<p><img src="/img/math/Phong_components_version_4.png" alt=""></p>
+<p>环境光比较简单就是一个常量。而漫反射光，则为光照强度在平面的法线方向的投影，与法线方向一致则光照最强。镜面反射光则为反射光方向在视角方向上的投影，与视角完全一致，则反射光最强。</p>
+<p><img src="/img/math/diffuse_light.png" width="45%"> <img src="/img/math/specular_light.png" width="45%"></p>
+<p>OpenGL的shader大致如下：</p>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">vec3</span> CalcDirLight(DirLight light, <span class="type">vec3</span> normal, <span class="type">vec3</span> viewDir) &#123;</span><br><span class="line">    <span class="comment">// normalize 归一化，使法线向量的长度为1</span></span><br><span class="line">    <span class="type">vec3</span> lightDir = <span class="built_in">normalize</span>(-light.direction);</span><br><span class="line">    <span class="comment">// 漫反射光. dot 计算cos* 强度， max把负值最多降到0，表示全黑。</span></span><br><span class="line">    <span class="type">float</span> diff = <span class="built_in">max</span>(<span class="built_in">dot</span>(normal, lightDir), <span class="number">0.0</span>);</span><br><span class="line">    <span class="type">vec3</span> reflectDir = <span class="built_in">reflect</span>(-lightDir, normal);</span><br><span class="line">    <span class="comment">// dot 计算反射光在视角上的cos分量，至少为0。使用pow，模拟镜面光焦点分布集中度，shininess越高要求反射分量越接近于1</span></span><br><span class="line">    <span class="comment">// 反射分量==1 表示必须视角恰巧与反射角完全一致才能看到反射光，也就是绝对镜面</span></span><br><span class="line">    <span class="type">float</span> spec = <span class="built_in">pow</span>(<span class="built_in">max</span>(<span class="built_in">dot</span>(viewDir, reflectDir), <span class="number">0.0</span>), material.shininess);</span><br><span class="line">    <span class="comment">// 合并冯氏光照结果</span></span><br><span class="line">    <span class="type">vec3</span> ambient = light.ambient * <span class="type">vec3</span>(<span class="built_in">texture</span>(material.diffuse, TexCoords));</span><br><span class="line">    <span class="type">vec3</span> diffuse = light.diffuse * diff * <span class="type">vec3</span>(<span class="built_in">texture</span>(material.diffuse, TexCoords));</span><br><span class="line">    <span class="type">vec3</span> specular = light.specular * spec * <span class="type">vec3</span>(<span class="built_in">texture</span>(material.specular, TexCoords));</span><br><span class="line">    <span class="keyword">return</span> (ambient + diffuse + specular);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2021/02/07/law-of-cosines-and-phong-reflection-model/" class="archive-article-date">
+  	<time datetime="2021-02-06T17:01:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-02-07</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenGL-math/" rel="tag">OpenGL,math</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+
+
+
+
+
+
+
+
+
+
+
+  
     <article id="post-childrens-song" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-inner">
     
@@ -290,6 +721,11 @@
   	<time datetime="2020-04-04T16:43:34.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-04-05</time>
 </a>
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/AI/" rel="tag">AI</a></li></ul>
+	</div>
+
       
 
       <div class="clearfix"></div>
@@ -414,330 +850,9 @@
 
 
   
-    <article id="post-complete-understanding-of-darwinism" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2020/03/19/complete-understanding-of-darwinism/">完整地理解道家思想和达尔文主义</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>看到标题，有的人可能会奇怪，为什么要把道家思想和达尔文主义并列。我这里简单引用几句话大家就明白了：“圣人处无为之事，行不言之教”，“天地不仁，以万物为刍狗；圣人不仁，以百姓为刍狗”，“道常无为而无不为，侯王若能守之，万物将自化”，“其政闷闷，其民淳淳；其政察察，其民缺缺”，“圣人之道，为而不争”，这些都是道德经里面的话，道家是崇尚无为的，认为万物可以自化。再看看达尔文的进化论：“物竞天择，适者生存”，是不是同一个道理，我们都知道进化论不是基督教的信仰，而当时的欧洲的有识之士普遍对中国文化有所研究，达尔文的思想是不是受道家启发呢？暂时不得而知，但是逻辑是一样的。除了达尔文，还有重农学派提倡的放任自由的经济制度，亚当斯密的自由市场理论，都是和道家思想类似的。还有一句话中国人比较熟悉“不管白猫和黑猫，能抓到老鼠就是好猫”，这句话是为了证明市场经济合理性的。显然，以上思想都是可以归为一类的。</p>
-<p>四十年前，有人提出要全面的理解伟人的思想，并在伟人著作的选集中增加一篇《反对本本主义》，并强调“实践是检验真理的唯一标准”，当然“实践论”也依然是伟人的名篇，但说法却不是这个说法，《实践论》强调的是“理论要结合实际，经验是理论的前提”是有很深的哲学方法论的，但是“实践是检验真理的唯一标准”这句话则有着强烈的成王败寇色彩。但必须承认这些话都是非常雄辩的，观点是非常有力的。于是受此启发，也就写了这篇“完整的理解道家思想和达尔文主义”。我认为，道家思想和达尔文主义是右派的最根本的理论基础，这是他们雄辩的部分，而他们错误的部分则是未能完整的理解道家思想和达尔文主义。</p>
-<p>儒生和道家的争论。。。。汉景帝也是很没出息，他应该说如果朕做出违背人民的事情，也会受到一样的下场。这个道生的意思，就是君王再坏也是君王，臣下也不能弑君。这个感觉就像，有钱就是厉害，贪污也是人家的本事，口气是不是很像？就很明显没有真正理解道德经，汤武革命正是天地不仁以万物为刍狗的合理性结果。而圣人不仁所以百姓为刍狗的百姓，显然是包含贵族在内的，那时如果说下等人那叫做黎民，不叫百姓，有姓的都是贵族。所谓以百姓为刍狗，就是不管你是王公贵族还是黎民百姓，在圣人眼中都是刍狗，都是平等的。我这么解释也许有人会认为我是附会老子的意思，那么我们看看庄子的思想是什么。庄子是道家仅次于老子的重要人物。庄子在齐物论充分表达了什么叫做以万物为刍狗，那就是万物都是平等的，没有高低贵贱之别，这样怎么会存在一个不可以被推翻的君主呢？</p>
-<p>社会达尔文主义的普遍错误。</p>
-<p>进化论的翻译有问题，应该翻译为演化论。</p>
-<p>演化论的意思是，把你丢到大草原上，你要么成为狮子，要么成为鬣狗，或者成为斑马，把你丢到猪圈里面，你必须变成一只猪才是适应环境的。把你丢到猪圈里面，你还想做人可以吗？按照演化论的规律来说，你在猪圈里面做人，就会饿死。演化论没有错，但把在猪圈里面做猪当作理想社会，那就是你的错了。</p>
-<p>庄子在达生篇有一个小寓言，祭祀官穿着黑色礼服，一本正经地来到猪圈，劝说猪：“你干嘛厌恶死亡呢？我要饲养你三个月，然后戒十天，斋三天，用白茅作垫席，准备一张雕绘精美的案几，把你摆在上面去祭祀神灵，那么你愿意做吗？”替猪着想的话，一定会说，这样还不如拿糟糠喂养它，把它关在猪圈里呢；为人自身考虑的话，假如活着能享有高官厚禄的尊贵，死了能用华丽的装载灵柩的车子拉着，下葬时享受豪华的棺椁，那么就会去做。替猪着想的话，那就抛弃白茅彫俎；为自己打算就拼命追求轩冕腞楯聚偻。人与猪的不同之处是什么呢？庄子的意思很明显，追求自由，不是让你们在那里自我摧残的，连猪都知道不该追求那些虚头巴脑的东西，人干嘛要整那些没用的呢？</p>
-<p>道家思想从来都是讲为而不争，而不是自由竞争。什么叫为而不争，我觉得和孔子说的君子和而不同，是一个意思。孔子说，君子和而不同，小人同而不和。小人都是一个样的，整体就知道争。君子呢，努力做事，但是从来不争。</p>
-<p>丛林法则的有效的基础是绝对公平的游戏规则。基因的进化是不可以父传子的，更是不可以窃取公器的。达尔文主义是个体的竞争，田径比赛，高考，并且要禁止开小灶，才能达到优选优育的目的。公平是进化论的基础。关于生育部分也就不多说了，达尔文主义也要求一部分人应该多生育。基督教的一夫一妻制根本就不符合进化论的思想。在一夫一妻制下谈社会达尔文主义是没有意义的，因为你再怎么竞争也没有扩大你的遗传优势，没有遗传优势也就没有所谓演化。</p>
-<p>优胜劣汰是市场经济的常用话语，但究竟是优胜劣汰还是劣币驱逐良币，我觉得要一分为二的看。大量的事实已经证明在没有强力监管的情况下是劣币驱逐良币而不是优胜劣汰。比如说，环境污染，那肯定是不治理污染的成本低，驱逐主动治理污染的，抄袭盗版的成本低驱逐自主研发的，无视劳工人权的成本低驱逐福利优厚的，官商勾结的成本低驱逐合法经营的。</p>
-<p>人与动物最大的区别之一就是人可以制定规则，也可以改变规则，但动物无法改变人类给他们制定的规则。既然人有了动物所不具有的制定规则的能力，那么人类就应该制定一个属于人类的规则，而不是给人类制定一个动物的规则。</p>
-<p>老子强调，为而不有，功成而弗居，老子是反对私有财产的，老子也是反对物质享受的。那么消费主义就不符合道家思想。</p>
-<p>完整的理解猫论。不管白猫黑猫抓到老鼠就是好猫。这里的猫和老鼠究竟指什么？白猫黑猫是计划与市场，老鼠就是目标，这个目标是什么？这个目标是社会主义。让一部分人先富起来，这个目标就是最终实现共同富裕。如果你认为老鼠是一部分人先富起来，那么就大错特错了。</p>
-<p>为什么闲的没事写这些玩意儿呢？因为市场竞争挺无聊的，以我们这些智商和那些蝇营狗苟的人竞争，一群野狗争抢食物，对外杀敌的时候，没多少输出，抢起食物来却非常起劲，我们的力量是用来对外的，不是用来对内的。还是老子那句话，为而不争。搞内部倾轧的竞争，厚黑学，对有修养的人来说，是很丢脸的一件事。</p>
-<p>孔孟为什么伟大，因为孔孟肯定了革命的合法性。为什么要批孔呢？因为儒家已经被后生所篡改，将忠君变成了儒家教条的一部分，其实儒家一直认为民为贵、社稷次之、君为轻，而且肯定汤武革命，既然肯定汤武革命就不可能把忠君作为教条，即便董仲舒的天人感应，五德终始，也是劝喻君王，不好好干就要下台。但是后来儒家被偷换概念，成为了精英的代名词，这个转换与科举制有一定关系。也就是通过垄断知识来垄断权力，皇权与知识分子结成了牢固的联盟，这个在宋朝发展到了顶点。所以文革批孔，批的其实是精英意识，而不是批的革命意识。</p>
-<p>汤武当然可以革命！</p>
-<p>今天的新儒学复兴，一定要注意甄别，复兴的是精英意识还是革命意识，如果是精英意识，那么就要毫不留情的打倒他，如果是革命意识，那么说明就领悟到了儒家的精髓，就可以拥护他。</p>
-<p>明朝时，儒生们积极的评议朝政，只可惜明朝仍然有很多制度上的缺陷，还是覆亡了。明朝覆亡后，孔孟的精神没有消失，西移到了法国。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2020/03/19/complete-understanding-of-darwinism/" class="archive-article-date">
-  	<time datetime="2020-03-19T03:59:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2020-03-19</time>
-</a>
-      
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-2019-predict" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/12/25/2019-predict/">2019年度预测：新思潮的前夜</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我们正站在世界巨变的前夜，这个巨变将以我们意向不到的方式出现。</p>
-<p>美国会倒下，但我们不知道美国将会如何倒下。中美最根本的战争在金融领域，人民币国际化就是在争夺全球铸币权份额。美元可能会崩溃，但中国拥有的大量美元资产需要安全置换。如果美元霸权能够缓缓的衰落，对中国的影响最小，如果美元霸权骤然终结，也将对中国带来冲击。</p>
-<p>在现在的国际环境下，依靠出口拉动经济的方式是不可持续的，最重要的是提振内需，但目前老百姓手里没钱，内需也拉不动。所以现在必须要平衡贫富差距。缩小贫富差距就要有人掏钱，因此有钱的人都想着抽逃资金。严打不仅稳定社会治安，也会收回大量不法收入。</p>
-<p>房价不会大涨也不会大跌，上涨会让还没买房的人不满意，下跌会让已经买了房的人不满意，所以就锁住，不涨不跌。房子已经进入了计划时代，就像火车票必须凭身份证购买来抑制黄牛是一样的。信息化使计划经济具有了更大的可行性。即使通货膨胀了，房价也不会涨，因为已经不再是市场化环境了。所以本质上，房价在缓缓下跌。</p>
-<p>需要优化财富分配，医疗养老之类的福利会加强，教育科研投入会加大，贫困人口持续扶贫。</p>
-<p>大量高科技依然掌握在欧美手中。中国的普及教育很好，但是高等教育与欧美差距较大，教育改革也是困难重重。仅从本人专业来看，编程语言、操作系统、深度学习框架，都是美国人的。</p>
-<p>生产过剩、人工智能，会影响就业率。新增人口下滑，老龄化加速。</p>
-<p>创业会越来越难，基本上属于解决就业的公益事业。体制内、大平台的职工相当于新的铁饭碗，同时临时工也会越来越多。</p>
-<p>创业的最佳阶段是GDP高速增长的阶段，只要入局基本都有得赚。如果宏观上的财富没有增加，那么创业相当于是在存量市场与其他人竞争。除非有压倒性的武器，找到可以战胜的敌人，否则不要创业。海外市场机会较大。</p>
-<p>创新是有闲阶级特权，有闲不一定是非常富有，但需要有一份保证基本生活的、时间投入少的收入，即“睡后收入”。如果创新可立刻获得回报，则可以进入增强回路循环。</p>
-<p>随着机器人取代越来越多的低端就业，UBI即无条件基本收入的概念会被越来越多的人接受。今年参加美国总统竞选的杨安泽使用了UBI的口号，别人问他钱从哪来，他说向富人收税。桑德斯再次参加大选，美国民主社会主义近年快速崛起。</p>
-<p>传统发达国家因为后发国家的追赶，导致本国产业受到影响，就业率下滑。从而产生越来越多的社会运动，希望获得更高的社会福利，有的地方甚至为了几毛钱的地铁涨价就闹了起来。但这些国家由于债务压力已经很大，经济环境恶化，无法给到更多的社会福利。富人们则利用国际避税手段，来躲避社会责任。一场全球性的萧条和左派革命正在酝酿，那些小政府的发达地区问题最严重（比如香港、韩国是小政府、新加坡是大政府）。</p>
-<p>中美的竞争不会转化为热战，因为中国不想打，美国打不赢。中美握手后，将联手打击国际避税，共治天下。</p>
-<p>资本因其可以转移，在国际共运中，虽然一部分资产被没收，但更多的则逃到了避风港中。苏联解体、改革开放也使大量的公有资产再次被私有化。美国衰落将使资本最大的避风港消失，所有的资本都将处于监管之下。</p>
-<p>中国国内思想分歧增大。近几十年的高速增长，右派认为前人有罪，自己有功，而问题则留给后人处理，大力宣传，所以右派思想居主流。近十年文革一代领导人上台，左派思想逐渐兴起，加之贫富差距、环保、贪腐等问题的存在，助推了左派思潮的壮大。我也是因为近几年的反腐、扶贫、强军才开始重新认识这个国家。</p>
-<p>如果说这一代领导人的思想是在文革中形成的话，那么下一届领导人的思想又是在何时形成的呢？文革给中国续了命，修正主义则给苏联送了命。戈尔巴乔夫说“我们是苏共二十大的孩子，苏联六十年代的历史对我们影响很大”，六十年代的苏联就相当于八十年代的中国，赫鲁晓夫教出了戈尔巴乔夫，戈尔巴乔夫一手送走了苏联。下一届领导人是左还是右？改革开放中形成的利益集团是否已经可以左右政治格局，形成类似日韩的财阀统治？这是未来最大的不确定因素。</p>
-<p>正因为这是未来最大的不确定因素，所以伟人在晚年才要发动文革。不断受人非议的文革，完成了一代人的政治教育，奠定了一代人的思想基础，顶住了世界范围的社会主义颠覆潮。伟人看得太远了，我们无法企及。但是我们虽然顶住了颠覆，却也经历了改革，大量国有资产被私有化，形成了利益集团。几十年过去了，人心不古。既得利益者一定会想方设法垄断政治权力，不加控制结局与明朝无异。解决方案伟人都说过了，而我们首先要做的就是正确评价文革。反对文革的人常拿文革中的极端案例来举例，犯罪案件每个时代都有，我们要注意到文革时期的犯罪率是远低于改革之后的，即便把群众运动中极端案件算上，也比改革之后的犯罪率低。就连当时“受迫害”的人都没有反对文革（比如现任领导人），那些不了解文革的人又凭什么反对呢？妖魔化文革的本质就是妖魔化群众运动，从而顺理成章的剥夺了民众的政治权力。</p>
-<p>扯远了，看来可以写的主题有很多。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2019/12/25/2019-predict/" class="archive-article-date">
-  	<time datetime="2019-12-25T02:38:44.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-12-25</time>
-</a>
-      
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-how-company-works" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2019/02/04/how-company-works/">企业是如何运作的？</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>我一直很好奇人类社会是如何组织运作起来的，在历史中我们王朝的更迭，在现在一家公司的成败。我们很幸运，如果我们希望成就一番事业不再需要像古代的野心家那样，一定要冒着杀头的风险才能获得，也无需像古代的官僚一样必须依附于一个人情系统才能生存。因为现代的法律和企业制度给我们提供了必要的保护。</p>
-<p>人是一个社会性动物。因此人与人之间进行是系统性的对抗。于是人们结成集体，依靠集体的合力获取胜利，使每个个体获取大于单独行动的收益。因此企业首先是一群人集体谋利的手段。我们不能否认这一点，不能将所谓情怀、价值观放在集体谋利手段的更优先的位置。即便有一个组织的确是将其价值观置于最优先的位置，那么只能说其价值观代表了这个组织的最高利益，而价值观是手段，利益才是目的。</p>
-<p>当劫掠能够产生比生产更大的收益时，草原上原本松散的社会结构，就会很快结成联盟，经过仪式性的战争选出头领，带领大军南下，劫掠中原。驱动他们凝结在一起的力量就是谋生。当他们凝聚在一起之后，他们劫掠的资源可以支撑他们更大的野心。十三世纪，蒙古帝国迅速的崛起，横扫亚欧大陆，令人惊叹。蒙古帝国既没有大英帝国先进科技，也没有中国、欧洲先进的思想，也没有丰富的资源，是什么让他们成就了如此伟业？</p>
-<p>最新的考古学证据表明，成吉思汗崛起之时，漠北草原迎来了15年的持续降雨和温和天气，温和的天气带来了丰富的牧草，丰富的牧草带来了充沛的战马。而战马是当时最重要的战略物资。这一切都给蒙古帝国的崛起创造了条件。但我依然想知道一点，如果条件适宜，这一切是必然会产生的吗？</p>
-<p>我的答案是，如果一个民族的人数达到了临界值，并且当时的条件适合这个民族崛起，那么这个民族一定会崛起。一定有一些民族错过了他们的机遇，那么这些民族甚至将因此失去其原本所拥有的东西。为什么需要一个临界值？这个临界值是用于确保有足够多的竞争者，而最终胜出的竞争者将带领这个民族走上崛起之路。</p>
-<p>在战争这件事上充分的体现了集体的力量是大于个人的，而如果成功，领导者的收益也必然是大于普通个体的。那么又有一个问题，既然领导者的收益最大，为什么一个集体之中参与领导者竞争的只有一小部分人，而不是全部？原因很简单，参与领导者竞争是存在巨大风险的。不同的人选择了不同的风险收益比，总体来说这个风险收益是均衡的。每个人都是由自己的禀赋做出了选择，而那些选择参与领导者竞争的人，正是由其先天性格禀赋所决定的，他们对于未知与冒险有着天然的适应性。他们未必是群体中最强壮、最聪明的人，也未必是群体中最勇敢的人，但他们是群体中最有魄力的人，魄力是一种综合的能力，他使整个集体朝着同一个方向前进，并扫除那些阻碍集体向前的障碍。他使集体围绕在他的周围，他个人就代表了集体。在一个由众人构成的战车面前，个体的聪明、勇敢，都是微不足道的。</p>
-<p>当有了核心之后，这群人就不再是松散的个体，集体从这一刻诞生，他们以集体的名义捕猎，而后分配。</p>
-<p>一个领导者需要几名得力的助手，才可以统御整个系统。每个系统都是多个组件所构成的，</p>
-<p>一家公司的员工，并非都属于一个集体，正如一个王朝，并非所有人都属于王朝组织，</p>
-<p>对于一个组织来说，相比于个体是一个更加不稳定的系统，必须要更大的能量才能维持其稳定的存在，否则组织将走向覆灭。因此获取更大的能量就是这个组织必须要解决的一个问题。对于一个人类社会组织，我们可以用财富来对应这种能量。财富只有两种方式获取，第一种是创造，第二种是掠夺。决定采用哪一种形式并不由这个组织的道德水平决定，而是由收益成本比决定，如果创造财富的收益比更高，则选择创造财富，如果掠夺财富的收益比更高则选择掠夺财富。人们看到这一说法可能会不以为然，或者想当然的认为掠夺财富的收益更大，事实上掠夺财富要承担巨大的风险，因为每个组织都为自己的财富设置了各种保护。获取到的财富可以用于进一步扩大组织的边界与能力，当获取财富的速度不足以支撑更大的组织结构时，组织的边界将稳定或者减少。比如蒙古人用他们的军事力量征服了一个又一个城市后，又将掠夺来的物资和人力融入到自己的组织中。使组织进一步扩大。</p>
-<p>当我们说掠夺财富时，并非一定单纯指蒙古人式的野蛮掠夺，现代社会也存在着很多形式合法的掠夺，比如金融系统，比如各种服务平台的服务费，竞争对手之间争夺市场份额等。不得不说，在一个竞争激烈的红海市场中，掠夺能力才是王道，而创造只是为他人做嫁衣。</p>
-<p>一个企业永远要将争夺市场当作最核心的能力，正如一个王朝不能忘了战争的重要性。</p>
-<p>金融和法律框架下的进行的，离开了法律的保护，我们所拥有的财富都是泡影。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2019/02/04/how-company-works/" class="archive-article-date">
-  	<time datetime="2019-02-03T16:39:36.000Z" itemprop="datePublished"><i class="icon-clock"></i>2019-02-04</time>
-</a>
-      
-      
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-conscious-of-machine" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2018/06/01/conscious-of-machine/">机器的意识</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>机器学习当下是非常火热的课题，大量的模型被设计出来令人眼花缭乱。诸如SVM，随机森林，贝叶斯网络，神经网络只不过是这个领域的基础知识，在这些基础方法之上的各种优化分支方法更是数不胜数。大量的所谓机器学习的研究者，在某个问题上，通过对现有方法的小修小补，达到了一些微不足道的提升，或仅仅是对几种模型／优化方法／特征分析／问题领域进行一些常规的比较分析，便可以一本正经的发布一篇学术论文。为了这些方法应用到实际的工程中时，通常需要消耗大量的人力用于前期的数据分析和处理，这一过程被称为“特征工程”。对于此类人员的专业度要求非常高，需求量也非常大，因此这类人才的溢价也非常高，以致于一个刚刚毕业的研究生的薪酬可以轻松超越一个有多年经验的软件工程师。然而这类人力工作通常并没有太多的创新性可言。这是在当前的科技背景下产生的独特的现象——一大批资质平平的智力工作者受到了疯狂的追捧。这一现象必然在机器学习真正取得突破性进展后终结，本文将讨论突破性进展可能的方向。</p>
-<p>科技发展有两种驱动力，其一是资本对于更高生产力的追求，其二是纯粹的为了智力上的满足感或是对于某种超自然信仰而展开的对于真理本质的追求。前者更长于将科学成果转化为实际应用，而后者才是实现技术爆炸的真正内核。机器学习领域也是如此，目前正处于科学成果转化的高峰期，是基于前些年的一些基础研究进行的转化。但也是瓶颈期，因为我们感受到了现有方法的局限。目前人们对于人工智能的态度行业内外的看法截然相反：业外的人大部分担心人工智能将超越、统治甚至毁灭人类，业内大部分则恰恰相反。因为专业人士更加清楚，现有方法大多是非常愚蠢的，所谓智能不过是一种魔术。你一定体验过魔术被揭秘的感觉，这就是我兴致勃勃的了解了许多机器学习方法后的感受。可以很负责任的说，我们距离人工智能的本质还差的很远很远。大部分的人醉心于如何更好的表演魔术，只有很少的人去追求真正的本质，而这些追求本质的方法如果在魔术表演上不够精彩，是很容易被忽视的。</p>
-<p>人工智能概念最早由约翰·麦卡锡（John McCarthy，1927年9月4日－2011年10月24日）在1956年由他自己召集的达特矛斯会议上提出的：“人工智能就是要让机器的行为看起来就像是人所表现出的智能行为一样”。这是人工智能的早期定义，人们后来意识到这个定义忽略了强人工智能的可能性。所谓强人工智能是指机器拥有真正的智能而不仅仅是“看起来像”，与之相对的则被称为弱人工智能，而目前实现的都是弱人工智能。这引发了一系列的哲学问题——什么是智能？强人工智能是否有可能实现？强人工智能是不是人类的灾难？即便我们出于伦理和人类安全的考虑，不追求实现强人工智能，而只是追求弱人工智能的“看起来像”的目的，也不得不借鉴强人工智能的思路，也就不可避免的不断的朝着强人工智能方向前进。本文不讨论人工智能是否对人类构成威胁的问题，仅从方向和方法上讨论强人工智能的可行性。</p>
-<p>人工智能本质上属于仿生学范畴的。智能本身就是很复杂的，而人类仅能认识到自己的智能，不可能理解龙虾或者外星人的智能。所以对人工智能本质的追求，应该是对人类自身深入认识的过程。并且这种认识不能仅仅停留于哲学解构的层面，必须通过工程手段加以重新建构，我们用哲学上和工程上都能理解的语言进行表达，而这种语言我们称之为模型。</p>
-<p>人类智能可划分为一些层次，无意识的精神、意识、自我、逻辑、知识、表达、知觉、经验。这些划分并不存在清晰的界限。通过真正的智能与现有弱人工智能的比较，我们可以更好的理解这些概念。</p>
-<p>当AlphaGo轻松打败人类棋手时，人类棋手感到压力、恐惧、伤心、绝望。我们为AlphaGo的棋艺感到惊叹，但事实上二者在智能上相比，人类棋手的情绪反应才是真正令人惊叹的。AlphaGo不会为胜利而感到骄傲，也不会为失败而羞耻，他不会为存在而感到快乐，也不会为消失感到痛苦。他甚至根本没有想要胜利的欲望，更不会有人类各种复杂的情感。这些就是无意识的精神，精神在不自觉的驱动着我们的意识，或纵情声色，或知耻而勇，或趋利避害，或舍生忘死。虽然我们看起来是由理智所控制的动物，但精神不受理智的控制。这点在恋爱中的人身上尤为明显，即便他们的理智告诉他们不要对另一方过于依恋，但他们却无法控制自己所思所想。对于音乐的感受也是类似的，不过是不同频率的声波的组合，竟能使人不由自主的感到快乐或悲伤，多么的神奇。生物学家认为，当多巴胺分泌增加时，人就会感到快乐。多巴胺是一种神经传导物质，这就像是给神经系统的奖励，以刺激我们更加努力的工作。但这并不能解释快乐的本质，我们可以想象我们给车添加了燃油和润滑油，这相当于是给了车奖励，但是车并不会感到快乐。我们在训练AlphaGo时，每次他获胜，我们也会给他一个反馈，告诉他这次做的结果不错，他就会更加靠近这个结果，但他并不会感到快乐。那么为什么多巴胺分泌增加人就会感到快乐呢？显然多巴胺不是快乐的本质，只是快乐的使者而已。</p>
-<p>人类诸多行为有可能是后天习得的，但有些则是在被创造时就存在的。食欲、快乐、痛觉、饥饿感、自我、对母亲的依恋，这些都是与生俱来的。所以我们可以认为某种无意识的精神在母体中被创造时就存在了。但是从那一刻这种精神开始存在呢？我们很难想象单细胞状态的受精卵拥有这种精神。当基因代码一层层展开，从单细胞到多细胞，脊椎动物，鱼、两栖、哺乳类、灵长目、人科、智人属的基因片段开始逐步表达，胚胎的结构从简单到复杂，直到降生时我们依然没有发育完全，经历长时间的幼态持续，青春期，我们更多的情绪和欲望被展现出来。当我们回忆我们成长阶段的各种性格变化，这一切究竟是在哪一刻如何产生的呢？我们可以肯定这种精神不是来自于单一的细胞，而是来自大量脑细胞的集体创造。在我们大脑中有一个部分，是在基因中硬编码的部分，做出一些基本的身体机能感受判断、审美判断、情感判断。这部分不受理智控制的部分，我们称为精神。如果没有这种本能的精神，我们的智力也就没有了用武之地。我们可以设想任何的人工智能程序，必须拥有某个目标，这就是他的欲望，在欲望被满足时会得到某种激励。但人类的欲望是如此的不同，在欲望被满足时得到的奖励感受也是如此不同。他不是一个简单弱人工智能所能解释的，以梯度下降法举例：当错误率很高时，函数会修正自己的参数朝着错误率更低的方向前进一小步，直到错误率不再有明显下降。错误率最小是他的目标，但是这个函数是如此机械，我们不可能他是有精神的。</p>
-<p><em>精神是目标，但目标不一定是精神，精神本身就是复杂的，是在长期进化中形成的一种复杂的多细胞集体创造。</em></p>
-<p><em>人类的意识是一系列智能子系统的集合</em>。佛教所谓六根即：眼耳鼻舌身意，意识是起到总控的作用。意识可以连接我们的视觉、听觉、触觉、味觉、嗅觉，可以控制我们的肌肉，意识是用来做出决策的。精神是意识的内核，是引擎，为意识指出明确的方向。精神是底层的，意识是上层的。当我们在梦境时，我们的意识模糊，但是精神却是清醒的，梦境混乱无序，我们对身体的控制减弱，但我们对于快乐悲伤的感受依然真实。意识不仅仅是各个单元的连接器，其自身也是复杂的，可能是某种层垒的结构，最低级的意识就是对于感觉的条件反射，更高级的意识活动则包含知识、经验、逻辑。意识不等于记忆、知识、逻辑、推理的能力。草原上的野兽，尤其是那些捕猎者，它们都拥有很强的意识，但不等于他们拥有人类一样的高级智力活动。</p>
-<p>感觉系统大体是类似的，目前的人工智能在某种程度上已经能够做到一些感知能力，尤其是视觉、听觉方面。对于视觉而言，如果在你的周围空间随便选取一个点，那么通过这个点的只有一些杂乱的电磁波而已，我们称之为光线，但是当我们的眼睛置于这个点，我们能够从这堆杂乱的电磁波中提取出周围物体的信息，投射在我们的视网膜上，视网膜将这些刺激信号传递到我们的视觉处理系统，我们能够分辨“颜色”，“形状”，“材质”，“种类”，“运动”。听觉也是同样神奇，我们的双耳中的空气分子不过是在无序的震动，我们却能从中提取出音色、音高，如果有多种声音同时存在，我们也能很好的将这些声音分离。在一个混乱的环境下，如果我们想要看清或听清一些东西，我们必须付出更多的注意力，也就是我们需要投入更多的意识。这说明我们的感觉系统不仅仅是一个物理系统，更加是一个信息处理的系统。我们通过信息的时间变化，组合，特征分离和重新组合，得出结论。因此对于同一事物的感受，不同的个体是不一样的，这也就是我们说的主观感受。比如我们对于颜色的感受，在意识中的投射是不一样的，一个很明显的证据就是色盲。所以我们虽然都认同某个物体是红色的，红色在我的意识中与在你的意识中可能是完全不同的。在跨越物种之时，感受的区别必然更加明显。有些物种则拥有完全不同的感觉器官，比如可以看到地球磁场的知更鸟（引用）。感觉系统的模拟，首先需要有相应的仪器设备采集信号，信号必须经过无意识的处理，转化为抽象的特征，将抽象特征交给意识体来处理。</p>
-<p>假设我们已经能够创造出具有精神、意识、感觉的系统，我们可以开始讨论“自我”这个问题。这个问题看起来非常诡异，一个具有精神、意识、感觉的系统，难道会没有自我的概念吗？如果一个意识体就是整个世界的全部，除了自身之外再无其他，他还会有自我的概念存在吗？自我相对于非我而存在的，没有非我，也就没有自我。如果一个意识体置于一个容器之内，他对容器外的世界一无所知，在他看来他就是全部。当我们沉浸于某个目标时，我们也会忘记了自己的存在。当我们进入竞争环境，自我概念就会强化。自我与存在是同一个问题，保持自我存在是一个本能的精神元素之一。   。。。必须区分内外，头发是不是我，指甲是不是手臂是不是我？</p>
-<p>未完待续。。。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2018/06/01/conscious-of-machine/" class="archive-article-date">
-  	<time datetime="2018-06-01T03:49:41.000Z" itemprop="datePublished"><i class="icon-clock"></i>2018-06-01</time>
-</a>
-      
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/AI/">AI</a><a class="article-category-link" href="/categories/AI/%E9%9A%8F%E7%AC%94/">随笔</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
-    <article id="post-public-avatar" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <input type="hidden" class="isFancy" />
-    
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2016/12/19/public-avatar/">人设——下一个现象级产品会是谁？</a>
-    </h1>
-  
-
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Update 2019-12：此文预见了新社交软件抖音的崛起。红人霸场的现象使社交平台被红人绑架，新人也被压制。抖音能够成功，首先是4G移动网络的进一步普及，提供了短视频社交的需求，但这一赛道的玩家众多，并不能保证抖音胜出。真正保证抖音胜出的是其“捧红新人“的能力，完全基于推荐算法的产品设计，将流量分发的控制权从红人手中收回到平台，可以根据算法计划性的将流量分配给新人进行实验。至于其滤镜、音乐之类的辅助运营手段，并非其制霸全球的根本原因。</p>
-<p>另在清理微博时，看见了自己在2012年对游戏收费模式的看法。王者荣耀的成功从另一个角度印证了我的预见性。<br><img src="/img/screen_shot/wb2012.jpeg" alt=""></p>
-<h2 id="原文："><a href="#原文：" class="headerlink" title="原文："></a>原文：</h2><p>什么是SNS的本质？当我们看待一个SNS的时候，我们看到的是什么？</p>
-<p>信息、状态、转发、私信、粉丝、评论，我们看到的是这些产品功能吗？还是这些数据？他的价值在哪里？</p>
-<p>一个SNS，我们看到的是，我们自己的公共形象，或者是某些人的公共形象。SNS为这些红人提供了舞台。</p>
-<p>而且，每个SNS所提供的舞台是不一样的，往来的红人也是不一样的。</p>
-<p>SNS就像一个主题酒吧，来往形形色色的人，但他们身上或多或少会有一些共同点。在同一个SNS上，他们有同样的期许。</p>
-<p>粉丝是一个两难的设计。没有粉丝，红人们没有动力在SNS上奋斗，而有了粉丝之后，任何的SNS最终会走向固化，<strong>红人霸占了主要的SNS资源</strong>。</p>
-<p>这也是各种SNS会不断推陈出新的原因，因为有一批有潜质的红人，无论他／她是什么类别的红人，他需要一个舞台。但是有些场子，已经被人霸占，于是他们不得不寻找新的舞台。而总有一些SNS平台会抓住一些机会，提供某个类别的小舞台，这就是垂直SNS。</p>
-<p>是否有可能干翻霸主级的社交网络？Facebook，twitter，国内的腾讯、微博。<strong>答案是能！</strong>本质上腾讯就被自己干翻了，微信取代QQ，本质上就是对霸主的挑战，虽然这一切发生在腾讯内部。但是微信取代QQ，这样的现象是难以复制的，为什么呢？因为微信取代QQ是发生在<strong>移动互联网与传统互联网更替的阶段的，是大事因缘</strong>，没有微信取代QQ，也会有其他应用取代QQ，但机会只有一次。</p>
-<p>陌陌，用陌生人社交的方式占领了一定的市场，但是陌陌本身的名称定位已经把自己钉死了，就是陌生人社交。微信早期用摇一摇也达到了同样的爆发式增长，但用户规模上去之后，微信就可以弱化了这一个功能。</p>
-<p>SNS下一个风口在哪里？SNS不是风口，但机会永远存在。挑战霸主级的社交网络，需要的是天时地利人和。产品与用户，双方共同成就了一个霸主级社交产品。得红人者得天下，微博的发展正是这样的模式。</p>
-<p>但红人是本身就存在的，还是通过平台而红的，这个问题很关键。<strong>一个优秀的SNS平台应该有制造红人的能力，或者是让红人可以成长起来的能力</strong>。当你知道的红人越来越多的来自微信公众号，而不是来自微博的时候，那么说明微博的影响力降低了。</p>
-<p>因此霸主级的似乎不可撼动的庞然大物其实是可以被打败的。</p>
-<p>如何再造一个现象级的社交网络，我们不应该从产品模式上来思考这个问题，而是需要从人性的角度上来思考这个问题。人性是社交网络之所以成立的本质。更具体的说，<strong>人的社会性，情绪化，是社交网络的根本驱动力</strong>。人渴望被关注，渴望交流，渴望存在感，或只是渴望来自他人的声音。找到人在精神上的未被充分满足的需求点，强化这种概念，就有机会在社交产品中找到一席之地。</p>
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      <a href="/2016/12/19/public-avatar/" class="archive-article-date">
-  	<time datetime="2016-12-19T04:15:00.000Z" itemprop="datePublished"><i class="icon-clock"></i>2016-12-19</time>
-</a>
-      
-      
-	<div class="article-category tagcloud">
-	<i class="icon-price-tags"></i>
-	<a class="article-category-link" href="/categories/%E9%9A%8F%E7%AC%94/">随笔</a>
-	</div>
-
-
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-
-
-
-
-
-
-
-
-
-
-
-  
   
     <nav id="page-nav">
-      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
+      <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/2/">Next &amp;raquo;</a>
     </nav>
   
 
@@ -747,7 +862,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2023 桂糊涂
+    		&copy; 2024 桂糊涂
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -833,7 +948,7 @@ MathJax.Hub.Queue(function() {
     
     	<section class="tools-section tools-section-tag">
     			<div class="widget tagcloud" id="js-tagcloud">
-    				<a href="/tags/AI/" style="font-size: 13.33px;">AI</a> <a href="/tags/architecture/" style="font-size: 10px;">architecture</a> <a href="/tags/game/" style="font-size: 16.67px;">game</a> <a href="/tags/game-dev/" style="font-size: 20px;">game-dev</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/web/" style="font-size: 10px;">web</a>
+    				<a href="/tags/AI/" style="font-size: 15px;">AI</a> <a href="/tags/OpenGL-Game-development/" style="font-size: 10px;">OpenGL,Game development</a> <a href="/tags/OpenGL-math/" style="font-size: 10px;">OpenGL,math</a> <a href="/tags/architecture/" style="font-size: 10px;">architecture</a> <a href="/tags/computer-graphics/" style="font-size: 10px;">computer-graphics</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 20px;">game-dev</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/web/" style="font-size: 10px;">web</a>
     			</div>
     	</section>
     

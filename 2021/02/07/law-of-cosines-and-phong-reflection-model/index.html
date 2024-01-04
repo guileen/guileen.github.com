@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" >
+  <link rel="dns-prefetch" href="http://guileen.github.io">
+  <title>从余弦定理到冯氏光照模型 | 桂糊涂的博客</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="1.勾股定理——宇宙的密码$a^2+b^2&#x3D;c^2$。下图是勾股定理的一个直观证明。  2. 余弦定理，角与边的关系       三条边可以确定一个三角形，已知三角形的三条边长，如何求出其角度呢？ 由$cos,sin$定义可知   $$ c &#x3D; a * cos beta + b * cos alpha $$   两边同乘c得： $$ c^2 &#x3D; ac * cos beta + bc * cos a">
+<meta property="og:type" content="article">
+<meta property="og:title" content="从余弦定理到冯氏光照模型">
+<meta property="og:url" content="http://guileen.github.io/2021/02/07/law-of-cosines-and-phong-reflection-model/index.html">
+<meta property="og:site_name" content="桂糊涂的博客">
+<meta property="og:description" content="1.勾股定理——宇宙的密码$a^2+b^2&#x3D;c^2$。下图是勾股定理的一个直观证明。  2. 余弦定理，角与边的关系       三条边可以确定一个三角形，已知三角形的三条边长，如何求出其角度呢？ 由$cos,sin$定义可知   $$ c &#x3D; a * cos beta + b * cos alpha $$   两边同乘c得： $$ c^2 &#x3D; ac * cos beta + bc * cos a">
+<meta property="og:image" content="http://guileen.github.io/img/math/ggdl.png">
+<meta property="og:image" content="http://guileen.github.io/img/math/q-cosine.svg.png">
+<meta property="og:image" content="http://guileen.github.io/img/math/cosine-1.png">
+<meta property="og:image" content="http://guileen.github.io/img/math/cos-sin.png">
+<meta property="og:image" content="http://guileen.github.io/img/math/vector_subtraction.svg.png">
+<meta property="og:image" content="http://guileen.github.io/img/math/vector_addition.svg.png">
+<meta property="og:image" content="http://guileen.github.io/img/math/dot_product_1.png">
+<meta property="og:image" content="http://guileen.github.io/img/math/dot_product_2.png">
+<meta property="og:image" content="http://guileen.github.io/img/math/Phong_components_version_4.png">
+<meta property="og:image" content="http://guileen.github.io/img/math/diffuse_light.png">
+<meta property="og:image" content="http://guileen.github.io/img/math/specular_light.png">
+<meta property="article:published_time" content="2021-02-06T17:01:33.000Z">
+<meta property="article:modified_time" content="2021-02-11T13:15:24.862Z">
+<meta property="article:author" content="桂糊涂">
+<meta property="article:tag" content="OpenGL,math">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://guileen.github.io/img/math/ggdl.png">
+  
+    <link rel="alternative" href="/atom.xml" title="桂糊涂的博客" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/img/avatar.jpg">
+  
+  
+<link rel="stylesheet" href="/main.css">
+
+  
+
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body>
+  <div id="container">
+    <div class="left-col">
+      <div class="overlay"></div>
+<div class="intrude-less">
+	<header id="header" class="inner">
+		<a href="/" class="profilepic">
+			
+			<img src="/img/avatar.jpg" class="js-avatar">
+			
+		</a>
+
+		<hgroup>
+		  <h1 class="header-author"><a href="/">桂糊涂</a></h1>
+		</hgroup>
+
+		
+		<p class="header-subtitle">代码杂记</p>
+		
+
+		<nav class="header-menu">
+			<ul>
+			
+				<li><a href="/">主页</a></li>
+	        
+				<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+	        
+				<li><a href="/categories/AI">AI</a></li>
+	        
+				<li><a href="/balance-bot/">读心天平</a></li>
+	        
+			</ul>
+		</nav>
+		<nav class="header-smart-menu">
+	        
+    		
+    			
+    			<a class="js-smart-menu" data-idx="0" href="javascript:void(0)">所有文章</a>
+    			
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="1" href="javascript:void(0)">标签</a>
+    			
+    			
+            
+    			
+            
+    			
+    			<a class="js-smart-menu" data-idx="2" href="javascript:void(0)">关于我</a>
+    			
+    			
+            
+		</nav>
+		<nav class="header-nav">
+			<div class="social">
+				
+					<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+		        
+					<a class="mail" target="_blank" href="mailto:guileen@qq.com" title="mail">mail</a>
+		        
+			</div>
+		</nav>
+	</header>		
+</div>
+
+    </div>
+    <div class="mid-col">
+      <nav id="mobile-nav">
+  	<div class="overlay">
+  		<div class="slider-trigger"><i class="icon-list"></i></div>
+  		<h1 class="header-author js-mobile-header hide">桂糊涂</h1>
+  	</div>
+	<div class="intrude-less">
+		<header id="header" class="inner">
+			<div class="profilepic">
+				
+					<img src="/img/avatar.jpg" class="js-avatar">
+				
+			</div>
+			<hgroup>
+			  <h1 class="header-author">桂糊涂</h1>
+			</hgroup>
+			
+			<p class="header-subtitle">代码杂记</p>
+			
+			<nav class="header-menu">
+				<ul>
+				
+					<li><a href="/">主页</a></li>
+		        
+					<li><a href="/categories/%E9%9A%8F%E7%AC%94">随笔</a></li>
+		        
+					<li><a href="/categories/AI">AI</a></li>
+		        
+					<li><a href="/balance-bot/">读心天平</a></li>
+		        
+				</ul>
+			</nav>
+			<nav class="header-nav">
+				<div class="social">
+					
+						<a class="rss" target="_blank" href="/atom.xml" title="rss">rss</a>
+			        
+						<a class="mail" target="_blank" href="mailto:guileen@qq.com" title="mail">mail</a>
+			        
+				</div>
+			</nav>
+		</header>				
+	</div>
+</nav>
+
+      <div class="body-wrap">
+        <article id="post-law-of-cosines-and-phong-reflection-model" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <input type="hidden" class="isFancy" />
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      从余弦定理到冯氏光照模型
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <h3 id="1-勾股定理——宇宙的密码"><a href="#1-勾股定理——宇宙的密码" class="headerlink" title="1.勾股定理——宇宙的密码"></a>1.勾股定理——宇宙的密码</h3><p>$a^2+b^2=c^2$。下图是勾股定理的一个直观证明。</p>
+<p><img src="/img/math/ggdl.png" alt=""></p>
+<h3 id="2-余弦定理，角与边的关系"><a href="#2-余弦定理，角与边的关系" class="headerlink" title="2. 余弦定理，角与边的关系"></a>2. 余弦定理，角与边的关系</h3><img src="/img/math/q-cosine.svg.png" width="30%">
+
+<img src="/img/math/cosine-1.png" width="30%">
+
+ <img src="/img/math/cos-sin.png" width="30%">
+
+<p>三条边可以确定一个三角形，已知三角形的三条边长，如何求出其角度呢？</p>
+<p>由$cos,sin$定义可知<br>
+  $$ c = a * cos beta + b * cos alpha $$<br>
+  两边同乘c得：<br>
+$$ c^2 = ac * cos beta + bc * cos alpha $$<br>
+  同理可得：<br>
+$$ a^2 = ac cos beta + ab * cos gamma $$<br>
+$$ b^2 = bc cos alpha + ab cos gamma $$<br>
+  故：$$ a^2+b^2-c^2 = 2abcosgamma $$<br>
+  可得：$$ c^2 = a^2 + b^2 - 2ab cos gamma $$<br>
+</p>
+
+
+<h3 id="3-向量的定义（方向）"><a href="#3-向量的定义（方向）" class="headerlink" title="3. 向量的定义（方向）"></a>3. 向量的定义（方向）</h3><img src="/img/math/vector_subtraction.svg.png" width="45%">
+
+<img src="/img/math/vector_addition.svg.png" width="45%">
+
+<p>$$令 vec c = vec a - vec b$$, $$theta$$为$$vec a$$ $$vec b$$ 的夹角。余弦定理可以用向量形式写成 $$ | vec c |^2 = |vec a|^2 + |vec b|^2 -  2 |vec a| |vec b| cos theta $$ </p>
+<h3 id="4-点积（dot-product）的代数定义"><a href="#4-点积（dot-product）的代数定义" class="headerlink" title="4. 点积（dot product）的代数定义"></a>4. 点积（dot product）的代数定义</h3><p>两个向量的点积是一个标量。向量$$vec a=[a_1, a_2, … a_n]$$与向量$$vec b=[b_1, b_2, … b_n]$$的点积定义为: $$ vec a * vec b = sum_(i=1)^n a_i b_i = a_1 b_1 + a_2 b_2 + … a_n b_n $$。</p>
+<p>点积有以下性质（证略）：</p>
+<ol>
+<li>满足交换律 $$vec a * vec b = vec b * vec a$$</li>
+<li>满足分配律 $$vec a * (vec b + vec c) = vec a * vec b + vec a * vec c$$</li>
+<li>乘以标量时满足 $$ (c_1 vec a) * (c_2 vec b) = (c_1 c_2)(vec a * vec b)$$</li>
+<li>不满足结合律。因为标量 $$ vec a * vec b $$ 与向量 $$ vec c $$ 的点积没有定义，所以$$(vec a * vec b) * vec c=vec a * (vec b * vec c)$$ 没有意义。</li>
+</ol>
+<p>点积的代数定义简单实用，易于表示，也易于使用计算机程序处理。是线性代数的基本操作之一。</p>
+<h3 id="5-点积的几何意义"><a href="#5-点积的几何意义" class="headerlink" title="5. 点积的几何意义"></a>5. 点积的几何意义</h3><p>对于任何一个n维向量有 $|vec a|^2=a_1^2+a_2^2+…+a_n^2$。根据勾股定理，这是很显然的。换个角度<strong>说如果没有勾股定理，这一步就不存在，后面的内容也不存在了。而勾股定理不是由代数方法证明的，而是独立于代数系统之外的空间基本性质。而空间和时间是宇宙最根本的本质。这就是勾股定理最神奇的地方</strong>。</p>
+<p>我们根据点积的定义可知：$$ vec a * vec a = a_1 * a_1 + a_2 * a_2 + … a_n * a_n = |vec a|^2$$ 即 $$ vec a * vec a == |vec a|^2$$</p>
+<p>我们根据余弦定理的向量表示可得：$$ vec c * vec c = vec a * vec a + vec b * vec b - 2 |vec a| |vec b| cos theta . (1)$$ </p>
+<p>根据向量的定义 $$ vec c = vec a - vec b $$ 有 $$ vec c * vec c = (vec a - vec b) * (vec a - vec b) = vec a * vec a + vec b * vec b - 2 vec a * vec b . (2)$$</p>
+<p>结合等式$$(1)$$、$$(2)$$有 $$vec a * vec b = |vec a| |vec b| cos theta$$。一个看似简单的代数点积操作，竟然和夹角余弦相关，真是不可思议。</p>
+<p>点积的几何意义是什么呢？关键就在这个$cos theta$，如果$$|vec b|$$为1时候，我们可以将$$vec a * vec b$$视为$$vec a $$在$$vec b$$方向上的投影长度。</p>
+<p><img src="/img/math/dot_product_1.png" width="45%"> <img src="/img/math/dot_product_2.png" width="45%"></p>
+<h3 id="6-点积的物理意义（从数学到宇宙）"><a href="#6-点积的物理意义（从数学到宇宙）" class="headerlink" title="6. 点积的物理意义（从数学到宇宙）"></a>6. 点积的物理意义（从数学到宇宙）</h3><p>点积的物理意义就是向量在某方向上的投影长度。这在物理上可以表达力在某方向上的投影，光在某方向的投影，速度、加速度在某方向的投影。而点积的操作，可以使我们只需要关心这些物理量的向量表示，而不需要去关心夹角，不需要去计算三角函数。而在统计学、机器学习等方面，余弦可以表示两个向量之间的相似性，比如两个词向量，两个用户的兴趣向量等，应用非常广泛。下面就以计算机图形学举例来说明点积的应用。</p>
+<p>冯氏光照模型将一个物体的光照分解为环境光+漫反射光+镜面反射光。</p>
+<p><img src="/img/math/Phong_components_version_4.png" alt=""></p>
+<p>环境光比较简单就是一个常量。而漫反射光，则为光照强度在平面的法线方向的投影，与法线方向一致则光照最强。镜面反射光则为反射光方向在视角方向上的投影，与视角完全一致，则反射光最强。</p>
+<p><img src="/img/math/diffuse_light.png" width="45%"> <img src="/img/math/specular_light.png" width="45%"></p>
+<p>OpenGL的shader大致如下：</p>
+<figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">vec3</span> CalcDirLight(DirLight light, <span class="type">vec3</span> normal, <span class="type">vec3</span> viewDir) &#123;</span><br><span class="line">    <span class="comment">// normalize 归一化，使法线向量的长度为1</span></span><br><span class="line">    <span class="type">vec3</span> lightDir = <span class="built_in">normalize</span>(-light.direction);</span><br><span class="line">    <span class="comment">// 漫反射光. dot 计算cos* 强度， max把负值最多降到0，表示全黑。</span></span><br><span class="line">    <span class="type">float</span> diff = <span class="built_in">max</span>(<span class="built_in">dot</span>(normal, lightDir), <span class="number">0.0</span>);</span><br><span class="line">    <span class="type">vec3</span> reflectDir = <span class="built_in">reflect</span>(-lightDir, normal);</span><br><span class="line">    <span class="comment">// dot 计算反射光在视角上的cos分量，至少为0。使用pow，模拟镜面光焦点分布集中度，shininess越高要求反射分量越接近于1</span></span><br><span class="line">    <span class="comment">// 反射分量==1 表示必须视角恰巧与反射角完全一致才能看到反射光，也就是绝对镜面</span></span><br><span class="line">    <span class="type">float</span> spec = <span class="built_in">pow</span>(<span class="built_in">max</span>(<span class="built_in">dot</span>(viewDir, reflectDir), <span class="number">0.0</span>), material.shininess);</span><br><span class="line">    <span class="comment">// 合并冯氏光照结果</span></span><br><span class="line">    <span class="type">vec3</span> ambient = light.ambient * <span class="type">vec3</span>(<span class="built_in">texture</span>(material.diffuse, TexCoords));</span><br><span class="line">    <span class="type">vec3</span> diffuse = light.diffuse * diff * <span class="type">vec3</span>(<span class="built_in">texture</span>(material.diffuse, TexCoords));</span><br><span class="line">    <span class="type">vec3</span> specular = light.specular * spec * <span class="type">vec3</span>(<span class="built_in">texture</span>(material.specular, TexCoords));</span><br><span class="line">    <span class="keyword">return</span> (ambient + diffuse + specular);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      <a href="/2021/02/07/law-of-cosines-and-phong-reflection-model/" class="archive-article-date">
+  	<time datetime="2021-02-06T17:01:33.000Z" itemprop="datePublished"><i class="icon-clock"></i>2021-02-07</time>
+</a>
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags"></i>
+		<ul class="article-tag-list" itemprop="keywords"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OpenGL-math/" rel="tag">OpenGL,math</a></li></ul>
+	</div>
+
+      
+
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+  
+<nav id="article-nav">
+  
+    <a href="/2021/02/13/the-essence-of-linear-algebra/" id="article-nav-newer" class="article-nav-link-wrap">
+      <i class="icon-circle-left"></i>
+      <div class="article-nav-title">
+        
+          线性代数的本质
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2020/12/22/childrens-song/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">儿歌</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+
+
+<div class="share_jia">
+	<!-- JiaThis Button BEGIN -->
+	<div class="jiathis_style">
+		<span class="jiathis_txt">Share to: &nbsp; </span>
+		<a class="jiathis_button_facebook"></a> 
+	    <a class="jiathis_button_twitter"></a>
+	    <a class="jiathis_button_plus"></a> 
+	    <a class="jiathis_button_tsina"></a>
+		<a class="jiathis_button_cqq"></a>
+		<a class="jiathis_button_douban"></a>
+		<a class="jiathis_button_weixin"></a>
+		<a class="jiathis_button_tumblr"></a>
+    <a href="http://www.jiathis.com/share" class="jiathis jiathis_txt jtico jtico_jiathis" target="_blank"></a>
+	</div>
+	<script type="text/javascript" src="//v3.jiathis.com/code/jia.js?uid=1405949716054953" charset="utf-8"></script>
+	<!-- JiaThis Button END -->
+</div>
+
+
+
+
+
+
+<div class="duoshuo">
+
+<script type="text/javascript">
+(function(){
+var url = "http://widget.weibo.com/distribution/comments.php?width=0&url=auto&brandline=y&fontsize=12&skin=9&ralateuid=1751113432&appkey=3729652156&iframskin=9&dpc=1";
+url = url.replace("url=auto", "url=" + encodeURIComponent(document.URL));
+document.write('<iframe id="WBCommentFrame" src="' + url + '" scrolling="no" frameborder="0" style="width:100%"></iframe>');
+})();
+</script>
+<script src="http://tjs.sjs.sinajs.cn/open/widget/js/widget/comment.js" type="text/javascript" charset="utf-8"></script>
+<script type="text/javascript">
+window.WBComment.init({
+    "id": "WBCommentFrame"
+});
+</script>
+
+</div>
+
+
+
+
+
+
+
+      </div>
+      <footer id="footer">
+  <div class="outer">
+    <div id="footer-info">
+    	<div class="footer-left">
+    		&copy; 2024 桂糊涂
+    	</div>
+      	<div class="footer-right">
+      		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
+      	</div>
+    </div>
+  </div>
+</footer>
+    </div>
+    <script>
+	var yiliaConfig = {
+		fancybox: true,
+		mathjax: true,
+		animate: true,
+		isHome: false,
+		isPost: true,
+		isArchive: false,
+		isTag: false,
+		isCategory: false,
+		open_in_new: false,
+		root: "/",
+		innerArchive: true
+	}
+</script>
+
+
+<script src="/./main.js"></script>
+
+
+
+<!-- <script type="text/x-mathjax-config">
+MathJax.Hub.Config({
+    tex2jax: {
+        inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+        processEscapes: true,
+        skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+    }
+});
+
+MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+        all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+});
+</script>
+
+<script src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
+</script> -->
+
+<script>
+  MathJax = {
+    loader: {load: ['input/asciimath', 'output/chtml', 'ui/menu']},
+    asciimath: {
+    delimiters: [['`','`'], ['$$', '$$'], ['$','$']]
+  }
+  };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/startup.js">
+  </script>
+
+
+    
+<div class="tools-col">
+  <ul class="btn-wrap">
+    
+      <li class="chose" data-hook="tools-section-all"><span class="text">全部</span><i class="icon-book"></i></li>
+    
+    
+      <li data-hook="tools-section-tag"><span class="text">标签</span><i class="icon-price-tags"></i></li>
+    
+    
+    
+      <li data-hook="tools-section-me"><span class="text">我</span><i class="icon-smile"></i></li>
+    
+  </ul>
+  <div class="tools-wrap">
+    
+    	<section class="tools-section tools-section-all chose">
+    	</section>
+    
+
+    
+    	<section class="tools-section tools-section-tag">
+    			<div class="widget tagcloud" id="js-tagcloud">
+    				<a href="/tags/AI/" style="font-size: 15px;">AI</a> <a href="/tags/OpenGL-Game-development/" style="font-size: 10px;">OpenGL,Game development</a> <a href="/tags/OpenGL-math/" style="font-size: 10px;">OpenGL,math</a> <a href="/tags/architecture/" style="font-size: 10px;">architecture</a> <a href="/tags/computer-graphics/" style="font-size: 10px;">computer-graphics</a> <a href="/tags/game/" style="font-size: 15px;">game</a> <a href="/tags/game-dev/" style="font-size: 20px;">game-dev</a> <a href="/tags/gossip/" style="font-size: 10px;">gossip</a> <a href="/tags/input-methods/" style="font-size: 10px;">input-methods</a> <a href="/tags/js/" style="font-size: 10px;">js</a> <a href="/tags/nosql/" style="font-size: 10px;">nosql</a> <a href="/tags/web/" style="font-size: 10px;">web</a>
+    			</div>
+    	</section>
+    
+
+    
+
+    
+    	<section class="tools-section tools-section-me">
+  	  	
+  	  		<div class="aboutme-wrap" id="js-aboutme">联系我：&lt;br&gt; 微信 guileen</div>
+  	  	
+    	</section>
+    
+  </div>
+  
+</div>
+    <!-- Root element of PhotoSwipe. Must have class pswp. -->
+<div class="pswp" tabindex="-1" role="dialog" aria-hidden="true">
+
+    <!-- Background of PhotoSwipe. 
+         It's a separate element as animating opacity is faster than rgba(). -->
+    <div class="pswp__bg"></div>
+
+    <!-- Slides wrapper with overflow:hidden. -->
+    <div class="pswp__scroll-wrap">
+
+        <!-- Container that holds slides. 
+            PhotoSwipe keeps only 3 of them in the DOM to save memory.
+            Don't modify these 3 pswp__item elements, data is added later on. -->
+        <div class="pswp__container">
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+            <div class="pswp__item"></div>
+        </div>
+
+        <!-- Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. -->
+        <div class="pswp__ui pswp__ui--hidden">
+
+            <div class="pswp__top-bar">
+
+                <!--  Controls are self-explanatory. Order can be changed. -->
+
+                <div class="pswp__counter"></div>
+
+                <button class="pswp__button pswp__button--close" title="Close (Esc)"></button>
+
+                <button class="pswp__button pswp__button--share" style="display:none" title="Share"></button>
+
+                <button class="pswp__button pswp__button--fs" title="Toggle fullscreen"></button>
+
+                <button class="pswp__button pswp__button--zoom" title="Zoom in/out"></button>
+
+                <!-- Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR -->
+                <!-- element will get class pswp__preloader--active when preloader is running -->
+                <div class="pswp__preloader">
+                    <div class="pswp__preloader__icn">
+                      <div class="pswp__preloader__cut">
+                        <div class="pswp__preloader__donut"></div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pswp__share-modal pswp__share-modal--hidden pswp__single-tap">
+                <div class="pswp__share-tooltip"></div> 
+            </div>
+
+            <button class="pswp__button pswp__button--arrow--left" title="Previous (arrow left)">
+            </button>
+
+            <button class="pswp__button pswp__button--arrow--right" title="Next (arrow right)">
+            </button>
+
+            <div class="pswp__caption">
+                <div class="pswp__caption__center"></div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+  </div>
+</body>
+</html>

@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://guileen.github.io/"/>
-  <updated>2023-05-21T05:40:10.960Z</updated>
+  <updated>2021-03-07T15:05:12.999Z</updated>
   <id>http://guileen.github.io/</id>
   
   <author>
@@ -15,6 +15,118 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>为什么『太极』是一门好语言？</title>
+    <link href="http://guileen.github.io/2021/02/23/why-taichi-is-good/"/>
+    <id>http://guileen.github.io/2021/02/23/why-taichi-is-good/</id>
+    <published>2021-02-23T14:08:00.000Z</published>
+    <updated>2021-03-07T15:05:12.999Z</updated>
+    
+    <content type="html"><![CDATA[<p><a href="https://github.com/taichi-dev/taichi" target="_blank" rel="noopener">太极</a> 是由MIT的中国小伙胡渊鸣开发的一门编程语言。这不仅仅是又一个新的编程语言，我实在已经厌倦了不断有人造新的语言，来满足每个作者不同的语言怪癖。有许多的编程语言是没有存在的价值的，他们继续存在往往只是因为遗留历史项目还在维护。而『太极』是有开创性和工程价值的。</p><p>我认为太极有以下几个关键的<strong>有价值</strong>的特性：</p><ol><li>跨平台的GPU加速支持。同时支持CUDA、OpenGL、Metal，在Windows、Linux、MacOSX上都能很好的运行。我此前发现大部分的深度学习框架的GPU加速都是基于CUDA，这意味着我的macbook的GPU无法发挥作用。</li><li>性能卓越，比PyTorch快13.4倍、Tensorflow要快188倍<a href="https://www.qbitai.com/2020/01/10534.html" target="_blank" rel="noopener">[1]</a>。这两点都有着实实在在的经济价值。</li><li>简洁易学。作者并没有想要特地标新立异，而是基于python的语法来开发，与python完全兼容。这是非常务实的，但并非没有追求的，代码是会被静态编译执行的，性能与C++代码并没有太多差别。</li></ol><p>我认为太极在以下领域会有很好的应用：</p><ol><li>学术研究。</li><li>机器学习、图形学、物理引擎、游戏编程的教学和实验。</li><li>工具开发。可能作为最终产品的打包发布仍要探索，但制作工具是效率极高的。</li><li>深度学习、离线渲染等离线任务的工程级应用。</li></ol><p>对于一名仍在不断学习的中老年人而言，我不希望仅仅是学会一两个重复的工具，而是能够更高效的去实践、探索未知的世界。与其学习tensorflow这种集成式的深度学习框架，不如用太极自己实现一个，这样我们才能更深刻的理解其中的过程。我们还可以用太极将数据可视化的展示出来。</p><p>学习API是非常无趣的，但对于每一个学习编程的孩子来说，却是一道很高的门槛。很多人都无法实现在屏幕上绘制一个像素，这使我们哪怕拥有了足够的知识，依然缺乏表现力。有了太极，就仿佛打开了一道科研的大门。在科研过程中，我们需要的是快速实验、快速试错。太极就是为此而生的。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;&lt;a href=&quot;https://github.com/taichi-dev/taichi&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;太极&lt;/a&gt; 是由MIT的中国小伙胡渊鸣开发的一门编程语言。这不仅仅是又一个新的编程语言，我实在已经厌倦了不断有人造新
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>设计一个3D游戏引擎</title>
+    <link href="http://guileen.github.io/2021/02/20/design-a-3d-game-engine/"/>
+    <id>http://guileen.github.io/2021/02/20/design-a-3d-game-engine/</id>
+    <published>2021-02-20T13:22:04.000Z</published>
+    <updated>2021-03-07T15:05:12.999Z</updated>
+    
+    <content type="html"><![CDATA[<p>最近学习了一些计算机图形学的知识，重新点燃了自己想要学习游戏开发的热情。但是，计算机图形学与游戏开发还是有很大区别的。计算机图形学关心的是如何高质量的还原真实世界的视觉效果，而游戏开发则要求一个可编程性更强的系统。因此游戏引擎，首先是为开发服务的。</p><p>游戏引擎，应该允许游戏开发者，轻松的定义实体，操控这些实体的位置、模型、滤镜，最终通过渲染引擎渲染到屏幕上。甚至要提供一些易用的图形化制作工具，比如关卡编辑器，地图编辑器，实体编辑器，脚本语言，配置表，这些输出成数据文件。这些数据将被加载到内存，通过渲染引擎输出到屏幕。</p><p><strong>[制作工具]</strong>–&gt;静态数据–&gt;<strong>[用户输入处理、AI update、物理引擎]</strong>–&gt;动态数据–&gt;<strong>[渲染引擎]</strong>–&gt;最终画面。</p><p>游戏引擎=制作工具+程序API+渲染引擎。</p><p>而游戏引擎的关键，就在于处理数据。</p><p>哪怕一个最简单的<a href="https://github.com/louis-gui/louis-gui.github.io/blob/main/likeasnakegame.cpp" target="_blank" rel="noopener">终端贪食蛇游戏</a>(这是我11岁的儿子写的)也需要符合这个标准。这个终端游戏制作工具不需要，他的素材是一些终端字符，google担任了这个制作工具的角色。程序API更新贪食蛇的动态数据，然后渲染引擎将动态数据映射成特定的终端字符打印在屏幕上。</p><p>开发一个3D游戏，数据结构更加复杂一些。理清了这个结构之后，3D游戏可能比2D游戏更容易开发一些，因为3D数据结构毕竟更接近真实世界。我们将整个待渲染的世界，称为【场景】，场景中摆放着各种【模型】。对于物理引擎部分，只需要模型的数据就可以了，而对于渲染引擎，则还需要【光源】和【摄像机】。</p><h2 id="物理引擎"><a href="#物理引擎" class="headerlink" title="物理引擎"></a>物理引擎</h2><p>一个粒子由*位置position、速度velocity、质量mass、力force（加速度acceleration）、阻尼damping（简化一个物体在一个环境中的摩擦力如0.999）等属性，还需要考虑地心引力gravity的影响。</p><p>用反质量invertMass模拟无限质量？</p><p><em>位置更新公式：</em>$$ p’=p+dot p t + 1/2 ddot p t^2 $$ 其中，$dot p$表示速度，$ddot p$表示加速度。在30fps时，t=0.033 后一项可以忽略。简化为 $$ p’=p+dot p t$$</p><p><em>速度更新公式:</em> $$ dot p’ = dot p d^t + ddot p t $$  d为阻尼，</p><p>以上模拟对于慢速物体没有问题，但对于子弹、炮弹这种高速物体则不适用，因为可能在一帧之内子弹已穿过物体，无法与目标发生碰撞。因此对于这种情况，我们则需要将子弹想象为一个激光（或抛物线）。对于目标所受到的冲击，则需要通过动量守恒、能量守恒公式进行计算（TODO）。</p><p>重力是恒定的，但还有很多其他的力是动态生成的，爆炸、发射、风。因此我们要创造一个『力生成器』在每一帧执行它的updateForce方法，来设定物体受到的外力。</p><p><strong>弹簧</strong>是一种普遍的模型，那些柔软的材质都可以抽象为大量的弹簧。根据胡克定理$$f=-k Delta l$$，我们可以写一个弹簧力生成器。</p><p>除了弹簧系统外，还有一类硬约束是紧密连接的对象，比如铁链、四肢。他们的关键在于连接点的速度是一致的。</p><p>然后我们要将所有的东西整合到一起成为一个物理引擎，在每一帧updatePhysics()</p><p>我们要将物理引擎从点升级到体，刚体的碰撞盒与他的质点。刚体的旋转。</p><p>碰撞检测（TODO）</p><p>参考：</p><p>《Game Physics Engine Development》2nd Edition by Ian Millington</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;最近学习了一些计算机图形学的知识，重新点燃了自己想要学习游戏开发的热情。但是，计算机图形学与游戏开发还是有很大区别的。计算机图形学关心的是如何高质量的还原真实世界的视觉效果，而游戏开发则要求一个可编程性更强的系统。因此游戏引擎，首先是为开发服务的。&lt;/p&gt;
+&lt;p&gt;游戏引擎，
+      
+    
+    </summary>
+    
+    
+      <category term="OpenGL,Game development" scheme="http://guileen.github.io/tags/OpenGL-Game-development/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>BRDF双向反射分布函数</title>
+    <link href="http://guileen.github.io/2021/02/18/brdf-pbr/"/>
+    <id>http://guileen.github.io/2021/02/18/brdf-pbr/</id>
+    <published>2021-02-18T13:12:37.000Z</published>
+    <updated>2021-02-18T15:48:31.636Z</updated>
+    
+    <content type="html"><![CDATA[<p>双向反射分布函数（bidirectional reflectance distribution function）$f_r(omega_i,omega_r)$是一个计算光照反射量的函数。$omega_i$表示输入光角度，$omega_r$表示反射光角度，函数返回反射光辐射率。$omega$由球面坐标系的$phi$,$theta$角度表示，因此brdf函数共有4个参数。brdf的单位是每立体角$sr^(-1)$。</p><img src="/img/brdf/spherical-coordinates.png" style="width:50%;" /><img src="/img/brdf/solid-angle-1sr.png" style="width:45%;margin-top:5%;" /><h3 id="辐射度量学-Radiometry"><a href="#辐射度量学-Radiometry" class="headerlink" title="辐射度量学(Radiometry)"></a>辐射度量学(Radiometry)</h3><table><thead><tr><th>物理量</th><th>符号</th><th>公式</th><th>国际单位制</th><th>单位符号</th><th>注释</th></tr></thead><tbody><tr><td><a href="https://zh.wikipedia.org/wiki/辐射能" target="_blank" rel="noopener">辐射能</a>（Radiant energy）</td><td>$Q_e$</td><td></td><td><a href="https://zh.wikipedia.org/wiki/焦耳" target="_blank" rel="noopener">焦耳</a></td><td>$J$</td><td>能量。</td></tr><tr><td><a href="https://zh.wikipedia.org/wiki/辐射通量" target="_blank" rel="noopener">辐射通量</a>（Radiant flux）</td><td>$Phi_e$</td><td>$Phi=(dQ)/(dt)$</td><td><a href="https://zh.wikipedia.org/wiki/瓦特" target="_blank" rel="noopener">瓦特</a></td><td>$W$</td><td>每单位时间的辐射能量，亦作“辐射功率”。</td></tr><tr><td><a href="https://zh.wikipedia.org/wiki/辐射强度" target="_blank" rel="noopener">辐射强度</a>（Radiant intensity）</td><td>$I_e$</td><td>$I=(dPhi)/(d omega)</td><td><a href="https://zh.wikipedia.org/wiki/瓦特" target="_blank" rel="noopener">瓦特</a>每<a href="https://zh.wikipedia.org/wiki/球面度" target="_blank" rel="noopener">球面度</a></td><td>$W*sr^(-1)$</td><td>每单位<a href="https://zh.wikipedia.org/wiki/立體角" target="_blank" rel="noopener">立体角</a>的辐射通量。</td></tr><tr><td><a href="https://zh.wikipedia.org/wiki/輻照度" target="_blank" rel="noopener">辐照度</a>（Irradiance）（辉度）</td><td>$E_e$</td><td>$E=(dPhi)/(dA)=int_(Omega)  L(omega)cos theta d omega$</td><td><a href="https://zh.wikipedia.org/wiki/瓦特" target="_blank" rel="noopener">瓦特</a>每平方米</td><td>$W*m^(-2)$</td><td>入射表面的辐射通量</td></tr><tr><td><a href="https://zh.wikipedia.org/wiki/辐射率" target="_blank" rel="noopener">辐射率</a>（Radiance）(光亮度）</td><td>$L_e$</td><td>$(d^2Phi)/(dAcos theta d omega)$</td><td><a href="https://zh.wikipedia.org/wiki/瓦特" target="_blank" rel="noopener">瓦特</a>每<a href="https://zh.wikipedia.org/wiki/球面度" target="_blank" rel="noopener">球面度</a>每平方米</td><td>$W*sr^(-1)*m^(-2)$</td><td>每单位<a href="https://zh.wikipedia.org/wiki/立體角" target="_blank" rel="noopener">立体角</a>每单位投射表面的<a href="https://zh.wikipedia.org/wiki/辐射通量" target="_blank" rel="noopener">辐射通量</a>。<strong>相当于辐射强度在dA上的微分</strong></td></tr><tr><td></td><td></td><td></td><td></td><td></td><td></td></tr></tbody></table><p>BRDF由Fred Nicodemus在1965年提出，函数如下：</p><p>$$f_r(omega_i,omega_r) = (dL_r(omega_r))/(dE_i(omega_i)) = (dL_r(omega_r))/(L_i(omega_i)cos theta_i d omega_i) $$</p><img src="/Users/admin/work/guileen.github.com/hexo/source/img/brdf/brdf-diagram.png" style="width:50%;" /><p>这个公式之所以定义为辐射率（radiance）和辐照度（irradiance）之比，而不是radiance和radiance之比，或irradiance和irradiance之比。是因为当考虑入射时，我们需要考虑入射光在面积上的分量，所以irradiance译为辐<strong>照</strong>度。当考虑反射时，我们需要考虑每立体角的辐射通量，并且这个辐射通量最终投影在屏幕（视网膜）面积上的辐射通量，因此我们用辐射率。如果我们用点光源，入射光的计算似乎也是可以用辐射率的，但有时我们还要考虑平行光的情况，那么对于入射光就不存在每立体角的概念了，因此对于入射光照我们用辐照度，反射我们用辐射率。</p><h3 id="基于物理的BRDF模型-PBR，Physically-based-rendering"><a href="#基于物理的BRDF模型-PBR，Physically-based-rendering" class="headerlink" title="基于物理的BRDF模型(PBR，Physically-based rendering)"></a>基于物理的BRDF模型(PBR，Physically-based rendering)</h3><h4 id="次表面散射（Subsurface-scattering）"><a href="#次表面散射（Subsurface-scattering）" class="headerlink" title="次表面散射（Subsurface scattering）"></a>次表面散射（Subsurface scattering）</h4><p>是一些半透明物质比如皮肤、玉石、大理石、塑料等。当光入射到材料表面后，一部分被反射、一部分被吸收、还有一部分经历透射，透射光在材料内部进行多次不规则的反射之后，又从不同角度反射了回来。</p><h4 id="菲涅尔反射（Fresnel-Reflectance）"><a href="#菲涅尔反射（Fresnel-Reflectance）" class="headerlink" title="菲涅尔反射（Fresnel Reflectance）"></a>菲涅尔反射（Fresnel Reflectance）</h4><p>当光从一种折射率为$n_1$的介质向另一种折射率为$n_2$的介质传播时，在两者的交界处可能会同时发生光的反射和折射。<a href="https://zh.wikipedia.org/wiki/%E8%8F%B2%E6%B6%85%E8%80%B3%E6%96%B9%E7%A8%8B" target="_blank" rel="noopener">菲涅尔方程</a>描述了光波的不同分量被折射和反射的情况，也描述了波反射时的相变。光线会随着我们的观察角度而反射不同的亮度，当我们以垂直与水面的角度观察池塘时，我们可以看到池塘的底部，但当我们以平行于水面的角度观察水面时，反射光则会很强我们无法看到池底。</p><h4 id="微表面理论（Microfacet-Theory）"><a href="#微表面理论（Microfacet-Theory）" class="headerlink" title="微表面理论（Microfacet Theory）"></a>微表面理论（Microfacet Theory）</h4><p>微表面理论假设材质的表面是由不同方向的微小细节平面（microfacet）所构成，反射光线由这些微表面的法线分布决定。我们用法线分布函数（Normal Distribution Function，NDF），D(h) 来描述表面的法线分布概率。h表示视角与入射光角度之间的半程向量。</p><p><img src="/img/brdf/microfacet.jpg" alt=""></p><p>$$f(i,o) = (F(i,h)G(i,o,h)D(h))/(4(n,i)(n,o))$$ </p><p>其中F(i,h)表示菲涅尔项，表示所有反射的比例。G(i,o,h) 表示自投影项，当光线几乎平射于微表面时，光线则将被粗糙的表面自我遮挡掉。D(h)表示法线分布。</p><p>参考:</p><p><a href="https://en.wikipedia.org/wiki/Bidirectional_reflectance_distribution_function" target="_blank" rel="noopener">Wikipedia:《Bidirectional reflectance distribution function》</a></p><p>《Real-Time Rendering, 4th edition》</p><p><a href="https://github.com/QianMo/Real-Time-Rendering-3rd-CN-Summary-Ebook" target="_blank" rel="noopener">《Real-Time Rendering 3rd》提炼总结</a></p><p><a href="https://zhuanlan.zhihu.com/p/20119162" target="_blank" rel="noopener"> Microfacet材质和多层材质——文刀秋二</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;双向反射分布函数（bidirectional reflectance distribution function）$f_r(omega_i,omega_r)$是一个计算光照反射量的函数。$omega_i$表示输入光角度，$omega_r$表示反射光角度，函数返回反射光辐射率
+      
+    
+    </summary>
+    
+    
+      <category term="computer-graphics" scheme="http://guileen.github.io/tags/computer-graphics/"/>
+    
+  </entry>
+  
+  <entry>
+    <title>线性代数的本质</title>
+    <link href="http://guileen.github.io/2021/02/13/the-essence-of-linear-algebra/"/>
+    <id>http://guileen.github.io/2021/02/13/the-essence-of-linear-algebra/</id>
+    <published>2021-02-13T04:03:51.000Z</published>
+    <updated>2021-03-07T15:05:12.999Z</updated>
+    
+    <content type="html"><![CDATA[<p>当我在大学中学习线性代数的时候，我不知所云且不以为然。然后随着不断的学习，我发现不懂线性代数是没法在更深的技术领域里混的。比如机器学习、计算机图形学等等，对于其他的科研领域也都是同样的。如果学不好线性代数既不是我的问题，也不是线性代数的问题，那到底是什么问题？最近学些了<a href="https://www.bilibili.com/video/BV1X7411F744" target="_blank" rel="noopener">现代计算机图形学入门-闫令琪</a> <a href="https://www.bilibili.com/video/BV1ib411t7YR" target="_blank" rel="noopener">线性代数的本质-3blue1brown</a> 这两个系列视频使我对线性代数多了更多的感性认识，而<a href="https://www.marxists.org/chinese/maozedong/marxist.org-chinese-mao-193707.htm" target="_blank" rel="noopener">《实践论》</a> 告诉我们，<strong>理性认识是要依赖于感性认识的</strong>。传统的线性代数教材则希望构建一套完全自洽的纯粹的数学理论，它不依赖于现实世界的知识。这或许可以满足一些数学家的成就感，但这种马后炮式的“创造”是脱离历史的。线性代数就像其他的学科一样，不可能是仅凭想象产生的，虽然数学家可以伪装成不依赖历史发展而独立自洽，但这除了是一种智力游戏外，对于认识世界、传播知识并没有任何帮助。我们就在这种缺乏感性认识的数学教育中丧失了对数学理论的兴趣，岂不哀哉？</p><p>吐槽结束，进入正题。谈谈我此刻对线性代数的理解，探讨一下他的本质到底是什么。我们是否会问自己，加减乘除的本质到底是什么？我们之所以不这么问，是因为我们已经理解了四则运算的本质。我们不会问关于十进制的本质，因为日常生活中已经给我们建立了足够多的经验。但我们在学龄前的阶段，我们则可能对十进制和加减乘除充满了困惑。但我们接触线性代数太晚，我们并没有足够的练习和日常应用使我们建立起感性认识。当我们在商店里消费的时候四则运算不断强化着我们的认知，但线性代数缺少这样的机会。当我们被教授四则运算时，老师把我们当作一个普通的人类，会告诉我们3个苹果+2个苹果=5个苹果，这种现实世界的例子帮助我们更好的理解了四则运算。但当我们学习线性代数时，我们则变成了一个个抽象的理性机器，这个系统只告诉我们各种定义、运算规则，然后要求我们像计算机一样的运行，计算出结果。What are we doing？我们怎么可能不懵圈呢？线性代数就是一个增强版的加减乘除，但没有足够的案例使我们不知道我们的计算究竟代表着什么？AlphaGo就算赢了李世石，但他不知道自己在干什么。我们作为人类的尊严在哪里？我又没控制好自己的情绪，让我们回到正题。《线性代数及其应用》是一本很好的教材，他和国内教材最大的区别就在于“应用”上，这本书中列举了大量的例子来说明线性代数的应用。这本书的开头说道“<strong>线性代数是一门语言，必须用学习外语的方法每天学习这种语言</strong>”。</p><h3 id="鸡兔同笼与线性变换"><a href="#鸡兔同笼与线性变换" class="headerlink" title="鸡兔同笼与线性变换"></a>鸡兔同笼与线性变换</h3><p>我们从鸡兔同笼来举个例子。鸡兔同笼是小学阶段的奥数题，也就是在小学的数学语言中，这是一道很难描述的题。到了中学阶段我们可以用未知数x表示鸡的数量，未知数y表示兔的数量，并列出方程。而对于线性代数的语言，我们用向量$$((a),(b))$$表示鸡和兔的数量，如果我们有非常多的未知数，我们不希望定义太多的未知数符号，我们直接用$$x$$表示这个n维变量。我们有一个变换矩阵$$[[1,1],[2,4]]$$ 表示鸡有1个头2只脚，兔有1个头4只脚 。如果有3只鸡5只兔则 $$[[1,1],[2,4]]*[[3],[5]]=[[3*1+5*1],[3*2+5*4]]=[[8],[26]]$$，它代表着我们将一个“鸡兔向量”映射到了“头脚向量”的空间中，共有8只头，26只脚。</p><p>我们知道函数是一种映射，$$f(x)=y$$代表将$x$到$y$的映射关系。矩阵乘法叫做线性变换，线性变换是一种函数映射，但函数映射不一定是线性变化。因此线性变换是符合函数的性质的。如果函数是可逆的，则有$$x=f^(-1)(y)$$，同样的，对于矩阵而言，$$若A是可逆的，且Ax=b，则x=A^(-1)b。设A=[[a,b],[c,d]]，则A^(-1)=1/(ad-bc)[[d,-b],[-c,a]]$$。</p><p>对于鸡兔同笼问题，$$A=[[1,1],[2,4]]，则A^(-1)=1/2[[4,-1],[-2,1]]$$。$$当有8头26脚时，x=1/2[[4,-1],[-2,1]]*[[8],[26]]=1/2[[4*8-26],[-2*8+26]]=1/2[[6],[10]]=[[3],[5]]$$，即3只鸡5只兔。最重要的是，这整个计算过程，计算机可以轻松的完成，并且可以用定义标准化的操作，因为操作标准化，计算机可以被设计的更加擅长处理这类操作。这就是线性代数得到广泛应用的一个最重要原因。</p><p>线性变换可能进行多次，就像映射可以进行多次一样。因为矩阵的乘法就是一种特殊的函数，函数满足结合律$$g(f(h(x)))=((g @ f)(h(x)))$$，所以矩阵乘法也符合结合律$$A(BC)=(AB)C$$。多次映射之后是一个新的映射，多次变换之后也是一个新的变换，所以我们可以将这些变换矩阵预先乘好，以增加每次计算的效率。也可以将一个复杂变换拆解为多个简单变换，使我们能更好的理解其性质。</p><p>我们可以从鸡兔变换到头脚，我们也可以从产量变换到成本收益（这是经济学的应用），我们也可以从速度变换到阻力（这是空气动力学的应用），我们也可以将3D空间变换到3D或2D空间（这是计算机图形学的应用），我们也可以将用户行为维度变换到兴趣标签维度（这是机器学习推荐系统的应用）。这都说明了线性代数是一门“语言”，是一个工具。并不是因为线性代数，所以这些定理存在，而是因为这些规律本身存在，才能有线性代数这门工具。人类是巧妙的“发明”了线性代数，而不是“发现”了线性代数。线性代数这门语言可以使我们避免基本代数语言的变量名爆炸。人类日常语言中有你我他这那等代词，中文有甲乙丙丁这种天干地支可以用作代词，英文则有a,b,cd可以使用。日常的代词使用是随意的，很多时候是不严谨的。代数学的代词在使用前则需要对它进行准确的定义。而线性代数则将最常使用的一些操作提取了出来，使我们免于重复的定义大量性质类似的代词。在线性代数中，鸡兔数量，头脚数量与空间中点的xyz轴位置都是同一种性质的。研究飞机表面的气流的过程包含了反复求解大型的线性方程组$$Ax=b$$，涉及的变量个数达到2百万个。可以说线性代数的发展完全是随着其应用发展的，如果有一本按照历史发展顺序描述线性代数的书，一定可以达到很好的教学效果。</p><h3 id="行列式（determinant）"><a href="#行列式（determinant）" class="headerlink" title="行列式（determinant）"></a>行列式（determinant）</h3><p>行列式的出现是远早于矩阵的。Determinant是决定的意思，（下文称之为决定值，“行列式”翻译的无味，既没有描述其决定性质，也没有说明其结果是特定的值）：决定值是否不为0决定了一个线性方程组是否有唯一解。所谓线性方程组，就是一次方程组。这个结论最早见于《九章算术》（有一种观点认为很多思想是在明朝由中国传至欧洲，而清朝恰好是中国的一个倒退，而欧洲则顺势伪造了一套其文明独立发展的历史叙事，这里不展开描述了）。决定值的这个性质在欧洲由莱布尼茨最早提出（莱布尼茨在中学西传中扮演着重要角色）。高斯首先使用了determinant这个词，他在数论理论中大量用到了决定值。后来这个词就更多的指一个特殊的函数，即某个表达式，因此中文将其翻译为行列式。</p><p>观察我们在鸡兔同笼中得出的结论：$$设A=[[a,b],[c,d]]，则A^(-1)=1/(ad-bc)[[d,-b],[-c,a]]$$。因此矩阵A当且仅当$$ad-bc!=0$$时存在逆矩阵，我们记为$$det(A)=|A|=|[a,b],[c,d]|=ad-bc$$。我们继续推广研究$3xx3$矩阵，可以得到：</p><p>$$|[a,b,c],[d,e,f],[h,i,j]|=a|[e,f],[h,i]|-b|[d,f],[g,i]|+c|[d,e],[g,h]|=aei+bfg+cdh-ceg-bdi-afh=|[a,d,h],[b,e,i],[c,f,j]|$$</p><p>对$4xx4$矩阵则有：</p><p>$$|[a,b,c,d],[e,f,g,h],[i,j,k,l],[m,n,o,p]|=a|[f,g,h],[j,k,l],[n,o,p]|-b|[e,g,h],[i,k,l],[m,o,p]|+c|[e,f,h],[i,j,l],[m,n,p]|-d|[e,f,g],[i,j,k],[m,n,o]|$$</p><p>依此类推，决定值的公式是一个递归。决定值的几何意义代表代表$1xx1$矩阵变换后的平行四边形的面积，或者说是矩阵变换后面积的放大倍数，即变换矩阵围成的四边形的面积。简单的证明如下图：$S=(a+c)(b+d)-ab-cd-2bc=ad-bc$。推广到3维则表示变换矩阵的围成的立方体的体积。</p><img src="/img/math/transform-determinant-opt.png" style="width:45%;" /><img src="/img/math/determinant-area.gif" style="width:45%;" /><p>如果determinant=0，则说明变换之后由面变为了线，或由体变为了面。而线或面无法再变换回面或体。我们同样以鸡兔同笼问题来举例，我们把题目中的兔换成鸭，则变换矩阵为$$A=[[1,1],[2,2]], det(A)=0$$。这个方程组是没有唯一解的，因为无论鸡鸭的比例如何，头脚的比例都是$1:2$。对于这样的矩阵，我们称他的秩为1，秩代表矩阵的维数。一个二维矩阵，可能秩为1，一个三维矩阵可能秩为2也就是一个面，也可能秩为1也就是一条线，甚至秩为0。</p><p>TODO 叉乘表示面积和垂直与平面的向量，特征值与特征向量，表示空间中在线性变换中保持稳定的轴，最小二乘法</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;当我在大学中学习线性代数的时候，我不知所云且不以为然。然后随着不断的学习，我发现不懂线性代数是没法在更深的技术领域里混的。比如机器学习、计算机图形学等等，对于其他的科研领域也都是同样的。如果学不好线性代数既不是我的问题，也不是线性代数的问题，那到底是什么问题？最近学些了&lt;a
+      
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>从余弦定理到冯氏光照模型</title>
+    <link href="http://guileen.github.io/2021/02/07/law-of-cosines-and-phong-reflection-model/"/>
+    <id>http://guileen.github.io/2021/02/07/law-of-cosines-and-phong-reflection-model/</id>
+    <published>2021-02-06T17:01:33.000Z</published>
+    <updated>2021-02-11T13:15:24.862Z</updated>
+    
+    <content type="html"><![CDATA[<h3 id="1-勾股定理——宇宙的密码"><a href="#1-勾股定理——宇宙的密码" class="headerlink" title="1.勾股定理——宇宙的密码"></a>1.勾股定理——宇宙的密码</h3><p>$a^2+b^2=c^2$。下图是勾股定理的一个直观证明。</p><p><img src="/img/math/ggdl.png" alt=""></p><h3 id="2-余弦定理，角与边的关系"><a href="#2-余弦定理，角与边的关系" class="headerlink" title="2. 余弦定理，角与边的关系"></a>2. 余弦定理，角与边的关系</h3><img src="/img/math/q-cosine.svg.png" width="30%"><img src="/img/math/cosine-1.png" width="30%"> <img src="/img/math/cos-sin.png" width="30%"><p>三条边可以确定一个三角形，已知三角形的三条边长，如何求出其角度呢？</p><p>由$cos,sin$定义可知<br>  $$ c = a * cos beta + b * cos alpha $$<br>  两边同乘c得：<br>$$ c^2 = ac * cos beta + bc * cos alpha $$<br>  同理可得：<br>$$ a^2 = ac cos beta + ab * cos gamma $$<br>$$ b^2 = bc cos alpha + ab cos gamma $$<br>  故：$$ a^2+b^2-c^2 = 2abcosgamma $$<br>  可得：$$ c^2 = a^2 + b^2 - 2ab cos gamma $$<br></p><h3 id="3-向量的定义（方向）"><a href="#3-向量的定义（方向）" class="headerlink" title="3. 向量的定义（方向）"></a>3. 向量的定义（方向）</h3><img src="/img/math/vector_subtraction.svg.png" width="45%"><img src="/img/math/vector_addition.svg.png" width="45%"><p>$$令 vec c = vec a - vec b$$, $$theta$$为$$vec a$$ $$vec b$$ 的夹角。余弦定理可以用向量形式写成 $$ | vec c |^2 = |vec a|^2 + |vec b|^2 -  2 |vec a| |vec b| cos theta $$ </p><h3 id="4-点积（dot-product）的代数定义"><a href="#4-点积（dot-product）的代数定义" class="headerlink" title="4. 点积（dot product）的代数定义"></a>4. 点积（dot product）的代数定义</h3><p>两个向量的点积是一个标量。向量$$vec a=[a_1, a_2, … a_n]$$与向量$$vec b=[b_1, b_2, … b_n]$$的点积定义为: $$ vec a * vec b = sum_(i=1)^n a_i b_i = a_1 b_1 + a_2 b_2 + … a_n b_n $$。</p><p>点积有以下性质（证略）：</p><ol><li>满足交换律 $$vec a * vec b = vec b * vec a$$</li><li>满足分配律 $$vec a * (vec b + vec c) = vec a * vec b + vec a * vec c$$</li><li>乘以标量时满足 $$ (c_1 vec a) * (c_2 vec b) = (c_1 c_2)(vec a * vec b)$$</li><li>不满足结合律。因为标量 $$ vec a * vec b $$ 与向量 $$ vec c $$ 的点积没有定义，所以$$(vec a * vec b) * vec c=vec a * (vec b * vec c)$$ 没有意义。</li></ol><p>点积的代数定义简单实用，易于表示，也易于使用计算机程序处理。是线性代数的基本操作之一。</p><h3 id="5-点积的几何意义"><a href="#5-点积的几何意义" class="headerlink" title="5. 点积的几何意义"></a>5. 点积的几何意义</h3><p>对于任何一个n维向量有 $|vec a|^2=a_1^2+a_2^2+…+a_n^2$。根据勾股定理，这是很显然的。换个角度<strong>说如果没有勾股定理，这一步就不存在，后面的内容也不存在了。而勾股定理不是由代数方法证明的，而是独立于代数系统之外的空间基本性质。而空间和时间是宇宙最根本的本质。这就是勾股定理最神奇的地方</strong>。</p><p>我们根据点积的定义可知：$$ vec a * vec a = a_1 * a_1 + a_2 * a_2 + … a_n * a_n = |vec a|^2$$ 即 $$ vec a * vec a == |vec a|^2$$</p><p>我们根据余弦定理的向量表示可得：$$ vec c * vec c = vec a * vec a + vec b * vec b - 2 |vec a| |vec b| cos theta . (1)$$ </p><p>根据向量的定义 $$ vec c = vec a - vec b $$ 有 $$ vec c * vec c = (vec a - vec b) * (vec a - vec b) = vec a * vec a + vec b * vec b - 2 vec a * vec b . (2)$$</p><p>结合等式$$(1)$$、$$(2)$$有 $$vec a * vec b = |vec a| |vec b| cos theta$$。一个看似简单的代数点积操作，竟然和夹角余弦相关，真是不可思议。</p><p>点积的几何意义是什么呢？关键就在这个$cos theta$，如果$$|vec b|$$为1时候，我们可以将$$vec a * vec b$$视为$$vec a $$在$$vec b$$方向上的投影长度。</p><p><img src="/img/math/dot_product_1.png" width="45%"> <img src="/img/math/dot_product_2.png" width="45%"></p><h3 id="6-点积的物理意义（从数学到宇宙）"><a href="#6-点积的物理意义（从数学到宇宙）" class="headerlink" title="6. 点积的物理意义（从数学到宇宙）"></a>6. 点积的物理意义（从数学到宇宙）</h3><p>点积的物理意义就是向量在某方向上的投影长度。这在物理上可以表达力在某方向上的投影，光在某方向的投影，速度、加速度在某方向的投影。而点积的操作，可以使我们只需要关心这些物理量的向量表示，而不需要去关心夹角，不需要去计算三角函数。而在统计学、机器学习等方面，余弦可以表示两个向量之间的相似性，比如两个词向量，两个用户的兴趣向量等，应用非常广泛。下面就以计算机图形学举例来说明点积的应用。</p><p>冯氏光照模型将一个物体的光照分解为环境光+漫反射光+镜面反射光。</p><p><img src="/img/math/Phong_components_version_4.png" alt=""></p><p>环境光比较简单就是一个常量。而漫反射光，则为光照强度在平面的法线方向的投影，与法线方向一致则光照最强。镜面反射光则为反射光方向在视角方向上的投影，与视角完全一致，则反射光最强。</p><p><img src="/img/math/diffuse_light.png" width="45%"> <img src="/img/math/specular_light.png" width="45%"></p><p>OpenGL的shader大致如下：</p><figure class="highlight glsl"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line"><span class="type">vec3</span> CalcDirLight(DirLight light, <span class="type">vec3</span> normal, <span class="type">vec3</span> viewDir) &#123;</span><br><span class="line">    <span class="comment">// normalize 归一化，使法线向量的长度为1</span></span><br><span class="line">    <span class="type">vec3</span> lightDir = <span class="built_in">normalize</span>(-light.direction);</span><br><span class="line">    <span class="comment">// 漫反射光. dot 计算cos* 强度， max把负值最多降到0，表示全黑。</span></span><br><span class="line">    <span class="type">float</span> diff = <span class="built_in">max</span>(<span class="built_in">dot</span>(normal, lightDir), <span class="number">0.0</span>);</span><br><span class="line">    <span class="type">vec3</span> reflectDir = <span class="built_in">reflect</span>(-lightDir, normal);</span><br><span class="line">    <span class="comment">// dot 计算反射光在视角上的cos分量，至少为0。使用pow，模拟镜面光焦点分布集中度，shininess越高要求反射分量越接近于1</span></span><br><span class="line">    <span class="comment">// 反射分量==1 表示必须视角恰巧与反射角完全一致才能看到反射光，也就是绝对镜面</span></span><br><span class="line">    <span class="type">float</span> spec = <span class="built_in">pow</span>(<span class="built_in">max</span>(<span class="built_in">dot</span>(viewDir, reflectDir), <span class="number">0.0</span>), material.shininess);</span><br><span class="line">    <span class="comment">// 合并冯氏光照结果</span></span><br><span class="line">    <span class="type">vec3</span> ambient = light.ambient * <span class="type">vec3</span>(<span class="built_in">texture</span>(material.diffuse, TexCoords));</span><br><span class="line">    <span class="type">vec3</span> diffuse = light.diffuse * diff * <span class="type">vec3</span>(<span class="built_in">texture</span>(material.diffuse, TexCoords));</span><br><span class="line">    <span class="type">vec3</span> specular = light.specular * spec * <span class="type">vec3</span>(<span class="built_in">texture</span>(material.specular, TexCoords));</span><br><span class="line">    <span class="keyword">return</span> (ambient + diffuse + specular);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;h3 id=&quot;1-勾股定理——宇宙的密码&quot;&gt;&lt;a href=&quot;#1-勾股定理——宇宙的密码&quot; class=&quot;headerlink&quot; title=&quot;1.勾股定理——宇宙的密码&quot;&gt;&lt;/a&gt;1.勾股定理——宇宙的密码&lt;/h3&gt;&lt;p&gt;$a^2+b^2=c^2$。下图是勾股定理的一个直观
+      
+    
+    </summary>
+    
+    
+      <category term="OpenGL,math" scheme="http://guileen.github.io/tags/OpenGL-math/"/>
+    
+  </entry>
   
   <entry>
     <title>儿歌</title>
@@ -67,7 +179,7 @@
     <link href="http://guileen.github.io/2020/04/05/limitation-of-rl-in-long-term/"/>
     <id>http://guileen.github.io/2020/04/05/limitation-of-rl-in-long-term/</id>
     <published>2020-04-04T16:43:34.000Z</published>
-    <updated>2021-02-11T13:15:24.856Z</updated>
+    <updated>2024-01-04T17:37:03.850Z</updated>
     
     <content type="html"><![CDATA[<p>近日尝试使用强化学习解决8x8大小的2048游戏。游戏环境是一个8x8的方格，环境每回合随机生成2个方块，方块的值为2或4，AI的决策空间是上、下、左、右四个操作，所有方块都将向所指示的方向堆叠，如果两个相邻的值相同方块在堆叠方向挤压，则这两个方块合并为1个方块，值是两个方块值的和。如果任何方向都无法移动方块，则游戏结束。游戏的目标是尽可能久的玩下去，合并出最大的方块。</p><p>最初我尝试用PG来训练这个看似简单的游戏。每一步，都视为1点奖励，如果失败则给予-1000惩罚。算法很快习得了一个偷懒的方法，每一步都进行无效的移动，以此来苟延残喘。于是将无效的移动操作，视为重大的失误，也同样给予-1000的惩罚。算法很快学会了在一个局面下的有效移动操作。但这个游戏，哪怕只是随机的移动也能够取得一个普通的结果，如果要突破极限，则需要使用一些特殊的策略，我期待算法是否能在训练中学会这些策略。</p><p><img src="/img/2048/pg.gif" alt="初次训练，类似随机运动"></p><p>对于这个游戏，达到2048，需要大约500次移动，达到4096，则需要1000，达到1M，也就大约需要20多万次移动，达到4M，则需要上百万次移动。每到达一个新的难度，面临的局面都不同，之前所习得的经验就不一定继续有效了。2048游戏是一个比围棋要简单很多的游戏，围棋拥有更多的选点，2048只有4个操作选择。他们的主要区别在于围棋一般在100多手内结束，而2048的游戏时间则近乎无限长。理想的游戏结果如下图所示：</p><p><img src="/img/2048/perfect.png" alt=""></p><p>这一游戏是存在理想玩法的，经过很多局的游戏，我已总结出一些经验。但是这些经验是感性的，很难使用逻辑规则表达出来，很多时候是凭直觉的。我手段操作达到了512K的结果，虽然我依然可以挑战更高的游戏记录，但显然我不能将如此多的时间浪费在滑动手指上。这也是我要编程解决这个问题的初衷，但是强化学习算法，只能在一次次的失败中得到教训，可是这个游戏的特点是，训练的越好，游戏时间越长，获得失败经验的成本就越大。所以无论该算法在理论上是多么的正确，但在实际操作过程中已经变得不可行了。</p><p>DQN、PG等强化学习算法的基本过程是根据系统给予的奖励，努力最大化收益。但是对于一个没有明确获胜终点的系统，如果验证训练结果的有效性却是一个非常大的问题。由于强化学习本质上是通过过往的经验来调整自己的策略的，如果有明显的获胜路径，则算法可以有充分的胜利经验可供借鉴。但如果目标是永远安全的运行下去，没有获胜的路径，只有失败的惩罚，那么算法只能在有限的教训中得到学习。假设我们正在训练一个自动飞行系统，获取每一个经验教训的成本都非常巨大，强化学习在这一方面的应用，必须要搭配一些人类的理性评估作为辅助，但是将人类的意识转化为可以实施的程序逻辑又是非常复杂的事情。</p><p>如果我们训练的是一个自动驾驶系统呢？在未来无人驾驶会应用的越来越多。无人驾驶的安全性会很快超越人类，随即人们期望可以进一步提升驾驶的平均速度或其他一些智能驾驶的指标。因为无人驾驶的安全性已经超越了人类，所以无法再依赖于人类的驾驶经验给予其帮助，只能依赖于自身驾驶中的经验（尤其是事故）作为训练依据。那么这时这个系统还可能是安全的吗？</p><p>在未来的相关强化学习领域，一个好的环境模拟系统、事故全息信息的采集和共享系统，才是提升人工智能的关键，而不是算法。</p>]]></content>
     
@@ -80,6 +192,8 @@
     
     </summary>
     
+    
+      <category term="AI" scheme="http://guileen.github.io/tags/AI/"/>
     
   </entry>
   
@@ -151,6 +265,146 @@
   </entry>
   
   <entry>
+    <title>强化学习简介（六）：策略梯度实例</title>
+    <link href="http://guileen.github.io/2020/01/03/introduce-reinforcement-learning-6/"/>
+    <id>http://guileen.github.io/2020/01/03/introduce-reinforcement-learning-6/</id>
+    <published>2020-01-03T06:40:51.000Z</published>
+    <updated>2021-02-11T13:15:24.855Z</updated>
+    
+    <content type="html"><![CDATA[<p>和第四节DQN的实例一样，我们依然使用CartPole-v1来作为训练环境。策略梯度的网络和DQN的网络结构是类似的，只是在输出层需要做Softmax处理，因为策略梯度的输出本质上是一个分类问题——将某一个状态分类到某一个动作的概率。而DQN网络则是一个回归问题——某一个网络在各个动作的Q值是多少。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">PolicyNet</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, input_size, hidden, outputs)</span>:</span></span><br><span class="line">        super(PolicyNet, self).__init__()</span><br><span class="line">        self.fc1 = nn.Linear(input_size, hidden)</span><br><span class="line">        self.fc2 = nn.Linear(hidden, outputs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        x = F.relu(F.dropout(self.fc1(x), <span class="number">0.1</span>))</span><br><span class="line">        x = self.fc2(x)</span><br><span class="line">        <span class="comment"># 输出层需要使用softmax</span></span><br><span class="line">        <span class="keyword">return</span> F.softmax(x, dim=<span class="number">1</span>)</span><br></pre></td></tr></table></figure><p>不要忘了输出层的SoftMax。</p><h2 id="初始化参数"><a href="#初始化参数" class="headerlink" title="初始化参数"></a>初始化参数</h2><p>相对于DQN，我们也不需要额外的目标网络和参数复制操作，只需要一个策略网络即可。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">BATCH_SIZE = <span class="number">256</span></span><br><span class="line">GAMMA = <span class="number">0.99</span></span><br><span class="line">HIDDEN_SIZE = <span class="number">15</span></span><br><span class="line">LR = <span class="number">0.005</span></span><br><span class="line"></span><br><span class="line">n_actions = env.action_space.n</span><br><span class="line">input_size = env.observation_space.shape[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line">policy_net = PolicyNet(input_size, HIDDEN_SIZE, n_actions)</span><br><span class="line">optimizer = optim.Adam(policy_net.parameters(), lr=LR)</span><br><span class="line"></span><br><span class="line">steps_done = <span class="number">0</span></span><br></pre></td></tr></table></figure><h2 id="选择动作"><a href="#选择动作" class="headerlink" title="选择动作"></a>选择动作</h2><p>在选择动作时，我们不再需要特地设置探索概率，因为输出结果就是各个动作的概率分布。我们使用<code>torch.distributions.categorical.Categorical</code> 来进行取样。在每次选择动作时，我们同时记录对应的概率，以便后续使用。这个概率就是 `ln pi_theta(S_t,A_t)`</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">log_probs = []</span><br><span class="line">rewards = []</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">select_action</span><span class="params">(state)</span>:</span></span><br><span class="line">    x = torch.unsqueeze(torch.FloatTensor(state),<span class="number">0</span>)</span><br><span class="line">    probs = policy_net(x)</span><br><span class="line">    c = Categorical(probs)</span><br><span class="line">    action = c.sample()</span><br><span class="line">    <span class="comment"># log action probs to plt</span></span><br><span class="line">    prob = c.log_prob(action)</span><br><span class="line">    log_probs.append(prob)</span><br><span class="line">    <span class="keyword">return</span> action</span><br></pre></td></tr></table></figure><h2 id="优化模型"><a href="#优化模型" class="headerlink" title="优化模型"></a>优化模型</h2><p>为了更新参数，我们首先需要计算`v_t`，这在后续参数迭代中需要用到。</p><ul><li>` v_t = r_(t+1) + gamma * v_(t+1) `</li></ul><p>在模拟执行的时候，我们记录了每一步的reward，我们需要计算每一步的`v_t`，其顺序与执行顺序一致。根据公式我们需要倒序的计算`v_t`，然后将计算好的结果倒序排列，就形成了`v_1,v_2…v_t`的序列。最后我们需要将数据标准化。(TODO: 这里可能存在一个序列对应的问题，其中每一个状态的累计收益，是后续状态收益之和，不包含本轮收益)</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">values = []</span><br><span class="line">v = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> reward <span class="keyword">in</span> reversed(rewards):</span><br><span class="line">    v = v * GAMMA + reward</span><br><span class="line">    values.insert(<span class="number">0</span>, v)</span><br><span class="line">mean = np.mean(values)</span><br><span class="line">std = np.std(values)</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(size):</span><br><span class="line">    values[i] = (values[i] - mean) / std</span><br></pre></td></tr></table></figure><p>接下来我们需要更新参数，参数更新的公式为：</p><ul><li>` theta larr theta + alpha v_t ln pi_theta (A_t|S_t) `</li></ul><p>我们将其转换为损失函数形式:</p><ul><li>` L(theta) = - v_t ln pi_theta(A_t|S_t) `</li></ul><p>这个损失函数的形式可以帮助我们更好的理解策略梯度的原理。如果一个动作价值为负值，但是其选择概率为正，则损失较大。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">loss = []</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> np.random.choice(size, n):</span><br><span class="line">    loss.append(- values[i] * log_probs[i])</span><br><span class="line">loss = torch.cat(loss).sum()</span><br><span class="line"></span><br><span class="line">optimizer.zero_grad()</span><br><span class="line">loss.backward()</span><br><span class="line"><span class="keyword">for</span> param <span class="keyword">in</span> policy_net.parameters():</span><br><span class="line">    param.grad.data.clamp_(<span class="number">-1</span>, <span class="number">1</span>)</span><br><span class="line">optimizer.step()</span><br></pre></td></tr></table></figure><h2 id="训练循环"><a href="#训练循环" class="headerlink" title="训练循环"></a>训练循环</h2><p>训练循环需要在一局结束之后进行。并清除rewards、log_probs缓存。对于cartpole-v1环境，要注意他的每一步奖励都是1，很显然在最后一步代表着游戏失败，我们需要施加一定的惩罚，我们将最后一步的奖励设为-100。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">num_episodes = <span class="number">5000</span></span><br><span class="line"><span class="keyword">for</span> i_episode <span class="keyword">in</span> range(num_episodes):</span><br><span class="line">    state = env.reset()</span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> count():</span><br><span class="line">        action = select_action(state)</span><br><span class="line">        <span class="keyword">if</span> i_episode % <span class="number">2000</span> == <span class="number">0</span>:</span><br><span class="line">            env.render()</span><br><span class="line">        next_state, reward, done,_ = env.step(action.item())</span><br><span class="line">        <span class="keyword">if</span> done:</span><br><span class="line">            reward = <span class="number">-100</span></span><br><span class="line">        rewards.append(reward)</span><br><span class="line">        state = next_state</span><br><span class="line">        <span class="keyword">if</span> done <span class="keyword">or</span> t &gt;= <span class="number">2500</span>:</span><br><span class="line">            optimize_model()</span><br><span class="line">            print(<span class="string">'EP'</span>, i_episode)</span><br><span class="line">            episode_durations.append(t+<span class="number">1</span>)</span><br><span class="line">            plot_durations()</span><br><span class="line">            rewards = []</span><br><span class="line">            log_probs = []</span><br><span class="line">            <span class="keyword">break</span></span><br></pre></td></tr></table></figure><p><img src="/files/cart-pg.png" alt="Clamp"></p><p><a href="/files/demo_dqn.py">完整代码</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;和第四节DQN的实例一样，我们依然使用CartPole-v1来作为训练环境。策略梯度的网络和DQN的网络结构是类似的，只是在输出层需要做Softmax处理，因为策略梯度的输出本质上是一个分类问题——将某一个状态分类到某一个动作的概率。而DQN网络则是一个回归问题——某一个网
+      
+    
+    </summary>
+    
+      <category term="AI" scheme="http://guileen.github.io/categories/AI/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>强化学习简介（五）：策略梯度Policy Gradient</title>
+    <link href="http://guileen.github.io/2019/12/30/introduce-reinforcement-learning-5/"/>
+    <id>http://guileen.github.io/2019/12/30/introduce-reinforcement-learning-5/</id>
+    <published>2019-12-30T06:37:07.000Z</published>
+    <updated>2021-02-11T13:15:24.855Z</updated>
+    
+    <content type="html"><![CDATA[<p>DQN证明了深度学习在增强学习中的可行性。深度学习可以将复杂的概念隐含在网络之中。但是DQN并没有将所有的概念都隐含在网络之中，只是把Q值的计算放在了网络之中，比如`epsilon-greedy`动作选择策略。因为如何选择动作和如何通过Q值计算出目标值，都是DQN所面临的问题，而Q值的目的也是为了选择动作。我们可以将增加学习的问题简化为选择动作的问题。那么我们可否使用深度学习直接做出动作选择呢？显然，我们可以定义一个网络`pi_theta`，其中输入为状态`s`，输出为每个动作`a`的概率。</p><p><img src="/img/rl-5/1.png" alt="策略梯度"></p><p>因为这个网络与策略函数的定义一样，所以被称为策略网络。`pi_theta(a|s)`，表示在`s`状态下选择动作`a`的概率。只要这个网络能够收敛，我们就可以直接得到最佳策略。这个网络的奖励函数也就是最终游戏的总奖励。</p><p>`J(theta) = sum_(s in S)d^pi(s)V^pi(s) = sum_(s in S)d^pi(s)sum_(a in A)pi_theta(a|s)Q^pi(s, a)`</p><p>`d^pi(s)`指状态`s`在马尔科夫链上的稳定分布，`d^pi(s) = lim_(t-&gt;oo)P(s_t=s|s_0,pi_theta)`。</p><p>但是这个表达式看上去是不可能计算的，因为状态的分布和Q值都是随着策略的更新而不断变化的。但是我们并不需要计算`J(theta)`，在梯度下降法中我们只需要计算梯度`grad_(theta)J(theta)`即可</p><p>`grad_(theta)V^pi(s)`<br>`= grad_(theta)(sum_(a in A)pi_theta(a|s)Q^pi(s, a))`<br>根据导数乘法规则<br>`= sum_(a in A)(grad_(theta)pi_(theta)Q^pi(s, a)+pi_(theta)(a|s)grad_thetaQ^pi(s, a))`<br>展开`Q^pi(s,a)`为各各种可能的下一状态奖励之和<br>`= sum_(a in A)(grad_(theta)pi_(theta)Q^pi(s, a)+pi_(theta)(a|s)grad_(theta)sum_(s’,r)P(s’,r|s,a)(r+V^pi(s’)))`<br>而其中状态转移函数`P(s’,r|s,a)`、奖励`r`由环境决定，与`grad_theta`无关，所以<br>`= sum_(a in A)(grad_(theta)pi_(theta)Q^pi(s, a)+pi_(theta)(a|s)sum_(s’,r)P(s’,r|s,a)grad_(theta)V^pi(s’))`<br>`= sum_(a in A)(grad_(theta)pi_(theta)Q^pi(s, a)+pi_(theta)(a|s)sum_(s’)P(s’|s,a)grad_(theta)V^pi(s’))`</p><p>现在我们有了一个形式非常好的递归表达式：<br>`grad_(theta)V^pi(s) = sum_(a in A)(grad_(theta)pi_(theta)Q^pi(s, a)+pi_(theta)(a|s)sum_(s’)P(s’|s,a)grad_(theta)V^pi(s’))`</p><p>设 `rho^pi(s-&gt;x, k)` 表示在策略`pi^theta`下，`k`步以后状态`s`转移到状态`x`的概率。有：</p><ul><li>`rho^pi(s-&gt;s, k=0)=1`</li><li>`rho^pi(s-&gt;s’, k=1)=sum_(a)pi_(theta)(a|s)P(s’|s,a)`</li><li>`rho^pi(s-&gt;x, k+1) = sum_(s’)rho^pi(s-&gt;s’, k)rho^pi(s’-&gt;x, 1)`</li></ul><p>为了简化计算，令 `phi(s)=sum_(a in A)grad_(theta)pi_theta(a|s)Q^pi(s,a)`</p><p>`grad_(theta)V^pi(s)`<br>`= phi(s) + sum_(a in A)pi_(theta)(a|s)sum_(s’)P(s’|s,a)grad_(theta)V^pi(s’) `<br>`= phi(s) + sum_(s’)sum_(a in A)pi_(theta)(a|s)P(s’|s,a)grad_(theta)V^pi(s’) `<br>`= phi(s) + sum_(s’)rho^pi(s-&gt;s’,1)grad_(theta)V^pi(s’) `<br>`= phi(s) + sum_(s’)rho^pi(s-&gt;s’,1)(phi(s’) + sum_(s’’)rho^pi(s’-&gt;s’’,1)grad_(theta)V^pi(s’’)) `<br>`= phi(s) + sum_(s’)rho^pi(s-&gt;s’,1)phi(s’) + sum_(s’’)rho^pi(s-&gt;s’’,2)grad_(theta)V^pi(s’’) `<br>`= phi(s) + sum_(s’)rho^pi(s-&gt;s’,1)phi(s’) + sum_(s’’)rho^pi(s-&gt;s’’,2)phi(s’’) + sum_(s’’’)rho^pi(s-&gt;s’’’,3)grad_(theta)V^pi(s’’’) `<br>`= …`<br>`= sum_(x in S)sum_(k=0)^(oo)rho^pi(s-&gt;x, k)phi(x)`</p><p>令 `eta(s)=sum_(k=0)^(oo)rho^pi(s_0-&gt;s, k)`</p><p>`grad_(theta)J(theta)=grad_(theta)V^pi(s_0)`<br>`= sum_(s)sum_(k=0)^(oo)rho^pi(s_0-&gt;s,k)phi(s)`<br>`= sum_(s)eta(s)phi(s)`<br>`= (sum_(s)eta(s))sum_(s)((eta(s))/(sum_(s)eta(s)))phi(s)`<br>因 `sum_(s)eta(s)` 属于常数，对于求梯度而言常数可以忽略。<br>`prop sum_(s)((eta(s))/(sum_(s)eta(s)))phi(s)`<br>因 `eta(s)/(sum_(s)eta(s))`表示`s`的稳定分布<br>`= sum_(s)d^pi(s)sum_a grad_(theta)pi_(theta)(a|s)Q^pi(s,a)`<br>`= sum_(s)d^pi(s)sum_a pi_(theta)(a|s)Q^pi(s,a)(grad_(theta)pi_(theta)(a|s))/(pi_(theta)(a|s))`<br>因 ` (ln x)’ = 1/x `<br>`= Err_pi[Q^pi(s,a)grad_theta ln pi_theta(a|s)]`</p><p>所以得出策略梯度最重要的定理：</p><p>` grad_(theta)J(theta)=Err_pi[Q^pi(s,a)grad_theta ln pi_theta(a|s)] `</p><p>其中的`Q^pi(s,a)`也就是状态s的累计收益，可以在一次完整的动作轨迹中累计计算得出。</p><h2 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h2><p>该算法被称为 REINFORCE</p><ul><li>随机初始化`theta`</li><li>生成一个完整的策略`pi_theta`的轨迹: `S1,A1,R2,S2,A2,…,ST`。</li><li>For t=1, 2, … , T-1:<ul><li>` v_t = sum_(i=0)^(oo) gamma^i R_(t+i+1) `</li><li>` theta larr theta + alpha v_t ln pi_theta (A_t|S_t) `</li></ul></li></ul><p>参考：<br><a href="https://lilianweng.github.io/lil-log/2018/04/08/policy-gradient-algorithms.html" target="_blank" rel="noopener">Lilian Weng:Policy Gradient Algorithms</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;DQN证明了深度学习在增强学习中的可行性。深度学习可以将复杂的概念隐含在网络之中。但是DQN并没有将所有的概念都隐含在网络之中，只是把Q值的计算放在了网络之中，比如`epsilon-greedy`动作选择策略。因为如何选择动作和如何通过Q值计算出目标值，都是DQN所面临的问
+      
+    
+    </summary>
+    
+      <category term="AI" scheme="http://guileen.github.io/categories/AI/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>强化学习简介（四）：DQN实战</title>
+    <link href="http://guileen.github.io/2019/12/30/introduce-reinforcement-learning-4/"/>
+    <id>http://guileen.github.io/2019/12/30/introduce-reinforcement-learning-4/</id>
+    <published>2019-12-30T06:37:03.000Z</published>
+    <updated>2021-02-11T13:15:24.854Z</updated>
+    
+    <content type="html"><![CDATA[<p>我们在上文简述了DQN算法。此文以PyTorch来实现一个DQN的例子。我们的环境选用<a href="https://gym.openai.com/envs/CartPole-v1/" target="_blank" rel="noopener">CartPole-v1</a>。我们的输入是一幅图片，动作是施加一个向左向右的力量，我们需要尽可能的保持木棍的平衡。</p><p><img src="/files/cartpole-v1.gif" alt="CartPole-v1"></p><p>对于这个环境，尝试了很多次，总是不能达到很好的效果，一度怀疑自己的代码写的有问题。后来仔细看了这个环境的奖励，是每一帧返回奖励1，哪怕是最后一帧也是返回1 的奖励。这里很明显是不合理的俄。我们需要重新定义这个奖励函数，也就是在游戏结束的时候，给一个比较大的惩罚，r=-100。很快可以达到收敛。</p><h2 id="Replay-Memory"><a href="#Replay-Memory" class="headerlink" title="Replay Memory"></a>Replay Memory</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">Transition = namedtuple(<span class="string">'Transition'</span>, (<span class="string">'state'</span>, <span class="string">'action'</span>, <span class="string">'next_state'</span>, <span class="string">'reward'</span>))</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">ReplayMemory</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, capacity)</span>:</span></span><br><span class="line">        self.cap = capacity</span><br><span class="line">        self.mem = []</span><br><span class="line">        self.pos = <span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">push</span><span class="params">(self, *args)</span>:</span></span><br><span class="line">        <span class="string">"""Save a transition."""</span></span><br><span class="line">        <span class="keyword">if</span> len(self.mem) &lt; self.cap:</span><br><span class="line">            self.mem.append(<span class="literal">None</span>)</span><br><span class="line">        self.mem[self.pos] = Transition(*args)</span><br><span class="line">        self.pos = (self.pos + <span class="number">1</span>) % self.cap</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">sample</span><span class="params">(self, batch_size)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> random.sample(self.mem, batch_size)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__len__</span><span class="params">(self)</span>:</span></span><br><span class="line">        <span class="keyword">return</span> len(self.mem)</span><br></pre></td></tr></table></figure><h2 id="Q网络"><a href="#Q网络" class="headerlink" title="Q网络"></a>Q网络</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">DQN</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, input_size, hidden, outputs)</span>:</span></span><br><span class="line">        super(DQN, self).__init__()</span><br><span class="line">        self.fc1 = nn.Linear(input_size, hidden)</span><br><span class="line">        self.fc2 = nn.Linear(hidden, outputs)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        x = F.relu(self.fc1(x))</span><br><span class="line">        x = self.fc2(x)</span><br><span class="line">        <span class="keyword">return</span> x</span><br></pre></td></tr></table></figure><h2 id="初始化参数和状态"><a href="#初始化参数和状态" class="headerlink" title="初始化参数和状态"></a>初始化参数和状态</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gym</span><br><span class="line"></span><br><span class="line">env = gym.make(<span class="string">'CartPole-v0'</span>).unwrapped</span><br><span class="line"></span><br><span class="line">BATCH_SIZE = <span class="number">128</span></span><br><span class="line">GAMMA = <span class="number">0.9</span></span><br><span class="line">EPS_START = <span class="number">0.9</span></span><br><span class="line">EPS_END = <span class="number">0.05</span></span><br><span class="line">EPS_DECAY = <span class="number">200</span></span><br><span class="line">TARGET_UPDATE = <span class="number">10</span></span><br><span class="line">LR = <span class="number">0.01</span></span><br><span class="line"></span><br><span class="line">n_actions = env.action_space.n</span><br><span class="line">input_size = env.observation_space.shape[<span class="number">0</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 策略网络</span></span><br><span class="line">policy_net = DQN(input_size, <span class="number">10</span>, n_actions)</span><br><span class="line"><span class="comment"># 目标网络</span></span><br><span class="line">target_net = DQN(input_size, <span class="number">10</span>, n_actions)</span><br><span class="line"><span class="comment"># 目标网络从策略网络复制参数</span></span><br><span class="line">target_net.load_state_dict(policy_net.state_dict())</span><br><span class="line">target_net.eval()</span><br><span class="line"></span><br><span class="line">optimizer = optim.Adam(policy_net.parameters(), lr=LR)</span><br><span class="line">memory = ReplayMemory(<span class="number">10000</span>)</span><br></pre></td></tr></table></figure><h2 id="探索和选择最佳动作"><a href="#探索和选择最佳动作" class="headerlink" title="探索和选择最佳动作"></a>探索和选择最佳动作</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">steps_done = <span class="number">0</span></span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">select_action</span><span class="params">(state, no_explore=False)</span>:</span></span><br><span class="line">    x = torch.unsqueeze(torch.FloatTensor(state), <span class="number">0</span>)</span><br><span class="line">    <span class="keyword">global</span> steps_done</span><br><span class="line">    sample = random.random()</span><br><span class="line">    eps_threshold = EPS_END + (EPS_START - EPS_END) * math.exp(<span class="number">-1.</span> * steps_done / EPS_DECAY)</span><br><span class="line">    steps_done += <span class="number">1</span></span><br><span class="line">    <span class="keyword">if</span> sample &gt; eps_threshold <span class="keyword">or</span> no_explore:</span><br><span class="line">        <span class="keyword">with</span> torch.no_grad():</span><br><span class="line">            <span class="comment"># t.max(1) will return largest column value of each row.</span></span><br><span class="line">            <span class="comment"># second column on max result is index of where max element was</span></span><br><span class="line">            <span class="comment"># found, so we pick action with the larger expected reward.</span></span><br><span class="line">            <span class="keyword">return</span> policy_net(x).max(<span class="number">1</span>)[<span class="number">1</span>].view(<span class="number">1</span>, <span class="number">1</span>)</span><br><span class="line">    <span class="keyword">else</span>:</span><br><span class="line">        <span class="keyword">return</span> torch.tensor([[random.randrange(n_actions)]], dtype=torch.long)</span><br></pre></td></tr></table></figure><h2 id="优化模型-关键代码"><a href="#优化模型-关键代码" class="headerlink" title="优化模型(关键代码)"></a>优化模型(关键代码)</h2><p>这里主要是抽样、目标值计算、损失计算的部分。损失计算采用Huber loss。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">optimize_model</span><span class="params">()</span>:</span></span><br><span class="line">    <span class="keyword">if</span> len(memory) &lt; BATCH_SIZE:</span><br><span class="line">        <span class="keyword">return</span></span><br><span class="line">    transitions = memory.sample(BATCH_SIZE)</span><br><span class="line">    batch = Transition(*zip(*transitions))</span><br><span class="line">    non_final_mask = torch.tensor(tuple(map(<span class="keyword">lambda</span>  s: s <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>,</span><br><span class="line">                        batch.next_state)), dtype=torch.uint8)</span><br><span class="line">    non_final_next_states = torch.FloatTensor([s <span class="keyword">for</span> s <span class="keyword">in</span> batch.next_state <span class="keyword">if</span> s <span class="keyword">is</span> <span class="keyword">not</span> <span class="literal">None</span>])</span><br><span class="line">    state_batch = torch.FloatTensor(batch.state)</span><br><span class="line">    action_batch = torch.cat(batch.action)</span><br><span class="line">    reward_batch = torch.FloatTensor(batch.reward)</span><br><span class="line">    state_action_values = policy_net(state_batch).gather(<span class="number">1</span>, action_batch)</span><br><span class="line">    next_state_values = torch.zeros(BATCH_SIZE)</span><br><span class="line">    next_state_values[non_final_mask] = target_net(non_final_next_states).max(<span class="number">1</span>)[<span class="number">0</span>].detach()</span><br><span class="line">    expected_state_action_values = (next_state_values * GAMMA) + reward_batch</span><br><span class="line"></span><br><span class="line">    loss = F.mse_loss(state_action_values, expected_state_action_values.unsqueeze(<span class="number">1</span>))</span><br><span class="line"></span><br><span class="line">    optimizer.zero_grad()</span><br><span class="line">    loss.backward()</span><br><span class="line">    <span class="comment"># 限制网络更新的幅度，可以大幅提升训练的效果。</span></span><br><span class="line">    <span class="keyword">for</span> param <span class="keyword">in</span> policy_net.parameters():</span><br><span class="line">        param.grad.data.clamp_(<span class="number">-1</span>, <span class="number">1</span>)</span><br><span class="line">    optimizer.step()</span><br></pre></td></tr></table></figure><h2 id="训练循环"><a href="#训练循环" class="headerlink" title="训练循环"></a>训练循环</h2><p>这里主要有主循环、获取输入、记录回放、训练、复制参数等环节。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">num_episodes = <span class="number">1000</span></span><br><span class="line"><span class="keyword">for</span> i_episode <span class="keyword">in</span> range(num_episodes):</span><br><span class="line">    state = env.reset()</span><br><span class="line">    <span class="keyword">for</span> t <span class="keyword">in</span> count():</span><br><span class="line">        action = select_action(state, i_episode%<span class="number">50</span>==<span class="number">0</span>)</span><br><span class="line">        <span class="keyword">if</span>(i_episode%<span class="number">50</span>==<span class="number">0</span>):</span><br><span class="line">            env.render()</span><br><span class="line">        next_state, reward,done,_ = env.step(action.item())</span><br><span class="line">        <span class="comment"># reward = torch.tensor([reward])</span></span><br><span class="line">        <span class="keyword">if</span> done:</span><br><span class="line">            reward = <span class="number">-100</span></span><br><span class="line">        memory.push(state, action, next_state, reward)</span><br><span class="line">        state = next_state</span><br><span class="line">        <span class="keyword">if</span> done <span class="keyword">or</span> t &gt; <span class="number">2500</span>:</span><br><span class="line">            <span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">                optimize_model()</span><br><span class="line">            episode_durations.append(t+<span class="number">1</span>)</span><br><span class="line">            plot_durations()</span><br><span class="line">            <span class="keyword">break</span></span><br><span class="line">    <span class="keyword">if</span> i_episode % TARGET_UPDATE == <span class="number">0</span>:</span><br><span class="line">        target_net.load_state_dict(policy_net.state_dict())</span><br></pre></td></tr></table></figure><p><img src="/files/dqn2.png" alt="Clamp"></p><p><a href="/files/demo_dqn.py">完整代码</a></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;我们在上文简述了DQN算法。此文以PyTorch来实现一个DQN的例子。我们的环境选用&lt;a href=&quot;https://gym.openai.com/envs/CartPole-v1/&quot; target=&quot;_blank&quot; rel=&quot;noopener&quot;&gt;CartPole-v1&lt;
+      
+    
+    </summary>
+    
+      <category term="AI" scheme="http://guileen.github.io/categories/AI/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>强化学习简介（三）：DQN</title>
+    <link href="http://guileen.github.io/2019/12/28/introduce-reinforcement-learning-3/"/>
+    <id>http://guileen.github.io/2019/12/28/introduce-reinforcement-learning-3/</id>
+    <published>2019-12-28T03:53:37.000Z</published>
+    <updated>2021-02-11T13:15:24.854Z</updated>
+    
+    <content type="html"><![CDATA[<p>上一个例子中我们使用了冰面滑行的游戏环境，这是一个有限状态空间的环境。如果我们现在面对的是一个接近无限的状态空间呢？比如围棋，比如非离散型的问题。我们无法使用一个有限的Q表来存储所有Q值，即使有足够的存储空间，也没有足够的计算资源来遍历所有的状态空间。对于这一类问题，深度学习就有了施展的空间了。</p><p>Q表存储着状态s和动作a、奖励r的信息。我们知道深度神经网络，也具有存储信息的能力。DQN算法就是将Q-table存储结构替换为神经网络来存储信息。我们定义神经网络`f(s, w) ~~ Q(s)`，输出为一个向量`[Q(s, a_1), Q(s, a_2), Q(s, a_3), …, Q(s, a_n)]`。经过这样的改造，我们就可以用Q-learing的算法思路来解决更复杂的状态空间的问题了。我们可以通过下面两张图来对比Q-learning和DQN的异同。</p><p><img src="/img/rl-3/1.png" alt="Q-learning"></p><p><img src="/img/rl-3/2.png" alt="Deep-Q-learning"></p><p>网络结构要根据具体问题来设计。在神经网络训练的过程中，损失函数是关键。我们采用MSE来计算error。</p><p>`L(w) = (ubrace(r + argmax_aQ(s’, a’))_(目标值) - ubrace(Q(s, a))_(预测值))^2`</p><h2 id="基本算法描述"><a href="#基本算法描述" class="headerlink" title="基本算法描述"></a>基本算法描述</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">使用随机参数初始化网络Q</span><br><span class="line"><span class="keyword">while</span> 未收敛:</span><br><span class="line">  action 按一定概率随机选取，其余使用argmax Q(s)选取</span><br><span class="line">  模拟执行 action 获取 状态 s_, 奖励 r, 是否完成 done</span><br><span class="line">  <span class="keyword">if</span> done:</span><br><span class="line">    target = r</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    target = r + gamma * argmax Q(s_)</span><br><span class="line">  loss = MSE(target, Q(s, a))</span><br><span class="line">  使用loss更新网络Q</span><br><span class="line">  s = s_</span><br></pre></td></tr></table></figure><p>但是，通过实验我们会发现，训练过程非常的不稳定。稳定性是强化学习所面临的主要问题之一，为了达到稳定的训练我们需要运用一些优化的手段。</p><h2 id="环境的稳定性"><a href="#环境的稳定性" class="headerlink" title="环境的稳定性"></a>环境的稳定性</h2><p>Agent生活在环境之中，并根据环境的反馈进行学习，但环境是否是稳定的呢？假设agent在学习出门穿衣的技能，它需要学会在冬天多穿，夏天少穿。但是这个agent只会根据当天的反馈来修正自己的行为，也就是说这个agent是没有记忆的。那么这个agent就会在多次失败后终于在冬天学会了多穿衣，但转眼之间到了夏天他又会陷入不断的失败，最终他在夏天学会了少穿衣之后，又会在冬天陷入失败，如此循环不断，永远不会收敛。如果要能够很好的训练，这个agent至少要有一整年的记忆空间，每一批都要从过去的记忆中抽取记忆来进行训练，就可以避免遗忘过去的教训。</p><p>在DeepMind的Atari 论文中提到</p><blockquote><p>First, we used a biologically inspired mechanism termed experience replay that randomizes over the data, thereby removing correlations in the observation sequence and smoothing over changes in the data distribution.</p></blockquote><p>意思是，受生物学启发，他们采用了一种叫做经验回放（experience replay）的机制，随机抽取数据来到达“移除观察序列的相关性，平滑数据分布的改变”的目的。<br><img src="/img/rl-3/4.png" alt="DQN with Atari"></p><p>我们已经理解了要有经验回放的记忆，但是为什么一定要随机抽取呢？对此论文认为这个随机抽取可以移除序列相关性、平滑分布中的改变。当如何理解呢？简单的说就是在我们不清楚合理的周期的情况下，能够保证采样的合理性。我们仍然以四季穿衣举例，假设我们不使用随机采样，我们必须在每次训练中都采用365天左右的数据，才能使我们的数据样本分布合理。可是agent并不清楚一年365天这个规律，这恰恰是我们所要学习的内容。采用随机采用，就可以自然的做到数据的分布合理，而且只需要使用记忆中的部分数据，减少单次迭代的计算量。</p><p>在这个记忆里，我们并不记录当时的网络参数（分析过程），我们只记录（状态s，动作a，新状态s’, 单步奖励r)。显然，记忆的尺寸不可能无限大。当记忆体增大到一定程度之后，我们采用滚动的方式用最新的记忆替换掉最老的记忆。就像在学习围棋的过程中，有初学者阶段的对局记忆，也有高手阶段的对局记忆，在提升棋艺的角度来看，高手阶段的记忆显然比初学者阶段的记忆更有价值。</p><p>说句题外话，其实对于一个民族而言也是一样的。我们这个民族拥有一个非常好的传统，就是记述历史，也就是等于我们这个民族拥有足够大的记忆量，这是我们胜于其他民族的。但是这个历史记录中，掺杂了历史上不同阶段的评价，这些评价是根据当时的经验得出的。而根据DQN的算法描述来看，对我们最有价值的部分其实是原始信息，而不是那些附加在之上的评价，这些评价有正确的部分，也有错误的部分，我们不用去过多关心。我们只需要在今天的认知（也就是最新的训练结果）基础上，对历史原始信息（旧状态、动作、新状态、单步奖励）进行随机的抽样分析即可。</p><h2 id="网络稳定性"><a href="#网络稳定性" class="headerlink" title="网络稳定性"></a>网络稳定性</h2><p>DQN另一个稳定性问题与目标值计算有关。因为`target = r + gamma * argmax Q(s’)`，所以目标值与网络参数本身是相关，而参数在训练中是不断变化的，所以这会造成训练中的不稳定。一个神经网络可以自动收敛，取决于存在一个稳定的目标，如果目标本身在不断的游移变动，那么想要达到稳定就比较困难。这就像站在平地上的人很容易平衡，但如果让人站在一个不断晃动的木板上，就很难达到平衡。为了解决这个问题，我们需要构建一个稳定的目标函数。</p><p>解决的方法是采用两个网络代替一个网络。一个网络用于训练调整参数，称之为策略网络，另一个专门用于计算目标，称之为目标网络。目标网络与策略网络拥有完全一样的网络结构，在训练的过程中目标网络的参数是固定的。执行一小批训练之后，将策略网络最新的参数复制到目标网络中。</p><p><img src="/img/rl-3/3.png" alt="目标网络"></p><p>经验回放和目标网络的效果见下表（引用自Nature 论文）：<br><img src="/img/rl-3/5.png" alt="优化对比"></p><h2 id="其他DQN优化"><a href="#其他DQN优化" class="headerlink" title="其他DQN优化"></a>其他DQN优化</h2><p>关于DQN的优化，这篇文章描述的比较全面 <a href="https://zhuanlan.zhihu.com/p/21547911" target="_blank" rel="noopener">https://zhuanlan.zhihu.com/p/21547911</a>。在之后的实践中考虑是否进一步深入。主要介绍3个改进：</p><p><img src="/img/rl-3/6.png" alt="DQN优化"></p><ul><li>Double DQN：对目标值计算的优化，a’使用策略网络选择的动作来代替目标网络选择的动作。</li><li>Prioritised replay：使用优先队列（priority queue）来存储经验，避免丢弃早期的重要经验。使用error作为优先级，仿生学技巧，类似于生物对可怕往事的记忆。</li><li>Dueling Network：将Q网络分成两个通道，一个输出V，一个输出A，最后再合起来得到Q。如下图所示（引用自Dueling Network论文）。这个方法主要是idea很简单但是很难想到，然后效果一级棒，因此也成为了ICML的best paper。</li></ul><p><img src="/img/rl-3/7.png" alt="Dueling Network"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;上一个例子中我们使用了冰面滑行的游戏环境，这是一个有限状态空间的环境。如果我们现在面对的是一个接近无限的状态空间呢？比如围棋，比如非离散型的问题。我们无法使用一个有限的Q表来存储所有Q值，即使有足够的存储空间，也没有足够的计算资源来遍历所有的状态空间。对于这一类问题，深度学
+      
+    
+    </summary>
+    
+      <category term="AI" scheme="http://guileen.github.io/categories/AI/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>强化学习简介（二）：Q-learning实战</title>
+    <link href="http://guileen.github.io/2019/12/27/introduce-reinforcement-learning-2/"/>
+    <id>http://guileen.github.io/2019/12/27/introduce-reinforcement-learning-2/</id>
+    <published>2019-12-27T08:02:19.000Z</published>
+    <updated>2021-02-11T13:15:24.853Z</updated>
+    
+    <content type="html"><![CDATA[<p>我们现在通过一个例子来演练Q-learning算法。在练习强化学习之前，我们需要拥有一个模拟器环境。我们主要的目的是学习编写机器人算法，所以对模拟器环境部分不推荐自己写。直接使用<code>gym</code>来作为我们对实验环境。安装方法：</p><figure class="highlight shell"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">pip install gym</span><br></pre></td></tr></table></figure><h2 id="初识环境"><a href="#初识环境" class="headerlink" title="初识环境"></a>初识环境</h2><p>我们的实验环境是一个冰湖滑行游戏，你将控制一个agent在冰面到达目标终点，前进方向并不总受你的控制，你还需要躲过冰窟。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> gym</span><br><span class="line"><span class="comment"># 构造游戏环境</span></span><br><span class="line">env = gym.make(<span class="string">'FrozenLake-v0'</span>)</span><br><span class="line"><span class="comment"># 动作空间-&gt; Discrete(4)</span></span><br><span class="line">print(env.action_space)</span><br><span class="line"><span class="comment"># 状态空间-&gt; Discrete(16)</span></span><br><span class="line">print(env.observation_space)</span><br><span class="line"><span class="comment"># 初始化游戏环境，并得到状态s</span></span><br><span class="line">s = env.reset()</span><br><span class="line"><span class="keyword">for</span> _ <span class="keyword">in</span> range(<span class="number">10</span>):</span><br><span class="line">    <span class="comment"># 渲染游戏画面</span></span><br><span class="line">    env.render()</span><br><span class="line">    <span class="comment"># 从动作空间中随机选择一个动作a</span></span><br><span class="line">    a = env.action_space.sample()</span><br><span class="line">    <span class="comment"># 执行动作a，得到新状态s，奖励r，是否完成done</span></span><br><span class="line">    s, r, done, info = env.step(a) <span class="comment"># take a random action</span></span><br><span class="line">    print(s, r, done, info)</span><br><span class="line"><span class="comment"># 关闭环境</span></span><br><span class="line">env.close()</span><br></pre></td></tr></table></figure><p>游戏画面示意如下：</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">SFFF       (S: 起点，安全)</span><br><span class="line">FHFH       (F: 冰面，安全)</span><br><span class="line">FFFH       (H: 冰窟，进入则失败)</span><br><span class="line">HFFG       (G: 终点，到达则成功)</span><br></pre></td></tr></table></figure><h2 id="Agent结构"><a href="#Agent结构" class="headerlink" title="Agent结构"></a>Agent结构</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> random</span><br><span class="line"><span class="keyword">import</span> math</span><br><span class="line"><span class="keyword">import</span> gym</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">QLAgent</span><span class="params">()</span>:</span></span><br><span class="line">    q = <span class="literal">None</span></span><br><span class="line">    action_space = <span class="literal">None</span></span><br><span class="line">    epsilon = <span class="number">0.1</span> <span class="comment"># 探索率</span></span><br><span class="line">    gamma = <span class="number">0.99</span>  <span class="comment"># 衰减率</span></span><br><span class="line">    lr = <span class="number">0.1</span> <span class="comment"># 学习率</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self, action_space, state_count, epsilon=<span class="number">0.1</span>, lr=<span class="number">0.1</span>, gamma=<span class="number">0.99</span>)</span>:</span></span><br><span class="line">        self.q = [[<span class="number">0.</span> <span class="keyword">for</span> a <span class="keyword">in</span> range(action_space.n)] <span class="keyword">for</span> s <span class="keyword">in</span> range(state_count)]</span><br><span class="line">        self.action_space = action_space</span><br><span class="line">        self.epsilon = epsilon</span><br><span class="line">        self.lr = lr</span><br><span class="line">        self.gamma = gamma</span><br><span class="line"></span><br><span class="line">    <span class="comment"># 根据状态s，选择动作a</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">choose_action</span><span class="params">(self, s)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br><span class="line"></span><br><span class="line">    <span class="comment"># 更新状态变化并学习，状态s执行了a动作，得到了奖励r，状态转移到了s_</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">update_transition</span><span class="params">(self, s, a, r, s_)</span>:</span></span><br><span class="line">        <span class="keyword">pass</span></span><br></pre></td></tr></table></figure><p>这是一个Agent的一般结构，主要由初始化、选择动作、更新状态变化，三个方法构成。后续的其他算法将依然采用该结构。q表数据使用一个二维数组表示，其大小为 state_count action_count，对于这个项目而言是一个 `16*4` 的大小。</p><h2 id="添加Q-table的辅助方法"><a href="#添加Q-table的辅助方法" class="headerlink" title="添加Q-table的辅助方法"></a>添加Q-table的辅助方法</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 返回状态s的最佳动作a、及其r值。</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">argmax</span><span class="params">(self, s)</span>:</span></span><br><span class="line">    max_r = -math.inf</span><br><span class="line">    max_a = <span class="literal">None</span></span><br><span class="line">    <span class="keyword">for</span> a <span class="keyword">in</span> range(self.action_space.n):</span><br><span class="line">        r = self.q_get(s, a)</span><br><span class="line">        <span class="keyword">if</span> r &gt; max_r:</span><br><span class="line">            max_a = a</span><br><span class="line">            max_r = r</span><br><span class="line">    <span class="keyword">return</span> max_a, max_r</span><br><span class="line"><span class="comment"># 获得 状态s，动作a 对应的r值</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">q_get</span><span class="params">(self, s, a)</span>:</span></span><br><span class="line">    <span class="keyword">return</span> self.q[s][a]</span><br><span class="line"><span class="comment"># 更新 状态s 动作a 对应的r值</span></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">q_put</span><span class="params">(self, s, a, v)</span>:</span></span><br><span class="line">    self.q[s][a] = v</span><br></pre></td></tr></table></figure><h2 id="Q-learning的关键步骤"><a href="#Q-learning的关键步骤" class="headerlink" title="Q-learning的关键步骤"></a>Q-learning的关键步骤</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">choose_action</span><span class="params">(self, s)</span>:</span></span><br><span class="line">    <span class="keyword">if</span> random.random() &lt; self.epsilon:</span><br><span class="line">        <span class="comment"># 按一定概率进行随机探索</span></span><br><span class="line">        <span class="keyword">return</span> self.action_space.sample()</span><br><span class="line">    <span class="comment"># 返回最佳动作</span></span><br><span class="line">    a, _ = self.argmax(s)</span><br><span class="line">    <span class="keyword">return</span> a</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">def</span> <span class="title">update_transition</span><span class="params">(self, s, a, r, s_)</span>:</span></span><br><span class="line">    q = self.q_get(s, a)</span><br><span class="line">    _, r_ = self.argmax(s_)</span><br><span class="line">    <span class="comment"># Q &lt;- Q + a(Q' - Q)</span></span><br><span class="line">    <span class="comment"># &lt;=&gt; Q &lt;- (1-a)Q + a(Q')</span></span><br><span class="line">    q = (<span class="number">1</span>-self.lr) * q + self.lr * (r + self.gamma * r_)</span><br><span class="line">    self.q_put(s, a, q)</span><br></pre></td></tr></table></figure><h2 id="训练主循环"><a href="#训练主循环" class="headerlink" title="训练主循环"></a>训练主循环</h2><p>我们进行10000局游戏的训练，每局游戏执行直到完成。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">env = gym.make(<span class="string">'FrozenLake-v0'</span>)</span><br><span class="line">agent = QLAgent(env.action_space, env.observation_space.n)</span><br><span class="line"><span class="keyword">for</span> epoch <span class="keyword">in</span> range(<span class="number">10000</span>):</span><br><span class="line">    s = env.reset()</span><br><span class="line">    done = <span class="literal">False</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> done:</span><br><span class="line">        <span class="comment"># env.render()  # 训练过程不需要渲染</span></span><br><span class="line">        a = agent.choose_action(s) <span class="comment"># 选择动作</span></span><br><span class="line">        s_, r, done, info = env.step(a) <span class="comment"># 执行动作</span></span><br><span class="line">        agent.update_transition(s, a, r, s_) <span class="comment"># 更新状态变化</span></span><br><span class="line">        s = s_</span><br><span class="line"><span class="comment"># 显示训练后的Q表</span></span><br><span class="line">print(agent.q)</span><br></pre></td></tr></table></figure><h2 id="测试效果"><a href="#测试效果" class="headerlink" title="测试效果"></a>测试效果</h2><p>在测试中，我们只选择最佳策略，不再探索，也不再更新Q表。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 获胜次数</span></span><br><span class="line">total_win = <span class="number">0</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(<span class="number">10000</span>):</span><br><span class="line">    s = env.reset()</span><br><span class="line">    done = <span class="literal">False</span></span><br><span class="line">    <span class="keyword">while</span> <span class="keyword">not</span> done:</span><br><span class="line">        <span class="comment"># 选择最佳策略</span></span><br><span class="line">        a, _ = agent.argmax(s)</span><br><span class="line">        <span class="comment"># 执行动作 a</span></span><br><span class="line">        s_, r, done, info = env.step(a)</span><br><span class="line">        <span class="keyword">if</span> done <span class="keyword">and</span> r == <span class="number">1</span>:</span><br><span class="line">            total_win += <span class="number">1</span></span><br><span class="line">        s = s_</span><br><span class="line">print(<span class="string">'Total win='</span>, total_win)</span><br><span class="line">env.close()</span><br></pre></td></tr></table></figure><p>最终测试的效果是在1万局中获胜了7284次，说明达到了不错的实验效果。</p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;我们现在通过一个例子来演练Q-learning算法。在练习强化学习之前，我们需要拥有一个模拟器环境。我们主要的目的是学习编写机器人算法，所以对模拟器环境部分不推荐自己写。直接使用&lt;code&gt;gym&lt;/code&gt;来作为我们对实验环境。安装方法：&lt;/p&gt;
+&lt;figure cla
+      
+    
+    </summary>
+    
+      <category term="AI" scheme="http://guileen.github.io/categories/AI/"/>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>强化学习简介（一）：Q-learning</title>
+    <link href="http://guileen.github.io/2019/12/27/introduce-reinforcement-learning-1/"/>
+    <id>http://guileen.github.io/2019/12/27/introduce-reinforcement-learning-1/</id>
+    <published>2019-12-27T03:28:16.000Z</published>
+    <updated>2021-02-11T13:15:24.853Z</updated>
+    
+    <content type="html"><![CDATA[<p>完成图像分类之类的监督学习任务，已经没有特别大的难度。我们希望AI能够帮助我们处理一些更加复杂的任务，比如：下棋、玩游戏、自动驾驶、行走等。这一类的学习任务被称为强化学习。</p><p><img src="/img/rl-1/4.png" alt="强化学习图示"></p><h2 id="K摇臂赌博机"><a href="#K摇臂赌博机" class="headerlink" title="K摇臂赌博机"></a>K摇臂赌博机</h2><p>我们可以考虑一个最简单的环境：一个动作可立刻获得奖励，目标是使每一个动作的奖励最大化。对这种单步强化学习任务，可以设计一个理论模型——“K-摇臂赌博机”。这个赌博机有K个摇臂，赌徒在投入一个硬币后可一选择按下一个摇臂，每个摇臂以一定概率吐出硬币，但这个概率赌徒并不知道。赌徒的目标是通过一定的策略最大化自己的奖赏，即获得最多的硬币。最终所获得的总奖励被称为累计奖励。</p><p><img src="/img/rl-1/2.jpg" alt="K摇臂赌博机"></p><p>对于这个简单模型，若要知道每个摇臂的概率，我们只需要进行足够多的尝试即可，这是“仅探索”策略；若要奖励最大化，则需要执行奖赏概率最大的动作即可，这是“仅利用”策略。但在更复杂的环境中，我们不可能对每一个状态的每个动作都进行足够多的探索。比如围棋，我们后续的探索是需要依赖于之前的探索的。因此我们需要在探索和利用之间进行平衡。我们在学习的过程中，必须要保持一定的概率`epsilon`进行探索，其余时候则执行学习到的策略。</p><h2 id="基本概念术语"><a href="#基本概念术语" class="headerlink" title="基本概念术语"></a>基本概念术语</h2><p>为了便于分析讨论，我们定义一些术语。</p><ul><li><p>机器agent处于环境`E`中。</p></li><li><p>状态空间为`S`，每个状态`s in S`是机器感知到的环境描述。</p></li><li><p>机器能够采取的可采取的动作a的集合即动作空间`A`，`a in A`。</p></li><li><p>转移函数`P`表示：当机器执行了一个动作`a`后，环境有一定概率从状态`s`改变为新的状态`s’`。即：`s’=P(s, a)`</p></li><li><p>奖赏函数`R`则表示了执行动作可能获得的奖赏`r`。即：`r=R(s,a)`。</p></li><li><p>环境可以描述为`E=&lt;&lt;S, A, P, R&gt;&gt;`。</p></li><li><p>强化学习的任务是习得一个策略（policy）`pi`，使机器在状态`s`下选择到最佳的`a`。策略有两种描述方法：</p><ol><li>`a=pi(s)` 表示状态`s`下将执行动作`a`，是一种确定性的表示法。</li><li>`pi(s, a)` 表示状态`s`下执行动作`a`的概率。这里有 `sum_a pi(s,a)=1`</li></ol></li><li><p>累计奖励指连续的执行一串动作之后的奖励总和。</p></li><li><p>`Q^(pi)(s, a)`表示在状态`s`下，执行动作`a`，再策略`pi`的累计奖励。为方便讨论后续直接写为`Q(s,a)`。</p></li><li><p>`V^(pi)(s)` 表示在状态`s`下，使用策略`pi`的累计奖励。为方便讨论后续直接写为`V(s)`。</p></li></ul><p>强化学习往往不会立刻得到奖励，而是在很多步之后才能得到一个诸如成功/失败的奖励，这是我们的算法需要反思之前所有的动作来学习。所以强化学习可以视作一种延迟标记的监督学习。</p><h2 id="Q-learning"><a href="#Q-learning" class="headerlink" title="Q-learning"></a>Q-learning</h2><p>对于我们要学习的`Q(s,a)`函数，我们可以使用一个Q-table来表示。Q-table是一个二维表，记录每个状态`s in S, a in A`的`Q`值。Q表被初始化为0的状态。在状态`s`执行了动作`a`之后，得到状态`s’`，奖励`r`。我们将潜在的`Q`函数记为`Q_(real)`，其值为当前奖励r与后续状态`s’`的最佳累计奖励之和。则有：</p><p>` Q_(real)(s, a) = r + gamma * argmax_aQ(s’, a) `<br>` err = Q_(real)(s, a) - Q(s, a) `</p><p>其中`gamma`为`Q`函数的偏差，`err`为误差，`alpha`为学习率。 可得出更新公式为：</p><p>` Q(s, a) leftarrow Q(s, a) + alpha*err `<br>即：<br>` Q(s,a) leftarrow (1-alpha)Q(s,a) + alpha(r + gamma * argmax_aQ(s’, a)) `</p><p>以上公式即为Q-learning的关键</p><h3 id="算法描述"><a href="#算法描述" class="headerlink" title="算法描述"></a>算法描述</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 初始化Q表</span></span><br><span class="line"><span class="keyword">for</span> s <span class="keyword">in</span> S:</span><br><span class="line">  <span class="keyword">for</span> a <span class="keyword">in</span> A:</span><br><span class="line">    Q(s, a) = <span class="number">0</span></span><br><span class="line"><span class="comment"># 训练过程</span></span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> range(N):</span><br><span class="line">  <span class="keyword">if</span> rand() &lt; epsilon:</span><br><span class="line">    a = 从 A 中随机选取一个动作</span><br><span class="line">  <span class="keyword">else</span>:</span><br><span class="line">    a = 从 A 中选取使 Q(a) 最大的a</span><br><span class="line">  <span class="comment"># 从环境中获得反馈</span></span><br><span class="line">  r = R(s, a)</span><br><span class="line">  s1 = P(s, a)</span><br><span class="line">  <span class="comment"># 更新Q表</span></span><br><span class="line">  Q(s,a) = (<span class="number">1</span>-alpha)*Q(s,a) + alpha * (r + gamma * argmax Q(s1, a) - Q(s, a))</span><br><span class="line">  s = s1</span><br></pre></td></tr></table></figure><p>下图是一个Q表内存结构，在经过一定的学习后，Q表的内容将能够不断逼近每个状态的每个动作的累计收益。<br><img src="/img/rl-1/3.png" alt="Q-table"></p>]]></content>
+    
+    <summary type="html">
+    
+      
+      
+        &lt;p&gt;完成图像分类之类的监督学习任务，已经没有特别大的难度。我们希望AI能够帮助我们处理一些更加复杂的任务，比如：下棋、玩游戏、自动驾驶、行走等。这一类的学习任务被称为强化学习。&lt;/p&gt;
+&lt;p&gt;&lt;img src=&quot;/img/rl-1/4.png&quot; alt=&quot;强化学习图示&quot;&gt;&lt;/p
+      
+    
+    </summary>
+    
+      <category term="AI" scheme="http://guileen.github.io/categories/AI/"/>
+    
+    
+  </entry>
+  
+  <entry>
     <title>2019年度预测：新思潮的前夜</title>
     <link href="http://guileen.github.io/2019/12/25/2019-predict/"/>
     <id>http://guileen.github.io/2019/12/25/2019-predict/</id>
@@ -175,267 +429,20 @@
   </entry>
   
   <entry>
-    <title>企业是如何运作的？</title>
-    <link href="http://guileen.github.io/2019/02/04/how-company-works/"/>
-    <id>http://guileen.github.io/2019/02/04/how-company-works/</id>
-    <published>2019-02-03T16:39:36.000Z</published>
-    <updated>2023-05-21T05:14:10.010Z</updated>
+    <title>Torch的损失函数和优化器</title>
+    <link href="http://guileen.github.io/2019/12/24/torch-output-loss-optimizer/"/>
+    <id>http://guileen.github.io/2019/12/24/torch-output-loss-optimizer/</id>
+    <published>2019-12-24T14:05:59.000Z</published>
+    <updated>2021-02-11T13:15:24.851Z</updated>
     
-    <content type="html"><![CDATA[<p>我一直很好奇人类社会是如何组织运作起来的，在历史中我们王朝的更迭，在现在一家公司的成败。我们很幸运，如果我们希望成就一番事业不再需要像古代的野心家那样，一定要冒着杀头的风险才能获得，也无需像古代的官僚一样必须依附于一个人情系统才能生存。因为现代的法律和企业制度给我们提供了必要的保护。</p><p>人是一个社会性动物。因此人与人之间进行是系统性的对抗。于是人们结成集体，依靠集体的合力获取胜利，使每个个体获取大于单独行动的收益。因此企业首先是一群人集体谋利的手段。我们不能否认这一点，不能将所谓情怀、价值观放在集体谋利手段的更优先的位置。即便有一个组织的确是将其价值观置于最优先的位置，那么只能说其价值观代表了这个组织的最高利益，而价值观是手段，利益才是目的。</p><p>当劫掠能够产生比生产更大的收益时，草原上原本松散的社会结构，就会很快结成联盟，经过仪式性的战争选出头领，带领大军南下，劫掠中原。驱动他们凝结在一起的力量就是谋生。当他们凝聚在一起之后，他们劫掠的资源可以支撑他们更大的野心。十三世纪，蒙古帝国迅速的崛起，横扫亚欧大陆，令人惊叹。蒙古帝国既没有大英帝国先进科技，也没有中国、欧洲先进的思想，也没有丰富的资源，是什么让他们成就了如此伟业？</p><p>最新的考古学证据表明，成吉思汗崛起之时，漠北草原迎来了15年的持续降雨和温和天气，温和的天气带来了丰富的牧草，丰富的牧草带来了充沛的战马。而战马是当时最重要的战略物资。这一切都给蒙古帝国的崛起创造了条件。但我依然想知道一点，如果条件适宜，这一切是必然会产生的吗？</p><p>我的答案是，如果一个民族的人数达到了临界值，并且当时的条件适合这个民族崛起，那么这个民族一定会崛起。一定有一些民族错过了他们的机遇，那么这些民族甚至将因此失去其原本所拥有的东西。为什么需要一个临界值？这个临界值是用于确保有足够多的竞争者，而最终胜出的竞争者将带领这个民族走上崛起之路。</p><p>在战争这件事上充分的体现了集体的力量是大于个人的，而如果成功，领导者的收益也必然是大于普通个体的。那么又有一个问题，既然领导者的收益最大，为什么一个集体之中参与领导者竞争的只有一小部分人，而不是全部？原因很简单，参与领导者竞争是存在巨大风险的。不同的人选择了不同的风险收益比，总体来说这个风险收益是均衡的。每个人都是由自己的禀赋做出了选择，而那些选择参与领导者竞争的人，正是由其先天性格禀赋所决定的，他们对于未知与冒险有着天然的适应性。他们未必是群体中最强壮、最聪明的人，也未必是群体中最勇敢的人，但他们是群体中最有魄力的人，魄力是一种综合的能力，他使整个集体朝着同一个方向前进，并扫除那些阻碍集体向前的障碍。他使集体围绕在他的周围，他个人就代表了集体。在一个由众人构成的战车面前，个体的聪明、勇敢，都是微不足道的。</p><p>当有了核心之后，这群人就不再是松散的个体，集体从这一刻诞生，他们以集体的名义捕猎，而后分配。</p><p>一个领导者需要几名得力的助手，才可以统御整个系统。每个系统都是多个组件所构成的，</p><p>一家公司的员工，并非都属于一个集体，正如一个王朝，并非所有人都属于王朝组织，</p><p>对于一个组织来说，相比于个体是一个更加不稳定的系统，必须要更大的能量才能维持其稳定的存在，否则组织将走向覆灭。因此获取更大的能量就是这个组织必须要解决的一个问题。对于一个人类社会组织，我们可以用财富来对应这种能量。财富只有两种方式获取，第一种是创造，第二种是掠夺。决定采用哪一种形式并不由这个组织的道德水平决定，而是由收益成本比决定，如果创造财富的收益比更高，则选择创造财富，如果掠夺财富的收益比更高则选择掠夺财富。人们看到这一说法可能会不以为然，或者想当然的认为掠夺财富的收益更大，事实上掠夺财富要承担巨大的风险，因为每个组织都为自己的财富设置了各种保护。获取到的财富可以用于进一步扩大组织的边界与能力，当获取财富的速度不足以支撑更大的组织结构时，组织的边界将稳定或者减少。比如蒙古人用他们的军事力量征服了一个又一个城市后，又将掠夺来的物资和人力融入到自己的组织中。使组织进一步扩大。</p><p>当我们说掠夺财富时，并非一定单纯指蒙古人式的野蛮掠夺，现代社会也存在着很多形式合法的掠夺，比如金融系统，比如各种服务平台的服务费，竞争对手之间争夺市场份额等。不得不说，在一个竞争激烈的红海市场中，掠夺能力才是王道，而创造只是为他人做嫁衣。</p><p>一个企业永远要将争夺市场当作最核心的能力，正如一个王朝不能忘了战争的重要性。</p><p>金融和法律框架下的进行的，离开了法律的保护，我们所拥有的财富都是泡影。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;我一直很好奇人类社会是如何组织运作起来的，在历史中我们王朝的更迭，在现在一家公司的成败。我们很幸运，如果我们希望成就一番事业不再需要像古代的野心家那样，一定要冒着杀头的风险才能获得，也无需像古代的官僚一样必须依附于一个人情系统才能生存。因为现代的法律和企业制度给我们提供了必
-      
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>机器的意识</title>
-    <link href="http://guileen.github.io/2018/06/01/conscious-of-machine/"/>
-    <id>http://guileen.github.io/2018/06/01/conscious-of-machine/</id>
-    <published>2018-06-01T03:49:41.000Z</published>
-    <updated>2021-02-11T13:15:24.849Z</updated>
-    
-    <content type="html"><![CDATA[<p>机器学习当下是非常火热的课题，大量的模型被设计出来令人眼花缭乱。诸如SVM，随机森林，贝叶斯网络，神经网络只不过是这个领域的基础知识，在这些基础方法之上的各种优化分支方法更是数不胜数。大量的所谓机器学习的研究者，在某个问题上，通过对现有方法的小修小补，达到了一些微不足道的提升，或仅仅是对几种模型／优化方法／特征分析／问题领域进行一些常规的比较分析，便可以一本正经的发布一篇学术论文。为了这些方法应用到实际的工程中时，通常需要消耗大量的人力用于前期的数据分析和处理，这一过程被称为“特征工程”。对于此类人员的专业度要求非常高，需求量也非常大，因此这类人才的溢价也非常高，以致于一个刚刚毕业的研究生的薪酬可以轻松超越一个有多年经验的软件工程师。然而这类人力工作通常并没有太多的创新性可言。这是在当前的科技背景下产生的独特的现象——一大批资质平平的智力工作者受到了疯狂的追捧。这一现象必然在机器学习真正取得突破性进展后终结，本文将讨论突破性进展可能的方向。</p><p>科技发展有两种驱动力，其一是资本对于更高生产力的追求，其二是纯粹的为了智力上的满足感或是对于某种超自然信仰而展开的对于真理本质的追求。前者更长于将科学成果转化为实际应用，而后者才是实现技术爆炸的真正内核。机器学习领域也是如此，目前正处于科学成果转化的高峰期，是基于前些年的一些基础研究进行的转化。但也是瓶颈期，因为我们感受到了现有方法的局限。目前人们对于人工智能的态度行业内外的看法截然相反：业外的人大部分担心人工智能将超越、统治甚至毁灭人类，业内大部分则恰恰相反。因为专业人士更加清楚，现有方法大多是非常愚蠢的，所谓智能不过是一种魔术。你一定体验过魔术被揭秘的感觉，这就是我兴致勃勃的了解了许多机器学习方法后的感受。可以很负责任的说，我们距离人工智能的本质还差的很远很远。大部分的人醉心于如何更好的表演魔术，只有很少的人去追求真正的本质，而这些追求本质的方法如果在魔术表演上不够精彩，是很容易被忽视的。</p><p>人工智能概念最早由约翰·麦卡锡（John McCarthy，1927年9月4日－2011年10月24日）在1956年由他自己召集的达特矛斯会议上提出的：“人工智能就是要让机器的行为看起来就像是人所表现出的智能行为一样”。这是人工智能的早期定义，人们后来意识到这个定义忽略了强人工智能的可能性。所谓强人工智能是指机器拥有真正的智能而不仅仅是“看起来像”，与之相对的则被称为弱人工智能，而目前实现的都是弱人工智能。这引发了一系列的哲学问题——什么是智能？强人工智能是否有可能实现？强人工智能是不是人类的灾难？即便我们出于伦理和人类安全的考虑，不追求实现强人工智能，而只是追求弱人工智能的“看起来像”的目的，也不得不借鉴强人工智能的思路，也就不可避免的不断的朝着强人工智能方向前进。本文不讨论人工智能是否对人类构成威胁的问题，仅从方向和方法上讨论强人工智能的可行性。</p><p>人工智能本质上属于仿生学范畴的。智能本身就是很复杂的，而人类仅能认识到自己的智能，不可能理解龙虾或者外星人的智能。所以对人工智能本质的追求，应该是对人类自身深入认识的过程。并且这种认识不能仅仅停留于哲学解构的层面，必须通过工程手段加以重新建构，我们用哲学上和工程上都能理解的语言进行表达，而这种语言我们称之为模型。</p><p>人类智能可划分为一些层次，无意识的精神、意识、自我、逻辑、知识、表达、知觉、经验。这些划分并不存在清晰的界限。通过真正的智能与现有弱人工智能的比较，我们可以更好的理解这些概念。</p><p>当AlphaGo轻松打败人类棋手时，人类棋手感到压力、恐惧、伤心、绝望。我们为AlphaGo的棋艺感到惊叹，但事实上二者在智能上相比，人类棋手的情绪反应才是真正令人惊叹的。AlphaGo不会为胜利而感到骄傲，也不会为失败而羞耻，他不会为存在而感到快乐，也不会为消失感到痛苦。他甚至根本没有想要胜利的欲望，更不会有人类各种复杂的情感。这些就是无意识的精神，精神在不自觉的驱动着我们的意识，或纵情声色，或知耻而勇，或趋利避害，或舍生忘死。虽然我们看起来是由理智所控制的动物，但精神不受理智的控制。这点在恋爱中的人身上尤为明显，即便他们的理智告诉他们不要对另一方过于依恋，但他们却无法控制自己所思所想。对于音乐的感受也是类似的，不过是不同频率的声波的组合，竟能使人不由自主的感到快乐或悲伤，多么的神奇。生物学家认为，当多巴胺分泌增加时，人就会感到快乐。多巴胺是一种神经传导物质，这就像是给神经系统的奖励，以刺激我们更加努力的工作。但这并不能解释快乐的本质，我们可以想象我们给车添加了燃油和润滑油，这相当于是给了车奖励，但是车并不会感到快乐。我们在训练AlphaGo时，每次他获胜，我们也会给他一个反馈，告诉他这次做的结果不错，他就会更加靠近这个结果，但他并不会感到快乐。那么为什么多巴胺分泌增加人就会感到快乐呢？显然多巴胺不是快乐的本质，只是快乐的使者而已。</p><p>人类诸多行为有可能是后天习得的，但有些则是在被创造时就存在的。食欲、快乐、痛觉、饥饿感、自我、对母亲的依恋，这些都是与生俱来的。所以我们可以认为某种无意识的精神在母体中被创造时就存在了。但是从那一刻这种精神开始存在呢？我们很难想象单细胞状态的受精卵拥有这种精神。当基因代码一层层展开，从单细胞到多细胞，脊椎动物，鱼、两栖、哺乳类、灵长目、人科、智人属的基因片段开始逐步表达，胚胎的结构从简单到复杂，直到降生时我们依然没有发育完全，经历长时间的幼态持续，青春期，我们更多的情绪和欲望被展现出来。当我们回忆我们成长阶段的各种性格变化，这一切究竟是在哪一刻如何产生的呢？我们可以肯定这种精神不是来自于单一的细胞，而是来自大量脑细胞的集体创造。在我们大脑中有一个部分，是在基因中硬编码的部分，做出一些基本的身体机能感受判断、审美判断、情感判断。这部分不受理智控制的部分，我们称为精神。如果没有这种本能的精神，我们的智力也就没有了用武之地。我们可以设想任何的人工智能程序，必须拥有某个目标，这就是他的欲望，在欲望被满足时会得到某种激励。但人类的欲望是如此的不同，在欲望被满足时得到的奖励感受也是如此不同。他不是一个简单弱人工智能所能解释的，以梯度下降法举例：当错误率很高时，函数会修正自己的参数朝着错误率更低的方向前进一小步，直到错误率不再有明显下降。错误率最小是他的目标，但是这个函数是如此机械，我们不可能他是有精神的。</p><p><em>精神是目标，但目标不一定是精神，精神本身就是复杂的，是在长期进化中形成的一种复杂的多细胞集体创造。</em></p><p><em>人类的意识是一系列智能子系统的集合</em>。佛教所谓六根即：眼耳鼻舌身意，意识是起到总控的作用。意识可以连接我们的视觉、听觉、触觉、味觉、嗅觉，可以控制我们的肌肉，意识是用来做出决策的。精神是意识的内核，是引擎，为意识指出明确的方向。精神是底层的，意识是上层的。当我们在梦境时，我们的意识模糊，但是精神却是清醒的，梦境混乱无序，我们对身体的控制减弱，但我们对于快乐悲伤的感受依然真实。意识不仅仅是各个单元的连接器，其自身也是复杂的，可能是某种层垒的结构，最低级的意识就是对于感觉的条件反射，更高级的意识活动则包含知识、经验、逻辑。意识不等于记忆、知识、逻辑、推理的能力。草原上的野兽，尤其是那些捕猎者，它们都拥有很强的意识，但不等于他们拥有人类一样的高级智力活动。</p><p>感觉系统大体是类似的，目前的人工智能在某种程度上已经能够做到一些感知能力，尤其是视觉、听觉方面。对于视觉而言，如果在你的周围空间随便选取一个点，那么通过这个点的只有一些杂乱的电磁波而已，我们称之为光线，但是当我们的眼睛置于这个点，我们能够从这堆杂乱的电磁波中提取出周围物体的信息，投射在我们的视网膜上，视网膜将这些刺激信号传递到我们的视觉处理系统，我们能够分辨“颜色”，“形状”，“材质”，“种类”，“运动”。听觉也是同样神奇，我们的双耳中的空气分子不过是在无序的震动，我们却能从中提取出音色、音高，如果有多种声音同时存在，我们也能很好的将这些声音分离。在一个混乱的环境下，如果我们想要看清或听清一些东西，我们必须付出更多的注意力，也就是我们需要投入更多的意识。这说明我们的感觉系统不仅仅是一个物理系统，更加是一个信息处理的系统。我们通过信息的时间变化，组合，特征分离和重新组合，得出结论。因此对于同一事物的感受，不同的个体是不一样的，这也就是我们说的主观感受。比如我们对于颜色的感受，在意识中的投射是不一样的，一个很明显的证据就是色盲。所以我们虽然都认同某个物体是红色的，红色在我的意识中与在你的意识中可能是完全不同的。在跨越物种之时，感受的区别必然更加明显。有些物种则拥有完全不同的感觉器官，比如可以看到地球磁场的知更鸟（引用）。感觉系统的模拟，首先需要有相应的仪器设备采集信号，信号必须经过无意识的处理，转化为抽象的特征，将抽象特征交给意识体来处理。</p><p>假设我们已经能够创造出具有精神、意识、感觉的系统，我们可以开始讨论“自我”这个问题。这个问题看起来非常诡异，一个具有精神、意识、感觉的系统，难道会没有自我的概念吗？如果一个意识体就是整个世界的全部，除了自身之外再无其他，他还会有自我的概念存在吗？自我相对于非我而存在的，没有非我，也就没有自我。如果一个意识体置于一个容器之内，他对容器外的世界一无所知，在他看来他就是全部。当我们沉浸于某个目标时，我们也会忘记了自己的存在。当我们进入竞争环境，自我概念就会强化。自我与存在是同一个问题，保持自我存在是一个本能的精神元素之一。   。。。必须区分内外，头发是不是我，指甲是不是手臂是不是我？</p><p>未完待续。。。</p>]]></content>
+    <content type="html"><![CDATA[<p>深度神经网络输出的结果与标注结果进行对比，计算出损失，根据损失进行优化。那么输出结果、损失函数、优化方法就需要进行正确的选择。</p><h1 id="常用损失函数"><a href="#常用损失函数" class="headerlink" title="常用损失函数"></a>常用损失函数</h1><p>pytorch 损失函数的基本用法</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">criterion = LossCriterion(参数)</span><br><span class="line">loss = criterion(x, y)</span><br></pre></td></tr></table></figure><p>Mean Absolute Error<br>torch.nn.L1Loss<br>Measures the mean absolute error.</p><h2 id="Mean-Absolute-Error-L1Loss"><a href="#Mean-Absolute-Error-L1Loss" class="headerlink" title="Mean Absolute Error/ L1Loss"></a>Mean Absolute Error/ L1Loss</h2><p>nn.L1Loss<br><img src="/img/loss/l1loss.png" alt=""><br>很少使用</p><h2 id="Mean-Square-Error-Loss"><a href="#Mean-Square-Error-Loss" class="headerlink" title="Mean Square Error Loss"></a>Mean Square Error Loss</h2><p>nn.MSELoss<br><img src="/img/loss/mseloss.png" alt=""><br>针对数值不大的回归问题。</p><h2 id="Smooth-L1-Loss"><a href="#Smooth-L1-Loss" class="headerlink" title="Smooth L1 Loss"></a>Smooth L1 Loss</h2><p>nn.SmoothL1Loss<br><img src="/img/loss/smoothl1loss.png" alt=""><br>它在绝对差值大于1时不求平方，可以避免梯度爆炸。大部分回归问题都可以适用，尤其是数值比较大的时候。</p><h2 id="Negative-Log-Likelihood-Loss"><a href="#Negative-Log-Likelihood-Loss" class="headerlink" title="Negative Log-Likelihood Loss"></a>Negative Log-Likelihood Loss</h2><p>torch.nn.NLLLoss，一般与 LogSoftmax 成对使用。使用时 <code>loss(softmaxTarget, target)</code>。用于处理多分类问题。<br><img src="/img/loss/nllloss.png" alt=""></p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">m = nn.LogSoftmax(dim=<span class="number">1</span>)</span><br><span class="line">loss = nn.NLLLoss()</span><br><span class="line"><span class="comment"># input is of size N x C = 3 x 5， C为分类数</span></span><br><span class="line">input = torch.randn(<span class="number">3</span>, <span class="number">5</span>, requires_grad=<span class="literal">True</span>)</span><br><span class="line"><span class="comment"># each element in target has to have 0 &lt;= value &lt; C</span></span><br><span class="line">target = torch.tensor([<span class="number">1</span>, <span class="number">0</span>, <span class="number">4</span>])</span><br><span class="line">output = loss(m(input), target)</span><br><span class="line">output.backward()</span><br></pre></td></tr></table></figure><h2 id="Cross-Entropy-Loss"><a href="#Cross-Entropy-Loss" class="headerlink" title="Cross Entropy Loss"></a>Cross Entropy Loss</h2><p>nn.CrossEntropyLoss 将 LogSoftmax 和 NLLLoss 绑定到了一起。所以无需再对结果使用Softmax</p><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">loss &#x3D; nn.CrossEntropyLoss()</span><br><span class="line">input &#x3D; torch.randn(3, 5, requires_grad&#x3D;True)</span><br><span class="line">target &#x3D; torch.empty(3, dtype&#x3D;torch.long).random_(5)</span><br><span class="line">output &#x3D; loss(input, target)</span><br><span class="line">output.backward()</span><br></pre></td></tr></table></figure><h2 id="BCELoss"><a href="#BCELoss" class="headerlink" title="BCELoss"></a>BCELoss</h2><p>二分类问题的CrossEntropyLoss。输入、目标结构是一样的。</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">m = nn.Sigmoid()</span><br><span class="line">loss = nn.BCELoss()</span><br><span class="line">input = torch.randn(<span class="number">3</span>, requires_grad=<span class="literal">True</span>)</span><br><span class="line">target = torch.empty(<span class="number">3</span>).random_(<span class="number">2</span>)</span><br><span class="line">output = loss(m(input), target)</span><br><span class="line">output.backward()</span><br></pre></td></tr></table></figure><h2 id="Margin-Ranking-Loss"><a href="#Margin-Ranking-Loss" class="headerlink" title="Margin Ranking Loss"></a>Margin Ranking Loss</h2><p><img src="/img/loss/marginrankingloss.png" alt=""></p><p>常用户增强学习、对抗生成网络、排序任务。给定输入x1，x2，y的值是1或-1，如果y==1表示x1应该比x2的排名更高，y==-1则相反。如果y值与x1、x2顺序一致，那么loss为0，否则错误为 y*(x1-x2)</p><h2 id="Hinge-Embedding-Loss"><a href="#Hinge-Embedding-Loss" class="headerlink" title="Hinge Embedding Loss"></a>Hinge Embedding Loss</h2><p>y的值是1或-1，用于衡量两个输入是否相似或不相似。</p><h2 id="Cosine-Embedding-Loss"><a href="#Cosine-Embedding-Loss" class="headerlink" title="Cosine Embedding Loss"></a>Cosine Embedding Loss</h2><p>给定两个输入x1，x2，y的值是1或-1，用于衡量x1和x2是否相似。<br><img src="/img/loss/cosineembeddingloss.png" alt=""><br>其中cos(x1, x2)表示相似度<br><img src="/img/loss/cossim.png" alt=""></p><h1 id="各种优化器"><a href="#各种优化器" class="headerlink" title="各种优化器"></a>各种优化器</h1><p>大多数情况Adam能够取得比较好的效果。SGD 是最普通的优化器, 也可以说没有加速效果, 而 Momentum 是 SGD 的改良版, 它加入了动量原则. 后面的 RMSprop 又是 Momentum 的升级版. 而 Adam 又是 RMSprop 的升级版. 不过从这个结果中我们看到, Adam 的效果似乎比 RMSprop 要差一点. 所以说并不是越先进的优化器, 结果越佳.</p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># SGD 就是随机梯度下降</span></span><br><span class="line">opt_SGD         = torch.optim.SGD(net_SGD.parameters(), lr=LR)</span><br><span class="line"><span class="comment"># momentum 动量加速,在SGD函数里指定momentum的值即可</span></span><br><span class="line">opt_Momentum    = torch.optim.SGD(net_Momentum.parameters(), lr=LR, momentum=<span class="number">0.8</span>)</span><br><span class="line"><span class="comment"># RMSprop 指定参数alpha</span></span><br><span class="line">opt_RMSprop     = torch.optim.RMSprop(net_RMSprop.parameters(), lr=LR, alpha=<span class="number">0.9</span>)</span><br><span class="line"><span class="comment"># Adam 参数betas=(0.9, 0.99)</span></span><br><span class="line">opt_Adam        = torch.optim.Adam(net_Adam.parameters(), lr=LR, betas=(<span class="number">0.9</span>, <span class="number">0.99</span>))</span><br></pre></td></tr></table></figure>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;机器学习当下是非常火热的课题，大量的模型被设计出来令人眼花缭乱。诸如SVM，随机森林，贝叶斯网络，神经网络只不过是这个领域的基础知识，在这些基础方法之上的各种优化分支方法更是数不胜数。大量的所谓机器学习的研究者，在某个问题上，通过对现有方法的小修小补，达到了一些微不足道的提
-      
-    
-    </summary>
-    
-      <category term="AI" scheme="http://guileen.github.io/categories/AI/"/>
-    
-      <category term="随笔" scheme="http://guileen.github.io/categories/AI/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>人设——下一个现象级产品会是谁？</title>
-    <link href="http://guileen.github.io/2016/12/19/public-avatar/"/>
-    <id>http://guileen.github.io/2016/12/19/public-avatar/</id>
-    <published>2016-12-19T04:15:00.000Z</published>
-    <updated>2021-02-11T13:15:24.848Z</updated>
-    
-    <content type="html"><![CDATA[<p>Update 2019-12：此文预见了新社交软件抖音的崛起。红人霸场的现象使社交平台被红人绑架，新人也被压制。抖音能够成功，首先是4G移动网络的进一步普及，提供了短视频社交的需求，但这一赛道的玩家众多，并不能保证抖音胜出。真正保证抖音胜出的是其“捧红新人“的能力，完全基于推荐算法的产品设计，将流量分发的控制权从红人手中收回到平台，可以根据算法计划性的将流量分配给新人进行实验。至于其滤镜、音乐之类的辅助运营手段，并非其制霸全球的根本原因。</p><p>另在清理微博时，看见了自己在2012年对游戏收费模式的看法。王者荣耀的成功从另一个角度印证了我的预见性。<br><img src="/img/screen_shot/wb2012.jpeg" alt=""></p><h2 id="原文："><a href="#原文：" class="headerlink" title="原文："></a>原文：</h2><p>什么是SNS的本质？当我们看待一个SNS的时候，我们看到的是什么？</p><p>信息、状态、转发、私信、粉丝、评论，我们看到的是这些产品功能吗？还是这些数据？他的价值在哪里？</p><p>一个SNS，我们看到的是，我们自己的公共形象，或者是某些人的公共形象。SNS为这些红人提供了舞台。</p><p>而且，每个SNS所提供的舞台是不一样的，往来的红人也是不一样的。</p><p>SNS就像一个主题酒吧，来往形形色色的人，但他们身上或多或少会有一些共同点。在同一个SNS上，他们有同样的期许。</p><p>粉丝是一个两难的设计。没有粉丝，红人们没有动力在SNS上奋斗，而有了粉丝之后，任何的SNS最终会走向固化，<strong>红人霸占了主要的SNS资源</strong>。</p><p>这也是各种SNS会不断推陈出新的原因，因为有一批有潜质的红人，无论他／她是什么类别的红人，他需要一个舞台。但是有些场子，已经被人霸占，于是他们不得不寻找新的舞台。而总有一些SNS平台会抓住一些机会，提供某个类别的小舞台，这就是垂直SNS。</p><p>是否有可能干翻霸主级的社交网络？Facebook，twitter，国内的腾讯、微博。<strong>答案是能！</strong>本质上腾讯就被自己干翻了，微信取代QQ，本质上就是对霸主的挑战，虽然这一切发生在腾讯内部。但是微信取代QQ，这样的现象是难以复制的，为什么呢？因为微信取代QQ是发生在<strong>移动互联网与传统互联网更替的阶段的，是大事因缘</strong>，没有微信取代QQ，也会有其他应用取代QQ，但机会只有一次。</p><p>陌陌，用陌生人社交的方式占领了一定的市场，但是陌陌本身的名称定位已经把自己钉死了，就是陌生人社交。微信早期用摇一摇也达到了同样的爆发式增长，但用户规模上去之后，微信就可以弱化了这一个功能。</p><p>SNS下一个风口在哪里？SNS不是风口，但机会永远存在。挑战霸主级的社交网络，需要的是天时地利人和。产品与用户，双方共同成就了一个霸主级社交产品。得红人者得天下，微博的发展正是这样的模式。</p><p>但红人是本身就存在的，还是通过平台而红的，这个问题很关键。<strong>一个优秀的SNS平台应该有制造红人的能力，或者是让红人可以成长起来的能力</strong>。当你知道的红人越来越多的来自微信公众号，而不是来自微博的时候，那么说明微博的影响力降低了。</p><p>因此霸主级的似乎不可撼动的庞然大物其实是可以被打败的。</p><p>如何再造一个现象级的社交网络，我们不应该从产品模式上来思考这个问题，而是需要从人性的角度上来思考这个问题。人性是社交网络之所以成立的本质。更具体的说，<strong>人的社会性，情绪化，是社交网络的根本驱动力</strong>。人渴望被关注，渴望交流，渴望存在感，或只是渴望来自他人的声音。找到人在精神上的未被充分满足的需求点，强化这种概念，就有机会在社交产品中找到一席之地。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;Update 2019-12：此文预见了新社交软件抖音的崛起。红人霸场的现象使社交平台被红人绑架，新人也被压制。抖音能够成功，首先是4G移动网络的进一步普及，提供了短视频社交的需求，但这一赛道的玩家众多，并不能保证抖音胜出。真正保证抖音胜出的是其“捧红新人“的能力，完全基于
-      
-    
-    </summary>
-    
-      <category term="随笔" scheme="http://guileen.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>笔墨之殇</title>
-    <link href="http://guileen.github.io/2016/11/24/bimozhishang/"/>
-    <id>http://guileen.github.io/2016/11/24/bimozhishang/</id>
-    <published>2016-11-23T16:16:01.000Z</published>
-    <updated>2021-02-11T13:15:24.847Z</updated>
-    
-    <content type="html"><![CDATA[<p>说点什么好呢？这两天我开始，翻阅以前我读过的书，我发现，有很多的书，只是草草看过，还有一些书，根本没有看过。原来自己有做读书笔记的习惯，可是当我把阅读的时间放到地铁上之后，这个习惯，也随之消失了。以至于我根本不知道这本书，有没有读过。纸质书，可以有记录笔记的空间，而电子书，阅读起来比较方便，我想这就是纸质书和电子书的区别吧！</p><p>以前我总想写点文字。可是我发现自己，写作的速度越来越慢了，也找不到合适的输入法。拼音输入法，当你想打一些，书面语，或者是文言文的时候，就很难输入。而，五笔输入法或者其他的字型输入法，都有一个问题，就是，学起来太麻烦了，我根本记不住那些字码表，而且，当我，去回忆那些字码的时候，我的思路已经被打断了。</p><p>我还是喜欢拿着笔在纸上写字的感觉。在这种状态下，我的思路是最流畅的。</p><p>一直以来，我都想写一两本小说，可是构思了很久，却迟迟没有动笔。自己内心真正想表达的东西，和整个故事的结构，往往存在冲突。我不愿意写一些，没有人想看的东西，但我也不想，完全是为了迎合别人的口味，而写作。</p><p>其实，这并不是什么文章，我这是在测试一种新的输入法，一种，新的写作方式，那就是，直接把我想写的，念出来。你所看到的一切，都是我通过语音输入的。好吧，今天就说到这里，我的脚也泡好了。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;说点什么好呢？这两天我开始，翻阅以前我读过的书，我发现，有很多的书，只是草草看过，还有一些书，根本没有看过。原来自己有做读书笔记的习惯，可是当我把阅读的时间放到地铁上之后，这个习惯，也随之消失了。以至于我根本不知道这本书，有没有读过。纸质书，可以有记录笔记的空间，而电子书，
-      
-    
-    </summary>
-    
-    
-      <category term="gossip" scheme="http://guileen.github.io/tags/gossip/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>雇主与雇员的关系</title>
-    <link href="http://guileen.github.io/2016/08/28/employee-with-employer/"/>
-    <id>http://guileen.github.io/2016/08/28/employee-with-employer/</id>
-    <published>2016-08-27T16:00:00.000Z</published>
-    <updated>2021-02-11T13:15:24.845Z</updated>
-    
-    <content type="html"><![CDATA[<p>  通常，我们认为雇主与雇员之间的关系是一种管理者和被管理者的关系，但在作者看来，雇主与雇员之间的关系并非如此，在很多时候雇员往往拥有更多的主动权。</p><p>  在法制社会中，当我们成立一家公司时，股东之间通过契约联系在了一起，向同一个目标共同努力，同时实现股东个体的成功。可以说，契约精神是公司赖以存在的基础。</p><p>  在公司与员工的关系上，契约精神同样是重要的基础。在公司与员工形成雇佣关系，这种契约关系就建立了。</p><p>  在一个人成为管理者之前，应该对这一事实有充分的认识。你与下属是平等的，你只有一种权利那就是聘用和解聘的权利。如果公司没有赋予管理者这种权利，本质上，管理者只是个为员工提供服务的人员。员工会向你索取各种资源配合他们的工作，而你提供资源的过程和服务人员递上餐具和食物的过程并没有太大区别。</p><p>  人事部门应该按市场规则与员工进行互动，本质上就和买菜时侃价行为类似。是一种交易行为。如果你要对其进行职位和薪资的调整，本质上是一种内部重新聘用的过程，即使是升职加薪，也需要征得员工的同意，然后才可执行。如果要进行合理的避税，这些事项必须在签订契约（也就是聘用）之前达成共识。对于辞退员工，各种处理方法亦必须要按照契约精神进行，无论是劝退或是辞退，本质上就是一种公司违约行为，理应给予赔偿。对于一些曾经有过突出贡献的员工，在辞退时不仅要给予法律内规定的赔偿，甚至要给予更多的“补偿”。这种补偿本质上也是基于一条根本契约：员工向公司提供劳动，公司为这种劳动支付报酬。违反这种契约，或许不会受到法律的惩罚，但会使某一方丧失在市场上的信用，无论是公司方还是员工方。</p><p>  No Blame Culture，它的基础在于，人和人之间是平等。人们通过不同的分工在一起协作，人们不应因理念、方法的差别而受到羞辱或讽刺。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;  通常，我们认为雇主与雇员之间的关系是一种管理者和被管理者的关系，但在作者看来，雇主与雇员之间的关系并非如此，在很多时候雇员往往拥有更多的主动权。&lt;/p&gt;
-&lt;p&gt;  在法制社会中，当我们成立一家公司时，股东之间通过契约联系在了一起，向同一个目标共同努力，同时实现股东个体的
-      
-    
-    </summary>
-    
-      <category term="随笔" scheme="http://guileen.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>CTO应该是一个什么样的角色</title>
-    <link href="http://guileen.github.io/2016/08/28/what-a-cto-should-be/"/>
-    <id>http://guileen.github.io/2016/08/28/what-a-cto-should-be/</id>
-    <published>2016-08-27T16:00:00.000Z</published>
-    <updated>2021-02-11T13:15:24.846Z</updated>
-    
-    <content type="html"><![CDATA[<p>首席技术官（英语：Chief Technology Officer，英文缩写：CTO，又常称为技术官、技术总监）是企业团体里的高阶主管职位之一，是企业内负责技术的最高负责人。这个名称是在1980年代时从美国开始兴起，起源于一些有大规模投资在研究与发展（R&amp;D）项目的大型公司，如通用电气（General Electric, GE），美国电话电报（AT&amp;T）与美国铝业（ALCOA），主要责任是将科学研究成果转为营利项目。</p><p>1990年代，因计算机和软件公司热门，很多公司把CTO的名称给予管理计算机系统和软件的负责人。有时CTO和CIO（Chief Information Officer，是信息管理最高负责人）是同一个人（尤其在软件公司），有时CTO会归于比较精通科学技术的CIO手下。在不同领域的公司，CTO工作性质不同；即使在同一领域，工作性质也可能大不相同。一般CTO会有以下责任：</p><ul><li>长期技术方向（战略性）</li><li>短期技术方向（战术性）</li><li>管理研究对公司经营活动和营利的影响</li><li>公司中使用的软件</li></ul><p>——维基百科</p><p>不负责直接管理任何人的技术合伙人</p><p>国外CTO的职能，除取决于公司规模外，还与高科技企业的发展模式相关联。硅谷很多公司创始人都是技术出身，但公司做大之后并不想转为技术团队管理者，所以除了从外面请来专业经理人担任CEO外，还有可能聘请专门负责研发管理的VP，这样创始人就可以把自己定为CTO角色，以便脱离管理中的琐事，专心研究技术走向。例如，Google的创始人之一Sergey Brin就专门负责研究技术的走向。</p><hr><p>更新：2019-12-25</p><p>CTO在计划经济时代，有的类似于总工程师之类的角色，也有可能类似于科学院院长这样的角色。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;首席技术官（英语：Chief Technology Officer，英文缩写：CTO，又常称为技术官、技术总监）是企业团体里的高阶主管职位之一，是企业内负责技术的最高负责人。这个名称是在1980年代时从美国开始兴起，起源于一些有大规模投资在研究与发展（R&amp;amp;D）项目的
-      
-    
-    </summary>
-    
-      <category term="随笔" scheme="http://guileen.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>一种声形输入法设计</title>
-    <link href="http://guileen.github.io/2016/01/21/sxx-input-method-design/"/>
-    <id>http://guileen.github.io/2016/01/21/sxx-input-method-design/</id>
-    <published>2016-01-20T16:00:00.000Z</published>
-    <updated>2021-02-11T13:15:24.844Z</updated>
-    
-    <content type="html"><![CDATA[<h2 id="总体规则"><a href="#总体规则" class="headerlink" title="总体规则"></a>总体规则</h2><p>1码声母，2码主部，3码次部，4码取次次码或字形码, … 结束字型码。</p><h2 id="特点："><a href="#特点：" class="headerlink" title="特点："></a>特点：</h2><p>音形合用，书写顺序无关，完全从汉字结构出发。</p><h3 id="声母编码"><a href="#声母编码" class="headerlink" title="声母编码"></a>声母编码</h3><p>声母的，zh用v，ch用i，sh用u。第一码无需思考。</p><h3 id="部首编码"><a href="#部首编码" class="headerlink" title="部首编码"></a>部首编码</h3><p>主部指主偏旁，不在于上下左右，比如桂，主部取木。剑，主部取立刀。这样规则虽然有时不严谨，但大部分情况易于辨识。基本可以在不需要思考的情况下输入第二码。如无主次之分，则从左到右，从上到下，如吉，取士。左右皆为部首，首先取含义最匹配的为部首，其次取不需拆解的。如果不易分辨，左右结构优先取笔画少的为部首，否则遵循从上到下，从左到右规则。</p><p>次部取剩余部分的主码。依次类推。</p><p>没有剩余部分，但依然需要进一步区分的，取自身所包含的次要部件。</p><h3 id="字型编码"><a href="#字型编码" class="headerlink" title="字型编码"></a>字型编码</h3><p>结束字型码只会出现在结尾。你可以跳过中间的码直接输入结束字型码。结束字型码有3个，左右字，独体字和上下字，其他。你可以直接输入声母和结束字型码。</p><p>三个码表，相互独立。用户可以选择性的配置是否包含“声码”，“韵码”，“部首码”，“字型码”。主要难度在于字根部首分布的设计和字符集的编码完善。</p><p>工作方式可以采用分布式工作方式，将字符集分割为200个文件，开放的人工的方式对200个文件进行修改提交。</p><p>为了避免字根表设计不合理，导致码表分布不均匀的情况。工作应采用，先进行部首拆解，再进行字根合并编码的过程。<br>比如：型，土，刀，开。避，之（辟左）辛。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;h2 id=&quot;总体规则&quot;&gt;&lt;a href=&quot;#总体规则&quot; class=&quot;headerlink&quot; title=&quot;总体规则&quot;&gt;&lt;/a&gt;总体规则&lt;/h2&gt;&lt;p&gt;1码声母，2码主部，3码次部，4码取次次码或字形码, … 结束字型码。&lt;/p&gt;
-&lt;h2 id=&quot;特点：&quot;&gt;&lt;a href=&quot;
-      
-    
-    </summary>
-    
-    
-      <category term="input-methods" scheme="http://guileen.github.io/tags/input-methods/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>JS与未来</title>
-    <link href="http://guileen.github.io/2016/01/11/js-the-future/"/>
-    <id>http://guileen.github.io/2016/01/11/js-the-future/</id>
-    <published>2016-01-10T16:00:00.000Z</published>
-    <updated>2021-02-11T13:15:24.843Z</updated>
-    
-    <content type="html"><![CDATA[<blockquote><p>人类文化的发展，经过新人阶段的旧石器时代晚期以后，先后进入新石器时代及金属时代。愈到后来发展愈为迅猛。从新石器时代的开始到现在至多不过一万年左右，金属时代的开始到现在不过数千年，人们开始利用电能到现在不过一百多年，原子能的利用则仅是最近几十年的事；而新石器时代以前的发展阶段，则动辄以数十万年到千百万年计。由此可见，人类的发展不是等速度运动，而是类似一种加速度运动，即愈到后来前进的速度愈是成倍地增加。 ————李四光《人类的出现》</p></blockquote><p>前端革命不会停止，技术的发展呈现的是一种加速发展的趋势，以javascript为主的web技术在最近几年有了非常快速的发展，新技术新名词不断出现，让人眼花缭乱。这种快速的变化也让人在技术选型时无所适从，担心今天的选择会在明天被淘汰。</p><p>jquery,mootools,grunt,gulp,webpack,angularjs,React…</p><p>纵观整个web技术的发展过程，基本遵循从静态到动态，从后端模版到前端模版，从前端模版到组件化，从组件化到工程化这样的过程。下一步的发展会是虚拟化。</p><p>所谓虚拟化，就是把浏览器当作一台虚拟机，我们需要建立一个与浏览器无关的抽象语言层。</p><p>如果我们将浏览器看作一台机器，那么这个机器只有最简单的渲染接口，和编程语言，他的可编程设计并不友好，并且存在着“操作系统”间的不兼容的现象。开发社区顽强的从这一套冗杂的js语言运行环境和DOM渲染接口上，搭建起了跨平台系统（兼容框架），包管理基础设施（npm），高级语言及其编译器（coffeescript, ES6/7，typescript, 以及babel编译器，各种css编译器），各种开发框架（react），工程管理工具（webpack）。</p><p>当这一整套设施完善之后，这一整套js生态高级工具是通用的，而不同的浏览器只是一个目标系统而已（target）。同理，我们可以将js生态编译到浏览器的目标系统，我们也可以将js生态编译到非浏览器的目标系统，原生的iOS，原生的Android (react-native)，我相信也必然可以将js编译到PC桌面操作系统。虽然目前js可以基于webkit技术开发桌面应用，但如果可以将js直接应用在native的桌面窗口系统，性能必然大大改善。</p><p>React 与 Angular 的不同在于，Angular还只是在玩web前端的开发模式问题，而React在玩的是JS语言生态的问题，这完全是更高的维度。</p><p>编程语言五花八门，种类繁多，我认为有3种语言在编程语言的历史上占有至关重要的地位：</p><p>首先是汇编语言，它让人们可以用更易理解的方式与机器沟通，不需要再使用难以理解的2进制的机器语言，不同指令的CPU可以使用“相近的”汇编语言进行编写，实现了CPU指令的抽象化；</p><p>然后是C语言，它是一门高级语言，最重要的是它使用指针等形式对内存分配和访问进行了抽象，而它也理所当然的成为了操作系统内核开发的不二之选，C取得了极大的成功，提供了文件系统、网络等重要的标准接口，在某种意义上说，C在一定程度上实现了操作系统的抽象化；</p><p>第三种语言，它不是java，虽然它提出了很好的愿景————跨平台，面向对象，并且也取得了巨大的成功，但它并不具有多少特殊的意义。第三种语言，就是JavaScript，也可以说是ECMAScript，它是一种动态语言，这并不新鲜，但它是一种与生俱来使用互联网进行分发的动态语言，它实现了浏览器的抽象化，随着发展，它已经逐渐实现了对客户端而不仅仅是浏览器端的抽象化，更进一步的，它实现了对运行环境的抽象化。能完成这个任务的，并不是JS的特权，从理论上来说，任何嵌入式脚本语言，都可以完成和JS同样的功能，比如lua。但是只有JS才能完成这个历史使命，而不是lua，因为JS天生是通过网络部署的，天生是需要兼容多种运行环境的。</p><p>这3种语言有一个共同的特点：他们都有多种不同的实现，甚至一度缺少标准，或标准形同虚设。简而言之，非常混乱。无法解释究竟是因为太成功而产生了混乱，或恰恰是因为这种混乱而促使了它的成功？</p><p>今天我们已经可以看到JS被应用在了越来越多的地方，web，移动开发，服务端开发，硬件开发。</p><p>我们可以大胆的畅想，未来的桌面环境都将由JS来开发。但是那个JS也许不是今天的JS，而是一种重新定义的高级语言，也许也会有一个全新的名字（比如JSX，TypeScript），而且它一定是由社区力量建立的语言，靠社区的分布式的民主系统共同推动发展的语言系统。这种语言天生具有贯穿前后端的功能，它既有js的灵活，也有C的性能，它既能很好的描述界面，捕捉输入，开发网络交互，也能很好的操作硬件，它不仅适合做逻辑处理，也适合用于科学计算以及量子算法。它会被用于开发桌面系统，硬件，操作系统，航天器控制程序，机器人。</p><p>除了这种几乎万能的编程语言，还会产生一种更高级的机器会话语言。IDE将会彻底的革命，未来的IDE可能是一种对话式的IDE，你需要用IDE能够理解的简洁的语言来告诉IDE你的想法，IDE会比那些愚蠢的投资人更能听懂你的想法，利用丰富的基础设施(如云）快速的给出你一个简单的原型，你需要再次告诉IDE你所需要做的调整，你也可以描述你的业务需求，IDE会自动的帮你生成代码与测试代码，它不会犯人类会犯的各种低级错误。你编写的代码高效且安全。一套会话式的IDE交互语言。一个聪明的孩子可以掌握一门几乎万能的编程语言，一个人就可以作出令人惊艳的作品。</p><p>这就是未来，由分布式的黑客所共同创造的未来。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;blockquote&gt;
-&lt;p&gt;人类文化的发展，经过新人阶段的旧石器时代晚期以后，先后进入新石器时代及金属时代。愈到后来发展愈为迅猛。从新石器时代的开始到现在至多不过一万年左右，金属时代的开始到现在不过数千年，人们开始利用电能到现在不过一百多年，原子能的利用则仅是最近几十年的事；
-      
-    
-    </summary>
-    
-      <category term="随笔" scheme="http://guileen.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
-    
-    
-      <category term="web" scheme="http://guileen.github.io/tags/web/"/>
-    
-      <category term="js" scheme="http://guileen.github.io/tags/js/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>ddz AI notes</title>
-    <link href="http://guileen.github.io/2015/09/29/ddzai-notes/"/>
-    <id>http://guileen.github.io/2015/09/29/ddzai-notes/</id>
-    <published>2015-09-28T16:00:00.000Z</published>
-    <updated>2021-02-11T13:15:24.841Z</updated>
-    
-    <content type="html"><![CDATA[<p>`C` is all cards.</p><p>`p` is the part of playing cards.</p><p>`C_1` is all cards after play `p`.</p><p>求：</p><p>`P_a(C) = P_”activeWin”`</p><p>`P_p(C) = P_”passiveWin”`</p><p>设：</p><p>`P_d(p) = P_”dominate”`</p><p>`P_”f”(p) = P_”follow”`</p><p>`P_a(C) = max(P_a(p in C))`</p><p>`P_p(C) = max(P_p(p in C))`</p><p>`P_a(p,C) = P_d(p) * P_a(C_1) + (1-P_d(p)) * P_p(C_1)`</p><p>`P_p(p,C) = P_”f”(p) * P_a(p, C)`</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;`C` is all cards.&lt;/p&gt;
-&lt;p&gt;`p` is the part of playing cards.&lt;/p&gt;
-&lt;p&gt;`C_1` is all cards after play `p`.&lt;/p&gt;
-&lt;p&gt;求：&lt;/p&gt;
-&lt;p&gt;`P_a(C) = P_”active
-      
-    
-    </summary>
-    
-    
-      <category term="game" scheme="http://guileen.github.io/tags/game/"/>
-    
-      <category term="AI" scheme="http://guileen.github.io/tags/AI/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>为测试而架构</title>
-    <link href="http://guileen.github.io/2015/02/10/architect-for-testing/"/>
-    <id>http://guileen.github.io/2015/02/10/architect-for-testing/</id>
-    <published>2015-02-09T16:00:00.000Z</published>
-    <updated>2021-02-11T13:15:24.836Z</updated>
-    
-    <content type="html"><![CDATA[<p>软件架构的目标是什么？为了解耦？解耦的目标是为了什么？为了测试！</p><p>所以我意识到软件架构的根本目标是为了测试。如果代码是可测试的，那么这个软件架构就是好的，如果这个软件架构是难以测试的，那么就是垃圾。</p><p>定理：软件架构质量=最大测试覆盖率</p><p>一个不健壮的难以维护的软件架构，也必然是难以测试的，他所能达到的最大测试覆盖率必然是很低的。</p><p>一个测试覆盖率高的软件架构，其模块必然是解耦的，因此也必然是灵活的，必然是一个高质量的软件架构。</p><h2 id="常见架构"><a href="#常见架构" class="headerlink" title="常见架构"></a>常见架构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">--------------------------</span><br><span class="line">* APP UI, API </span><br><span class="line">-------------------|------</span><br><span class="line">Service       |         |</span><br><span class="line">Facility      - Context |</span><br><span class="line">ORM           |         |</span><br><span class="line">--------------|         |</span><br><span class="line">* 配置        |         |</span><br><span class="line">--------------------------</span><br></pre></td></tr></table></figure>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;软件架构的目标是什么？为了解耦？解耦的目标是为了什么？为了测试！&lt;/p&gt;
-&lt;p&gt;所以我意识到软件架构的根本目标是为了测试。如果代码是可测试的，那么这个软件架构就是好的，如果这个软件架构是难以测试的，那么就是垃圾。&lt;/p&gt;
-&lt;p&gt;定理：软件架构质量=最大测试覆盖率&lt;/p&gt;
-&lt;
-      
-    
-    </summary>
-    
-    
-      <category term="architecture" scheme="http://guileen.github.io/tags/architecture/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>桂糊涂的德州扑克AI</title>
-    <link href="http://guileen.github.io/2015/01/19/guileen-texasholdem-ai/"/>
-    <id>http://guileen.github.io/2015/01/19/guileen-texasholdem-ai/</id>
-    <published>2015-01-18T16:00:00.000Z</published>
-    <updated>2021-02-11T13:15:24.836Z</updated>
-    
-    <content type="html"><![CDATA[<p>如何编写德州扑克的AI。</p><p>德州扑克与其他的棋牌类游戏不同，他不一定存在着最优解，更多的是一种心理竞技。这对于人类来说可能很简单，但对于电脑来说却并不擅长。我的目标就是将人类的思维用代码的方式重现出来。</p><p>对德州的分析，首先是概率。一手牌的胜率是多少。在底牌，翻牌，转牌，河牌阶段的算法依次如下：</p><p>底牌阶段的算法采用查表法。13不同花色的牌组合共有169种，分为，对子面，同花面，杂花面。这里有个小技巧，13可以用4个bit来表示，两张底牌的组合，正好可以用一个字节来表示。我用高位在前表示同花，低位在前表示杂花。</p><p>河牌阶段的胜率算法也比较简单。我采用的是穷举法————去除自己的底牌和公牌后，组合遍历对手可能的底牌，将对手的底牌与自己的底牌比较，胜率=获胜次数/组合数。组合数共有995种。这里的关键是如何高效比较我方牌与对手牌的大小。</p><p>转牌阶段的胜率，依然采用穷举法————组合遍历河牌，并计算河牌胜率的平均值。河牌共有46种可能，因此算法复杂度为O(45540)。这一切比较都依赖于快速比较手牌，如果手牌比较速度慢，将无法快速计算出这一胜率。</p><p>翻牌阶段胜率，无法再采用转牌阶段胜率的算法，这里有个技巧，翻牌阶段胜率近似=发一张牌后的胜率。</p><p>如何快速比较自己和对方的手牌。这里也使用了一个小技巧，就是将每张牌面的大小数值化。德州牌面比较是先比较牌型，再比较牌值。因此，将牌型的值作为最高位，将牌面的值作为后5位，即可形成一个比较值。如红3黑5方A梅5方5，牌值为=3555e3。3代表3条牌型，555e3是牌面值。A一般作为14牌值处理。从高牌，对子，两对，三条，顺子，葫芦，同花，四条，同花顺，依次是0，1，2，3，4，5，6，7，8。牌面值直接用2,3,4,5,6,7,8,9,A,B,C,D,E。以16进制表示依然可以有很好的可读性。</p><p>在做牌型检测时，同花，顺子比较特殊，其他的4条，3条，葫芦，两对，对子，高牌，都是相似的。</p><p>同花检测，将同样花色的牌放进桶里，一个桶里的牌大于等于5张，则为同花，若这5张还能成顺，则为同花顺。</p><p>顺子检测时，A较为特殊，既可以和10，J，Q，K搭配，也可以和2，3，4，5，6搭配。将14位数组，设置1，0，1表示存在该牌，0表示不存在。从大到小遍历计数，连续计数5次则为顺子。之所以从大到小遍历是为了找到最大的顺子而不是最小的顺子。</p><p>其他牌型比较，先将牌放进13个桶里，然后将这些桶排序。排序方法是，桶里的牌越多越大，牌一样多比较桶本身的编号。这样我们就得出了[3个3，2个J，2个8，1个K]的桶列表。如果第一个桶是4张，那我们的牌型就是4条。第一个桶是3张就是3条，同时第二个桶是2张就是葫芦，前两个桶是两张就是两对，第一个桶是两张是一对，否则就是杂牌。</p><p>但是仅仅知道胜率是远远不够的，这只是人类思维的开始。人类对于胜率的判断很多是基于经验，但这种经验非常高效，综合考虑了很多数学概率中没考虑到的因素：比如，玩家数量，底池大小，对手下注量。人类有恐惧感，也有冒险精神，这都是电脑所不具备的。</p><p>有没有可能设计一种AI，只根据标准的概率下注，完全不考虑人类心理因素呢？</p><p>德州高手会研究对手。如果一个玩家从来不Bluff（诈赌），并且他的下注量和他的胜率相关。有经验的牌手，可以根据他的下注量反推出他的胜率，再根据他的胜率反推出他的手牌。与一个透明的玩家玩牌，要赢可能要看手气，要输真的很难。</p><p>另一方面，一个绝不冒险的玩家，也会被轻易的Bluff掉，从而使对手的实际胜率远大于理论上的胜率。</p><p>还有一方面，那就是恐惧。电脑不会恐惧，当对手ALLIN的时候，人类会忌惮，会重新评估对手的牌力。但电脑不会，他认为的大牌，无论多大的注都会跟。</p><p>因此，学会冒险与恐惧是编写德州AI的最大难点。</p><p>人数概率修正。人数影响概率。<br>恐惧修正。<br>安全跟注值计算。<br>Value控制。<br>Balnace。<br>BLUFF。Bluff的时机。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;如何编写德州扑克的AI。&lt;/p&gt;
-&lt;p&gt;德州扑克与其他的棋牌类游戏不同，他不一定存在着最优解，更多的是一种心理竞技。这对于人类来说可能很简单，但对于电脑来说却并不擅长。我的目标就是将人类的思维用代码的方式重现出来。&lt;/p&gt;
-&lt;p&gt;对德州的分析，首先是概率。一手牌的胜率是多少
+        &lt;p&gt;深度神经网络输出的结果与标注结果进行对比，计算出损失，根据损失进行优化。那么输出结果、损失函数、优化方法就需要进行正确的选择。&lt;/p&gt;
+&lt;h1 id=&quot;常用损失函数&quot;&gt;&lt;a href=&quot;#常用损失函数&quot; class=&quot;headerlink&quot; title=&quot;常用损失函数&quot;&gt;&lt;
       
     
     </summary>
@@ -443,59 +450,28 @@
       <category term="AI" scheme="http://guileen.github.io/categories/AI/"/>
     
     
-      <category term="game" scheme="http://guileen.github.io/tags/game/"/>
-    
-      <category term="AI" scheme="http://guileen.github.io/tags/AI/"/>
-    
   </entry>
   
   <entry>
-    <title>德州扑克策略心得</title>
-    <link href="http://guileen.github.io/2015/01/18/stretegy-of-texasholdem/"/>
-    <id>http://guileen.github.io/2015/01/18/stretegy-of-texasholdem/</id>
-    <published>2015-01-17T16:00:00.000Z</published>
-    <updated>2021-02-11T13:15:24.835Z</updated>
+    <title>理解CNN参数及PyTorch实例</title>
+    <link href="http://guileen.github.io/2019/12/24/understanding-cnn/"/>
+    <id>http://guileen.github.io/2019/12/24/understanding-cnn/</id>
+    <published>2019-12-24T07:56:21.000Z</published>
+    <updated>2021-02-11T13:15:24.852Z</updated>
     
-    <content type="html"><![CDATA[<p>德州扑克是个概率的游戏，更是心理的游戏。</p><p>了解德州的概率只是基础，更重要的是心理战。</p><p>数学上的概率是不完整的，必须要结合实际的战斗得出更准确的概率。</p><p>比如某个选手比较谨慎，那么他Bet的时候，有大牌的概率明显更大，这是和数学上的概率不同的。</p><p>某个选手喜欢Bluff，那么他下大注的时候，有大牌的概率就会相对更小。</p><p>场上选手越多，获胜概率越小。有时为了提高胜率会Bet把一些对手挤出局。</p><p>出手的先后影响胜负。同样胜率的牌，先下注的人可能吓跑比自己略大的牌。但是最后下注的人，虽然是小牌，也会因为其他选手的Fold而提高胜率，所以最后的玩家会Call。</p><p>Allin 不一定是Bluff, 也是博弈策略。在底牌，翻牌阶段，当底池很大时Allin，自己的牌面也很大，可以起到Bluff收底的效果，如果别人跟住，也有很大胜算。</p><p>加20%~50%底池量的注，是兼顾攻击性和安全性的下注。太少无关痛痒，太多得不偿失。</p><p>Bluff 不一定要Allin, 对手在Call的时候，用Raise策略，让他非常痛苦。</p><p>Bluff一定要判断好局势，当对手比较弱的时候Bluff，但永远不要在最后一轮Bluff Allin。</p>]]></content>
+    <content type="html"><![CDATA[<p>本文假设读者已经了解了CNN的基本原理。在实际的项目中，会发现CNN有多个参数需要调整，本文主要目的在于理清各个参数的作用。</p><h2 id="卷积核-kernel"><a href="#卷积核-kernel" class="headerlink" title="卷积核 kernel"></a>卷积核 kernel</h2><p>Kernel，卷积核，有时也称为filter。在迭代过程中，学习的结果就保存在kernel里面。深度学习，学习的就是一个权重。kernel的尺寸越小，计算量越小，一般选择3x3，更小就没有意义了。<br><img src="/img/cnn/kernel_2.png" alt=""></p><p>结果是对卷积核与一小块输入数据的点积。</p><h2 id="层数-Channels"><a href="#层数-Channels" class="headerlink" title="层数 Channels"></a>层数 Channels</h2><p><img src="/img/cnn/channel_1.png" alt=""></p><p>所有位置的点积构成一个激活层。</p><p><img src="/img/cnn/channel_2.png" alt=""></p><p>如果我们有6个卷积核，我们就会有6个激活层。</p><h2 id="步长-Stride"><a href="#步长-Stride" class="headerlink" title="步长 Stride"></a>步长 Stride</h2><p><img src="/img/cnn/kernel.gif" alt=""><br>上图是每次向右移动一格，一行结束向下移动一行，所以stride是1x1，如果是移动2格2行则是2x2。</p><h2 id="填充-Padding"><a href="#填充-Padding" class="headerlink" title="填充 Padding"></a>填充 Padding</h2><p>Padding的作用是为了获取图片上下左右边缘的特征。<br><img src="/img/cnn/pad.jpg" alt=""></p><h2 id="池化-Pooling"><a href="#池化-Pooling" class="headerlink" title="池化 Pooling"></a>池化 Pooling</h2><p>卷积层为了提取特征，但是卷积层提取完特征后特征图层依然很大。为了减少计算量，我们可以用padding的方式来减小特征图层。Pooling的方法有MaxPooling核AveragePooling。<br><img src="/img/cnn/pooling.jpg" alt=""></p><p>推荐看一下李飞飞的<a href="http://cs231n.stanford.edu/slides/2017/cs231n_2017_lecture5.pdf" target="_blank" rel="noopener">这篇slide</a></p><h2 id="PyTorch-中的相关方法"><a href="#PyTorch-中的相关方法" class="headerlink" title="PyTorch 中的相关方法"></a>PyTorch 中的相关方法</h2><ul><li><p>torch.nn.Conv2d(in_channels, out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode=’zeros’)</p></li><li><p>torch.nn.MaxPool2d(kernel_size, stride=None, padding=0, dilation=1, return_indices=False, ceil_mode=False)</p><ul><li>stride 默认与kernel_size相等</li></ul></li><li><p>torch.nn.AvgPool2d(kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True, divisor_override=None)</p></li><li><p>Tensor.view(*shape) -&gt; Tensor</p><ul><li>用于将卷积层展开为全连接层<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&gt;&gt; x &#x3D; torch.randn(4, 4)</span><br><span class="line">&gt;&gt;&gt; x.size()</span><br><span class="line">torch.Size([4, 4])</span><br><span class="line">&gt;&gt;&gt; y &#x3D; x.view(16)</span><br><span class="line">&gt;&gt;&gt; y.size()</span><br><span class="line">torch.Size([16])</span><br><span class="line">&gt;&gt;&gt; z &#x3D; x.view(-1, 8)  # the size -1 is inferred from other dimensions</span><br><span class="line">&gt;&gt;&gt; z.size()</span><br><span class="line">torch.Size([2, 8])</span><br></pre></td></tr></table></figure></li></ul></li></ul><h2 id="MNIST例子"><a href="#MNIST例子" class="headerlink" title="MNIST例子"></a>MNIST例子</h2><p>MNIST 数据集的输入是 1x28x28 的数据集。在实际开发中必须要清楚每一次的输出结构。</p><ul><li>我们第一层使用 5x5的卷积核，步长为1，padding为0，28-5+1 = 24，那么输出就是 24x24。计算方法是 (input_size - kernel_size)/ stride + 1。</li><li>我们第二层使用 2x2的MaxPool，那么输出为 12x12.</li><li>第三层再使用5x5，卷积核，输出则为 12-5+1，即 8x8。</li><li>再使用 2x2 MaxPool，输出则为 4x4。</li></ul><p><img src="/img/cnn/mnist_convet.png" alt=""></p><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> torch.nn <span class="keyword">as</span> nn</span><br><span class="line"><span class="keyword">import</span> torch.nn.functional <span class="keyword">as</span> F</span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">Net</span><span class="params">(nn.Module)</span>:</span></span><br><span class="line">    <span class="string">"""ConvNet -&gt; Max_Pool -&gt; RELU -&gt; ConvNet -&gt; Max_Pool -&gt; RELU -&gt; FC -&gt; RELU -&gt; FC -&gt; SOFTMAX"""</span></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">__init__</span><span class="params">(self)</span>:</span></span><br><span class="line">        super(Net, self).__init__()</span><br><span class="line">        self.conv1 = nn.Conv2d(<span class="number">1</span>, <span class="number">10</span>, <span class="number">5</span>, <span class="number">1</span>)</span><br><span class="line">        self.conv2 = nn.Conv2d(<span class="number">10</span>, <span class="number">20</span>, <span class="number">5</span>, <span class="number">1</span>)</span><br><span class="line">        self.fc1 = nn.Linear(<span class="number">4</span>*<span class="number">4</span>*<span class="number">20</span>, <span class="number">50</span>)</span><br><span class="line">        self.fc2 = nn.Linear(<span class="number">50</span>, <span class="number">10</span>)</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">def</span> <span class="title">forward</span><span class="params">(self, x)</span>:</span></span><br><span class="line">        x = F.relu(self.conv1(x))</span><br><span class="line">        x = F.max_pool2d(x, <span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line">        x = F.relu(self.conv2(x))</span><br><span class="line">        x = F.max_pool2d(x, <span class="number">2</span>, <span class="number">2</span>)</span><br><span class="line">        x = x.view(<span class="number">-1</span>, <span class="number">4</span>*<span class="number">4</span>*<span class="number">20</span>)</span><br><span class="line">        x = F.relu(self.fc1(x))</span><br><span class="line">        x = self.fc2(x)</span><br><span class="line">        <span class="keyword">return</span> F.log_softmax(x, dim=<span class="number">1</span>)</span><br></pre></td></tr></table></figure><p>以上代码摘自 <a href="https://github.com/floydhub/mnist" target="_blank" rel="noopener">https://github.com/floydhub/mnist</a></p>]]></content>
     
     <summary type="html">
     
       
       
-        &lt;p&gt;德州扑克是个概率的游戏，更是心理的游戏。&lt;/p&gt;
-&lt;p&gt;了解德州的概率只是基础，更重要的是心理战。&lt;/p&gt;
-&lt;p&gt;数学上的概率是不完整的，必须要结合实际的战斗得出更准确的概率。&lt;/p&gt;
-&lt;p&gt;比如某个选手比较谨慎，那么他Bet的时候，有大牌的概率明显更大，这是和数学上的概率
+        &lt;p&gt;本文假设读者已经了解了CNN的基本原理。在实际的项目中，会发现CNN有多个参数需要调整，本文主要目的在于理清各个参数的作用。&lt;/p&gt;
+&lt;h2 id=&quot;卷积核-kernel&quot;&gt;&lt;a href=&quot;#卷积核-kernel&quot; class=&quot;headerlink&quot; title=&quot;卷积
       
     
     </summary>
     
-    
-      <category term="game" scheme="http://guileen.github.io/tags/game/"/>
-    
-  </entry>
-  
-  <entry>
-    <title>数学与直觉</title>
-    <link href="http://guileen.github.io/2015/01/17/mathematics-vs-experience/"/>
-    <id>http://guileen.github.io/2015/01/17/mathematics-vs-experience/</id>
-    <published>2015-01-16T16:00:00.000Z</published>
-    <updated>2021-02-11T13:15:24.835Z</updated>
-    
-    <content type="html"><![CDATA[<p>数学与直觉到底哪个更可靠？</p><p>交换门的实验说明直觉不太可靠。还有很多这样的例子。</p><p>德州扑克。胜率计算。一副牌的胜率，用数学计算出来的，但是实际上胜率并没有这么高。因为你本来面对的是5个对手，现在其中的4个人已经弃牌了，现在你虽然只有一个对手，但是这个对手是经过多轮淘汰剩下的。根据直觉，我们会判断这个人的牌会很强，但是数学上我们却忽视了这一点。</p><p>数学没有错，错的是我们的数学模型。</p><p>我们拿到了一手普通牌，胜率是50%。这时，一个玩家加注了，在数学逻辑上，我的胜率是没有改变的。但是在经验上，我的胜率降低了，我开始紧张。如果他加了一个大注，我可能就要弃牌了，因为我觉得赢的希望已经变小。我还是谨慎的跟了注，又发了一张牌，我得到了两对，这是一个不小的牌，我感觉胜率提升了，加注。可是这时对手全押。我感觉我的胜率又降低了，我想要弃牌，可是我又不甘心，我决定相信数学上的概率，我又80%的胜率，我跟了全押。开牌，我输了。我懊悔不已。那么问题来了，我的胜率真的有80%吗？</p><p>我们直觉的工作原理：当我抓到两对时，对手全押，我跟全押的胜率是45%，主动全押的情况下胜率是60%。</p><p>经验的数学原理。样本统计，相似度参照。似是而非的样本，会干扰我们的判断，形成偏见。女性的胼胝体更发达，能够更好的交换左右脑的信息，这也赋予了女人更强的直觉能力，不过有利有弊，胼胝体强的人可能偏见也会更多，因为他们将很多无关信息综合起来进行了利用。</p>]]></content>
-    
-    <summary type="html">
-    
-      
-      
-        &lt;p&gt;数学与直觉到底哪个更可靠？&lt;/p&gt;
-&lt;p&gt;交换门的实验说明直觉不太可靠。还有很多这样的例子。&lt;/p&gt;
-&lt;p&gt;德州扑克。胜率计算。一副牌的胜率，用数学计算出来的，但是实际上胜率并没有这么高。因为你本来面对的是5个对手，现在其中的4个人已经弃牌了，现在你虽然只有一个对手，但是这
-      
-    
-    </summary>
-    
-      <category term="随笔" scheme="http://guileen.github.io/categories/%E9%9A%8F%E7%AC%94/"/>
+      <category term="AI" scheme="http://guileen.github.io/categories/AI/"/>
     
     
   </entry>
